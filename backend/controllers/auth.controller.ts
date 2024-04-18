@@ -3,14 +3,14 @@ import e, { Request, Response} from "express";
 import {supabase} from "../../config/supabase.config";
 
 const AuthController = {
-    
     async login(req: Request, res: Response): Promise<e.Response<any, Record<string, any>>> {
         try {
             const {email, password} = req.body;
 
+
             const {data, error} = await supabase.auth.signInWithPassword({
-                email:"kats.com.ng@gmail.com",
-                password:"123456",
+                email,
+                password,
             });
 
             

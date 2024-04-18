@@ -7,7 +7,7 @@
   "paths": {
     "/": {
       "get": {
-        "summary": "",
+        "summary": "Home page",
         "responses": {
           "200": {
             "description": "Success"
@@ -17,40 +17,61 @@
     },
     "/api/admin/auth/login": {
       "post": {
-        "summary": "",
+        "summary": "User login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "kats.com.ng@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Login successful"
           }
         }
       }
     },
     "/api/admin/auth/register": {
       "post": {
-        "summary": "",
+        "summary": "User registration",
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Registration successful"
           }
         }
       }
     },
     "/api/admin/auth/ping": {
       "get": {
-        "summary": "",
+        "summary": "Ping to verify token validity",
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Ping successful"
           }
         }
       }
     },
     "/api/admin/dashboard": {
       "get": {
-        "summary": "",
+        "summary": "Dashboard access",
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Access granted"
           }
         }
       }
