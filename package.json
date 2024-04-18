@@ -6,7 +6,7 @@
    "scripts": {
       "dev": "bun --watch app.ts",
       "debug": "tsx watch app.ts",
-      "start": "bun app.ts",
+      "start": "pm2 start ecosystem.config.ts",
       "ts-watch": "npx tsc --watch",
       "lint": "eslint . --ext .ts,",
       "services-seeder": "tsx --watch backend/jobs/seeders/services.seeder.ts",
