@@ -5,19 +5,13 @@ import morgan from "morgan";
 import session from "express-session";
 import listEndpoints from "express-list-endpoints";
 
-//admin
-import XProjectRoutes from "./backend/routes/admin/projects.routes";
-import XServiceRoutes from "./backend/routes/admin/service.routes";
-import XTestimonyRoutes from "./backend/routes/admin/testimony.routes";
-import XTeamRoutes from "./backend/routes/admin/team.routes";
+
 import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
 
 import path from "path";
 // packages
 // all routes
-import PublicRoutes from "./backend/routes/public.routes";
 import AuthRoutes from "./backend/routes/auth.routes";
-import passport from "./backend/controllers/passport.controller";
 // all routes
 // configs
 import { connectDB } from "./config/mongodb";
@@ -40,8 +34,6 @@ app.use(
    })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.get("/", (req, res) => {
    res.send("<h1>Katalyst Technologies server</h1>");
@@ -49,12 +41,7 @@ app.get("/", (req, res) => {
 
 emailEvents();
 
-app.use("/api", PublicRoutes);
 app.use("/api/admin/auth", AuthRoutes);
-app.use("/api/admin/projects", XProjectRoutes);
-app.use("/api/admin/services", XServiceRoutes);
-app.use("/api/admin/testimonies", XTestimonyRoutes);
-app.use("/api/admin/team", XTeamRoutes);
 
 // dashboard routes
 

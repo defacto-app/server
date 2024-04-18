@@ -5,7 +5,7 @@
   "main": "index.js",
 
   "scripts": {
-    "start": "node build/app.js",
+    "start-prod": "node build/app.js",
     "dev": "bun --watch app.ts",
     "debug": "tsx watch app.ts",
     "ts-watch": "npx tsc --watch",
