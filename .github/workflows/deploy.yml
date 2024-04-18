@@ -22,4 +22,4 @@ jobs:
                  cd /var/www/defacto/server
                  git pull origin main
                  npm install --production
-                 pm2 restart app
+                 pm2 restart defacto-server
