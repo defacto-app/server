@@ -9,7 +9,6 @@ import path from "path";
 import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
 
 import AuthRoutes from "./backend/routes/auth.routes";
-// all routes
 // configs
 import { connectDB } from "./config/mongodb";
 
