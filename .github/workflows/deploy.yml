@@ -19,5 +19,7 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: 22
         script: |
-          cd /var/www/defacto/server
+          cd /var/www/app
           git pull origin main
+          bun install --production
+          pm2 restart app
