@@ -1,5 +1,9 @@
-import { Request, Response } from "express";
 import { Model } from "mongoose";
+ type Query = {
+      $or?: Array<object>;
+    };
+
+ 
 
 // Pagination helper interface
 interface PaginationOptions {
@@ -27,13 +31,14 @@ export const paginateResults = async ({
       /[.*+?^${}()|[\]\\]/g,
       "\\$&"
    );
-
+  
    // Add search conditions to query
    if (searchString) {
       query["$or"] = [
          { name: { $regex: escapedSearchString, $options: "i" } },
          { description: { $regex: escapedSearchString, $options: "i" } },
-      ];
+      ] as any;
+      
    }
 
    // Calculate total count and skip

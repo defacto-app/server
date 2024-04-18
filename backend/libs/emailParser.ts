@@ -2,7 +2,6 @@
 import fs from "fs";
 import handlebars from "handlebars";
 import { EmailTitleType } from "../../types";
-import { autoLoadedConfig } from "../model/db-config.model";
 import env from "../../config/env";
 
 const emailFolder = fs.realpathSync(`${__dirname}/../../views/emails`);
@@ -46,8 +45,8 @@ export function getEmailTemplates(title: EmailTitleType) {
    handlebars.registerPartial("footer", footerSource);
 
    // Register the footer partial with default data (e.g., year)
-   const compiledFooter = handlebars.compile(footerSource);
-   const compiledHeader = handlebars.compile(headerSource);
+   // const compiledFooter = handlebars.compile(footerSource);
+   // const compiledHeader = handlebars.compile(headerSource);
    /*   const footerWithData = compiledFooter({
         year: new Date().getFullYear(),
         slogan: website.slogan,
