@@ -1,9 +1,8 @@
 module.exports = {
   apps: [{
       name: "defacto-server",
-      script: "app.ts",       // Your TypeScript file
-      interpreter: "ts-node", // Specifies ts-node as the interpreter
-      watch: true,            // Watch for file changes
+      script: "app.ts",      
+      interpreter: "ts-node", 
       env: {
           NODE_ENV: "development"
       },
