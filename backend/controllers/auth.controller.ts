@@ -9,8 +9,8 @@ const AuthController = {
             const {email, password} = req.body;
 
             const {data, error} = await supabase.auth.signInWithPassword({
-                email,
-                password,
+                email:"kats.com.ng@gmail.com",
+                password:"123456",
             });
 
             
