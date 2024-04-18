@@ -22,6 +22,16 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
+    - name: Copy files to server
+      uses: appleboy/scp-action@master
+      with:
+          host: ${{ secrets.SERVER_IP }}
+          username: 'root'  # Replace with your server's username
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          source: "dist/*"
+          target: "/var/www/defacto/server"   
+
     - name: Build
       run: |
         npm install
