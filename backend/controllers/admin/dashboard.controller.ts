@@ -17,19 +17,19 @@ const DashboardController = {
             ProjectsModel.countDocuments(),
             TeamsModel.countDocuments(),
             ServicesModel.countDocuments(),
-            TestimonialModel.countDocuments()
+            TestimonialModel.countDocuments(),
          ];
 
          // Await all promises to be resolved
-         const [totalProjects, totalTeams, totalServices, totalTestimonials] = await Promise.all(countOperations);
+         const [totalProjects, totalTeams, totalServices, totalTestimonials] =
+            await Promise.all(countOperations);
 
          const summary = [
-          { label: "Projects", value: totalProjects },
-           { label: "Teams", value: totalTeams },
+            { label: "Projects", value: totalProjects },
+            { label: "Teams", value: totalTeams },
             { label: "Services", value: totalServices },
             { label: "Testimonials", value: totalTestimonials },
          ];
-
 
          res.status(200).json({
             data: summary,

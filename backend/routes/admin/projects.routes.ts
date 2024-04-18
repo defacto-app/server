@@ -15,9 +15,9 @@ router.param("slug", SlugMiddleware.projectSlug);
 router.get("/", ProjectController.all);
 router.post("/", ProjectController.create);
 
-router.get("/:slug",ProjectController.one);
+router.get("/:slug", ProjectController.one);
 
-router.put("/:slug",ProjectController.update);
+router.put("/:slug", ProjectController.update);
 
 router.post(
    "/:slug/upload",
@@ -26,5 +26,5 @@ router.post(
    ProjectController.upload
 );
 
-router.delete("/:slug",  ProjectController.delete);
+router.delete("/:slug", ProjectController.delete);
 export default router;

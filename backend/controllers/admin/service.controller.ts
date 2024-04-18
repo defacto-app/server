@@ -3,7 +3,7 @@ import Chance from "chance";
 import moment from "moment";
 
 import FileModel from "../../model/files.model";
-import {formatPathForStorage} from "../../utils/utils";
+import { formatPathForStorage } from "../../utils/utils";
 import ServicesModel from "../../model/services.model";
 
 const chance = new Chance();
@@ -17,8 +17,8 @@ const ServiceController = {
          const searchString = (req.query.searchString as string) || "";
 
          const escapedSearchString = searchString.replace(
-             /[.*+?^${}()|[\]\\]/g,
-             "\\$&",
+            /[.*+?^${}()|[\]\\]/g,
+            "\\$&"
          );
          const searchCondition = {
             $or: [
@@ -30,7 +30,7 @@ const ServiceController = {
          const totalCount = await ServicesModel.countDocuments(searchCondition);
 
          const skip = (page - 1) * limit;
-    
+
          const data = await ServicesModel.find(
             searchCondition, // Add search condition here
             {},
@@ -94,15 +94,15 @@ const ServiceController = {
          const service = res.locals.service as any;
 
          await ServicesModel.updateOne(
-             {
-                slug: service.slug,
-             },
-             {
-                $set: updateData, // Use updateData instead of req.body
-             },
-             {
-                new: true,
-             }
+            {
+               slug: service.slug,
+            },
+            {
+               $set: updateData, // Use updateData instead of req.body
+            },
+            {
+               new: true,
+            }
          );
          res.status(200).json({
             message: "Service Updated",
@@ -140,14 +140,14 @@ const ServiceController = {
          await newFile.save();
 
          await ServicesModel.updateOne(
-             {
-                publicId: service.publicId,
-             },
-             {
-                $set: {
-                   logo: newFile.path,
-                },
-             }
+            {
+               publicId: service.publicId,
+            },
+            {
+               $set: {
+                  logo: newFile.path,
+               },
+            }
          );
 
          res.status(200).json({
@@ -178,8 +178,6 @@ const ServiceController = {
          });
       }
    },
-
-
 };
 
 export default ServiceController;

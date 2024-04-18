@@ -27,7 +27,6 @@ const ServiceController = {
          });
       }
    },
-
 };
 
 export default ServiceController;

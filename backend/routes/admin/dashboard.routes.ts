@@ -14,10 +14,4 @@ router.use(authMiddleware.validateUser);
 
 router.get("/", DashboardController.all);
 
-
-
-
-
-
-
 export default router;

@@ -58,5 +58,3 @@ class PostModel extends mongoose.model<BasePostDataType>(
 ) {}
 
 export default PostModel;
-
-

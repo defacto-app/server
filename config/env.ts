@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import {createClient} from "@supabase/supabase-js";
+import { createClient } from "@supabase/supabase-js";
 
 const envs = dotenv.config({ path: ".env" });
 
@@ -21,10 +21,8 @@ const env = {
    EMAIL_RECEIVER: envs.parsed?.EMAIL_RECEIVER,
    EMAIL_PORT: Number(envs.parsed?.EMAIL_PORT),
    EMAIL_HOST: envs.parsed?.EMAIL_HOST,
-   SUPABASE_KEY: envs.parsed?.SUPABASE_KEY ||"",
+   SUPABASE_KEY: envs.parsed?.SUPABASE_KEY || "",
    SUPABASE_URL: envs.parsed?.SUPABASE_URL || "",
 };
 
 export default env;
-
-

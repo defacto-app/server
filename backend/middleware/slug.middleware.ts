@@ -58,7 +58,11 @@ class SlugMiddleware {
          return res.status(400).json({ error: error.message });
       }
    }
-   public async testimonyPublicId(req: Request, res: Response, next: NextFunction) {
+   public async testimonyPublicId(
+      req: Request,
+      res: Response,
+      next: NextFunction
+   ) {
       try {
          const publicId = req.params.publicId;
 
@@ -110,7 +114,6 @@ class SlugMiddleware {
          return res.status(400).json({ error: error.message });
       }
    }
-
 }
 
 export default new SlugMiddleware();

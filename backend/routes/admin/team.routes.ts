@@ -21,18 +21,8 @@ router.post("/", TeamController.create);
 
 router.put("/:publicId", TeamController.update);
 
-router.post(
-   "/:publicId/upload",
-   FileMiddleware.upload,
-    TeamController.upload
-);
-
+router.post("/:publicId/upload", FileMiddleware.upload, TeamController.upload);
 
 router.delete("/:publicId", TeamController.delete);
-
-
-
-
-
 
 export default router;

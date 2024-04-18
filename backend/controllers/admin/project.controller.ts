@@ -3,7 +3,7 @@ import Chance from "chance";
 import moment from "moment";
 import ProjectsModel from "../../model/projects.model";
 import FileModel from "../../model/files.model";
-import {formatPathForStorage} from "../../utils/utils";
+import { formatPathForStorage } from "../../utils/utils";
 
 const chance = new Chance();
 
@@ -16,8 +16,8 @@ const ProjectController = {
          const searchString = (req.query.searchString as string) || "";
 
          const escapedSearchString = searchString.replace(
-             /[.*+?^${}()|[\]\\]/g,
-             "\\$&",
+            /[.*+?^${}()|[\]\\]/g,
+            "\\$&"
          );
          const searchCondition = {
             $or: [
@@ -29,7 +29,7 @@ const ProjectController = {
          const totalCount = await ProjectsModel.countDocuments(searchCondition);
 
          const skip = (page - 1) * limit;
-    
+
          const data = await ProjectsModel.find(
             searchCondition, // Add search condition here
             {},
@@ -101,7 +101,7 @@ const ProjectController = {
             },
             {
                $set: {
-                    ...updateData,
+                  ...updateData,
                }, // Use updateData instead of req.body
             },
             {

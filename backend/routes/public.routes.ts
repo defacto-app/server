@@ -13,16 +13,20 @@ const router = Router();
 
 router.get("/team", TeamController.all);
 
-
 router.get("/projects", ProjectController.all);
-router.get("/projects/:slug", SlugMiddleware.projectSlug, ProjectController.one);
+router.get(
+   "/projects/:slug",
+   SlugMiddleware.projectSlug,
+   ProjectController.one
+);
 
 router.get("/services", ServiceController.all);
 
-router.get("/services/:slug", SlugMiddleware.serviceSlug, ServiceController.one);
-
-
-
+router.get(
+   "/services/:slug",
+   SlugMiddleware.serviceSlug,
+   ServiceController.one
+);
 
 router.get("/testimonials", TestimonialController.all);
 router.post("/contact", EmailController.contact);

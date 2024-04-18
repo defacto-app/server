@@ -25,7 +25,7 @@ router.post(
    "/:publicId/upload",
    SlugMiddleware.serviceSlug,
    FileMiddleware.upload,
-    TestimonyController.upload
+   TestimonyController.upload
 );
 
 router.delete("/:publicId", TestimonyController.delete);
