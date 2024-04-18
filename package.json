@@ -8,7 +8,7 @@
     "debug": "tsx watch app.ts",
     "start": "pm2 start ecosystem.config.js",
     "ts-watch": "npx tsc --watch",
-    "build":"npx tsx build",
+    "build": "npx tsx build",
     "lint": "eslint . --ext .ts,",
     "services-seeder": "tsx --watch backend/jobs/seeders/services.seeder.ts",
     "project-seeder": "tsx --watch backend/jobs/seeders/projects.seeder.ts",
