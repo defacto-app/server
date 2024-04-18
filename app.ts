@@ -10,6 +10,7 @@ import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
 
 import AuthRoutes from "./backend/routes/auth.routes";
 // configs
+// configs
 import { connectDB } from "./config/mongodb";
 
 import { emailEvents } from "./config/eventEmitter";
