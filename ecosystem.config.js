@@ -1,6 +1,6 @@
 module.exports = {
     apps : [{
-      name: "my-app",
+      name: "defacto-server",
       script: "app.ts",
       interpreter: "ts-node",
       watch: true,
