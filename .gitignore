@@ -1,8 +1,23 @@
+
+build/app.js
+build/backend/controllers/application.controller.js
+
 node_modules/**/*
+
+
+yarn.lock
+
+bun.lockb
+
+package-lock.json
+.env
 
 .idea/**/*
 
-.env
+.DS_Store
 
 
-#// start
+# Logs
+
+
+build/**/*

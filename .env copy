@@ -1,0 +1,20 @@
+APP_PORT=5700
+
+#MONGODB_SERVER="mongodb+srv://auth_user:9mmrFfFNZgH43MjR@h2o.svyrh.mongodb.net"
+MONGODB_SERVER="mongodb://127.0.0.1:27017"
+MONGODB_PASSWORD="9mmrFfFNZgH43MjR"
+
+MONGODB_DATABASE="katalyst"
+
+EMAIL_HOST="sandbox.smtp.mailtrap.io"
+EMAIL_PORT=2525
+EMAIL_USER="e7f00d2b739f78"
+EMAIL_PASSWORD="fb1410905d7076"
+EMAIL_SENDER="hello@katalyst.tech"
+
+SUPABASE_URL="https://ysyyxuemrdmwjqylwytk.supabase.co"
+SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlzeXl4dWVtcmRtd2pxeWx3eXRrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM0NDQwNTgsImV4cCI6MjAyOTAyMDA1OH0.1xM9y7URN7ieZjbNKgKAR_c0NnygCJoXItXyM53OOGc"
+#listening at http://localhost:5700
+
+
+

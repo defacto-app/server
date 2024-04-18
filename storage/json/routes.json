@@ -1,0 +1,48 @@
+[
+  {
+    "path": "/",
+    "methods": [
+      "GET"
+    ],
+    "middlewares": [
+      "anonymous"
+    ]
+  },
+  {
+    "path": "/api/admin/auth/login",
+    "methods": [
+      "POST"
+    ],
+    "middlewares": [
+      "login"
+    ]
+  },
+  {
+    "path": "/api/admin/auth/register",
+    "methods": [
+      "POST"
+    ],
+    "middlewares": [
+      "register"
+    ]
+  },
+  {
+    "path": "/api/admin/auth/ping",
+    "methods": [
+      "GET"
+    ],
+    "middlewares": [
+      "validateUser",
+      "ping"
+    ]
+  },
+  {
+    "path": "/api/admin/dashboard",
+    "methods": [
+      "GET"
+    ],
+    "middlewares": [
+      "all"
+    ]
+  }
+]
