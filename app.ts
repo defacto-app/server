@@ -6,6 +6,7 @@ import session from "express-session";
 import listEndpoints from "express-list-endpoints";
 import path from "path";
 import fs from "fs";
+import swaggerJSDoc from 'swagger-jsdoc';
 
 
 import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
@@ -21,10 +22,28 @@ import swaggerUi from "swagger-ui-express";
 import { $file } from "./config/config";
 
 
-const swaggerDocument = $file.json + "/swagger.json" as any
+// Configure Swagger options (adjust paths as needed)
+/* const swaggerOptions = {
+   swaggerDefinition: {
+     info: {
+       title: 'My Express API',
+       version: '1.0.0',
+       description: 'API with auto-generated Swagger documentation',
+     },
+     servers: [
+       { url: `http://localhost:${env.APP_PORT}` },
+     ],
+   },
+   apis: ['./backend/routes/*.ts'], // Path to your API route files
+ };
+ */
+ // Generate Swagger spec
+// const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
 
+// const swaggerDocument = $file.json + "/swagger.json" as any
 
+import swaggerDocument from './storage/json/swagger.json';
 
 const app = express();
 
@@ -41,6 +60,18 @@ app.use(
       saveUninitialized: false,
    })
 );
+
+
+
+const options = {
+   swaggerOptions: {
+     validatorUrl: null
+   }
+ };
+ 
+ app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options));
+
+
 
 
 
@@ -67,10 +98,12 @@ console.log(swaggerDocument);
 // app.use("/api", PublicRoutes);
 app.use("/api/admin/auth", AuthRoutes);
 
-app.use("/api/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+
+// Serve Swagger UI at a specific route (/api-docs in this example)
+// app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // router.use('/api/api-docs', swaggerUi.serve);
-// router.get('/api/api-docs', swaggerUi.setup(swaggerDocument));
 
 
 app.use("/api/admin/dashboard", DashboardRoutes);
@@ -80,7 +113,8 @@ app.use("/uploads", express.static(path.join(__dirname, "storage/uploads")));
 const listApis = listEndpoints(app);
 
 console.table(listApis);
-
+//
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const handlePayload: HandlePayload = new HandlePayload(listApis);
 
 (async () => {

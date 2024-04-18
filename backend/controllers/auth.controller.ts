@@ -1,11 +1,10 @@
-import e, {NextFunction, Request, Response} from "express";
-import UserModel from "../model/user.model";
-import {generateToken} from "../services/jwt.service";
-import passport from "./passport.controller";
+import e, { Request, Response} from "express";
+
 import {supabase} from "../../config/supabase.config";
 
 const AuthController = {
-    async login(req: Request, res: Response, next: NextFunction): Promise<e.Response<any, Record<string, any>>> {
+    
+    async login(req: Request, res: Response): Promise<e.Response<any, Record<string, any>>> {
         try {
             const {email, password} = req.body;
 
@@ -13,6 +12,8 @@ const AuthController = {
                 email,
                 password,
             });
+
+            
 
             if (error) {
                 return res.status(400).json({
