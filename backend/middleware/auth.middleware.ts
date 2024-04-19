@@ -1,24 +1,31 @@
 import { NextFunction, Request, Response } from "express";
 import { verifyToken } from "../services/jwt.service";
 import UserModel from "../model/user.model";
+import { supabase } from "../../config/supabase.config";
 
 class AuthMiddleware {
    public async validateUser(req: Request, res: Response, next: NextFunction) {
       const authorization = req.headers["authorization"] as string;
 
 
+
       if (!authorization) {
          return res.status(401).json({ error: "Authorization token required" });
       }
 
-      try {
-         const data = await verifyToken(authorization);
+      const token = authorization.split(" ")[1];
 
-         if (!data) {
+
+      try {
+
+         const { data, error } = await supabase.auth.getUser(token);
+
+         if (error) {
             return res.status(401).json({ error: "Invalid token" });
          }
 
-         const user = await UserModel.findById(data.id);
+         const user = data;
+
 
          if (!user) {
             return res.status(401).json({ error: "Invalid token ??===" });
@@ -37,7 +44,7 @@ class AuthMiddleware {
    public async ensureAuthenticated(
       req: Request,
       res: Response,
-      next: NextFunction
+      next: NextFunction,
    ) {
       if (req.isAuthenticated()) {
          return next();

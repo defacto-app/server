@@ -28,6 +28,7 @@ router.post("/login", AuthController.login);
 router.post("/login", AuthController.login);
 
 router.post("/register", AuthController.register);
+router.get("/logout", AuthController.logout);
 router.get("/ping", authMiddleware.validateUser, AuthController.ping);
 
 export default router;

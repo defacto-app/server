@@ -41,6 +41,9 @@ const AuthController = {
 
          const { email, password } = req.body;
 
+         // check if user exists
+
+
          const { data, error } = await supabase.auth.signUp({
             email,
             password,
@@ -67,28 +70,48 @@ const AuthController = {
    async ping(req: Request, res: Response): Promise<void> {
 
 
+      const user = res.locals.user;
+
+
       try {
 
-         const { data, error } = await supabase.auth.getUser(req.body.token);
 
+         res.status(200).json({
 
-         if (error) {
-            res.status(400).json({
-               message: "Failed to register",
-               error: error.message,
-            });
-         }
-
-         res.status(201).json({
-            message: "User created",
-            data: data,
+            data: user,
          });
+
+
       } catch (e) {
          res.status(500).json({
             error: e,
          });
       }
    },
+
+   async logout(req: Request, res: Response): Promise<void> {
+      try {
+         const { error } = await supabase.auth.signOut();
+
+         if (error) {
+            res.status(400).json({
+               message: "Failed to logout",
+               error: error.message,
+            });
+         }
+
+         res.status(200).json({
+            message: "User logged out",
+         });
+      } catch (e: any) {
+         res.status(500).json({
+            message: "An unexpected error occurred",
+            error: e.message,
+         });
+      }
+   },
+
+
 };
 
 export default AuthController;

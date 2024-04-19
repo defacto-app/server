@@ -23,6 +23,7 @@ const env = {
    EMAIL_HOST: envs.parsed?.EMAIL_HOST,
    SUPABASE_KEY: envs.parsed?.SUPABASE_KEY || "",
    SUPABASE_URL: envs.parsed?.SUPABASE_URL || "",
+   SUPABASE_SERVICE_ROLE: envs.parsed?.SUPABASE_SERVICE_ROLE || "",
 };
 
 export default env;

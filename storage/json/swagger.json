@@ -82,9 +82,43 @@
     "/api/admin/auth/register": {
       "post": {
         "summary": "User registration",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "admin@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Registration successful"
+          }
+        }
+      }
+    },
+    "/api/admin/auth/logout": {
+      "get": {
+        "summary": "Log out a user",
+        "responses": {
+          "200": {
+            "description": "You have been logged out"
           }
         }
       }
