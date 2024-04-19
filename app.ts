@@ -19,6 +19,7 @@ import swaggerUi from "swagger-ui-express";
 
 
 import swaggerDocument from "./storage/json/swagger.json";
+import fs from "fs";
 
 const app = express();
 
@@ -48,8 +49,17 @@ app.use(
    swaggerUi.setup(swaggerDocument, options)
 );
 
+
+
 app.get("/", (req, res) => {
-   res.sendFile(path.join(__dirname, "public/index.html"));
+   // Read the HTML file
+   let html = fs.readFileSync(path.join(__dirname, "public/index.html"), 'utf8');
+
+   // Replace ${BASE_URL} with the actual base URL
+   html = html.replace('${BASE_URL}', env.BASE_URL);
+
+   // Send the modified HTML file
+   res.send(html);
 });
 
 emailEvents();
