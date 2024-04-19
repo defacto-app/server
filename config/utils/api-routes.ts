@@ -4,10 +4,11 @@ import { $file } from "../config";
 export class HandlePayload {
    constructor(private listApis: any[]) {
       // You may want to use a specific interface instead of 'any[]'
-      this.writeToFile().then();
-      this.convertToOpenApi().then(() =>
+      // this.writeToFile().then();
+
+   /*   this.convertToOpenApi().then(() =>
          console.log("OpenAPI specification written to file.")
-      );
+      );*/
    }
 
    private async writeToFile(): Promise<void> {

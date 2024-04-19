@@ -1,80 +1,113 @@
 {
-   "openapi": "3.0.0",
-   "info": {
-      "title": "My API",
-      "version": "1.0.0"
-   },
-   "paths": {
-      "/": {
-         "get": {
-            "summary": "Home page",
-            "responses": {
-               "200": {
-                  "description": "Success"
-               }
-            }
-         }
-      },
-      "/api/admin/auth/login": {
-         "post": {
-            "summary": "User login",
-            "requestBody": {
-               "required": true,
-               "content": {
-                  "application/json": {
-                     "schema": {
-                        "type": "object",
-                        "properties": {
-                           "email": {
-                              "type": "string",
-                              "example": "kats.com.ng@gmail.com"
-                           },
-                           "password": {
-                              "type": "string",
-                              "example": "123456"
-                           }
-                        },
-                        "required": ["email", "password"]
-                     }
-                  }
-               }
-            },
-            "responses": {
-               "200": {
-                  "description": "Login successful"
-               }
-            }
-         }
-      },
-      "/api/admin/auth/register": {
-         "post": {
-            "summary": "User registration",
-            "responses": {
-               "200": {
-                  "description": "Registration successful"
-               }
-            }
-         }
-      },
-      "/api/admin/auth/ping": {
-         "get": {
-            "summary": "Ping to verify token validity",
-            "responses": {
-               "200": {
-                  "description": "Ping successful"
-               }
-            }
-         }
-      },
-      "/api/admin/dashboard": {
-         "get": {
-            "summary": "Dashboard access",
-            "responses": {
-               "200": {
-                  "description": "Access granted"
-               }
-            }
-         }
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Defacto API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5700"
+    },
+    {
+      "url": "https://api.defactoapp.com.ng"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": [
+      ],
+      "basicAuth": [],
+      "apiKey": [],
+      "oauth2": [],
+      "openIdConnect": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "in": "header",
+        "name": "Authorization",
+        "description": "Bearer token"
       }
-   }
+    }
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Home page",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/admin/auth/login": {
+      "post": {
+        "summary": "User login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "kats.com.ng@gmail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful"
+          }
+        }
+      }
+    },
+    "/api/admin/auth/register": {
+      "post": {
+        "summary": "User registration",
+        "responses": {
+          "200": {
+            "description": "Registration successful"
+          }
+        }
+      }
+    },
+    "/api/admin/auth/ping": {
+      "get": {
+        "summary": "Ping to verify token validity",
+        "responses": {
+          "200": {
+            "description": "Ping successful"
+          }
+        }
+      }
+    },
+    "/api/admin/dashboard": {
+      "get": {
+        "summary": "Dashboard access",
+        "responses": {
+          "200": {
+            "description": "Access granted"
+          }
+        }
+      }
+    }
+  }
 }

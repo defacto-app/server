@@ -5,7 +5,7 @@ import { supabase } from "../../config/supabase.config";
 const AuthController = {
    async login(
       req: Request,
-      res: Response
+      res: Response,
    ): Promise<e.Response<any, Record<string, any>>> {
       try {
          const { email, password } = req.body;
@@ -38,8 +38,24 @@ const AuthController = {
       // check if user exists
 
       try {
-         res.status(200).json({
+
+         const { email, password } = req.body;
+
+         const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+         });
+
+         if (error) {
+            res.status(400).json({
+               message: "Failed to register",
+               error: error.message,
+            });
+         }
+
+         res.status(201).json({
             message: "User created",
+            data: data,
          });
       } catch (e) {
          res.status(500).json({
@@ -49,10 +65,24 @@ const AuthController = {
    },
 
    async ping(req: Request, res: Response): Promise<void> {
-      const user = res.locals.user;
+
 
       try {
-         res.status(200).json(user);
+
+         const { data, error } = await supabase.auth.getUser(req.body.token);
+
+
+         if (error) {
+            res.status(400).json({
+               message: "Failed to register",
+               error: error.message,
+            });
+         }
+
+         res.status(201).json({
+            message: "User created",
+            data: data,
+         });
       } catch (e) {
          res.status(500).json({
             error: e,

@@ -73,6 +73,7 @@ const handlePayload: HandlePayload = new HandlePayload(listApis);
       await connectDB().then(() => {
          app.listen(env.APP_PORT, () => {
             console.log(`listening at http://localhost:${env.APP_PORT}`);
+            console.log(`Api docs at http://localhost:${env.APP_PORT}/api/api-docs `);
          });
       });
    } catch (error) {

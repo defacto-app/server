@@ -4,7 +4,8 @@ import UserModel from "../model/user.model";
 
 class AuthMiddleware {
    public async validateUser(req: Request, res: Response, next: NextFunction) {
-      const authorization = req.headers["auth-token"] as string;
+      const authorization = req.headers["authorization"] as string;
+
 
       if (!authorization) {
          return res.status(401).json({ error: "Authorization token required" });
