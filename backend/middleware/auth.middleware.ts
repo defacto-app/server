@@ -57,3 +57,6 @@ class AuthMiddleware {
 // Additional methods for loading user, checking admin rights, etc., can be added here
 
 export default new AuthMiddleware();
+
+
+// prv_9OYqXaTesl62yFvqJUQ8Eocz6isenfCeh-Z7BonyJLOa_3rAaC40CTXU

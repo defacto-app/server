@@ -11,7 +11,9 @@
     "build": "npx tsx build",
     "lint": "eslint . --ext .ts,",
     "testimonial-seeder": "tsx --watch backend/jobs/seeders/testimonial.seeder.ts",
-    "prettify": "npx prettier . --write"
+    "prettify": "npx prettier . --write",
+    "env:dev": "npx jsonbank-env dev .env force",
+    "swagger": "tsoa spec"
   },
   "keywords": [],
   "author": "",
@@ -70,7 +72,8 @@
     "@types/node-cron": "^3.0.11",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
-    "eslint": "^8.57.0"
+    "eslint": "^8.57.0",
+    "tsoa": "^6.2.0"
   },
   "type": "module"
 }
