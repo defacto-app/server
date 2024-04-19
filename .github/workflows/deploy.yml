@@ -20,6 +20,8 @@ jobs:
               port: 22
               script: |
                  cd /var/www/defacto/server
+                 git fetch --force origin main
+                 git reset --hard origin/main
                  git pull origin main
                  npm install --production
-                 pm2 restart defacto-server
+                 pm2 restart all
