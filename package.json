@@ -10,9 +10,6 @@
     "ts-watch": "npx tsc --watch",
     "build": "npx tsx build",
     "lint": "eslint . --ext .ts,",
-    "services-seeder": "tsx --watch backend/jobs/seeders/services.seeder.ts",
-    "project-seeder": "tsx --watch backend/jobs/seeders/projects.seeder.ts",
-    "team-seeder": "tsx --watch backend/jobs/seeders/team.seeder.ts",
     "testimonial-seeder": "tsx --watch backend/jobs/seeders/testimonial.seeder.ts",
     "prettify": "npx prettier . --write"
   },
@@ -63,6 +60,9 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "@japa/api-client": "^2.0.0-1",
+    "@japa/expect": "^3.0.0-1",
+    "@japa/runner": "^3.0.0-9",
     "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/morgan": "^1.9.9",
@@ -70,5 +70,6 @@
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "eslint": "^8.57.0"
-  }
+  },
+  "type": "module"
 }
