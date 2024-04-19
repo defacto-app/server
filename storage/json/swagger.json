@@ -35,16 +35,6 @@
     }
   },
   "paths": {
-    "/": {
-      "get": {
-        "summary": "Home page",
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/admin/auth/login": {
       "post": {
         "summary": "User login",
@@ -133,15 +123,5 @@
         }
       }
     },
-    "/api/admin/dashboard": {
-      "get": {
-        "summary": "Dashboard access",
-        "responses": {
-          "200": {
-            "description": "Access granted"
-          }
-        }
-      }
-    }
   }
 }
