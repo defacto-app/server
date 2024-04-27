@@ -6,10 +6,12 @@ const UserController = {
 
    async updateUser(req: Request, res: Response): Promise<void> {
 
+      const user = res.locals.user;
+
 
       res.status(200).json({
-         message: "User logged in",
-         data: "data",
+         message: "User updated",
+         data: user,
       });
 /*
       try {

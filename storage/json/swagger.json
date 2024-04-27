@@ -37,6 +37,8 @@
   "paths": {
     "/api/auth/login": {
       "post": {
+        "tags": ["Authentication-flow"],
+
         "summary": "User login",
         "requestBody": {
           "required": true,
@@ -71,6 +73,8 @@
     },
     "/api/auth/register": {
       "post": {
+        "tags": ["Authentication-flow"],
+
         "summary": "User registration",
         "requestBody": {
           "required": true,
@@ -105,6 +109,8 @@
     },
     "/api/auth/logout": {
       "get": {
+        "tags": ["Authentication-flow"],
+
         "summary": "Log out a user",
         "responses": {
           "200": {
@@ -115,6 +121,7 @@
     },
     "/api/auth/ping": {
       "get": {
+        "tags": ["Authentication-flow"],
         "summary": "Ping to verify token validity",
         "responses": {
           "200": {
@@ -125,6 +132,8 @@
     },
     "/api/auth/user-exists": {
       "post": {
+        "tags": ["Authentication-flow"],
+
         "summary": "Check if a user exists",
         "requestBody": {
           "required": true,
@@ -164,8 +173,38 @@
           }
         }
       }
-    }
+    },
+    "/api/user/update-user": {
+      "put": {
+        "summary": "Update User Details",
+        "tags": ["User-Routes"],
 
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "admin@gmail.com"
+                  }
+                },
+                "required": [
+                  "email"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+            "200": {
+                "description": "User details updated"
+            }
+        }
+      }
+    }
   }
 }
 

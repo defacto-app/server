@@ -4,7 +4,7 @@ import UserController from "../../controllers/user/user.controller";
 
 const router = Router();
 
-router.post( "/update-user", authMiddleware.validateUser, UserController.updateUser);
+router.put( "/update-user", authMiddleware.validateUser, UserController.updateUser);
 
 
 
