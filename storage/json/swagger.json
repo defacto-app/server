@@ -35,7 +35,7 @@
     }
   },
   "paths": {
-    "/api/admin/auth/login": {
+    "/api/auth/login": {
       "post": {
         "summary": "User login",
         "requestBody": {
@@ -69,7 +69,7 @@
         }
       }
     },
-    "/api/admin/auth/register": {
+    "/api/auth/register": {
       "post": {
         "summary": "User registration",
         "requestBody": {
@@ -103,7 +103,7 @@
         }
       }
     },
-    "/api/admin/auth/logout": {
+    "/api/auth/logout": {
       "get": {
         "summary": "Log out a user",
         "responses": {
@@ -113,7 +113,7 @@
         }
       }
     },
-    "/api/admin/auth/ping": {
+    "/api/auth/ping": {
       "get": {
         "summary": "Ping to verify token validity",
         "responses": {
@@ -122,7 +122,50 @@
           }
         }
       }
+    },
+    "/api/auth/user-exists": {
+      "post": {
+        "summary": "Check if a user exists",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "admin@gmail.com"
+                  }
+                },
+                "required": [
+                  "email"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "user exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "exists": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
+
   }
 }
 

@@ -1,74 +1,58 @@
-import bcrypt from "bcrypt";
 import mongoose, { Document, Schema } from "mongoose";
-import { nanoid } from "nanoid";
+import { RawAppMetaData, RawUserMetaData } from "../../types";
 
-export interface UserDataType extends Document {
-   publicId: string;
+export interface SupabaseUserType extends Document {
+   instance_id: string;
+   id: string;
+   aud: string;
+   role: string;
    email: string;
-   password: string;
-   role: "user" | "admin";
-   lastSeenAt?: Date;
+   encrypted_password: string;
+   email_confirmed_at: null;
+   invited_at: null;
+   confirmation_token: string;
+   confirmation_sent_at: string;
+   recovery_token: string;
+   recovery_sent_at: null;
+   email_change_token_new: string;
+   email_change: string;
+   email_change_sent_at: null;
+   last_sign_in_at: null;
+   raw_app_meta_data: RawAppMetaData;
+   raw_user_meta_data: RawUserMetaData;
+   is_super_admin: null;
+   created_at: string;
+   updated_at: string;
+   phone: null;
+   phone_confirmed_at: null;
+   phone_change: string;
+   phone_change_token: string;
+   phone_change_sent_at: null;
+   confirmed_at: null;
+   email_change_token_current: string;
+   email_change_confirm_status: number;
+   banned_until: null;
+   reauthentication_token: string;
+   reauthentication_sent_at: null;
+   is_sso_user: boolean;
+   deleted_at: null;
+   is_anonymous: boolean;
+
 }
 const userSchemaDefinitions = {
-   publicId: {
-      type: String,
-      required: true,
-      default: () => nanoid(16),
-      unique: true,
-      minLength: 1,
-      maxLength: 255,
-   },
 
-   role: {
-      type: String,
-      required: true,
-      default: "user",
-      enum: ["user", "admin"],
-   },
-
-   email: {
-      type: String,
-      required: true,
-      minLength: 1,
-      maxLength: 255,
-   },
-   password: {
-      type: String,
-      required: true,
-      minLength: 1,
-      maxLength: 255,
-   },
-   lastSeenAt: {
-      type: Date,
-   },
 };
+
+
 export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
    timestamps: true,
    versionKey: false,
-   strict: true,
+   strict: false,
 });
 
-// Hash the password before saving the user model
-UserSchema.pre<UserDataType>("save", async function (next) {
-   if (!this.isModified("password")) return next();
 
-   const salt = await bcrypt.genSalt(10);
-   this.password = await bcrypt.hash(this.password, salt);
 
-   next();
-});
+class UserModel extends mongoose.model<SupabaseUserType>("user", UserSchema) {
 
-class UserModel extends mongoose.model<UserDataType>("user", UserSchema) {
-   static async comparePassword(
-      password: string,
-      userPassword: string
-   ): Promise<boolean> {
-      return new Promise((resolve, reject) => {
-         bcrypt.compare(password, userPassword, (err: any, isMatch: any) => {
-            if (err) reject(err);
-            else resolve(isMatch);
-         });
-      });
-   }
 }
 export default UserModel;

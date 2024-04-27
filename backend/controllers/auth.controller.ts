@@ -1,6 +1,7 @@
 import e, { Request, Response } from "express";
 
 import { supabase } from "../../config/supabase.config";
+import UserModel from "../model/user.model";
 
 const AuthController = {
    async login(
@@ -41,8 +42,6 @@ const AuthController = {
 
          const { email, password } = req.body;
 
-         // check if user exists
-
 
          const { data, error } = await supabase.auth.signUp({
             email,
@@ -58,14 +57,53 @@ const AuthController = {
 
          res.status(201).json({
             message: "User created",
-            data: data,
+            data
          });
+
+   /*      // check if user exists
+
+         const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+         });
+
+         if (error) {
+            res.status(400).json({
+               message: "Failed to register",
+               error: error.message,
+            });
+         }
+
+*/
+
+      /*   const newUser = new UserModel({
+            ...data
+         });
+*/
+
+/*         await newUser.save();*/
+
+
+         res.status(201).json({
+            message: "User created",
+            email, password
+         });
+
+
+         // save to mongo db database
+
+
+
+
+         // console.log("newUser", newUser);
+
       } catch (e) {
          res.status(500).json({
             error: e,
          });
       }
    },
+
 
    async ping(req: Request, res: Response): Promise<void> {
 
@@ -111,7 +149,57 @@ const AuthController = {
       }
    },
 
+   async userExists(req: Request, res: Response): Promise<void> {
+      try {
+         const { email } = req.body;
 
+         // check if user exists
+         const userExists = await UserModel.findOne({ email: email });
+         console.log("userExists", userExists);
+         if (userExists) {
+            res.status(200).json({
+               exists: true,
+               user: userExists,
+            });
+         } else {
+            res.status(200).json({
+               exists: false,
+            });
+         }
+      } catch (e: any) {
+         res.status(500).json({
+            message: "An unexpected error occurred",
+            error: e.message,
+         });
+      }
+   },
 };
 
 export default AuthController;
+
+
+/*
+
+
+// check if user exists
+
+const { data: ex, error: er } = await supabase.rpc(
+   "get_user_id_by_email",
+   {
+      email: "admin@gmail.com",
+   },
+);
+
+/!*     const { data: { users:exitingUser }, error:exitingUserError } = await supabase.auth.admin.listUsers({
+        email: email,
+     })
+*!/
+
+if (ex) {
+   console.log("exitingUser", ex);
+}
+
+if (er) {
+   console.log("exitingUserError", er);
+}
+*/

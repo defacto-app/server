@@ -9,6 +9,7 @@ import path from "path";
 import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
 
 import AuthRoutes from "./backend/routes/auth.routes";
+import UserRoutes from "./backend/routes/user/user.routes";
 // configs
 // configs
 import { connectDB } from "./config/mongodb";
@@ -65,7 +66,8 @@ app.get("/", (req, res) => {
 emailEvents();
 
 // app.use("/api", PublicRoutes);
-app.use("/api/admin/auth", AuthRoutes);
+app.use("/api/auth", AuthRoutes);
+app.use("/api/user", UserRoutes);
 
 app.use("/api/admin/dashboard", DashboardRoutes);
 

@@ -10,7 +10,7 @@
     "ts-watch": "npx tsc --watch",
     "build": "npx tsx build",
     "lint": "eslint . --ext .ts,",
-    "testimonial-seeder": "tsx --watch backend/jobs/seeders/testimonial.seeder.ts",
+    "testimonial-seeder": "tsx --watch backend/jobs/seeders/copyusers.ts",
     "prettify": "npx prettier . --write",
     "env:dev": "npx jsonbank-env dev .env force",
     "swagger": "tsoa spec"

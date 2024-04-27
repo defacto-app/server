@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { verifyToken } from "../services/jwt.service";
-import UserModel from "../model/user.model";
+
 import { supabase } from "../../config/supabase.config";
 
 class AuthMiddleware {
