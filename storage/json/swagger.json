@@ -177,7 +177,6 @@
       "put": {
         "summary": "Update User Details",
         "tags": ["User-Routes"],
-
         "requestBody": {
           "required": true,
           "content": {
