@@ -6,6 +6,4 @@ const router = Router();
 
 router.put( "/update-user", authMiddleware.validateUser, UserController.updateUser);
 
-
-
 export default router;

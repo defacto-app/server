@@ -68,7 +68,6 @@ emailEvents();
 // app.use("/api", PublicRoutes);
 app.use("/api/auth", AuthRoutes);
 app.use("/api/user", UserRoutes);
-
 app.use("/api/admin/dashboard", DashboardRoutes);
 
 app.use("/uploads", express.static(path.join(__dirname, "storage/uploads")));

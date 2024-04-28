@@ -159,7 +159,6 @@ const AuthController = {
          if (userExists) {
             res.status(200).json({
                exists: true,
-               user: userExists,
             });
          } else {
             res.status(200).json({
