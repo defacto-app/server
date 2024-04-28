@@ -5,13 +5,12 @@ import morgan from "morgan";
 import session from "express-session";
 import listEndpoints from "express-list-endpoints";
 import path from "path";
+import fs from "fs";
 
+//  routes
 import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
-
 import AuthRoutes from "./backend/routes/auth.routes";
 import UserRoutes from "./backend/routes/user/user.routes";
-// configs
-// configs
 import { connectDB } from "./config/mongodb";
 
 import { emailEvents } from "./config/eventEmitter";
@@ -20,7 +19,6 @@ import swaggerUi from "swagger-ui-express";
 
 
 import swaggerDocument from "./storage/json/swagger.json";
-import fs from "fs";
 
 const app = express();
 
