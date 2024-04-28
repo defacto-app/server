@@ -165,7 +165,7 @@ const AuthController = {
                exists: false,
             });
          }
-      } catch (e: any) {
+      } catch (e: any){
          res.status(500).json({
             message: "An unexpected error occurred",
             error: e.message,

@@ -38,7 +38,6 @@
     "/api/auth/login": {
       "post": {
         "tags": ["Authentication-flow"],
-
         "summary": "User login",
         "requestBody": {
           "required": true,
