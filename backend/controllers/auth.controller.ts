@@ -57,42 +57,40 @@ const AuthController = {
 
          res.status(201).json({
             message: "User created",
-            data
+            data,
          });
 
-   /*      // check if user exists
+         /*      // check if user exists
 
-         const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-         });
+               const { data, error } = await supabase.auth.signUp({
+                  email,
+                  password,
+               });
 
-         if (error) {
-            res.status(400).json({
-               message: "Failed to register",
-               error: error.message,
+               if (error) {
+                  res.status(400).json({
+                     message: "Failed to register",
+                     error: error.message,
+                  });
+               }
+
+      */
+
+         /*   const newUser = new UserModel({
+               ...data
             });
-         }
+   */
 
-*/
-
-      /*   const newUser = new UserModel({
-            ...data
-         });
-*/
-
-/*         await newUser.save();*/
+         /*         await newUser.save();*/
 
 
          res.status(201).json({
             message: "User created",
-            email, password
+            email, password,
          });
 
 
          // save to mongo db database
-
-
 
 
          // console.log("newUser", newUser);
@@ -165,13 +163,30 @@ const AuthController = {
                exists: false,
             });
          }
-      } catch (e: any){
+      } catch (e: any) {
          res.status(500).json({
             message: "An unexpected error occurred",
             error: e.message,
          });
       }
    },
+
+   async confirmPhoneNumber(req: Request, res: Response): Promise<void> {
+
+      try{
+
+
+
+         res.status(200).json({
+            message: "Phone number confirmed",
+         });
+      }catch (e: any){
+         res.status(500).json({
+            message: "An unexpected error occurred",
+            error: e.message,
+         });
+      }
+   }
 };
 
 export default AuthController;

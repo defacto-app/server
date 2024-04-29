@@ -106,6 +106,37 @@
         }
       }
     },
+    "/api/auth/confirm-phone-number": {
+      "post": {
+        "summary": "Confirm User Phone Number",
+        "tags": ["Authentication-flow"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "08012345678"
+                  }
+                },
+                "required": [
+                  "phoneNumber"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+            "200": {
+                "description": "OTP sent to phone number"
+            }
+        }
+
+      }
+    },
     "/api/auth/logout": {
       "get": {
         "tags": ["Authentication-flow"],
@@ -203,6 +234,7 @@
         }
       }
     }
+
   }
 }
 
