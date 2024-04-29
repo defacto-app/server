@@ -24,6 +24,7 @@ const env = {
    SUPABASE_KEY: envs.parsed?.SUPABASE_KEY || "",
    SUPABASE_URL: envs.parsed?.SUPABASE_URL || "",
    SUPABASE_SERVICE_ROLE: envs.parsed?.SUPABASE_SERVICE_ROLE || "",
+   TERMIAPIKEY: envs.parsed?.TERMIAPIKEY || "",
 };
 
 export default env;

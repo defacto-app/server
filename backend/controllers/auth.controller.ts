@@ -2,6 +2,9 @@ import e, { Request, Response } from "express";
 
 import { supabase } from "../../config/supabase.config";
 import UserModel from "../model/user.model";
+import { generateOTP } from "../utils/utils";
+import { sendSms } from "../services/sms.service";
+import AuthValidator from "../validator/auth.validator";
 
 const AuthController = {
    async login(
@@ -172,21 +175,33 @@ const AuthController = {
    },
 
    async confirmPhoneNumber(req: Request, res: Response): Promise<void> {
+      const body = req.body as { phoneNumber: string };
 
-      try{
+      try {
 
+         const { data, error } = await AuthValidator.validPhoneNumber(body);
+
+         // const answer =   await sendSms();
+
+         if (error) {
+            res.status(400).json({
+               message: "Failed to confirm phone number",
+               error: error,
+            });
+         }
 
 
          res.status(200).json({
             message: "Phone number confirmed",
+            data,
          });
-      }catch (e: any){
+      } catch (e: any) {
          res.status(500).json({
             message: "An unexpected error occurred",
             error: e.message,
          });
       }
-   }
+   },
 };
 
 export default AuthController;

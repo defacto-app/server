@@ -31,6 +31,7 @@
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
     "@types/yamljs": "^0.2.34",
+    "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -44,6 +45,7 @@
     "joi": "^17.12.1",
     "jsonbank-env": "^1.0.2",
     "jsonwebtoken": "^9.0.2",
+    "libphonenumber-js": "^1.10.61",
     "moment": "^2.30.1",
     "mongoose": "^8.1.2",
     "morgan": "^1.10.0",
@@ -59,7 +61,8 @@
     "swagger-ui-express": "^5.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
-    "yamljs": "^0.3.0"
+    "yamljs": "^0.3.0",
+    "zod": "^3.23.4"
   },
   "devDependencies": {
     "@japa/api-client": "^2.0.0-1",

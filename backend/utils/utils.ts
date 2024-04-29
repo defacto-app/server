@@ -45,3 +45,13 @@ export function generateSlug(data: string) {
          .replace(/\-\-+/g, "-")
    );
 }
+
+
+export const generateOTP = (num = 5) => {
+   let otp = "";
+   for (let i = 0; i <= num; i++) {
+      const randVal = Math.round(Math.random() * 9);
+      otp = otp + randVal;
+   }
+   return otp;
+};
