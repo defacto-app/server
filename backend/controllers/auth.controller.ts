@@ -9,7 +9,7 @@ import AuthValidator from "../validator/auth.validator";
 const AuthController = {
    async login(
       req: Request,
-      res: Response,
+      res: Response
    ): Promise<e.Response<any, Record<string, any>>> {
       try {
          const { email, password } = req.body;
@@ -38,65 +38,97 @@ const AuthController = {
       }
    },
 
+   /*   async register(req: Request, res: Response): Promise<void> {
+         // check if user exists
+   
+         try {
+   
+            const { email, password } = req.body;
+   
+   
+            const { data, error } = await supabase.auth.signUp({
+               email,
+               password,
+            });
+   
+   
+   
+            if (error) {
+               res.status(400).json({
+                  message: "Failed to register",
+                  error: error.message,
+               });
+            }
+   
+            res.status(201).json({
+               message: "User created",
+               data,
+            });
+   
+            /!*      // check if user exists
+   
+                  const { data, error } = await supabase.auth.signUp({
+                     email,
+                     password,
+                  });
+   
+                  if (error) {
+                     res.status(400).json({
+                        message: "Failed to register",
+                        error: error.message,
+                     });
+                  }
+   
+         *!/
+   
+            /!*   const newUser = new UserModel({
+                  ...data
+               });
+      *!/
+   
+            /!*         await newUser.save();*!/
+   
+   
+            res.status(201).json({
+               message: "User created",
+               email, password,
+            });
+   
+   
+            // save to mongo db database
+   
+   
+            // console.log("newUser", newUser);
+   
+         } catch (e) {
+            res.status(500).json({
+               error: e,
+            });
+         }
+      },*/
+
    async register(req: Request, res: Response): Promise<void> {
       // check if user exists
 
       try {
 
-         const { email, password } = req.body;
+         console.log("req.body", req.body);
 
 
-         const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-         });
+         const {data,error} = await AuthValidator.register(req.body);
 
          if (error) {
             res.status(400).json({
                message: "Failed to register",
-               error: error.message,
+               error: error,
             });
          }
 
-         res.status(201).json({
-            message: "User created",
-            data,
-         });
-
-         /*      // check if user exists
-
-               const { data, error } = await supabase.auth.signUp({
-                  email,
-                  password,
-               });
-
-               if (error) {
-                  res.status(400).json({
-                     message: "Failed to register",
-                     error: error.message,
-                  });
-               }
-
-      */
-
-         /*   const newUser = new UserModel({
-               ...data
-            });
-   */
-
-         /*         await newUser.save();*/
-
 
          res.status(201).json({
             message: "User created",
-            email, password,
          });
 
-
-         // save to mongo db database
-
-
-         // console.log("newUser", newUser);
 
       } catch (e) {
          res.status(500).json({
@@ -105,22 +137,13 @@ const AuthController = {
       }
    },
 
-
    async ping(req: Request, res: Response): Promise<void> {
-
-
       const user = res.locals.user;
 
-
       try {
-
-
          res.status(200).json({
-
             data: user,
          });
-
-
       } catch (e) {
          res.status(500).json({
             error: e,
@@ -178,7 +201,6 @@ const AuthController = {
       const body = req.body as { phoneNumber: string };
 
       try {
-
          const { data, error } = await AuthValidator.validPhoneNumber(body);
 
          // const answer =   await sendSms();
@@ -189,7 +211,6 @@ const AuthController = {
                error: error,
             });
          }
-
 
          res.status(200).json({
             message: "Phone number confirmed",

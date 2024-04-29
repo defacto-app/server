@@ -73,7 +73,6 @@
     "/api/auth/register": {
       "post": {
         "tags": ["Authentication-flow"],
-
         "summary": "User registration",
         "requestBody": {
           "required": true,
@@ -84,16 +83,20 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "example": "admin@gmail.com"
+                    "example": "kats.com.ng@gmail.com"
                   },
                   "password": {
                     "type": "string",
                     "example": "123456"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "08012345678"
                   }
                 },
-                "required": [
-                  "email",
-                  "password"
+                "anyOf": [
+                  { "required": ["email"] },
+                  { "required": ["phoneNumber"] }
                 ]
               }
             }
@@ -106,6 +109,7 @@
         }
       }
     },
+
     "/api/auth/confirm-phone-number": {
       "post": {
         "summary": "Confirm User Phone Number",
