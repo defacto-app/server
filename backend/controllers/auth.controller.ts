@@ -27,13 +27,14 @@ const AuthController = {
          //  check if user exists
 
          const userExists = await UserModel.findOne({
-            phone: data?.phoneNumber,
+            phoneNumber: data?.phoneNumber,
          });
 
          if (userExists) {
             res.status(200).json({
                message: "User already exists",
                exists: true,
+               timestamp: new Date(),
             });
          }
 
@@ -47,7 +48,8 @@ const AuthController = {
             },
          });
 
-         const { data: smsData, error: smsError } = await sendTokenSms(
+         // @ts-expect-error
+         const {  error: smsError } = await sendTokenSms(
             otp,
             data?.phoneNumber
          );
@@ -68,6 +70,7 @@ const AuthController = {
          res.status(200).json({
             message: "OTP sent successfully. Please verify.",
             success: true,
+            timestamp: new Date(),
          });
       } catch (e) {
          console.error("Registration Error:", e);
@@ -75,6 +78,7 @@ const AuthController = {
             message: "Internal Server Error",
             error: e,
             success: false,
+            timestamp: new Date(),
          });
       }
    },

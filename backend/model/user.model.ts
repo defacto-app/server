@@ -37,7 +37,7 @@ export interface UserDataType extends Document {
       reauthentication_sent_at: null;
    };
 
-   phoneNumber:string;
+   phoneNumber: string;
    phone_management: {
       otp: string;
       otp_expires_at: string;
@@ -49,26 +49,42 @@ export interface UserDataType extends Document {
 }
 
 const userSchemaDefinitions = {
-   publicId: {
-      type: String,
-      required: true,
-      default: () => nanoid(16),
-      unique: true,
-      minLength: 1,
-      maxLength: 255,
-   },
+      publicId: {
+         type: String,
+         required: true,
+         default: () => nanoid(16),
+         unique: true,
+         minLength: 1,
+         maxLength: 255,
+      },
 
-   role: {
-      type: String,
-      required: true,
-      default: "user",
-      enum: ["user", "admin"],
-   },
-   phoneNumber: {
-      type: String,
-      required: false,
-      minLength: 6,
-      maxLength: 15,
+      role: {
+         type: String,
+         required: true,
+         default: "user",
+         enum: ["user", "admin"],
+      },
+      phoneNumber: {
+         type: String,
+         required: false,
+         minLength: 6,
+         maxLength: 15,
+         unique: true,
+      },
+
+      phone_management: {
+         otp: {
+            type: String,
+            required: false,
+            minLength: 6,
+            maxLength: 6,
+         },
+         otp_expires_at: {
+            type: Date,
+         },
+
+
+
    },
 
    email: {
@@ -76,6 +92,7 @@ const userSchemaDefinitions = {
       required: false,
       minLength: 1,
       maxLength: 255,
+      unique: true,
    },
    password: {
       type: String,
@@ -86,7 +103,7 @@ const userSchemaDefinitions = {
    lastSeenAt: {
       type: Date,
    },
-};
+   };
 
 export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
    timestamps: true,
@@ -108,4 +125,5 @@ class UserModel extends mongoose.model<UserDataType>("user", UserSchema) {
       });
    }
 }
+
 export default UserModel;
