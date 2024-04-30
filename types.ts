@@ -75,7 +75,7 @@ export interface RawUserMetaData {
    phone_verified: boolean;
 }
 
-export interface registerBody {
+export interface authBodyType {
    email?: string;
    password: string;
    phoneNumber?: string;

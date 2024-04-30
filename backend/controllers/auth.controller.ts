@@ -107,15 +107,42 @@ const AuthController = {
          }
       },*/
 
-   async register(req: Request, res: Response): Promise<void> {
+   async phone_register(req: Request, res: Response): Promise<void> {
       // check if user exists
 
       try {
-
          console.log("req.body", req.body);
 
+         const { data, error } = await AuthValidator.phone_register(req.body);
 
-         const {data,error} = await AuthValidator.register(req.body);
+         if (error) {
+            res.status(400).json({
+               message: "Failed to register",
+               error: error,
+               success: false,
+            });
+         }
+
+         res.status(201).json({
+            message: "User created",
+            data: data,
+            success: true,
+         });
+      } catch (e) {
+         res.status(500).json({
+            error: e,
+            success: false,
+         });
+      }
+   },
+
+   async email_register(req: Request, res: Response): Promise<void> {
+      // check if user exists
+
+      try {
+         console.log("req.body", req.body);
+
+         const { data, error } = await AuthValidator.email_register(req.body);
 
          if (error) {
             res.status(400).json({
@@ -124,15 +151,137 @@ const AuthController = {
             });
          }
 
-
          res.status(201).json({
             message: "User created",
          });
-
-
       } catch (e) {
          res.status(500).json({
             error: e,
+         });
+      }
+   },
+
+   //
+
+   async phone_login(req: Request, res: Response): Promise<void> {
+      try {
+         const { data, error } = await AuthValidator.phone_login(req.body);
+
+         if (error) {
+            res.status(400).json({
+               message: "Failed to login",
+               error: error,
+            });
+         }
+
+         res.status(200).json({
+            message: "User logged in",
+            data: data,
+         });
+      } catch (e) {
+         res.status(500).json({
+            error: e,
+         });
+      }
+   },
+   async email_login(req: Request, res: Response): Promise<void> {
+      try {
+         const { data, error } = await AuthValidator.email_login(req.body);
+
+         if (error) {
+            res.status(400).json({
+               message: "Failed to login",
+               error: error,
+               success: false,
+            });
+         }
+
+         res.status(200).json({
+            message: "User logged in",
+            success: true,
+         });
+      } catch (e) {
+         res.status(500).json({
+            error: e,
+            success: false,
+         });
+      }
+   },
+
+   //
+
+   async phone_number_exist(req: Request, res: Response): Promise<void> {
+      try {
+         const { email } = req.body;
+
+         // check if user exists
+         const userExists = await UserModel.findOne({ ph: email });
+         console.log("userExists", userExists);
+         if (userExists) {
+            res.status(200).json({
+               exists: true,
+            });
+         } else {
+            res.status(200).json({
+               exists: false,
+            });
+         }
+      } catch (e: any) {
+         res.status(500).json({
+            message: "An unexpected error occurred",
+            error: e.message,
+         });
+      }
+   },
+   async email_exist(req: Request, res: Response): Promise<void> {
+      try {
+         const { email } = req.body;
+
+         // check if user exists
+         const userExists = await UserModel.findOne({ email: email });
+         console.log("userExists", userExists);
+         if (userExists) {
+            res.status(200).json({
+               exists: true,
+            });
+         } else {
+            res.status(200).json({
+               exists: false,
+            });
+         }
+      } catch (e: any) {
+         res.status(500).json({
+            message: "An unexpected error occurred",
+            error: e.message,
+         });
+      }
+   },
+
+   //
+
+   async confirm_phone_number(req: Request, res: Response): Promise<void> {
+      const body = req.body as { phoneNumber: string };
+
+      try {
+         const { data, error } = await AuthValidator.validPhoneNumber(body);
+
+         // const answer =   await sendSms();
+
+         if (error) {
+            res.status(400).json({
+               message: "Failed to confirm phone number",
+               error: error,
+            });
+         }
+
+         res.status(200).json({
+            message: "Phone number confirmed",
+            data,
+         });
+      } catch (e: any) {
+         res.status(500).json({
+            message: "An unexpected error occurred",
+            error: e.message,
          });
       }
    },
@@ -172,84 +321,6 @@ const AuthController = {
          });
       }
    },
-
-   async userExists(req: Request, res: Response): Promise<void> {
-      try {
-         const { email } = req.body;
-
-         // check if user exists
-         const userExists = await UserModel.findOne({ email: email });
-         console.log("userExists", userExists);
-         if (userExists) {
-            res.status(200).json({
-               exists: true,
-            });
-         } else {
-            res.status(200).json({
-               exists: false,
-            });
-         }
-      } catch (e: any) {
-         res.status(500).json({
-            message: "An unexpected error occurred",
-            error: e.message,
-         });
-      }
-   },
-
-   async confirmPhoneNumber(req: Request, res: Response): Promise<void> {
-      const body = req.body as { phoneNumber: string };
-
-      try {
-         const { data, error } = await AuthValidator.validPhoneNumber(body);
-
-         // const answer =   await sendSms();
-
-         if (error) {
-            res.status(400).json({
-               message: "Failed to confirm phone number",
-               error: error,
-            });
-         }
-
-         res.status(200).json({
-            message: "Phone number confirmed",
-            data,
-         });
-      } catch (e: any) {
-         res.status(500).json({
-            message: "An unexpected error occurred",
-            error: e.message,
-         });
-      }
-   },
 };
 
 export default AuthController;
-
-
-/*
-
-
-// check if user exists
-
-const { data: ex, error: er } = await supabase.rpc(
-   "get_user_id_by_email",
-   {
-      email: "admin@gmail.com",
-   },
-);
-
-/!*     const { data: { users:exitingUser }, error:exitingUserError } = await supabase.auth.admin.listUsers({
-        email: email,
-     })
-*!/
-
-if (ex) {
-   console.log("exitingUser", ex);
-}
-
-if (er) {
-   console.log("exitingUserError", er);
-}
-*/
