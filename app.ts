@@ -56,14 +56,20 @@ app.use(
 
 
 app.get("/", (req, res) => {
-   // Read the HTML file
-   let html = fs.readFileSync(path.join(__dirname, "public/index.html"), 'utf8');
+   // Read the HTML file on every request
+   fs.readFile(path.join(__dirname, "public/index.html"), 'utf8', (err, html) => {
+      if (err) {
+         console.error("Error reading HTML file:", err);
+         res.status(500).send("Internal Server Error");
+         return;
+      }
 
-   // Replace ${BASE_URL} with the actual base URL
-   html = html.replace('${BASE_URL}', env.BASE_URL);
+      // Replace ${BASE_URL} with the actual base URL
+      html = html.replace('${BASE_URL}', env.BASE_URL);
 
-   // Send the modified HTML file
-   res.send(html);
+      // Send the modified HTML file
+      res.send(html);
+   });
 });
 
 emailEvents();
