@@ -17,8 +17,8 @@ export default {
          phoneNumber: z.string().nonempty({
             message: "Phone number is required.",
          }),
-         password: z.string().min(6, {
-            message: "Password must be at least 6 characters long.",
+         otp: z.string().min(5, {
+            message: "OTP must be at least 5 characters long.",
          }),
       });
 
@@ -151,7 +151,6 @@ export default {
          }
 
 
-         console.log("Parsed Number", parsedNumber);
          return {
             data: {
                phoneNumber: parsedNumber.number, // or parsedNumber.formatInternational() for a formatted number
@@ -164,7 +163,7 @@ export default {
       }
    },
 
-   validPhoneNumber: async function (body: any) {
+   phone_number: async function (body: any) {
       const result = PhoneNumberSchema.safeParse(body);
       if (!result.success) {
          const formattedErrors: any = {};
@@ -194,4 +193,23 @@ export default {
          return { data: null, error: e.message };
       }
    },
+
+   email_address: async function (body: any) {
+      const emailSchema = z.object({
+         email: z.string().email({ message: "Invalid email address." }),
+      });
+
+      const result = emailSchema.safeParse(body);
+      if (!result.success) {
+         const formattedErrors: any = {};
+         result.error.errors.forEach((error) => {
+            const fieldName = error.path[0];
+            formattedErrors[fieldName] = error.message;
+         });
+
+         return { data: null, error: formattedErrors };
+      }
+
+      return { data: result.data, error: null };
+   }
 };

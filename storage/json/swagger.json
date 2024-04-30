@@ -125,7 +125,7 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "example": "admin@gmail.com"
+                    "example": "kats.com.ng@gmail.com"
                   }
                 },
                 "required": [
@@ -205,18 +205,18 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "email": {
+                  "phoneNumber": {
                     "type": "string",
-                    "example": "kats.com.ng@gmail.com"
+                    "example": "08063145125"
                   },
-                  "password": {
+                  "otp": {
                     "type": "string",
                     "example": "123456"
                   }
                 },
                 "required": [
-                  "email",
-                  "password"
+                  "phoneNumber",
+                  "otp"
                 ]
               }
             }
@@ -243,9 +243,9 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "email": {
+                  "phoneNumber": {
                     "type": "string",
-                    "example": "admin@gmail.com"
+                    "example": "08063145125"
                   }
                 },
                 "required": [
@@ -258,6 +258,38 @@
         "responses": {
           "200": {
             "description": "Phone number exists"
+          }
+        }
+      }
+    },
+    "/api/auth/verify-phone-number": {
+      "post": {
+        "tags": [
+          "Auth-Phone"
+        ],
+        "summary": "Send Otp To Phone Number to verify",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "08063145125"
+                  }
+                },
+                "required": [
+                  "phoneNumber"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OTP sent"
           }
         }
       }

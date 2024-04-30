@@ -43,7 +43,8 @@ const AuthController = {
             phoneNumber: data?.phoneNumber,
             phone_management: {
                otp: otp,
-               otp_expires_at: moment().add(10, "minutes").toISOString(),
+               otp_sent_at: new Date(),
+               otp_expires_at: moment().add(10, "minutes").toDate(),
             },
          });
 
@@ -156,7 +157,6 @@ const AuthController = {
          const currentTime = new Date();
          const otpExpiryTime = new Date(user.phone_management.otp_expires_at);
 
-
          if (currentTime > otpExpiryTime) {
             res.status(400).json({ message: "OTP has expired" });
             return;
@@ -228,13 +228,81 @@ const AuthController = {
 
    //
 
+   async verify_phone_number(req: Request, res: Response): Promise<void> {
+      try {
+         const { data, error } = await AuthValidator.phone_number(req.body);
+
+         if (error) {
+            res.status(400).json({
+               message: "Invalid phone number",
+               error,
+            });
+            return;
+         }
+
+         /// send otp
+
+         const otp = generateOTP();
+
+         const { error: smsError } = await sendTokenSms(otp, data!.phoneNumber);
+
+         if (smsError) {
+            res.status(500).json({
+               message: "Failed to send OTP",
+               error: smsError,
+            });
+            return;
+         }
+
+         // save otp in db
+
+         const user = await UserModel.findOne({
+            phoneNumber: data?.phoneNumber,
+         });
+
+         if (!user) {
+            res.status(404).json({
+               message: "User not found",
+            });
+            return;
+         }
+
+         user.phone_management.otp = otp;
+         user.phone_management.otp_sent_at = new Date();
+
+         user.phone_management.otp_expires_at = moment()
+            .add(10, "minutes")
+            .toDate();
+
+         await user.save();
+
+         res.status(200).json({
+            message: "OTP sent successfully. Please verify.",
+         });
+      } catch (e: any) {
+         res.status(500).json({
+            message: "An unexpected error occurred",
+            error: e.message,
+         });
+      }
+   },
+
    async phone_number_exist(req: Request, res: Response): Promise<void> {
       try {
-         const { email } = req.body;
+         const { data, error } = await AuthValidator.phone_number(req.body);
+
+         if (error) {
+            res.status(400).json({
+               message: "Invalid phone number",
+               error,
+            });
+            return;
+         }
 
          // check if user exists
-         const userExists = await UserModel.findOne({ ph: email });
-         console.log("userExists", userExists);
+         const userExists = await UserModel.findOne({
+            phoneNumber: data?.phoneNumber,
+         });
          if (userExists) {
             res.status(200).json({
                exists: true,
@@ -253,10 +321,19 @@ const AuthController = {
    },
    async email_exist(req: Request, res: Response): Promise<void> {
       try {
-         const { email } = req.body;
+         const { data, error } = await AuthValidator.email_address(req.body);
+         console.log(data, error, "[[]");
+
+         if (error) {
+            res.status(400).json({
+               message: "Invalid email address",
+               error,
+            });
+            return;
+         }
 
          // check if user exists
-         const userExists = await UserModel.findOne({ email: email });
+         const userExists = await UserModel.findOne({ email: data?.email });
          if (userExists) {
             res.status(200).json({
                exists: true,

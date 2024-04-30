@@ -40,7 +40,8 @@ export interface UserDataType extends Document {
    phoneNumber: string;
    phone_management: {
       otp: string;
-      otp_expires_at: string;
+      otp_expires_at: Date;
+      otp_sent_at: Date;
       phone_confirmed_at?: null;
       phone_change?: string;
       phone_change_token?: string;
