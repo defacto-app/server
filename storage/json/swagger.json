@@ -35,6 +35,44 @@
     }
   },
   "paths": {
+    "/api/auth/admin-login": {
+      "post": {
+        "tags": [
+          "Admin-Auth"
+        ],
+        "summary": "Admin login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "kats.com.ng@gmail.com"
+                  },
+                  "otp": {
+                    "type": "string",
+                    "example": "067741"
+                  }
+                },
+                "required": [
+                  "email",
+                  "otp"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Admin Login successful",
+            "token": "Bearer token"
+          }
+        }
+      }
+    },
     "/api/auth/phone-login": {
       "post": {
         "tags": [

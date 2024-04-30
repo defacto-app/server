@@ -16,6 +16,11 @@ router.post("/email-exists", AuthController.email_exist);
 router.post("/email-confirm", AuthController.email_confirm);
 
 //
+
+// admin routes
+router.post("/admin-login", AuthController.admin_login);
+
+
 router.get("/logout", AuthController.logout);
 router.get("/ping", authMiddleware.validateUser, AuthController.ping);
 

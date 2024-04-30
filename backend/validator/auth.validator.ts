@@ -93,6 +93,39 @@ export default {
          return { data: null, error: e.message };
       }
    },
+   admin_login: async function (body: authBodyType) {
+      try {
+         const registerSchema = z.object({
+            email: z
+               .string()
+               .email({ message: "Invalid email address." })
+               .optional(),
+            otp: z.string().min(6, {
+               message: "OTP must be at least 6 characters long.",
+            }),
+         });
+
+         const result = registerSchema.safeParse(body);
+
+         // if there are errors, return the errors
+
+         if (!result.success) {
+            const formattedErrors: any = {};
+            result.error.errors.forEach((error) => {
+               const fieldName = error.path[0];
+               formattedErrors[fieldName] = error.message;
+            });
+            return { data: null, error: formattedErrors };
+         }
+
+         // if there are no errors, return the data
+
+         return { data: result.data, error: null };
+      } catch (e: any) {
+         return { data: null, error: e.message };
+      }
+   },
+
 
    email_login: async function (body: authBodyType) {
       const loginSchema = z.object({

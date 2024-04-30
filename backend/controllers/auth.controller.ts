@@ -348,17 +348,15 @@ const AuthController = {
          const userExists = await UserModel.findOne({ email: data?.email });
          if (userExists) {
             const otp = generateOTP();
-
-            const _user = new UserModel({
-               email: data?.email,
-               email_management: {
-                  otp: otp,
-                  otp_sent_at: new Date(),
-                  otp_expires_at: moment().add(10, "minutes").toDate(),
+            await UserModel.findOneAndUpdate(
+               { email: data?.email }, // find a document with this filter
+               {
+                  "email_management.otp": otp,
+                  "email_management.otp_sent_at": new Date(),
+                  "email_management.otp_expires_at": moment().add(10, "minutes").toDate(),
                },
-            });
-
-            await _user.save();
+               { new: true } // option to return the updated document
+            );
 
             await EmailEvent.sendContactMail({
                email: "here we go",
@@ -423,6 +421,55 @@ const AuthController = {
                exists: false,
             });
          }
+      } catch (e: any) {
+         res.status(500).json({
+            message: "An unexpected error occurred",
+            error: e.message,
+         });
+      }
+   },
+
+
+   async admin_login(req: Request, res: Response): Promise<void> {
+      try {
+         const { data, error } = await AuthValidator.admin_login(req.body);
+
+         if (error) {
+            res.status(400).json({
+               message: "Invalid email address",
+               error,
+            });
+            return;
+         }
+
+         // check if user exists
+         const user = await UserModel.findOne({
+            email: data?.email,
+            role: "admin",
+            "email_management.otp": data!.otp,
+         });
+
+         if (!user) {
+            res.status(404).json({
+               message: "Admin not found",
+            });
+            return;
+         }
+
+         if (user.email_management.otp !== data!.otp) {
+            res.status(400).json({
+               message: "Invalid OTP",
+            });
+            return;
+         }
+
+
+         const token = generateToken(user);
+
+         res.status(200).json({
+            message: "Admin logged in",
+            token,
+         });
       } catch (e: any) {
          res.status(500).json({
             message: "An unexpected error occurred",
