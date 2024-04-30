@@ -463,11 +463,25 @@ const AuthController = {
             return;
          }
 
+         // Check if OTP is still valid
+
+         const currentTime = new Date();
+
+         const otpExpiryTime = new Date(user.email_management?.otp_expires_at || Date.now());
+         if (currentTime > otpExpiryTime) {
+            res.status(400).json({
+               message: "OTP has expired",
+            });
+            return;
+         }
+
 
          const token = generateToken(user);
 
          res.status(200).json({
             message: "Admin logged in",
+            success: true,
+            timeStamp: new Date(),
             token,
          });
       } catch (e: any) {

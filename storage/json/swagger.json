@@ -73,6 +73,19 @@
         }
       }
     },
+    "/api/admin/dashboard": {
+      "get": {
+        "tags": [
+          "Admin-Resources"
+        ],
+        "summary": "Admin dashboard",
+        "responses": {
+          "200": {
+            "description": "Admin dashboard"
+          }
+        }
+      }
+    },
     "/api/auth/phone-login": {
       "post": {
         "tags": [
