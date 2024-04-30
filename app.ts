@@ -49,10 +49,17 @@ const options = {
 
 app.use(
    "/api/api-docs",
+   (
+      req: any,
+      res: { set: (arg0: string, arg1: string) => void },
+      next: () => void
+   ) => {
+      res.set("Cache-Control", "no-store");
+      next();
+   },
    swaggerUi.serve,
    swaggerUi.setup(swaggerDocument, options)
 );
-
 
 
 app.get("/", (req, res) => {
@@ -65,7 +72,7 @@ app.get("/", (req, res) => {
       }
 
       // Replace ${BASE_URL} with the actual base URL
-      html = html.replace(`${env.BASE_URL}`, env.BASE_URL);
+      html = html.replace('${BASE_URL}', env.BASE_URL);
 
       // Send the modified HTML file
       res.send(html);
