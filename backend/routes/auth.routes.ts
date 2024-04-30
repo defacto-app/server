@@ -13,6 +13,7 @@ router.post("/verify-phone-number", AuthController.verify_phone_number);
 router.post("/email-login", AuthController.email_login);
 router.post("/email-register", AuthController.email_register);
 router.post("/email-exists", AuthController.email_exist);
+router.post("/email-confirm", AuthController.email_confirm);
 
 //
 router.get("/logout", AuthController.logout);

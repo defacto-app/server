@@ -8,6 +8,7 @@ import { generateToken } from "../services/jwt.service";
 import moment from "moment";
 import { generateOTP } from "../utils/utils";
 import { sendTokenSms } from "../services/sms.service";
+import EmailEvent from "../events/email.event";
 
 const AuthController = {
    async phone_register(req: Request, res: Response): Promise<void> {
@@ -108,17 +109,28 @@ const AuthController = {
          const saltRounds = 10;
          const hashedPassword = await bcrypt.hash(data!.password, saltRounds);
 
+         const otp = generateOTP();
+
          const newUser = new UserModel({
             email: data!.email,
             password: hashedPassword, // Save the hashed password
+            email_management: {
+               otp: otp,
+               otp_sent_at: new Date(),
+               otp_expires_at: moment().add(10, "minutes").toDate(),
+            },
          });
 
          await newUser.save();
 
+         await EmailEvent.sendContactMail({
+            email: "here we go",
+            message: `here we go ${otp}`,
+         });
+
          res.status(201).json({
             message: "User created",
             success: true,
-            data: newUser,
             timestamp: new Date(),
          });
       } catch (e) {
@@ -319,10 +331,10 @@ const AuthController = {
          });
       }
    },
+
    async email_exist(req: Request, res: Response): Promise<void> {
       try {
          const { data, error } = await AuthValidator.email_address(req.body);
-         console.log(data, error, "[[]");
 
          if (error) {
             res.status(400).json({
@@ -335,8 +347,76 @@ const AuthController = {
          // check if user exists
          const userExists = await UserModel.findOne({ email: data?.email });
          if (userExists) {
+            const otp = generateOTP();
+
+            const _user = new UserModel({
+               email: data?.email,
+               email_management: {
+                  otp: otp,
+                  otp_sent_at: new Date(),
+                  otp_expires_at: moment().add(10, "minutes").toDate(),
+               },
+            });
+
+            await _user.save();
+
+            await EmailEvent.sendContactMail({
+               email: "here we go",
+               message: `here we go ${otp}`,
+            });
+
             res.status(200).json({
                exists: true,
+            });
+         } else {
+            res.status(200).json({
+               exists: false,
+            });
+         }
+      } catch (e: any) {
+         res.status(500).json({
+            message: "An unexpected error occurred",
+            error: e.message,
+         });
+      }
+   },
+
+   async email_confirm(req: Request, res: Response): Promise<void> {
+      try {
+         const { data, error } = await AuthValidator.email_address(req.body);
+
+         if (error) {
+            res.status(400).json({
+               message: "Invalid email address",
+               error,
+            });
+            return;
+         }
+
+         // check if user exists
+         const userExists = await UserModel.findOne({
+            email: data?.email,
+            "email_management.otp": req.body.otp,
+         });
+
+
+         if (userExists) {
+            await UserModel.findOneAndUpdate(
+               { email: data?.email }, // find a document with this filter
+               {
+                  "email_management.verified": true, // fields to update
+                  "email_management.email_confirmed_at": new Date(),
+                  "email_management.otp": "",
+               },
+               { new: true } // option to return the updated document
+            );
+
+
+            res.status(200).json({
+               exists: true,
+               message: "Email confirmed",
+               success: true,
+               timestamp: new Date(),
             });
          } else {
             res.status(200).json({

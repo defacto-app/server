@@ -20,14 +20,11 @@ export interface UserDataType extends Document {
    password?: string;
    email: string;
    email_management: {
-      email: string;
-      email_change: string;
-      email_change_token_new: string;
-      email_change_token_current: string;
-      email_change_confirm_status: number;
-      email_change_sent_at: null;
-      confirmation_token: string;
-      confirmation_sent_at: string;
+      otp?: string;
+      otp_expires_at?: null |Date;
+      otp_sent_at?: null | Date;
+      verified?: boolean;
+      email_confirmed_at?: null | Date;
    };
 
    recovery: {
@@ -42,6 +39,7 @@ export interface UserDataType extends Document {
       otp: string;
       otp_expires_at: Date;
       otp_sent_at: Date;
+      verified?: boolean;
       phone_confirmed_at?: null;
       phone_change?: string;
       phone_change_token?: string;

@@ -192,6 +192,43 @@
         }
       }
     },
+    "/api/auth/email-confirm": {
+      "post": {
+        "tags": [
+          "Auth-Email"
+        ],
+        "summary": "User registration",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "kats.com.ng@gmail.com"
+                  },
+                  "otp": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                },
+                "required": [
+                  "email",
+                  "otp"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registration successful"
+          }
+        }
+      }
+    },
     "/api/auth/phone-register": {
       "post": {
         "tags": [
