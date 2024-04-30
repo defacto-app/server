@@ -1,11 +1,17 @@
 import axios from "axios";
 import env from "../../config/env";
 
+export interface ApiResponse<T> {
+   data: T | null;
+   error: any | null;
+   success?: boolean;
+   timestamp?: Date;
+}
 
 
-export async function sendTokenSms(otp: any, phoneNumber: any) {
+
+export async function sendTokenSms(otp: string, phoneNumber: string): Promise<ApiResponse<any>> {
    const url = "https://api.ng.termii.com/api/sms/otp/send";
-
    const payload = {
       api_key: env.TERMIAPIKEY,
       message_type: "NUMERIC",
@@ -22,21 +28,21 @@ export async function sendTokenSms(otp: any, phoneNumber: any) {
 
    try {
       const { data } = await axios.post(url, payload);
-
       return {
          data: data,
+         success: true,
          error: null,
       };
    } catch (error: any) {
+      let errorMessage = "An unexpected error occurred";
       if (axios.isAxiosError(error)) {
-         const message = error.response?.data.message;
-         console.log(message); // or handle the message however you need
-
-
-         return {
-            data: null,
-            error: message,
-         };
+         errorMessage = error.response?.data.message || "An error occurred during the request";
       }
+
+      return {
+         data: null,
+         success: false,
+         error: errorMessage,
+      };
    }
 }

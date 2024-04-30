@@ -47,7 +47,7 @@ const AuthController = {
             },
          });
 
-         const { error: smsError } = await sendTokenSms(otp, data?.phoneNumber);
+         const { error: smsError } = await sendTokenSms(otp, data!.phoneNumber);
 
          if (smsError) {
             res.status(500).json({
