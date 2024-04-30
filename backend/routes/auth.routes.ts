@@ -6,7 +6,6 @@ const router = Router();
 
 router.post("/phone-login", AuthController.phone_login);
 router.post("/phone-register", AuthController.phone_register);
-router.post("/confirm-phone-number", AuthController.confirm_phone_number);
 router.post("/phone-number-exist", AuthController.phone_number_exist);
 
 //

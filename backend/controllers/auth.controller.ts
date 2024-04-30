@@ -271,34 +271,7 @@ const AuthController = {
       }
    },
 
-   //
 
-   async confirm_phone_number(req: Request, res: Response): Promise<void> {
-      const body = req.body as { phoneNumber: string };
-
-      try {
-         const { data, error } = await AuthValidator.validPhoneNumber(body);
-
-         // const answer =   await sendSms();
-
-         if (error) {
-            res.status(400).json({
-               message: "Failed to confirm phone number",
-               error: error,
-            });
-         }
-
-         res.status(200).json({
-            message: "Phone number confirmed",
-            data,
-         });
-      } catch (e: any) {
-         res.status(500).json({
-            message: "An unexpected error occurred",
-            error: e.message,
-         });
-      }
-   },
 
    async ping(req: Request, res: Response): Promise<void> {
       const user = res.locals.user;

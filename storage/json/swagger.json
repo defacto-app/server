@@ -37,7 +37,9 @@
   "paths": {
     "/api/auth/phone-login": {
       "post": {
-        "tags": ["Auth-Phone"],
+        "tags": [
+          "Auth-Phone"
+        ],
         "summary": "phone number  login",
         "requestBody": {
           "required": true,
@@ -73,7 +75,9 @@
     },
     "/api/auth/email-login": {
       "post": {
-        "tags": ["Auth-Email"],
+        "tags": [
+          "Auth-Email"
+        ],
         "summary": "User Email login",
         "requestBody": {
           "required": true,
@@ -108,8 +112,9 @@
     },
     "/api/auth/email-exists": {
       "post": {
-        "tags": ["Auth-Email"],
-
+        "tags": [
+          "Auth-Email"
+        ],
         "summary": "Check if a user exists",
         "requestBody": {
           "required": true,
@@ -152,7 +157,9 @@
     },
     "/api/auth/email-register": {
       "post": {
-        "tags": ["Auth-Email"],
+        "tags": [
+          "Auth-Email"
+        ],
         "summary": "User registration",
         "requestBody": {
           "required": true,
@@ -187,7 +194,9 @@
     },
     "/api/auth/phone-register": {
       "post": {
-        "tags": ["Auth-Phone"],
+        "tags": [
+          "Auth-Phone"
+        ],
         "summary": "User registration",
         "requestBody": {
           "required": true,
@@ -221,41 +230,11 @@
         }
       }
     },
-    "/api/auth/confirm-phone-number": {
+    "/api/auth/phone-number-exist": {
       "post": {
-        "summary": "Confirm User Phone Number",
-        "tags": ["Auth-Phone"],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "phoneNumber": {
-                    "type": "string",
-                    "example": "08012345678"
-                  }
-                },
-                "required": [
-                  "phoneNumber"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-            "200": {
-                "description": "OTP sent to phone number"
-            }
-        }
-
-      }
-    },
-    "/api/auth/phoneNumber-exists": {
-      "post": {
-        "tags": ["Auth-Phone"],
-
+        "tags": [
+          "Auth-Phone"
+        ],
         "summary": "Check if a phone number exists",
         "requestBody": {
           "required": true,
@@ -279,15 +258,15 @@
         "responses": {
           "200": {
             "description": "Phone number exists"
-
           }
         }
       }
     },
     "/api/auth/logout": {
       "get": {
-        "tags": ["Auth-flow"],
-
+        "tags": [
+          "Auth-flow"
+        ],
         "summary": "Log out a user",
         "responses": {
           "200": {
@@ -298,7 +277,9 @@
     },
     "/api/auth/ping": {
       "get": {
-        "tags": ["Auth-flow"],
+        "tags": [
+          "Auth-flow"
+        ],
         "summary": "Ping to verify token validity",
         "responses": {
           "200": {
@@ -310,7 +291,9 @@
     "/api/user/update-user": {
       "put": {
         "summary": "Update User Details",
-        "tags": ["User-Routes"],
+        "tags": [
+          "User-Routes"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -331,9 +314,9 @@
           }
         },
         "responses": {
-            "200": {
-                "description": "User details updated"
-            }
+          "200": {
+            "description": "User details updated"
+          }
         }
       }
     }
