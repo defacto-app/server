@@ -1,9 +1,13 @@
-import path from "path";
 interface FilePaths {
    [key: string]: string;
 }
 
-const baseStorage = path.join(__dirname, "../storage");
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const baseStorage = path.join(__dirname, '../storage');
 
 export const $file: FilePaths = {
    storage: baseStorage,

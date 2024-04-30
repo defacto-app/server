@@ -7,6 +7,10 @@ import listEndpoints from "express-list-endpoints";
 import path from "path";
 import fs from "fs";
 
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 //  routes
 import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
 import AuthRoutes from "./backend/routes/auth.routes";
@@ -21,6 +25,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "./storage/json/swagger.json";
 
 const app = express();
+
 
 app.use(cors());
 
@@ -67,6 +72,8 @@ emailEvents();
 app.use("/api/auth", AuthRoutes);
 app.use("/api/user", UserRoutes);
 app.use("/api/admin/dashboard", DashboardRoutes);
+
+
 
 app.use("/uploads", express.static(path.join(__dirname, "storage/uploads")));
 

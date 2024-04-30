@@ -7,7 +7,7 @@
     "dev": "bun --watch app.ts",
     "debug": "tsx watch app.ts",
     "ts-watch": "npx tsc --watch",
-    "build": "npx tsx build",
+    "build": "tsc",
     "lint": "eslint . --ext .ts,",
     "copyusers": "tsx --watch backend/jobs/seeders/copyusers.ts",
     "prettify": "npx prettier . --write",
