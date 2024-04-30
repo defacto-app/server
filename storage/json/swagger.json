@@ -205,9 +205,9 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "phoneNumber": {
+                  "email": {
                     "type": "string",
-                    "example": "08063145125"
+                    "example": "kats.com.ng@gmail.com"
                   },
                   "password": {
                     "type": "string",
@@ -215,7 +215,7 @@
                   }
                 },
                 "required": [
-                  "phoneNumber",
+                  "email",
                   "password"
                 ]
               }

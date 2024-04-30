@@ -151,6 +151,7 @@ export default {
          }
 
 
+         console.log("Parsed Number", parsedNumber);
          return {
             data: {
                phoneNumber: parsedNumber.number, // or parsedNumber.formatInternational() for a formatted number

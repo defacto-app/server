@@ -15,7 +15,7 @@ const AuthController = {
          // Validate the input
          const { data, error } = await AuthValidator.phone_register(req.body);
 
-         if (error) {
+         if (error !== null) {
             res.status(400).json({
                message: "Invalid phone number",
                error,
@@ -23,7 +23,6 @@ const AuthController = {
             });
             return;
          }
-
          //  check if user exists
 
          const userExists = await UserModel.findOne({
@@ -48,11 +47,7 @@ const AuthController = {
             },
          });
 
-         // @ts-expect-error
-         const {  error: smsError } = await sendTokenSms(
-            otp,
-            data?.phoneNumber
-         );
+         const { error: smsError } = await sendTokenSms(otp, data?.phoneNumber);
 
          if (smsError) {
             res.status(500).json({
@@ -121,6 +116,9 @@ const AuthController = {
 
          res.status(201).json({
             message: "User created",
+            success: true,
+            data: newUser,
+            timestamp: new Date(),
          });
       } catch (e) {
          res.status(500).json({
@@ -140,25 +138,25 @@ const AuthController = {
             return;
          }
 
-         // find user by phone number
-
-         const userExists = await UserModel.findOne({
+         const user = await UserModel.findOne({
             phoneNumber: data?.phoneNumber,
-            "phone_management.otp": data?.otp,
          });
 
-         if (!userExists) {
+         if (!user) {
             res.status(404).json({ message: "User not found" });
+            return;
+         }
+
+         if (user.phone_management.otp !== data?.otp) {
+            res.status(400).json({ message: "Invalid OTP" });
             return;
          }
 
          // Check if OTP is still valid
          const currentTime = new Date();
-         const otpExpiryTime = new Date(
-            userExists.phone_management.otp_expires_at
-         );
+         const otpExpiryTime = new Date(user.phone_management.otp_expires_at);
 
-         console.log("currentTime", currentTime, otpExpiryTime, userExists);
+         console.log("currentTime", currentTime, otpExpiryTime, user);
 
          if (currentTime > otpExpiryTime) {
             res.status(400).json({ message: "OTP has expired" });
@@ -166,12 +164,12 @@ const AuthController = {
          }
 
          // Generate token for the session
-         const token = generateToken(userExists);
+         const token = generateToken(user);
 
          // Send response
          res.status(200).json({
             message: "User logged in successfully",
-            // data: user,
+            data: user,
             token,
          });
       } catch (e: any) {
@@ -199,6 +197,11 @@ const AuthController = {
             return;
          }
 
+         if (!user.password) {
+            res.status(401).json({ message: "Invalid email or password" });
+            return;
+         }
+
          const isMatch = await UserModel.comparePassword(
             req.body.password,
             user!.password
@@ -213,6 +216,7 @@ const AuthController = {
          res.status(200).json({
             message: "User logged in",
             success: true,
+
             token,
          });
       } catch (e) {
@@ -270,8 +274,6 @@ const AuthController = {
          });
       }
    },
-
-
 
    async ping(req: Request, res: Response): Promise<void> {
       const user = res.locals.user;

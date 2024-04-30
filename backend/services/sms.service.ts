@@ -1,11 +1,7 @@
 import axios from "axios";
 import env from "../../config/env";
 
-interface SmsResponse {
-   pinId: string;
-   to: string;
-   smsStatus: string;
-}
+
 
 export async function sendTokenSms(otp: any, phoneNumber: any) {
    const url = "https://api.ng.termii.com/api/sms/otp/send";
@@ -26,6 +22,7 @@ export async function sendTokenSms(otp: any, phoneNumber: any) {
 
    try {
       const { data } = await axios.post(url, payload);
+
       return {
          data: data,
          error: null,
@@ -35,7 +32,6 @@ export async function sendTokenSms(otp: any, phoneNumber: any) {
          const message = error.response?.data.message;
          console.log(message); // or handle the message however you need
 
-         console.error("Error sending SMS", message);
 
          return {
             data: null,
