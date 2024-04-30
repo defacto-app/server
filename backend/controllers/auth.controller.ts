@@ -156,7 +156,6 @@ const AuthController = {
          const currentTime = new Date();
          const otpExpiryTime = new Date(user.phone_management.otp_expires_at);
 
-         console.log("currentTime", currentTime, otpExpiryTime, user);
 
          if (currentTime > otpExpiryTime) {
             res.status(400).json({ message: "OTP has expired" });
