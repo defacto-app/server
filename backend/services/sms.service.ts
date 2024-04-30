@@ -1,33 +1,46 @@
-import fetch from "nodemailer/lib/fetch";
 import axios from "axios";
-import { generateOTP } from "../utils/utils";
 import env from "../../config/env";
 
-const OTP = generateOTP(5);
+interface SmsResponse {
+   pinId: string;
+   to: string;
+   smsStatus: string;
+}
 
-
-
-
-export async function sendSms(otp:any, phoneNumber:any) {
+export async function sendTokenSms(otp: any, phoneNumber: any) {
    const url = "https://api.ng.termii.com/api/sms/otp/send";
 
    const payload = {
       api_key: env.TERMIAPIKEY,
       message_type: "NUMERIC",
-      to: `2348063145125`,
+      to: phoneNumber,
       from: "N-Alert",
       channel: "dnd",
       pin_attempts: 60,
       pin_time_to_live: 10,
       pin_length: 6,
       pin_placeholder: "< 1234 >",
-      message_text: `Your Defacto authentication code is ${12300}. Expires in 1 hour`,
+      message_text: `Your Defacto authentication code is ${otp}. Expires in 10 Minutes`,
       pin_type: "NUMERIC",
    };
 
+   try {
+      const { data } = await axios.post(url, payload);
+      return {
+         data: data,
+         error: null,
+      };
+   } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+         const message = error.response?.data.message;
+         console.log(message); // or handle the message however you need
 
-   const { data } = await axios.post(url, payload);
+         console.error("Error sending SMS", message);
 
-   return data;
-
+         return {
+            data: null,
+            error: message,
+         };
+      }
+   }
 }

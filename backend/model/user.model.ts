@@ -2,11 +2,10 @@ import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import { nanoid } from "nanoid";
 
-interface UserDataType extends Document {
+export interface UserDataType extends Document {
    instance_id: string;
    id: string;
    role: string;
-   encrypted_password: string;
    is_super_admin: null;
    banned_until: null;
    timestamps: {
@@ -18,7 +17,7 @@ interface UserDataType extends Document {
       confirmed_at: null;
       deleted_at: null;
    };
-   password: string;
+   password?: string;
    email: string;
    email_management: {
       email: string;
@@ -38,17 +37,14 @@ interface UserDataType extends Document {
       reauthentication_sent_at: null;
    };
 
-   phone:{
-      extension: string;
-      phone: string;
-      country_code: string;
-   }
+   phoneNumber:string;
    phone_management: {
-      phone: null;
-      phone_confirmed_at: null;
-      phone_change: string;
-      phone_change_token: string;
-      phone_change_sent_at: null;
+      otp: string;
+      otp_expires_at: string;
+      phone_confirmed_at?: null;
+      phone_change?: string;
+      phone_change_token?: string;
+      phone_change_sent_at?: null;
    };
 }
 
@@ -68,16 +64,22 @@ const userSchemaDefinitions = {
       default: "user",
       enum: ["user", "admin"],
    },
+   phoneNumber: {
+      type: String,
+      required: false,
+      minLength: 6,
+      maxLength: 15,
+   },
 
    email: {
       type: String,
-      required: true,
+      required: false,
       minLength: 1,
       maxLength: 255,
    },
    password: {
       type: String,
-      required: true,
+      required: false,
       minLength: 1,
       maxLength: 255,
    },

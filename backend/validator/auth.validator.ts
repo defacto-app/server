@@ -122,8 +122,8 @@ export default {
             phoneNumber: z.string().nonempty({
                message: "Phone number is required.",
             }),
-            password: z.string().min(6, {
-               message: "Password must be at least 6 characters long.",
+            otp: z.string().min(5, {
+               message: "OTP must be at least 5 characters long.",
             }),
          });
          // Validate the initial schema
@@ -150,13 +150,11 @@ export default {
             };
          }
 
-         // Here, you would include your login logic, e.g., checking the password against stored credentials
-         // Assuming a successful login:
+
          return {
             data: {
-               message: "Login successful",
                phoneNumber: parsedNumber.number, // or parsedNumber.formatInternational() for a formatted number
-               country: parsedNumber.country,
+               otp: result.data.otp,
             },
             error: null,
          };

@@ -50,14 +50,14 @@
                     "type": "string",
                     "example": "08063145125"
                   },
-                  "password": {
+                  "otp": {
                     "type": "string",
-                    "example": "123456"
+                    "example": "067741"
                   }
                 },
                 "required": [
                   "phoneNumber",
-                  "password"
+                  "otp"
                 ]
               }
             }

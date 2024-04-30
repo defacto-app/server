@@ -39,29 +39,7 @@ export interface SupabaseUserType {
    is_anonymous: boolean;
 }
 
-export interface UserDataType {
-   id: string;
-   aud: string;
-   role: string;
-   password: string;
-   "email": {
-      "email": "",
-      "email_confirmed_at": null,
-      "confirmation_sent_at": "",
-      "email_change": "",
-      "email_change_sent_at": null,
-      "confirmed_at": null,
-      "email_change_token_current": "",
-      "email_change_confirm_status": 0
-   },
-   "phone": {
-      "phone": null,
-      "phone_confirmed_at": null,
-      "phone_change": "",
-      "phone_change_token": "",
-      "phone_change_sent_at": null
-   }
-}
+
 
 export interface RawAppMetaData {
    provider: string;
