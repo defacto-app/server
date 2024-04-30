@@ -1,7 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { RawAppMetaData, RawUserMetaData } from "../../types";
+import bcrypt from "bcrypt";
+import { nanoid } from "nanoid";
 
-interface SupabaseUserType extends Document {
+interface UserDataType extends Document {
    instance_id: string;
    id: string;
    role: string;
@@ -17,7 +18,9 @@ interface SupabaseUserType extends Document {
       confirmed_at: null;
       deleted_at: null;
    };
-   email: {
+   password: string;
+   email: string;
+   email_management: {
       email: string;
       email_change: string;
       email_change_token_new: string;
@@ -35,7 +38,12 @@ interface SupabaseUserType extends Document {
       reauthentication_sent_at: null;
    };
 
-   phone: {
+   phone:{
+      extension: string;
+      phone: string;
+      country_code: string;
+   }
+   phone_management: {
       phone: null;
       phone_confirmed_at: null;
       phone_change: string;
@@ -44,7 +52,39 @@ interface SupabaseUserType extends Document {
    };
 }
 
-const userSchemaDefinitions = {};
+const userSchemaDefinitions = {
+   publicId: {
+      type: String,
+      required: true,
+      default: () => nanoid(16),
+      unique: true,
+      minLength: 1,
+      maxLength: 255,
+   },
+
+   role: {
+      type: String,
+      required: true,
+      default: "user",
+      enum: ["user", "admin"],
+   },
+
+   email: {
+      type: String,
+      required: true,
+      minLength: 1,
+      maxLength: 255,
+   },
+   password: {
+      type: String,
+      required: true,
+      minLength: 1,
+      maxLength: 255,
+   },
+   lastSeenAt: {
+      type: Date,
+   },
+};
 
 export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
    timestamps: true,
@@ -52,6 +92,18 @@ export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
    strict: false,
 });
 
-class UserModel extends mongoose.model<SupabaseUserType>("user", UserSchema) {}
 
+class UserModel extends mongoose.model<UserDataType>("user", UserSchema) {
+   static async comparePassword(
+      password: string,
+      userPassword: string,
+   ): Promise<boolean> {
+      return new Promise((resolve, reject) => {
+         bcrypt.compare(password, userPassword, (err: any, isMatch: any) => {
+            if (err) reject(err);
+            else resolve(isMatch);
+         });
+      });
+   }
+}
 export default UserModel;

@@ -5,107 +5,12 @@ import UserModel from "../model/user.model";
 import { generateOTP } from "../utils/utils";
 import { sendSms } from "../services/sms.service";
 import AuthValidator from "../validator/auth.validator";
+import bcrypt from "bcrypt";
+import { UserDataType } from "../../types";
+import { generateToken } from "../services/jwt.service";
 
 const AuthController = {
-   async login(
-      req: Request,
-      res: Response
-   ): Promise<e.Response<any, Record<string, any>>> {
-      try {
-         const { email, password } = req.body;
 
-         const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-         });
-
-         if (error) {
-            return res.status(400).json({
-               message: "Failed to login",
-               error: error.message,
-            });
-         }
-
-         return res.status(200).json({
-            message: "User logged in",
-            data: data,
-         });
-      } catch (e: any) {
-         return res.status(500).json({
-            message: "An unexpected error occurred",
-            error: e.message,
-         });
-      }
-   },
-
-   /*   async register(req: Request, res: Response): Promise<void> {
-         // check if user exists
-   
-         try {
-   
-            const { email, password } = req.body;
-   
-   
-            const { data, error } = await supabase.auth.signUp({
-               email,
-               password,
-            });
-   
-   
-   
-            if (error) {
-               res.status(400).json({
-                  message: "Failed to register",
-                  error: error.message,
-               });
-            }
-   
-            res.status(201).json({
-               message: "User created",
-               data,
-            });
-   
-            /!*      // check if user exists
-   
-                  const { data, error } = await supabase.auth.signUp({
-                     email,
-                     password,
-                  });
-   
-                  if (error) {
-                     res.status(400).json({
-                        message: "Failed to register",
-                        error: error.message,
-                     });
-                  }
-   
-         *!/
-   
-            /!*   const newUser = new UserModel({
-                  ...data
-               });
-      *!/
-   
-            /!*         await newUser.save();*!/
-   
-   
-            res.status(201).json({
-               message: "User created",
-               email, password,
-            });
-   
-   
-            // save to mongo db database
-   
-   
-            // console.log("newUser", newUser);
-   
-         } catch (e) {
-            res.status(500).json({
-               error: e,
-            });
-         }
-      },*/
 
    async phone_register(req: Request, res: Response): Promise<void> {
       // check if user exists
@@ -122,6 +27,8 @@ const AuthController = {
                success: false,
             });
          }
+
+         //
 
          res.status(201).json({
             message: "User created",
@@ -140,16 +47,40 @@ const AuthController = {
       // check if user exists
 
       try {
-         console.log("req.body", req.body);
 
          const { data, error } = await AuthValidator.email_register(req.body);
 
+         const user = await UserModel.findOne<UserDataType>({
+            email: req.body.email,
+         });
+
+         if (user) {
+            res.status(400).json({
+               message: "User already exists",
+               success: false,
+            });
+
+            return
+         }
          if (error) {
             res.status(400).json({
                message: "Failed to register",
                error: error,
             });
          }
+
+         // Hash the password before saving
+         const saltRounds = 10;
+         const hashedPassword = await bcrypt.hash(data!.password, saltRounds);
+
+
+
+         const newUser = new UserModel({
+            email: data!.email,
+            password: hashedPassword, // Save the hashed password
+         });
+
+         await newUser.save();
 
          res.status(201).json({
             message: "User created",
@@ -196,9 +127,27 @@ const AuthController = {
             });
          }
 
+         const user = await UserModel.findOne<UserDataType>({
+            email: data!.email,
+         });
+         if (!user) {
+            res.status(401).json({ message: "Invalid email or password" });
+         }
+
+         const isMatch = await UserModel.comparePassword(
+            req.body.password,
+            user!.password,
+         );
+         if (!isMatch) {
+            res.status(401).json({ message: "Invalid email or password" });
+         }
+
+         const token = generateToken(user!);
+
          res.status(200).json({
             message: "User logged in",
             success: true,
+            token,
          });
       } catch (e) {
          res.status(500).json({
