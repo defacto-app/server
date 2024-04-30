@@ -65,7 +65,7 @@ app.get("/", (req, res) => {
       }
 
       // Replace ${BASE_URL} with the actual base URL
-      html = html.replace('${BASE_URL}', env.BASE_URL);
+      html = html.replace(`${env.BASE_URL}`, env.BASE_URL);
 
       // Send the modified HTML file
       res.send(html);
