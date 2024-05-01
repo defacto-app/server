@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 import { connectDB } from "../../../config/mongodb";
-import UserAuthModel from "../../model/userAuth.model";
+import AuthModel from "../../model/auth.model";
 import { supabase } from "../../../config/supabase.config";
 
 async function run() {
    try {
       await connectDB();
 
-      await UserAuthModel.deleteMany();
+      await AuthModel.deleteMany();
 
       const { data , error } = await supabase.auth.admin.listUsers()
 
@@ -20,7 +20,7 @@ async function run() {
       const users = data.users || [];
 
       for (const user of users) {
-         const newUser = new UserAuthModel(user);
+         const newUser = new AuthModel(user);
          await newUser.save();
       }
 

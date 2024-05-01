@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 
-export interface UserAuthDataType extends Document {
+export interface AuthDataType extends Document {
    instance_id: string;
    role: string;
    is_super_admin: null;
@@ -103,13 +103,13 @@ const authSchemaDefinitions = {
    },
 };
 
-export const UserSchema: Schema = new Schema(authSchemaDefinitions, {
+export const AuthSchema: Schema = new Schema(authSchemaDefinitions, {
    timestamps: true,
    versionKey: false,
    strict: false,
 });
 
-class UserAuthModel extends mongoose.model<UserAuthDataType>("user-auth", UserSchema) {
+class AuthModel extends mongoose.model<AuthDataType>("auth", AuthSchema) {
    static async comparePassword(
       password: string,
       userPassword: string
@@ -132,4 +132,4 @@ class UserAuthModel extends mongoose.model<UserAuthDataType>("user-auth", UserSc
    }
 }
 
-export default UserAuthModel;
+export default AuthModel;
