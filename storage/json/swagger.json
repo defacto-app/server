@@ -638,14 +638,33 @@
           }
         }
       },
-      "delete": {
+      "delete":  {
         "summary": "Delete a package",
         "tags": [
           "packages-routes"
         ],
+        "parameters": [
+          {
+            "name": "packageId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the package to retrieve",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Package deleted successfully"
+            "description": "Package deleted successfully",
+
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Package"
+                }
+              }
+            }
           }
         }
       }

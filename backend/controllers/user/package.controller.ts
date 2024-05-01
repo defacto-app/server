@@ -92,7 +92,7 @@ const PackageController = {
 
       try {
          res.json({
-            message: "Package delivery deleted successfully.",
+            message: "Package deleted.",
             success: true,
             timestamp: new Date(),
          });
