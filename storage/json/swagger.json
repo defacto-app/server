@@ -38,7 +38,7 @@
     "/api/auth/admin-login": {
       "post": {
         "tags": [
-          "Admin-Auth"
+          "admin-auth"
         ],
         "summary": "Admin login",
         "requestBody": {
@@ -76,7 +76,7 @@
     "/api/admin/dashboard": {
       "get": {
         "tags": [
-          "Admin-Resources"
+          "admin-resources"
         ],
         "summary": "Admin dashboard",
         "responses": {
@@ -89,7 +89,7 @@
     "/api/auth/phone-login": {
       "post": {
         "tags": [
-          "Auth-Phone"
+          "auth-phone"
         ],
         "summary": "phone number  login",
         "requestBody": {
@@ -283,7 +283,7 @@
     "/api/auth/phone-register": {
       "post": {
         "tags": [
-          "Auth-Phone"
+          "auth-phone"
         ],
         "summary": "User registration",
         "requestBody": {
@@ -321,7 +321,7 @@
     "/api/auth/phone-number-exist": {
       "post": {
         "tags": [
-          "Auth-Phone"
+          "auth-phone"
         ],
         "summary": "Check if a phone number exists",
         "requestBody": {
@@ -353,7 +353,7 @@
     "/api/auth/verify-phone-number": {
       "post": {
         "tags": [
-          "Auth-Phone"
+          "auth-phone"
         ],
         "summary": "Send Otp To Phone Number to verify",
         "requestBody": {
@@ -411,7 +411,7 @@
     "/api/auth/admin-ping": {
       "get": {
         "tags": [
-          "Admin-flow"
+          "admin-auth"
         ],
         "summary": "Ping to verify admin  token validity",
         "responses": {
