@@ -497,7 +497,6 @@ const AuthController = {
    async ping(req: Request, res: Response): Promise<void> {
       const user = res.locals.user;
 
-      console.log(user);
 
       try {
          res.status(200).json({

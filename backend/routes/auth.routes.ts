@@ -24,4 +24,6 @@ router.post("/admin-login", AuthController.admin_login);
 router.get("/logout", AuthController.logout);
 router.get("/ping", authMiddleware.validateUser, AuthController.ping);
 
+router.get("/admin-ping", authMiddleware.validateAdmin, AuthController.ping);
+
 export default router;

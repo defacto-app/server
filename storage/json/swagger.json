@@ -408,6 +408,19 @@
         }
       }
     },
+    "/api/auth/admin-ping": {
+      "get": {
+        "tags": [
+          "Admin-flow"
+        ],
+        "summary": "Ping to verify admin  token validity",
+        "responses": {
+          "200": {
+            "description": "Ping successful"
+          }
+        }
+      }
+    },
     "/api/user/update-user": {
       "put": {
         "summary": "Update User Details",
