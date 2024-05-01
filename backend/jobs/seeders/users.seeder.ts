@@ -54,7 +54,6 @@ async function seedTeams() {
       await AuthModel.deleteMany();
       await UserModel.deleteMany();
 
-      const numberOfUsers = 10 + specialUsers.length; // Number of users to generate
 
 
 
