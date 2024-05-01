@@ -1,10 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcrypt";
-import { nanoid } from "nanoid";
-
+import { v4 as uuidv4 } from 'uuid';
 export interface UserDataType extends Document {
    instance_id: string;
-   id: string;
    role: string;
    is_super_admin: null;
    banned_until: null;
@@ -38,7 +36,7 @@ export interface UserDataType extends Document {
    phone_management: {
       otp: string;
       otp_expires_at: Date;
-      otp_sent_at: Date;
+      otp_sent_at?: Date | null;
       verified?: boolean;
       phone_confirmed_at?: null;
       phone_change?: string;
@@ -48,14 +46,14 @@ export interface UserDataType extends Document {
 }
 
 const userSchemaDefinitions = {
-      publicId: {
-         type: String,
-         required: true,
-         default: () => nanoid(16),
-         unique: true,
-         minLength: 1,
-         maxLength: 255,
-      },
+   publicId: {
+      type: String,
+      required: true,
+      default: uuidv4,
+      unique: true,
+      minLength: 1,
+      maxLength: 255,
+   },
 
       role: {
          type: String,
