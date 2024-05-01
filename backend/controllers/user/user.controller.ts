@@ -37,9 +37,7 @@ const UserController = {
          // Handle possible errors
          res.status(500).send("Error updating user: " + error.message);
       }
-      // update user
 
-      // return updated user
    },
 };
 

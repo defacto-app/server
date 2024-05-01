@@ -57,6 +57,8 @@ const AuthController = {
             lastSeenAt: new Date(),
          });
 
+         await newUser.save();
+
 
          const { error: smsError } = await sendTokenSms(otp, data!.phoneNumber);
 
