@@ -35,7 +35,7 @@
     }
   },
   "paths": {
-    "/api/auth/admin-login": {
+    "/api/v1/auth/admin-login": {
       "post": {
         "tags": [
           "admin-auth"
@@ -73,7 +73,7 @@
         }
       }
     },
-    "/api/admin/dashboard": {
+    "/api/v1/admin/dashboard": {
       "get": {
         "tags": [
           "admin-resources"
@@ -86,7 +86,7 @@
         }
       }
     },
-    "/api/auth/phone-login": {
+    "/api/v1/auth/phone-login": {
       "post": {
         "tags": [
           "auth-phone"
@@ -124,10 +124,10 @@
         }
       }
     },
-    "/api/auth/email-login": {
+    "/api/v1/auth/email-login": {
       "post": {
         "tags": [
-          "Auth-Email"
+          "auth-email"
         ],
         "summary": "User Email login",
         "requestBody": {
@@ -161,10 +161,10 @@
         }
       }
     },
-    "/api/auth/email-exists": {
+    "/api/v1/auth/email-exists": {
       "post": {
         "tags": [
-          "Auth-Email"
+          "auth-email"
         ],
         "summary": "Check if a user exists",
         "requestBody": {
@@ -206,10 +206,10 @@
         }
       }
     },
-    "/api/auth/email-register": {
+    "/api/v1/auth/email-register": {
       "post": {
         "tags": [
-          "Auth-Email"
+          "auth-email"
         ],
         "summary": "User registration",
         "requestBody": {
@@ -243,10 +243,10 @@
         }
       }
     },
-    "/api/auth/email-confirm": {
+    "/api/v1/auth/email-confirm": {
       "post": {
         "tags": [
-          "Auth-Email"
+          "auth-email"
         ],
         "summary": "User registration",
         "requestBody": {
@@ -280,7 +280,7 @@
         }
       }
     },
-    "/api/auth/phone-register": {
+    "/api/v1/auth/phone-register": {
       "post": {
         "tags": [
           "auth-phone"
@@ -318,7 +318,80 @@
         }
       }
     },
-    "/api/auth/phone-number-exist": {
+    "/api/v1/auth/forgot-password": {
+      "post": {
+        "tags": [
+          "auth-email"
+        ],
+        "summary": "This endpoint allows a user to request a one-time password (OTP) sent to their email to initiate the password reset process.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "08063145125"
+                  },
+                  "otp": {
+                    "type": "string",
+                    "example": "123456"
+                  }
+                },
+                "required": [
+                  "phoneNumber",
+                  "otp"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registration successful",
+            "token": "Bearer token"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/reset-password": {
+      "post": {
+        "tags": [
+          "auth-email"
+        ],
+        "summary": "This endpoint allows a user to request a one-time password (OTP) sent to their email to initiate the password reset process.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "kats.com.g@gmail.com"
+                  }
+                },
+                "required": [
+                  "email"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registration successful"
+          },
+          "400": {
+            "description": "Invalid email"
+          }
+        }
+      }
+    },
+    "/api/v1/auth/phone-number-exist": {
       "post": {
         "tags": [
           "auth-phone"
@@ -350,7 +423,7 @@
         }
       }
     },
-    "/api/auth/verify-phone-number": {
+    "/api/v1/auth/verify-phone-number": {
       "post": {
         "tags": [
           "auth-phone"
@@ -382,10 +455,10 @@
         }
       }
     },
-    "/api/auth/logout": {
+    "/api/v1/auth/logout": {
       "get": {
         "tags": [
-          "Auth-flow"
+          "user-routes"
         ],
         "summary": "Log out a user",
         "responses": {
@@ -395,10 +468,10 @@
         }
       }
     },
-    "/api/auth/ping": {
+    "/api/v1/auth/ping": {
       "get": {
         "tags": [
-          "Auth-flow"
+          "auth-routes"
         ],
         "summary": "Ping to verify token validity",
         "responses": {
@@ -408,7 +481,7 @@
         }
       }
     },
-    "/api/auth/admin-ping": {
+    "/api/v1/auth/admin-ping": {
       "get": {
         "tags": [
           "admin-auth"
@@ -421,11 +494,11 @@
         }
       }
     },
-    "/api/user/update-user": {
+    "/api/v1/user/update-user": {
       "put": {
         "summary": "Update User Details",
         "tags": [
-          "User-Routes"
+          "user-routes"
         ],
         "requestBody": {
           "required": true,
@@ -437,6 +510,10 @@
                   "email": {
                     "type": "string",
                     "example": "kats.com.ng@gmail.com"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "example": "Katalyst Technologies Dev"
                   }
                 },
                 "required": [
@@ -449,6 +526,126 @@
         "responses": {
           "200": {
             "description": "User details updated"
+          }
+        }
+      }
+    },
+    "/api/v1/packages/create": {
+      "post": {
+        "summary": "Create a new package",
+        "tags": [
+          "packages-routes"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "kats.com.ng@gmail.com"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "example": "Katalyst Technologies Dev"
+                  }
+                },
+                "required": [
+                  "email"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User details updated"
+          }
+        }
+      }
+    },
+    "/api/v1/packages/all": {
+      "get": {
+        "summary": "Get all packages",
+        "tags": [
+          "packages-routes"
+        ],
+        "responses": {
+          "200": {
+            "description": "All packages"
+          }
+        }
+      }
+    },
+    "/api/v1/packages/{packageId}": {
+      "get": {
+        "summary": "Get one package",
+        "tags": [
+          "packages-routes"
+        ],
+        "parameters": [
+          {
+            "name": "packageId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the package to retrieve",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of a specific package",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Package"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put":  {
+        "summary": "Update a package",
+        "tags": [
+          "packages-routes"
+        ],
+        "parameters": [
+          {
+            "name": "packageId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the package to retrieve",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of a specific package",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Package"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a package",
+        "tags": [
+          "packages-routes"
+        ],
+        "responses": {
+          "200": {
+            "description": "Package deleted successfully"
           }
         }
       }

@@ -58,3 +58,44 @@ export interface authBodyType {
    password: string;
    phoneNumber?: string;
 }
+
+
+export interface SuccessResponseType {
+   message: string;
+   success: boolean;
+   timestamp: Date;
+}
+
+export interface ErrorResponseType {
+   message: string;
+   success: boolean;
+   timestamp: Date;
+}
+
+export interface dropOffDetailsType {
+   name: string;
+   phone: string;
+   email: string;
+   address: AddressType;
+
+}
+export interface pickupDetailsType {
+   name: string;
+   phone: string;
+   email: string;
+   address: AddressType;
+
+}
+
+export interface AddressType {
+
+      address: {
+         street: string,
+         city: string,
+         state: string,
+         zip: string,
+         lat: number,
+         lng: number,
+      }
+}
+

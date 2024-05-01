@@ -15,6 +15,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
 import AuthRoutes from "./backend/routes/auth.routes";
 import UserRoutes from "./backend/routes/user/user.routes";
+import PackageRoutes from "./backend/routes/user/package.routes";
 import { connectDB } from "./config/mongodb";
 
 import { emailEvents } from "./config/eventEmitter";
@@ -82,9 +83,10 @@ app.get("/", (req, res) => {
 emailEvents();
 
 // app.use("/api", PublicRoutes);
-app.use("/api/auth", AuthRoutes);
-app.use("/api/user", UserRoutes);
-app.use("/api/admin/dashboard", DashboardRoutes);
+app.use("/api/v1/packages", PackageRoutes);
+app.use("/api/v1/auth", AuthRoutes);
+app.use("/api/v1/user", UserRoutes);
+app.use("/api/v1/admin/dashboard", DashboardRoutes);
 
 
 
