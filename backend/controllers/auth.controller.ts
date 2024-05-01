@@ -105,11 +105,7 @@ const AuthController = {
             });
          }
 
-     const hashedPassword =    await UserModel.hashPassword(
-            data!.password,
-         );
-
-
+         const hashedPassword = await UserModel.hashPassword(data!.password);
 
          const otp = generateOTP();
 
@@ -248,7 +244,6 @@ const AuthController = {
 
          if (error) {
             res.status(400).json({
-               message: "Invalid phone number",
                error,
             });
             return;
@@ -257,6 +252,38 @@ const AuthController = {
          /// send otp
 
          const otp = generateOTP();
+
+         const user = await UserModel.findOne({
+            phoneNumber: data?.phoneNumber,
+         });
+
+         if (!user) {
+            // create user in db and save otp
+
+            const newUser = new UserModel({
+               phoneNumber: data?.phoneNumber,
+               phone_management: {
+                  otp: otp,
+                  otp_sent_at: new Date(),
+                  otp_expires_at: moment().add(10, "minutes").toDate(),
+               },
+            });
+
+            await newUser.save();
+
+            res.status(200).json({
+               message: "OTP sent successfully. Please verify.",
+               userExists: false,
+            });
+         }
+
+         if (user) {
+            res.status(200).json({
+               message: "OTP sent successfully. Please verify.",
+
+               userExists: true,
+            });
+         }
 
          const { error: smsError } = await sendTokenSms(otp, data!.phoneNumber);
 
@@ -268,31 +295,7 @@ const AuthController = {
             return;
          }
 
-         // save otp in db
-
-         const user = await UserModel.findOne({
-            phoneNumber: data?.phoneNumber,
-         });
-
-         if (!user) {
-            res.status(404).json({
-               message: "User not found",
-            });
-            return;
-         }
-
-         user.phone_management.otp = otp;
-         user.phone_management.otp_sent_at = new Date();
-
-         user.phone_management.otp_expires_at = moment()
-            .add(10, "minutes")
-            .toDate();
-
-         await user.save();
-
-         res.status(200).json({
-            message: "OTP sent successfully. Please verify.",
-         });
+         return;
       } catch (e: any) {
          res.status(500).json({
             message: "An unexpected error occurred",
@@ -355,7 +358,9 @@ const AuthController = {
                {
                   "email_management.otp": otp,
                   "email_management.otp_sent_at": new Date(),
-                  "email_management.otp_expires_at": moment().add(10, "minutes").toDate(),
+                  "email_management.otp_expires_at": moment()
+                     .add(10, "minutes")
+                     .toDate(),
                },
                { new: true } // option to return the updated document
             );
@@ -399,7 +404,6 @@ const AuthController = {
             "email_management.otp": req.body.otp,
          });
 
-
          if (userExists) {
             await UserModel.findOneAndUpdate(
                { email: data?.email }, // find a document with this filter
@@ -410,7 +414,6 @@ const AuthController = {
                },
                { new: true } // option to return the updated document
             );
-
 
             res.status(200).json({
                exists: true,
@@ -430,7 +433,6 @@ const AuthController = {
          });
       }
    },
-
 
    async admin_login(req: Request, res: Response): Promise<void> {
       try {
@@ -469,14 +471,15 @@ const AuthController = {
 
          const currentTime = new Date();
 
-         const otpExpiryTime = new Date(user.email_management?.otp_expires_at || Date.now());
+         const otpExpiryTime = new Date(
+            user.email_management?.otp_expires_at || Date.now()
+         );
          if (currentTime > otpExpiryTime) {
             res.status(400).json({
                message: "OTP has expired",
             });
             return;
          }
-
 
          const token = generateToken(user);
 
@@ -496,7 +499,6 @@ const AuthController = {
 
    async ping(req: Request, res: Response): Promise<void> {
       const user = res.locals.user;
-
 
       try {
          res.status(200).json({

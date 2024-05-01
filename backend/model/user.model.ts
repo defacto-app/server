@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcrypt";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+
 export interface UserDataType extends Document {
    instance_id: string;
    role: string;
@@ -19,7 +20,7 @@ export interface UserDataType extends Document {
    email: string;
    email_management: {
       otp?: string;
-      otp_expires_at?: null |Date;
+      otp_expires_at?: null | Date;
       otp_sent_at?: null | Date;
       verified?: boolean;
       email_confirmed_at?: null | Date;
@@ -57,35 +58,30 @@ const userSchemaDefinitions = {
       maxLength: 255,
    },
 
-      role: {
-         type: String,
-         required: true,
-         default: "user",
-         enum: ["user", "admin"],
-      },
-      phoneNumber: {
+   role: {
+      type: String,
+      required: true,
+      default: "user",
+      enum: ["user", "admin"],
+   },
+   phoneNumber: {
+      type: String,
+      required: false,
+      minLength: 6,
+      maxLength: 15,
+      unique: true,
+   },
+   phone_management: {
+      otp: {
          type: String,
          required: false,
          minLength: 6,
-         maxLength: 15,
-         unique: true,
+         maxLength: 6,
       },
-
-      phone_management: {
-         otp: {
-            type: String,
-            required: false,
-            minLength: 6,
-            maxLength: 6,
-         },
-         otp_expires_at: {
-            type: Date,
-         },
-
-
-
+      otp_expires_at: {
+         type: Date,
+      },
    },
-
    email: {
       type: String,
       required: false,
@@ -104,8 +100,8 @@ const userSchemaDefinitions = {
    },
    joinedAt: {
       type: Date,
-   }
-   };
+   },
+};
 
 export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
    timestamps: true,
@@ -113,11 +109,10 @@ export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
    strict: false,
 });
 
-
 class UserModel extends mongoose.model<UserDataType>("user", UserSchema) {
    static async comparePassword(
       password: string,
-      userPassword: string,
+      userPassword: string
    ): Promise<boolean> {
       return new Promise((resolve, reject) => {
          bcrypt.compare(password, userPassword, (err: any, isMatch: any) => {

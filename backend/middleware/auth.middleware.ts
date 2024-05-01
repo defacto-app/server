@@ -44,6 +44,7 @@ class AuthMiddleware {
    public async validateAdmin(req: Request, res: Response, next: NextFunction) {
       const authorization = req.headers["authorization"] as string;
 
+      console.log("authorization hehe", authorization);
       if (!authorization) {
          return res.status(401).json({ error: "Authorization token required" });
       }
@@ -113,4 +114,3 @@ class AuthMiddleware {
 export default new AuthMiddleware();
 
 
-// prv_9OYqXaTesl62yFvqJUQ8Eocz6isenfCeh-Z7BonyJLOa_3rAaC40CTXU

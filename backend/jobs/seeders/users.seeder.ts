@@ -20,32 +20,35 @@ async function seedTeams() {
          {
             email: `jaynette101@gmail.com`,
             joinedAt: new Date("2024-04-29"),
-            lastSeenAt:null,
+            lastSeenAt:new Date(),
+
             role: "admin",
          },
      {
             email: `justice.nmegbu@gmail.com`,
         joinedAt: new Date("2024-04-29"),
-            lastSeenAt:null,
-            role: "admin",
+        lastSeenAt:new Date(),
+
+        role: "admin",
          },
 
          {
             email: `isaiahogbodo06@gmail.com`,
             joinedAt: new Date("2024-04-29"),
-            lastSeenAt:null,
+            lastSeenAt:new Date(),
+
             role: "user",
          },
          {
             email: `brianfury733@gmail.com`,
             joinedAt: new Date("2024-04-29"),
-            lastSeenAt:null,
+            lastSeenAt:new Date(),
             role: "admin",
          },
          {
             email: `kats.com.ng@gmail.com`,
             joinedAt: new Date("2024-04-29"),
-            lastSeenAt:null,
+            lastSeenAt:new Date(),
             role: "admin",
          },
       ];
@@ -54,10 +57,7 @@ async function seedTeams() {
 
       for (let i = 0; i < numberOfUsers; i++) {
          // Randomly select an email from the specialUsers array
-         const randomEmailIndex = Math.floor(
-            Math.random() * specialUsers.length
-         );
-         const randomEmail = specialUsers[randomEmailIndex].email;
+
 
          const user = new UserModel({
             email:
@@ -72,12 +72,12 @@ async function seedTeams() {
             password: "123456",
             email_management: {
                verified: i === 0,
-               otp: generateOTP(),
+               otp: "421557",
                otp_expires_at: moment().add(1, "day").toDate(),
             },
             phone_management: {
                verified: i === 0,
-               otp: "794272",
+               otp: "421557",
                otp_sent_at: moment().toDate(),
                otp_expires_at: moment().add(1, "day").toDate(),
             },
