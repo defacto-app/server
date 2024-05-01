@@ -5,6 +5,7 @@ import moment from "moment";
 
 import Chance from "chance";
 import UserModel from "../../model/user.model";
+import $logger from "../../../config/logger";
 
 const chance = new Chance();
 
@@ -103,6 +104,13 @@ async function seedTeams() {
       await mongoose.disconnect();
       console.log("Database connection closed.");
       console.timeEnd("Seeding time");
+
+      // log duration
+
+      $logger.info({
+         message: "Seeding completed",
+         duration: "Seeding time",
+      });
    }
 }
 
