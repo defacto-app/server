@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
-import { UserDataType } from "../model/user.model";
+import { UserAuthDataType } from "../model/userAuth.model";
 import env from "../../config/env";
 import { isDev } from "../../config/config";
 
-export function generateToken(user: UserDataType): string {
+export function generateToken(user: UserAuthDataType): string {
    return jwt.sign({ id: user.id }, env.JWT_SECRET, {
       expiresIn: isDev ? "1h" : "5h",
    });

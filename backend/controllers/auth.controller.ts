@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 
 import { supabase } from "../../config/supabase.config";
-import UserModel, { UserDataType } from "../model/user.model";
+import UserAuthModel, { UserAuthDataType } from "../model/userAuth.model";
 import AuthValidator from "../validator/auth.validator";
-import bcrypt from "bcrypt";
 import { generateToken } from "../services/jwt.service";
 import moment from "moment";
 import { generateOTP } from "../utils/utils";
 import { sendTokenSms } from "../services/sms.service";
 import EmailEvent from "../events/email.event";
+import UserModel from "../model/user.model";
 
 const AuthController = {
    async phone_register(req: Request, res: Response): Promise<void> {
@@ -26,7 +26,7 @@ const AuthController = {
          }
          //  check if user exists
 
-         const userExists = await UserModel.findOne({
+         const userExists = await UserAuthModel.findOne({
             phoneNumber: data?.phoneNumber,
          });
 
@@ -40,7 +40,7 @@ const AuthController = {
 
          const otp = generateOTP();
 
-         const newUser = new UserModel({
+         const newUserAuth = new UserAuthModel({
             phoneNumber: data?.phoneNumber,
             phone_management: {
                otp: otp,
@@ -48,6 +48,15 @@ const AuthController = {
                otp_expires_at: moment().add(10, "minutes").toDate(),
             },
          });
+
+         // create user in db and save otp
+
+         const newUser = new UserModel({
+            phoneNumber: data?.phoneNumber,
+            joinedAt: new Date(),
+            lastSeenAt: new Date(),
+         });
+
 
          const { error: smsError } = await sendTokenSms(otp, data!.phoneNumber);
 
@@ -62,7 +71,7 @@ const AuthController = {
 
          // create user in db and save otp
 
-         await newUser.save();
+         await newUserAuth.save();
 
          res.status(200).json({
             message: "OTP sent successfully. Please verify.",
@@ -86,7 +95,7 @@ const AuthController = {
       try {
          const { data, error } = await AuthValidator.email_register(req.body);
 
-         const user = await UserModel.findOne<UserDataType>({
+         const user = await UserAuthModel.findOne<UserAuthDataType>({
             email: req.body.email,
          });
 
@@ -105,11 +114,11 @@ const AuthController = {
             });
          }
 
-         const hashedPassword = await UserModel.hashPassword(data!.password);
+         const hashedPassword = await UserAuthModel.hashPassword(data!.password);
 
          const otp = generateOTP();
 
-         const newUser = new UserModel({
+         const newUser = new UserAuthModel({
             email: data!.email,
             password: hashedPassword, // Save the hashed password
             email_management: {
@@ -149,7 +158,7 @@ const AuthController = {
             return;
          }
 
-         const user = await UserModel.findOne({
+         const user = await UserAuthModel.findOne({
             phoneNumber: data?.phoneNumber,
          });
 
@@ -200,23 +209,24 @@ const AuthController = {
             });
          }
 
-         const user = await UserModel.findOne<UserDataType>({
+         const user = await UserAuthModel.findOne<UserAuthDataType>({
             email: data!.email,
          });
-         if (!user) {
+
+
+         if (!user || !user.password) {
             res.status(401).json({ message: "Invalid email or password" });
             return;
          }
 
-         if (!user.password) {
-            res.status(401).json({ message: "Invalid email or password" });
-            return;
-         }
 
-         const isMatch = await UserModel.comparePassword(
+
+         const isMatch = await UserAuthModel.comparePassword(
             req.body.password,
             user!.password
          );
+
+
 
          if (!isMatch) {
             res.status(401).json({ message: "Invalid email or password" });
@@ -255,14 +265,14 @@ const AuthController = {
 
          const otp = generateOTP();
 
-         const user = await UserModel.findOne({
+         const user = await UserAuthModel.findOne({
             phoneNumber: data?.phoneNumber,
          });
 
          if (!user) {
             // create user in db and save otp
 
-            const newUser = new UserModel({
+            const newUser = new UserAuthModel({
                phoneNumber: data?.phoneNumber,
                phone_management: {
                   otp: otp,
@@ -283,7 +293,7 @@ const AuthController = {
 
             // update user in db and save otp
 
-            await UserModel.findOneAndUpdate(
+            await UserAuthModel.findOneAndUpdate(
                { phoneNumber: data?.phoneNumber }, // find a document with this filter
                {
                   "phone_management.otp": otp,
@@ -332,7 +342,7 @@ const AuthController = {
          }
 
          // check if user exists
-         const userExists = await UserModel.findOne({
+         const userExists = await UserAuthModel.findOne({
             phoneNumber: data?.phoneNumber,
          });
          if (userExists) {
@@ -365,10 +375,10 @@ const AuthController = {
          }
 
          // check if user exists
-         const userExists = await UserModel.findOne({ email: data?.email });
+         const userExists = await UserAuthModel.findOne({ email: data?.email });
          if (userExists) {
             const otp = generateOTP();
-            await UserModel.findOneAndUpdate(
+            await UserAuthModel.findOneAndUpdate(
                { email: data?.email }, // find a document with this filter
                {
                   "email_management.otp": otp,
@@ -414,13 +424,13 @@ const AuthController = {
          }
 
          // check if user exists
-         const userExists = await UserModel.findOne({
+         const userExists = await UserAuthModel.findOne({
             email: data?.email,
             "email_management.otp": req.body.otp,
          });
 
          if (userExists) {
-            await UserModel.findOneAndUpdate(
+            await UserAuthModel.findOneAndUpdate(
                { email: data?.email }, // find a document with this filter
                {
                   "email_management.verified": true, // fields to update
@@ -462,7 +472,7 @@ const AuthController = {
          }
 
          // check if user exists
-         const user = await UserModel.findOne({
+         const user = await UserAuthModel.findOne({
             email: data?.email,
             role: "admin",
             "email_management.otp": data!.otp,

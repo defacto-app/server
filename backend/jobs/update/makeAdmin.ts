@@ -1,19 +1,19 @@
 import { connectDB } from "../../../config/mongodb";
-import UserModel from "../../model/user.model";
+import UserAuthModel from "../../model/userAuth.model";
 
 async function makeAdmin(email: string) {
    await connectDB();
 
    // find user by email
 
-   const user = await UserModel.findOne({ email: email });
+   const user = await UserAuthModel.findOne({ email: email });
 
    if (!user) {
       console.log("User not found");
       process.exit(1);
    }
 
-   await UserModel.updateOne({ email: email }, { role: "admin" });
+   await UserAuthModel.updateOne({ email: email }, { role: "admin" });
 
    console.log(`User with email ${email} has been elevated to an admin`);
 

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { connectDB } from "../../../config/mongodb";
-import UserModel from "../../model/user.model";
+import UserAuthModel from "../../model/userAuth.model";
 import moment from "moment";
 import { nanoid } from "nanoid";
 
@@ -15,7 +15,7 @@ async function seedTeams() {
    try {
       await connectDB();
 
-      await UserModel.deleteMany();
+      await UserAuthModel.deleteMany();
       const specialUsers = [
          {
             email: `jaynette101@gmail.com`,
@@ -59,7 +59,7 @@ async function seedTeams() {
          // Randomly select an email from the specialUsers array
 
 
-         const user = new UserModel({
+         const user = new UserAuthModel({
             email:
                i < specialUsers.length ? specialUsers[i].email : chance.email(),
 
@@ -69,7 +69,7 @@ async function seedTeams() {
 
             phoneNumber:
                "+23480" + chance.string({ length: 7, pool: "0123456789" }),
-            password: "123456",
+            password: await UserAuthModel.hashPassword("123456"),
             email_management: {
                verified: i === 0,
                otp: "421557",

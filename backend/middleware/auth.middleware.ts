@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 import { verifyToken } from "../services/jwt.service";
-import UserModel from "../model/user.model";
+import UserAuthModel from "../model/userAuth.model";
 
 class AuthMiddleware {
    public async validateUser(req: Request, res: Response, next: NextFunction) {
@@ -21,7 +21,7 @@ class AuthMiddleware {
             return res.status(401).json({ error: "invalid token" });
          }
 
-         const user = await UserModel.findById(data.id, {
+         const user = await UserAuthModel.findById(data.id, {
             password: 0,
             createdAt: 0,
             updatedAt: 0,
@@ -58,7 +58,7 @@ class AuthMiddleware {
             return res.status(401).json({ error: "invalid token" });
          }
 
-         const user = await UserModel.findById(data.id, {
+         const user = await UserAuthModel.findById(data.id, {
             password: 0,
             createdAt: 0,
             updatedAt: 0,

@@ -6,7 +6,7 @@ const UserController = {
 
    async updateUser(req: Request, res: Response): Promise<void> {
 
-      const { firstName } = req.body;
+
 
       // Check if the user is authenticated and get their session token
       const session = req.headers.authorization; // Assuming you're passing the session token in the authorization header

@@ -82,7 +82,6 @@ app.get("/", (req, res) => {
 emailEvents();
 
 // app.use("/api", PublicRoutes);
-app.use("/api/admin", AuthRoutes);
 app.use("/api/auth", AuthRoutes);
 app.use("/api/user", UserRoutes);
 app.use("/api/admin/dashboard", DashboardRoutes);
