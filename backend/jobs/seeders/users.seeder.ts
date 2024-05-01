@@ -5,7 +5,6 @@ import moment from "moment";
 
 import Chance from "chance";
 import UserModel from "../../model/user.model";
-import $logger from "../../../config/logger";
 
 const chance = new Chance();
 
@@ -85,10 +84,7 @@ async function seedTeams() {
 
       // log duration
 
-      $logger.info({
-         message: "Seeding completed",
-         duration: "Seeding time",
-      });
+
    }
 }
 
