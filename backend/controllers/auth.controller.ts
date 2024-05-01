@@ -105,9 +105,11 @@ const AuthController = {
             });
          }
 
-         // Hash the password before saving
-         const saltRounds = 10;
-         const hashedPassword = await bcrypt.hash(data!.password, saltRounds);
+     const hashedPassword =    await UserModel.hashPassword(
+            data!.password,
+         );
+
+
 
          const otp = generateOTP();
 
@@ -495,9 +497,13 @@ const AuthController = {
    async ping(req: Request, res: Response): Promise<void> {
       const user = res.locals.user;
 
+      console.log(user);
+
       try {
          res.status(200).json({
             data: user,
+            timestamp: new Date(),
+            success: true,
          });
       } catch (e) {
          res.status(500).json({

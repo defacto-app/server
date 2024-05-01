@@ -43,6 +43,8 @@ export interface UserDataType extends Document {
       phone_change_token?: string;
       phone_change_sent_at?: null;
    };
+   joinedAt: Date;
+   lastSeenAt: Date | null;
 }
 
 const userSchemaDefinitions = {
@@ -100,6 +102,9 @@ const userSchemaDefinitions = {
    lastSeenAt: {
       type: Date,
    },
+   joinedAt: {
+      type: Date,
+   }
    };
 
 export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
@@ -118,6 +123,15 @@ class UserModel extends mongoose.model<UserDataType>("user", UserSchema) {
          bcrypt.compare(password, userPassword, (err: any, isMatch: any) => {
             if (err) reject(err);
             else resolve(isMatch);
+         });
+      });
+   }
+
+   static async hashPassword(password: string): Promise<string> {
+      return new Promise((resolve, reject) => {
+         bcrypt.hash(password, 10, (err: any, hash: any) => {
+            if (err) reject(err);
+            else resolve(hash);
          });
       });
    }
