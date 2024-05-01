@@ -178,6 +178,8 @@ const AuthController = {
          // Send response
          res.status(200).json({
             message: "User logged in successfully",
+            success: true,
+            timeStamp: new Date(),
             data: user,
             token,
          });
@@ -278,9 +280,22 @@ const AuthController = {
          }
 
          if (user) {
+
+            // update user in db and save otp
+
+            await UserModel.findOneAndUpdate(
+               { phoneNumber: data?.phoneNumber }, // find a document with this filter
+               {
+                  "phone_management.otp": otp,
+                  "phone_management.otp_sent_at": new Date(),
+                  "phone_management.otp_expires_at": moment()
+                     .add(10, "minutes")
+                     .toDate(),
+               },
+               { new: true } // option to return the updated document
+               );
             res.status(200).json({
                message: "OTP sent successfully. Please verify.",
-
                userExists: true,
             });
          }
