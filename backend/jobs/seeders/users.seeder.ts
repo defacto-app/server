@@ -2,10 +2,8 @@ import mongoose from "mongoose";
 import { connectDB } from "../../../config/mongodb";
 import UserAuthModel from "../../model/userAuth.model";
 import moment from "moment";
-import { nanoid } from "nanoid";
 
 import Chance from "chance";
-import { generateOTP } from "../../utils/utils";
 
 const chance = new Chance();
 

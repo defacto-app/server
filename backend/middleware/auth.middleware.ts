@@ -11,11 +11,13 @@ class AuthMiddleware {
          return res.status(401).json({ error: "Authorization token required" });
       }
 
+
       const token = authorization.split(" ")[1];
+
+
 
       try {
          const data = await verifyToken(token);
-         console.log("token", data);
 
          if (!data) {
             return res.status(401).json({ error: "invalid token" });
@@ -44,7 +46,6 @@ class AuthMiddleware {
    public async validateAdmin(req: Request, res: Response, next: NextFunction) {
       const authorization = req.headers["authorization"] as string;
 
-      console.log("authorization hehe", authorization);
       if (!authorization) {
          return res.status(401).json({ error: "Authorization token required" });
       }

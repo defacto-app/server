@@ -1,55 +1,51 @@
 import { Request, Response } from "express";
-import { supabase } from "../../../config/supabase.config";
+import UserModel from "../../model/user.model";
 
 const UserController = {
-
-
    async updateUser(req: Request, res: Response): Promise<void> {
+      const user = res.locals.user;
 
-
-
-      // Check if the user is authenticated and get their session token
-      const session = req.headers.authorization; // Assuming you're passing the session token in the authorization header
-
-      if (!session) {
-         res.status(401).json({
-            message: "Unauthorized",
-         });
-      }
-
-      console.log("session", session);
+      console.log(user);
 
       try {
+         // Find a user by publicId and update with data from req.body
+       /*  const updatedUser = await UserModel.findOneAndUpdate(
+            { publicId: user.publicId }, // Assuming publicId is stored in req.user
+            { $set: req.body },             // Update the fields provided in req.body
+            { new: true }                   // Options: return the updated document
+         );
+*/
 
+         const updatedUser = await UserModel.findOne({ publicId: user.publicId });
 
-         const { data, error } = await supabase.auth.updateUser({
-            data: { firstName: "report me" },
-         });
-
-         if (error) {
-            res.status(400).json({
-               message: "Failed to login",
-               error: error.message,
-            });
+         if (!updatedUser) {
+             res.status(404).send({
+                message: "User not found",
+                success: false,
+                timestamp: new Date(),
+             });
+            return
          }
 
-         res.status(200).json({
-            message: "User logged in",
-            data: data,
-         });
-
-      } catch (e: any) {
-         res.status(500).json({
-            message: "An unexpected error occurred",
-            error: e.message,
-         });
+         // Send the updated user back to the client
+         res.json(updatedUser);
+      } catch (error:any) {
+         // Handle possible errors
+         res.status(500).send('Error updating user: ' + error.message);
       }
+      // update user
+
+
+
+      // return updated user
+
+
+
+
+
+
+
    },
-
-
 };
 
 export default UserController;
-
-
-

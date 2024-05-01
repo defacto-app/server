@@ -436,7 +436,7 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "example": "admin@gmail.com"
+                    "example": "kats.com.ng@gmail.com"
                   }
                 },
                 "required": [
