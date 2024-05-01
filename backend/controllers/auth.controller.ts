@@ -118,7 +118,7 @@ const AuthController = {
 
          const otp = generateOTP();
 
-         const newUser = new AuthModel({
+         const newAuth = new AuthModel({
             email: data!.email,
             password: hashedPassword, // Save the hashed password
             email_management: {
@@ -128,7 +128,20 @@ const AuthController = {
             },
          });
 
+         await newAuth.save();
+
+         // create user in db
+
+         const newUser = new UserModel({
+            email: data!.email,
+            userId:newAuth.publicId,
+            joinedAt: new Date(),
+            lastSeenAt: new Date(),
+         });
+
          await newUser.save();
+
+
 
          await EmailEvent.sendContactMail({
             email: "here we go",

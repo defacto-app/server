@@ -7,7 +7,7 @@ export interface UserDataType extends Document {
    joinedAt: Date;
    firstName: string;
    phoneNumber: string;
-   address: {
+   address?: {
       street: string;
       city: string;
       state: string;
@@ -15,6 +15,7 @@ export interface UserDataType extends Document {
       lat: number;
       lng: number;
    };
+   userId: string;
 }
 
 const userSchemaDefinitions = {
@@ -26,6 +27,13 @@ const userSchemaDefinitions = {
       minLength: 1,
       maxLength: 255,
    },
+
+   firstName: {
+      type: String,
+      required: false,
+      minLength: 1,
+      maxLength: 255,
+   },
    email: {
       type: String,
       required: true,
@@ -33,6 +41,20 @@ const userSchemaDefinitions = {
       minLength: 1,
       maxLength: 255,
    },
+   phoneNumber: {
+      type: String,
+      required: false,
+      unique: true,
+      minLength: 1,
+      maxLength: 255,
+   },
+   userId: {
+      type: String,
+      required: true,
+      unique: true,
+      minLength: 1,
+      maxLength: 255,
+   }
 };
 
 export const UserSchema: Schema = new Schema(userSchemaDefinitions, {

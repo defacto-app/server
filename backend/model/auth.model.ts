@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export interface AuthDataType extends Document {
    instance_id: string;
+   publicId: string;
    role: string;
    is_super_admin: null;
    banned_until: null;
