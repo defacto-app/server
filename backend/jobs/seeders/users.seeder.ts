@@ -10,6 +10,42 @@ import $logger from "../../../config/logger";
 const chance = new Chance();
 
 // Separate module for DB connection
+const specialUsers = [
+   {
+      email: `jaynette101@gmail.com`,
+      joinedAt: new Date("2024-04-29"),
+      lastSeenAt: new Date(),
+
+      role: "admin",
+   },
+   {
+      email: `justice.nmegbu@gmail.com`,
+      joinedAt: new Date("2024-04-29"),
+      lastSeenAt: new Date(),
+
+      role: "admin",
+   },
+
+   {
+      email: `isaiahogbodo06@gmail.com`,
+      joinedAt: new Date("2024-04-29"),
+      lastSeenAt: new Date(),
+
+      role: "user",
+   },
+   {
+      email: `brianfury733@gmail.com`,
+      joinedAt: new Date("2024-04-29"),
+      lastSeenAt: new Date(),
+      role: "admin",
+   },
+   {
+      email: `kats.com.ng@gmail.com`,
+      joinedAt: new Date("2024-04-29"),
+      lastSeenAt: new Date(),
+      role: "admin",
+   },
+];
 
 async function seedTeams() {
    console.time("Seeding time");
@@ -18,86 +54,28 @@ async function seedTeams() {
 
       await AuthModel.deleteMany();
       await UserModel.deleteMany();
-      const specialUsers = [
-         {
-            email: `jaynette101@gmail.com`,
-            joinedAt: new Date("2024-04-29"),
-            lastSeenAt: new Date(),
-
-            role: "admin",
-         },
-         {
-            email: `justice.nmegbu@gmail.com`,
-            joinedAt: new Date("2024-04-29"),
-            lastSeenAt: new Date(),
-
-            role: "admin",
-         },
-
-         {
-            email: `isaiahogbodo06@gmail.com`,
-            joinedAt: new Date("2024-04-29"),
-            lastSeenAt: new Date(),
-
-            role: "user",
-         },
-         {
-            email: `brianfury733@gmail.com`,
-            joinedAt: new Date("2024-04-29"),
-            lastSeenAt: new Date(),
-            role: "admin",
-         },
-         {
-            email: `kats.com.ng@gmail.com`,
-            joinedAt: new Date("2024-04-29"),
-            lastSeenAt: new Date(),
-            role: "admin",
-         },
-      ];
 
       const numberOfUsers = 10 + specialUsers.length; // Number of users to generate
 
-      for (let i = 0; i < numberOfUsers; i++) {
-         const auth = new AuthModel({
-            email:
-               i < specialUsers.length ? specialUsers[i].email : chance.email(),
 
-            // role can be admin or user
 
-            role: i < specialUsers.length ? specialUsers[i].role : "user",
+      const {auths, authError} = await generateAuth();
 
-            phoneNumber:
-               "+23480" + chance.string({ length: 7, pool: "0123456789" }),
-            password: await AuthModel.hashPassword("123456"),
-            email_management: {
-               verified: i === 0,
-               otp: "421557",
-               otp_expires_at: moment().add(1, "day").toDate(),
-            },
-            phone_management: {
-               verified: i === 0,
-               otp: "421557",
-               otp_sent_at: moment().toDate(),
-               otp_expires_at: moment().add(1, "day").toDate(),
-            },
-            joinedAt:
-               i < specialUsers.length ? specialUsers[i].joinedAt : new Date(),
-         });
+      const {users,  usersError} = await generateUsers(auths);
 
-         // Save the user to the database
-
-         const user = new UserModel({
-            email: auth.email,
-            joinedAt: auth.joinedAt,
-            firstName: chance.first(),
-            phoneNumber: auth.phoneNumber,
-            userId: auth.publicId,
-         });
-
-         await user.save();
-
-         await auth.save();
+      if (authError) {
+         throw new Error(authError);
       }
+
+      if (usersError) {
+         throw new Error(usersError);
+      }
+
+      await AuthModel.insertMany(auths);
+
+      await UserModel.insertMany(users);
+
+      console.log(users);
    } catch (error) {
       console.error("Error seeding data:", error);
    } finally {
@@ -118,3 +96,79 @@ seedTeams().catch((error) => {
    console.error("Unhandled Error:", error);
    process.exit(1);
 });
+
+async function generateAuth() {
+   const auths = [];
+
+   try {
+      const defaultPassword = await AuthModel.hashPassword("123456");
+      // use specialUsers to generate auths
+      for (let i = 0; i < specialUsers.length; i++) {
+         const auth = new AuthModel({
+            email: specialUsers[i].email,
+            role: specialUsers[i].role,
+            phoneNumber:
+               "+23480" + chance.string({ length: 7, pool: "0123456789" }),
+            password: defaultPassword,
+            email_management: {
+               verified: i === 0,
+               otp: "421557",
+               otp_expires_at: moment().add(1, "day").toDate(),
+            },
+            phone_management: {
+               verified: i === 0,
+               otp: "421557",
+               otp_sent_at: moment().toDate(),
+               otp_expires_at: moment().add(1, "day").toDate(),
+            },
+            joinedAt: specialUsers[i].joinedAt,
+         });
+
+         auths.push(auth);
+      }
+
+      // use auths to generate users
+
+      return {
+         auths,
+         authError: null,
+      };
+   } catch (e: any) {
+      return {
+         auths: null,
+         authError: e.message,
+      };
+   }
+}
+
+async function generateUsers(auth:any) {
+
+   const users = [];
+
+   try {
+      for (let i = 0; i < auth.length; i++) {
+         const user = new UserModel({
+            email: auth[i].email,
+            phoneNumber: auth[i].phoneNumber,
+            joinedAt: auth[i].joinedAt,
+            lastSeenAt: auth[i].lastSeenAt,
+            userId: auth[i].publicId,
+         });
+
+         users.push(user);
+      }
+
+      return {
+         users,
+         usersError: null,
+      };
+   } catch (e: any) {
+      return {
+         users: null,
+         usersError: e.message,
+      };
+   }
+
+
+
+}
