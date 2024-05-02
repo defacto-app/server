@@ -11,6 +11,7 @@ export interface UserDataType extends Document {
    verified: boolean;
    address?: AddressType;
    userId: string;
+
 }
 
 const userSchemaDefinitions = {
@@ -33,12 +34,12 @@ const userSchemaDefinitions = {
       type: String,
       required: false,
       default: "",
-      minLength: 1,
+      minLength: 0,
       maxLength: 255,
    },
    email: {
       type: String,
-      required: true,
+      required: false,
       unique: true,
       minLength: 1,
       maxLength: 255,
@@ -61,6 +62,10 @@ const userSchemaDefinitions = {
       type: Boolean,
       required: true,
       default: false,
+   },
+   joinedAt: {
+      type: Date,
+      required: true,
    }
 };
 

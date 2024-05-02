@@ -11,86 +11,6 @@ import EmailEvent from "../events/email.event";
 import UserModel from "../model/user.model";
 
 const AuthController = {
-   async phone_register(req: Request, res: Response): Promise<void> {
-      try {
-         // Validate the input
-         const { data, error } = await AuthValidator.phone_register(req.body);
-
-         if (error !== null) {
-            res.status(400).json({
-               message: "Invalid phone number",
-               error,
-               success: false,
-               timestamp: new Date(),
-            });
-            return;
-         }
-         //  check if user exists
-
-         const userExists = await AuthModel.findOne({
-            phoneNumber: data?.phoneNumber,
-            verified: true,
-         });
-
-         if (userExists) {
-            res.status(200).json({
-               message: "User already exists",
-               exists: true,
-               timestamp: new Date(),
-            });
-         }
-
-         const otp = generateOTP();
-
-         const newUserAuth = new AuthModel({
-            phoneNumber: data?.phoneNumber,
-            phone_management: {
-               otp: otp,
-               otp_sent_at: new Date(),
-               otp_expires_at: moment().add(10, "minutes").toDate(),
-            },
-         });
-
-         // create user in db and save otp
-
-         const newUser = new UserModel({
-            phoneNumber: data?.phoneNumber,
-            joinedAt: new Date(),
-            lastSeenAt: new Date(),
-         });
-
-         await newUser.save();
-
-         const { error: smsError } = await sendTokenSms(otp, data!.phoneNumber);
-
-         if (smsError) {
-            res.status(500).json({
-               message: "Failed to send OTP",
-               success: false,
-               error: smsError,
-            });
-            return;
-         }
-
-         // create user in db and save otp
-
-         await newUserAuth.save();
-
-         res.status(200).json({
-            message: "OTP sent successfully. Please verify.",
-            success: true,
-            timestamp: new Date(),
-         });
-      } catch (e) {
-         res.status(500).json({
-            message: "Internal Server Error",
-            error: e,
-            success: false,
-            timestamp: new Date(),
-         });
-      }
-   },
-
    async email_register(req: Request, res: Response): Promise<void> {
       // check if user exists
 
@@ -167,7 +87,11 @@ const AuthController = {
          // Validate input
          const { data, error } = await AuthValidator.phone_login(req.body);
          if (error) {
-            res.status(400).json({ message: "Validation failed", error });
+            res.status(400).json({
+               error,
+               success: false,
+               timestamp: new Date(),
+            });
             return;
          }
 
@@ -184,9 +108,11 @@ const AuthController = {
             return;
          }
 
-         if (user.phone_management.otp !== data?.otp) {
+         if (user.phone_management.login.otp !== data?.otp) {
             res.status(400).json({
-               message: "Invalid OTP",
+               error: {
+                  otp: "Invalid OTP",
+               },
                success: false,
                timestamp: new Date(),
             });
@@ -195,10 +121,17 @@ const AuthController = {
 
          // Check if OTP is still valid
          const currentTime = new Date();
-         const otpExpiryTime = new Date(user.phone_management.otp_expires_at);
+         const otpExpiryTime = new Date(user.phone_management.login.expires_at);
 
          if (currentTime > otpExpiryTime) {
-            res.status(400).json({ message: "OTP has expired" });
+            res.status(400).json({
+               success: false,
+
+               error: {
+                  otp: "OTP has expired",
+               },
+               timestamp: new Date(),
+            });
             return;
          }
 
@@ -207,24 +140,36 @@ const AuthController = {
 
          // Update last seen
 
-         await UserModel.findOneAndUpdate(
+         await AuthModel.findOneAndUpdate(
             { phoneNumber: data?.phoneNumber },
             {
-               verified: true,
+               phone_management: {
+                  login: {
+                     otp: undefined,
+                     expires_at: undefined,
+                     sent_at: undefined,
+                     verified: true,
+                  },
+               },
+               lastSeenAt: new Date(),
             }
          );
 
          //
 
          // create user in db
+         let newUser = null
+         if (!user.phone_management.verified) {
 
-         const newUser = new UserModel({
-            phoneNumber: data?.phoneNumber,
-            joinedAt: new Date(),
-            lastSeenAt: new Date(),
-         });
+            newUser =   new UserModel({
+               phoneNumber: data?.phoneNumber,
+               userId: user.publicId,
+               joinedAt: new Date(),
+               lastSeenAt: new Date(),
+            });
 
-         await newUser.save();
+            await newUser.save();
+         }
 
          // Send response
          res.status(200).json({
@@ -234,6 +179,7 @@ const AuthController = {
             data: newUser,
             token,
          });
+         return
       } catch (e: any) {
          res.status(500).json({ error: e.message });
       }
@@ -245,7 +191,6 @@ const AuthController = {
 
          if (error) {
             res.status(400).json({
-               message: "Failed to login",
                error: error,
                success: false,
             });
@@ -287,7 +232,7 @@ const AuthController = {
 
    //
 
-   async verify_phone_number(req: Request, res: Response): Promise<void> {
+   async confirm_phone_login(req: Request, res: Response): Promise<void> {
       try {
          const { data, error } = await AuthValidator.phone_number(req.body);
 
@@ -315,9 +260,11 @@ const AuthController = {
             const newUser = new AuthModel({
                phoneNumber: data?.phoneNumber,
                phone_management: {
-                  otp: otp,
-                  otp_sent_at: new Date(),
-                  otp_expires_at: moment().add(10, "minutes").toDate(),
+                  login: {
+                     otp: otp,
+                     sent_at: new Date(),
+                     expires_at: moment().add(10, "minutes").toDate(),
+                  },
                },
             });
 
@@ -331,25 +278,20 @@ const AuthController = {
             });
          }
 
-         if (user) {
             // update user in db and save otp
 
             await AuthModel.findOneAndUpdate(
                { phoneNumber: data?.phoneNumber }, // find a document with this filter
                {
-                  "phone_management.otp": otp,
-                  "phone_management.otp_sent_at": new Date(),
-                  "phone_management.otp_expires_at": moment()
+                  "phone_management.login.otp": otp,
+                  "phone_management.login.sent_at": new Date(),
+                  "phone_management.login.expires_at": moment()
                      .add(10, "minutes")
                      .toDate(),
                },
                { new: true } // option to return the updated document
             );
-            res.status(200).json({
-               message: "OTP sent successfully. Please verify.",
-               userExists: true,
-            });
-         }
+
 
          const { error: smsError } = await sendTokenSms(otp, data!.phoneNumber);
 
@@ -363,7 +305,12 @@ const AuthController = {
             return;
          }
 
-         return;
+         res.status(200).json({
+            message: "OTP sent successfully. Please verify.",
+            userExists: true,
+         });
+         return
+
       } catch (e: any) {
          res.status(500).json({
             message: "An unexpected error occurred",
@@ -374,44 +321,6 @@ const AuthController = {
       }
    },
 
-   async phone_number_exist(req: Request, res: Response): Promise<void> {
-      try {
-         const { data, error } = await AuthValidator.phone_number(req.body);
-
-         if (error) {
-            res.status(400).json({
-               message: "Invalid phone number",
-               success: false,
-               timestamp: new Date(),
-               error,
-            });
-            return;
-         }
-
-         // check if user exists
-         const userExists = await AuthModel.findOne({
-            phoneNumber: data?.phoneNumber,
-         });
-         if (userExists) {
-            res.status(200).json({
-               exists: true,
-               timestamp: new Date(),
-            });
-         } else {
-            res.status(200).json({
-               exists: false,
-               timestamp: new Date(),
-            });
-         }
-      } catch (e: any) {
-         res.status(500).json({
-            message: "An unexpected error occurred",
-            error: e.message,
-            success: false,
-            timestamp: new Date(),
-         });
-      }
-   },
 
    async email_exist(req: Request, res: Response): Promise<void> {
       try {

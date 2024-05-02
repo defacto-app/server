@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 export interface AuthDataType extends Document {
    instance_id: string;
    publicId: string;
-   provider: "email" | "phone" | "google"
+   provider: "email" | "phone" | "google";
    role: string;
    is_super_admin: null;
    banned_until: null;
@@ -37,9 +37,12 @@ export interface AuthDataType extends Document {
 
    phoneNumber: string;
    phone_management: {
-      otp: string;
-      otp_expires_at: Date;
-      otp_sent_at?: Date | null;
+      login: {
+         otp: string;
+         expires_at: Date;
+         sent_at: Date;
+      };
+
       verified?: boolean;
       phone_confirmed_at?: null;
       phone_change?: string;
@@ -52,6 +55,7 @@ export interface AuthDataType extends Document {
    bannedReason: string | null;
    bannedUntil: Date | null;
    isBanned: boolean;
+
 }
 
 const authSchemaDefinitions = {
@@ -78,14 +82,26 @@ const authSchemaDefinitions = {
       unique: true,
    },
    phone_management: {
-      otp: {
-         type: String,
-         required: false,
-         minLength: 6,
-         maxLength: 6,
+      login: {
+         otp: {
+            type: String,
+            required: false,
+            minLength: 6,
+            maxLength: 6,
+         },
+         expires_at: {
+            type: Date,
+            required: false,
+         },
+         sent_at: {
+            type: Date,
+            required: false,
+         },
       },
-      otp_expires_at: {
-         type: Date,
+      verified: {
+         type: Boolean,
+         required: false,
+         default: false,
       },
    },
    email: {
@@ -106,8 +122,10 @@ const authSchemaDefinitions = {
    },
    joinedAt: {
       type: Date,
+      required: false,
    },
-};
+}
+
 
 export const AuthSchema: Schema = new Schema(authSchemaDefinitions, {
    timestamps: true,
@@ -115,13 +133,15 @@ export const AuthSchema: Schema = new Schema(authSchemaDefinitions, {
    strict: false,
 });
 
-AuthSchema.index({ email: 1 }, { unique: true, partialFilterExpression: { email: { $exists: true } } });
-
+AuthSchema.index(
+   { email: 1 },
+   { unique: true, partialFilterExpression: { email: { $exists: true } } },
+);
 
 class AuthModel extends mongoose.model<AuthDataType>("auth", AuthSchema) {
    static async comparePassword(
       password: string,
-      userPassword: string
+      userPassword: string,
    ): Promise<boolean> {
       return new Promise((resolve, reject) => {
          bcrypt.compare(password, userPassword, (err: any, isMatch: any) => {

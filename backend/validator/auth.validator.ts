@@ -7,54 +7,6 @@ import { formatErrors, PhoneNumberSchema } from "./validation-helper";
 const ngnError = "Invalid  Nigerian format phone number eg. +2348062516716";
 
 export default {
-   phone_register: async function (body: authBodyType) {
-      const phone_register_schema = z.object({
-         phoneNumber: z.string().nonempty({
-            message: "Phone number is required.",
-         }),
-         otp: z.string().min(5, {
-            message: "OTP must be at least 5 characters long.",
-         }),
-      });
-
-      try {
-         // Validate the initial schema
-         const result = phone_register_schema.safeParse(body);
-         if (!result.success) {
-            const formattedErrors: Record<string, string> = {};
-            result.error.errors.forEach((error) => {
-               const fieldName = error.path.join(".");
-               formattedErrors[fieldName] = error.message;
-            });
-            return { data: null, error: formattedErrors };
-         }
-
-         // Parse and validate the phone number
-         const { phoneNumber } = result.data;
-         const parsedNumber = parsePhoneNumberFromString(phoneNumber, "NG"); // NG for Nigeria
-         if (!parsedNumber?.isValid()) {
-            return {
-               data: null,
-               error: {
-                  phoneNumber:
-                     "Invalid phone number. Please check the format and ensure it follows Nigerian standards.",
-               },
-            };
-         }
-         const data = {
-            phoneNumber: parsedNumber?.number,
-            country: parsedNumber?.country,
-            valid: true,
-         };
-         // If all validations are passed, return the valid data
-         return {
-            data,
-            error: null,
-         };
-      } catch (e: any) {
-         return { data: null, error: e.message };
-      }
-   },
 
    email_register: async function (body: authBodyType) {
       try {
@@ -150,18 +102,15 @@ export default {
             phoneNumber: z.string().nonempty({
                message: "Phone number is required.",
             }),
-            otp: z.string().min(5, {
-               message: "OTP must be at least 5 characters long.",
+            otp: z.string().length(6, {
+               message: "OTP must be exactly 6 characters long.",
             }),
          });
          // Validate the initial schema
          const result = AuthBodySchema.safeParse(body);
          if (!result.success) {
-            const formattedErrors: Record<string, string> = {};
-            result.error.errors.forEach((error) => {
-               const fieldName = error.path.join(".");
-               formattedErrors[fieldName] = error.message;
-            });
+            const formattedErrors= formatErrors(result.error.errors);
+
             return { data: null, error: formattedErrors };
          }
 
@@ -172,8 +121,7 @@ export default {
             return {
                data: null,
                error: {
-                  phoneNumber:
-                     "Invalid phone number. Please check the format and ensure it follows Nigerian standards.",
+                  phoneNumber:ngnError
                },
             };
          }

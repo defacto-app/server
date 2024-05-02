@@ -280,44 +280,6 @@
         }
       }
     },
-    "/api/v1/auth/phone-register": {
-      "post": {
-        "tags": [
-          "auth-phone"
-        ],
-        "summary": "User registration",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "phoneNumber": {
-                    "type": "string",
-                    "example": "08063145125"
-                  },
-                  "otp": {
-                    "type": "string",
-                    "example": "123456"
-                  }
-                },
-                "required": [
-                  "phoneNumber",
-                  "otp"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Registration successful",
-            "token": "Bearer token"
-          }
-        }
-      }
-    },
     "/api/v1/auth/forgot-password": {
       "post": {
         "tags": [
@@ -396,44 +358,12 @@
         }
       }
     },
-    "/api/v1/auth/phone-number-exist": {
+    "/api/v1/auth/confirm-phone-login": {
       "post": {
         "tags": [
           "auth-phone"
         ],
-        "summary": "Check if a phone number exists",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "phoneNumber": {
-                    "type": "string",
-                    "example": "08063145125"
-                  }
-                },
-                "required": [
-                  "phoneNumber"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Phone number exists"
-          }
-        }
-      }
-    },
-    "/api/v1/auth/verify-phone-number": {
-      "post": {
-        "tags": [
-          "auth-phone"
-        ],
-        "summary": "Send Otp To Phone Number to verify",
+        "summary": "Send OTP To Phone Number to confirm login",
         "requestBody": {
           "required": true,
           "content": {

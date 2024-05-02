@@ -1,4 +1,3 @@
-import multer from "multer";
 
 export function randomFormId() {
    const center = 1411378188;
@@ -46,12 +45,12 @@ export function generateSlug(data: string) {
    );
 }
 
+const OTP_LENGTH = 6;
 
-export const generateOTP = (num = 5) => {
+export const generateOTP = (num = OTP_LENGTH) => {
    let otp = "";
-   for (let i = 0; i <= num; i++) {
-      const randVal = Math.round(Math.random() * 9);
-      otp = otp + randVal;
+   for (let i = 0; i < num; i++) {
+      otp += Math.floor(Math.random() * 10); // Directly append random digit to otp
    }
    return otp;
 };

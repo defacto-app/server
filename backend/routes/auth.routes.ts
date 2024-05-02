@@ -5,9 +5,7 @@ import authMiddleware from "../middleware/auth.middleware";
 const router = Router();
 
 router.post("/phone-login", AuthController.phone_login);
-router.post("/phone-register", AuthController.phone_register);
-router.post("/phone-number-exist", AuthController.phone_number_exist);
-router.post("/verify-phone-number", AuthController.verify_phone_number);
+router.post("/confirm-phone-login", AuthController.confirm_phone_login);
 
 //
 router.post("/email-login", AuthController.email_login);

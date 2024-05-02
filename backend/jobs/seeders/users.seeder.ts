@@ -115,9 +115,11 @@ async function generateAuth() {
             },
             phone_management: {
                verified: i === 0,
-               otp: "457303",
-               otp_sent_at: moment().toDate(),
-               otp_expires_at: moment().add(1, "day").toDate(),
+               login:{
+                  otp: "457303",
+                  sent_at: moment().toDate(),
+                  expires_at: moment().add(1, "day").toDate(),
+               },
             },
             joinedAt: specialUsers[i].joinedAt,
          });
