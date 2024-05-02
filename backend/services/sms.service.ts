@@ -29,7 +29,6 @@ export async function sendTokenSms(otp: string, phoneNumber: string): Promise<Ap
    try {
       const { data } = await axios.post(url, payload);
 
-      console.log(data);
       return {
          data: data,
          success: true,

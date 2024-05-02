@@ -276,10 +276,15 @@ const AuthController = {
                timestamp: new Date(),
                success: true,
             });
+            return;
          }
 
             // update user in db and save otp
 
+
+
+
+         if(user.phone_management.login.expires_at < new Date() ) {
             await AuthModel.findOneAndUpdate(
                { phoneNumber: data?.phoneNumber }, // find a document with this filter
                {
@@ -291,19 +296,22 @@ const AuthController = {
                },
                { new: true } // option to return the updated document
             );
+            const { error: smsError } = await sendTokenSms(otp, data!.phoneNumber);
 
-
-         const { error: smsError } = await sendTokenSms(otp, data!.phoneNumber);
-
-         if (smsError) {
-            res.status(500).json({
-               message: "Failed to send OTP",
-               error: smsError,
-               timestamp: new Date(),
-               success: false,
-            });
-            return;
+            if (smsError) {
+               res.status(500).json({
+                  message: "Failed to send OTP",
+                  error: smsError,
+                  timestamp: new Date(),
+                  success: false,
+               });
+               return;
+            }
          }
+
+
+
+
 
          res.status(200).json({
             message: "OTP sent successfully. Please verify.",
