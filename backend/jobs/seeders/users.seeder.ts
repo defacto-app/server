@@ -14,12 +14,14 @@ const specialUsers = [
       email: `jaynette101@gmail.com`,
       joinedAt: new Date("2024-04-29"),
       lastSeenAt: new Date(),
+      firstName: "Justice",
 
       role: "admin",
    },
    {
       email: `justice.nmegbu@gmail.com`,
       joinedAt: new Date("2024-04-29"),
+      firstName: "Justice",
       lastSeenAt: new Date(),
 
       role: "admin",

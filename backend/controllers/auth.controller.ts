@@ -21,6 +21,7 @@ const AuthController = {
                message: "Invalid phone number",
                error,
                success: false,
+               timestamp: new Date(),
             });
             return;
          }
@@ -28,6 +29,7 @@ const AuthController = {
 
          const userExists = await AuthModel.findOne({
             phoneNumber: data?.phoneNumber,
+            verified: true,
          });
 
          if (userExists) {
@@ -80,7 +82,6 @@ const AuthController = {
             timestamp: new Date(),
          });
       } catch (e) {
-         console.error("Registration Error:", e);
          res.status(500).json({
             message: "Internal Server Error",
             error: e,
@@ -175,7 +176,11 @@ const AuthController = {
          });
 
          if (!user) {
-            res.status(404).json({ message: "User not found" });
+            res.status(404).json({
+               message: "User not found",
+               success: false,
+               timestamp: new Date(),
+            });
             return;
          }
 
@@ -200,12 +205,33 @@ const AuthController = {
          // Generate token for the session
          const token = generateToken(user);
 
+         // Update last seen
+
+         await UserModel.findOneAndUpdate(
+            { phoneNumber: data?.phoneNumber },
+            {
+               verified: true,
+            }
+         );
+
+         //
+
+         // create user in db
+
+         const newUser = new UserModel({
+            phoneNumber: data?.phoneNumber,
+            joinedAt: new Date(),
+            lastSeenAt: new Date(),
+         });
+
+         await newUser.save();
+
          // Send response
          res.status(200).json({
             message: "Logged in successfully",
             success: true,
             timeStamp: new Date(),
-            data: user,
+            data: newUser,
             token,
          });
       } catch (e: any) {
@@ -267,6 +293,9 @@ const AuthController = {
 
          if (error) {
             res.status(400).json({
+               message: "Invalid phone number",
+               success: false,
+               timestamp: new Date(),
                error,
             });
             return;
@@ -297,6 +326,8 @@ const AuthController = {
             res.status(200).json({
                message: "OTP sent successfully. Please verify.",
                userExists: false,
+               timestamp: new Date(),
+               success: true,
             });
          }
 
@@ -317,7 +348,6 @@ const AuthController = {
             res.status(200).json({
                message: "OTP sent successfully. Please verify.",
                userExists: true,
-
             });
          }
 
@@ -371,7 +401,6 @@ const AuthController = {
             res.status(200).json({
                exists: false,
                timestamp: new Date(),
-
             });
          }
       } catch (e: any) {
@@ -483,7 +512,6 @@ const AuthController = {
                exists: false,
                timestamp: new Date(),
                message: "User not found",
-
             });
          }
       } catch (e: any) {
@@ -522,7 +550,6 @@ const AuthController = {
                message: "Admin not found",
                success: false,
                timestamp: new Date(),
-
             });
             return;
          }

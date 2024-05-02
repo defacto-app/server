@@ -1,6 +1,5 @@
 export type EmailTitleType = "contact" | "reset-password" | "verify-email";
 
-
 export interface SupabaseUserType {
    instance_id: string;
    id: string;
@@ -39,8 +38,6 @@ export interface SupabaseUserType {
    is_anonymous: boolean;
 }
 
-
-
 export interface RawAppMetaData {
    provider: string;
    providers: string[];
@@ -59,16 +56,17 @@ export interface authBodyType {
    phoneNumber?: string;
 }
 
-
 export interface SuccessResponseType {
    message: string;
    success: boolean;
+   data: any;
    timestamp: Date;
 }
 
 export interface ErrorResponseType {
    message: string;
    success: boolean;
+   data: any;
    timestamp: Date;
 }
 
@@ -77,25 +75,21 @@ export interface dropOffDetailsType {
    phone: string;
    email: string;
    address: AddressType;
-
 }
+
 export interface pickupDetailsType {
    name: string;
    phone: string;
    email: string;
    address: AddressType;
-
 }
 
 export interface AddressType {
-
-      address: {
-         street: string,
-         city: string,
-         state: string,
-         zip: string,
-         lat: number,
-         lng: number,
-      }
+   address: string;
+   location: string;
+   coordinates: {
+      lat: number;
+      lng: number;
+   };
 }
 

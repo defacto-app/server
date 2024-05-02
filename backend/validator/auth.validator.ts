@@ -11,6 +11,7 @@ const PhoneNumberSchema = z.object({
       }),
 });
 
+
 export default {
    phone_register: async function (body: authBodyType) {
       const phone_register_schema = z.object({

@@ -1,5 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
+import { AddressType } from "../../types";
 
 export interface UserDataType extends Document {
    email: string;
@@ -7,14 +8,8 @@ export interface UserDataType extends Document {
    joinedAt: Date;
    firstName: string;
    phoneNumber: string;
-   address?: {
-      street: string;
-      city: string;
-      state: string;
-      zip: string;
-      lat: number;
-      lng: number;
-   };
+   verified: boolean;
+   address?: AddressType;
    userId: string;
 }
 
@@ -28,9 +23,16 @@ const userSchemaDefinitions = {
       maxLength: 255,
    },
 
+   address: {
+      type: Object,
+      required: false,
+      default: {},
+   },
+
    firstName: {
       type: String,
       required: false,
+      default: "",
       minLength: 1,
       maxLength: 255,
    },
@@ -54,6 +56,11 @@ const userSchemaDefinitions = {
       unique: true,
       minLength: 1,
       maxLength: 255,
+   },
+   verified:{
+      type: Boolean,
+      required: true,
+      default: false,
    }
 };
 
