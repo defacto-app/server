@@ -38,6 +38,7 @@ export interface AuthDataType extends Document {
    phoneNumber: string;
    phone_management: {
       login: {
+         firstTime: boolean;
          otp: string;
          expires_at: Date;
          sent_at: Date;

@@ -8,7 +8,6 @@ export interface UserDataType extends Document {
    joinedAt: Date;
    firstName: string;
    phoneNumber: string;
-   verified: boolean;
    address?: AddressType;
    userId: string;
 
@@ -58,11 +57,7 @@ const userSchemaDefinitions = {
       minLength: 1,
       maxLength: 255,
    },
-   verified:{
-      type: Boolean,
-      required: true,
-      default: false,
-   },
+
    joinedAt: {
       type: Date,
       required: true,
