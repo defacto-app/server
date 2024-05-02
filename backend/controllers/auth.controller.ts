@@ -185,52 +185,7 @@ const AuthController = {
       }
    },
 
-   async email_login(req: Request, res: Response): Promise<void> {
-      try {
-         const { data, error } = await AuthValidator.email_login(req.body);
 
-         if (error) {
-            res.status(400).json({
-               error: error,
-               success: false,
-            });
-         }
-
-         const user = await AuthModel.findOne<AuthDataType>({
-            email: data!.email,
-         });
-
-         if (!user || !user.password) {
-            res.status(401).json({ message: "Invalid email or password" });
-            return;
-         }
-
-         const isMatch = await AuthModel.comparePassword(
-            req.body.password,
-            user!.password
-         );
-
-         if (!isMatch) {
-            res.status(401).json({ message: "Invalid email or password" });
-         }
-
-         const token = generateToken(user!);
-
-         res.status(200).json({
-            message: "Login Successful",
-            success: true,
-            timestamp: new Date(),
-            token,
-         });
-      } catch (e) {
-         res.status(500).json({
-            error: e,
-            success: false,
-         });
-      }
-   },
-
-   //
 
    async confirm_phone_login(req: Request, res: Response): Promise<void> {
       try {
@@ -284,7 +239,7 @@ const AuthController = {
 
 
 
-         if(user.phone_management.login.expires_at < new Date() ) {
+         if(!user.phone_management.login.otp ) {
             await AuthModel.findOneAndUpdate(
                { phoneNumber: data?.phoneNumber }, // find a document with this filter
                {
@@ -325,6 +280,54 @@ const AuthController = {
             error: e.message,
             success: false,
             timestamp: new Date(),
+         });
+      }
+   },
+   //
+   //
+   //
+   //
+   async email_login(req: Request, res: Response): Promise<void> {
+      try {
+         const { data, error } = await AuthValidator.email_login(req.body);
+
+         if (error) {
+            res.status(400).json({
+               error: error,
+               success: false,
+            });
+         }
+
+         const user = await AuthModel.findOne<AuthDataType>({
+            email: data!.email,
+         });
+
+         if (!user || !user.password) {
+            res.status(401).json({ message: "Invalid email or password" });
+            return;
+         }
+
+         const isMatch = await AuthModel.comparePassword(
+            req.body.password,
+            user!.password
+         );
+
+         if (!isMatch) {
+            res.status(401).json({ message: "Invalid email or password" });
+         }
+
+         const token = generateToken(user!);
+
+         res.status(200).json({
+            message: "Login Successful",
+            success: true,
+            timestamp: new Date(),
+            token,
+         });
+      } catch (e) {
+         res.status(500).json({
+            error: e,
+            success: false,
          });
       }
    },
