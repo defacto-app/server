@@ -1,16 +1,10 @@
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { z } from "zod";
 import { authBodyType } from "../../types";
+import { formatErrors, PhoneNumberSchema } from "./validation-helper";
 
-const PhoneNumberSchema = z.object({
-   phoneNumber: z
-      .string()
-      .nonempty({ message: "Phone number is required." })
-      .refine((value) => value.trim().length >= 10, {
-         message: "Phone number must have at least 10 digits.",
-      }),
-});
 
+const ngnError = "Invalid  Nigerian format phone number eg. +2348062516716";
 
 export default {
    phone_register: async function (body: authBodyType) {
@@ -198,14 +192,12 @@ export default {
    },
 
    phone_number: async function (body: any) {
-      console.log(body);
+
+
       const result = PhoneNumberSchema.safeParse(body);
       if (!result.success) {
-         const formattedErrors: any = {};
-         result.error.errors.forEach((error) => {
-            const fieldName = error.path[0];
-            formattedErrors[fieldName] = error.message;
-         });
+         const formattedErrors= formatErrors(result.error.errors);
+
 
          return { data: null, error: formattedErrors };
       }
@@ -213,9 +205,13 @@ export default {
       try {
          const parsedNumber = parsePhoneNumberFromString(phoneNumber, "NG"); // 'NG' is the country code for Nigeria
          if (!parsedNumber?.isValid()) {
-            throw new Error(
-               "Invalid phone number. Please check the format and ensure it follows Nigerian standards."
-            );
+            return {
+               data: null,
+               error: {
+                  phoneNumber:
+                  ngnError
+               },
+            };
          }
          const data = {
             phoneNumber: parsedNumber?.number,

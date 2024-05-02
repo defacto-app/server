@@ -455,9 +455,64 @@
         },
         "responses": {
           "200": {
-            "description": "OTP sent"
+            "description": "OTP sent to phone number",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "OTP successfully sent to your phone number."
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2024-05-02T14:45:52.556Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid phone number",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid phone number"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2024-05-02T14:45:52.556Z"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "phoneNumber": {
+                          "type": "string",
+                          "example": "Invalid  Nigerian format phone number eg. +2348062516716"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
+
       }
     },
     "/api/v1/auth/logout": {
