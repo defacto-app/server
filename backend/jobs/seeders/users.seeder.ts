@@ -102,17 +102,18 @@ async function generateAuth() {
          const auth = new AuthModel({
             email: specialUsers[i].email,
             role: specialUsers[i].role,
+            provider: i === 0 ? "email" : "phone",
             phoneNumber:
                "+23480" + chance.string({ length: 7, pool: "0123456789" }),
             password: defaultPassword,
             email_management: {
                verified: i === 0,
-               otp: "421557",
+               otp: "457303",
                otp_expires_at: moment().add(1, "day").toDate(),
             },
             phone_management: {
                verified: i === 0,
-               otp: "421557",
+               otp: "457303",
                otp_sent_at: moment().toDate(),
                otp_expires_at: moment().add(1, "day").toDate(),
             },

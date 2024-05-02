@@ -59,7 +59,6 @@ const AuthController = {
 
          await newUser.save();
 
-
          const { error: smsError } = await sendTokenSms(otp, data!.phoneNumber);
 
          if (smsError) {
@@ -136,14 +135,12 @@ const AuthController = {
 
          const newUser = new UserModel({
             email: data!.email,
-            userId:newAuth.publicId,
+            userId: newAuth.publicId,
             joinedAt: new Date(),
             lastSeenAt: new Date(),
          });
 
          await newUser.save();
-
-
 
          await EmailEvent.sendContactMail({
             email: "here we go",
@@ -183,7 +180,11 @@ const AuthController = {
          }
 
          if (user.phone_management.otp !== data?.otp) {
-            res.status(400).json({ message: "Invalid OTP" });
+            res.status(400).json({
+               message: "Invalid OTP",
+               success: false,
+               timestamp: new Date(),
+            });
             return;
          }
 
@@ -228,20 +229,15 @@ const AuthController = {
             email: data!.email,
          });
 
-
          if (!user || !user.password) {
             res.status(401).json({ message: "Invalid email or password" });
             return;
          }
 
-
-
          const isMatch = await AuthModel.comparePassword(
             req.body.password,
             user!.password
          );
-
-
 
          if (!isMatch) {
             res.status(401).json({ message: "Invalid email or password" });
@@ -305,7 +301,6 @@ const AuthController = {
          }
 
          if (user) {
-
             // update user in db and save otp
 
             await AuthModel.findOneAndUpdate(
@@ -318,10 +313,11 @@ const AuthController = {
                      .toDate(),
                },
                { new: true } // option to return the updated document
-               );
+            );
             res.status(200).json({
                message: "OTP sent successfully. Please verify.",
                userExists: true,
+
             });
          }
 
@@ -331,6 +327,8 @@ const AuthController = {
             res.status(500).json({
                message: "Failed to send OTP",
                error: smsError,
+               timestamp: new Date(),
+               success: false,
             });
             return;
          }
@@ -340,6 +338,8 @@ const AuthController = {
          res.status(500).json({
             message: "An unexpected error occurred",
             error: e.message,
+            success: false,
+            timestamp: new Date(),
          });
       }
    },
@@ -351,6 +351,8 @@ const AuthController = {
          if (error) {
             res.status(400).json({
                message: "Invalid phone number",
+               success: false,
+               timestamp: new Date(),
                error,
             });
             return;
@@ -363,16 +365,21 @@ const AuthController = {
          if (userExists) {
             res.status(200).json({
                exists: true,
+               timestamp: new Date(),
             });
          } else {
             res.status(200).json({
                exists: false,
+               timestamp: new Date(),
+
             });
          }
       } catch (e: any) {
          res.status(500).json({
             message: "An unexpected error occurred",
             error: e.message,
+            success: false,
+            timestamp: new Date(),
          });
       }
    },
@@ -384,6 +391,8 @@ const AuthController = {
          if (error) {
             res.status(400).json({
                message: "Invalid email address",
+               success: false,
+               timestamp: new Date(),
                error,
             });
             return;
@@ -412,15 +421,21 @@ const AuthController = {
 
             res.status(200).json({
                exists: true,
+               message: "OTP sent successfully",
+               success: true,
             });
          } else {
             res.status(200).json({
                exists: false,
+               timestamp: new Date(),
+               success: true,
             });
          }
       } catch (e: any) {
          res.status(500).json({
             message: "An unexpected error occurred",
+            timestamp: new Date(),
+            success: false,
             error: e.message,
          });
       }
@@ -434,6 +449,8 @@ const AuthController = {
             res.status(400).json({
                message: "Invalid email address",
                error,
+               timestamp: new Date(),
+               success: false,
             });
             return;
          }
@@ -464,11 +481,16 @@ const AuthController = {
          } else {
             res.status(200).json({
                exists: false,
+               timestamp: new Date(),
+               message: "User not found",
+
             });
          }
       } catch (e: any) {
          res.status(500).json({
             message: "An unexpected error occurred",
+            timestamp: new Date(),
+            success: false,
             error: e.message,
          });
       }
@@ -481,6 +503,8 @@ const AuthController = {
          if (error) {
             res.status(400).json({
                message: "Invalid email address",
+               timestamp: new Date(),
+               success: false,
                error,
             });
             return;
@@ -496,6 +520,9 @@ const AuthController = {
          if (!user) {
             res.status(404).json({
                message: "Admin not found",
+               success: false,
+               timestamp: new Date(),
+
             });
             return;
          }
@@ -503,6 +530,8 @@ const AuthController = {
          if (user.email_management.otp !== data!.otp) {
             res.status(400).json({
                message: "Invalid OTP",
+               success: false,
+               timestamp: new Date(),
             });
             return;
          }
@@ -549,6 +578,8 @@ const AuthController = {
       } catch (e) {
          res.status(500).json({
             error: e,
+            success: false,
+            timestamp: new Date(),
          });
       }
    },

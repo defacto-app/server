@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 export interface AuthDataType extends Document {
    instance_id: string;
    publicId: string;
+   provider: "email" | "phone" | "google"
    role: string;
    is_super_admin: null;
    banned_until: null;
@@ -47,6 +48,10 @@ export interface AuthDataType extends Document {
    };
    joinedAt: Date;
    lastSeenAt: Date | null;
+   bannedAt: Date | null;
+   bannedReason: string | null;
+   bannedUntil: Date | null;
+   isBanned: boolean;
 }
 
 const authSchemaDefinitions = {
@@ -109,6 +114,9 @@ export const AuthSchema: Schema = new Schema(authSchemaDefinitions, {
    versionKey: false,
    strict: false,
 });
+
+AuthSchema.index({ email: 1 }, { unique: true, partialFilterExpression: { email: { $exists: true } } });
+
 
 class AuthModel extends mongoose.model<AuthDataType>("auth", AuthSchema) {
    static async comparePassword(

@@ -323,7 +323,7 @@
         "tags": [
           "auth-email"
         ],
-        "summary": "This endpoint allows a user to request a one-time password (OTP) sent to their email to initiate the password reset process.",
+        "summary": "This endpoint will send a password reset link to the user's email",
         "requestBody": {
           "required": true,
           "content": {
@@ -361,7 +361,7 @@
         "tags": [
           "auth-email"
         ],
-        "summary": "This endpoint allows a user to request a one-time password (OTP) sent to their email to initiate the password reset process.",
+        "summary": "This endpoint will use the forgot password link , take in the new password to reset the user's password",
         "requestBody": {
           "required": true,
           "content": {
@@ -372,10 +372,15 @@
                   "email": {
                     "type": "string",
                     "example": "kats.com.g@gmail.com"
-                  }
+                  },
+                    "password": {
+                        "type": "string",
+                        "example": "123456"
+                    }
                 },
                 "required": [
-                  "email"
+                  "email",
+                  "password"
                 ]
               }
             }
@@ -638,36 +643,30 @@
           }
         }
       },
-      "delete":  {
-        "summary": "Delete a package",
-        "tags": [
-          "packages-routes"
-        ],
-        "parameters": [
-          {
-            "name": "packageId",
-            "in": "path",
-            "required": true,
-            "description": "The ID of the package to retrieve",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Package deleted successfully",
-
-            "content": {
-              "application/json": {
+       "delete": {
+          "summary": "Delete a package",
+          "tags": [
+             "packages-routes"
+          ],
+          "parameters": [
+             {
+                "name": "packageId",
+                "in": "path",
+                "required": true,
+                "description": "The ID of the package to retrieve",
                 "schema": {
-                  "$ref": "#/components/schemas/Package"
+                  "type": "string"
                 }
-              }
-            }
+             }
+          ],
+          "responses": {
+             "200": {
+                "description": "Package deleted"
+             }
           }
         }
-      }
+
+
     }
   }
 }
