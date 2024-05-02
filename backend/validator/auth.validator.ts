@@ -198,6 +198,7 @@ export default {
    },
 
    phone_number: async function (body: any) {
+      console.log(body);
       const result = PhoneNumberSchema.safeParse(body);
       if (!result.success) {
          const formattedErrors: any = {};
