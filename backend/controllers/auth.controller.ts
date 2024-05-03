@@ -488,11 +488,11 @@ const AuthController = {
    },
 
    async ping(req: Request, res: Response): Promise<void> {
-      const user = res.locals.user;
+      const currentUser = res.locals.user;
 
       try {
          res.status(200).json({
-            data: user,
+            data: currentUser,
             timestamp: new Date(),
             success: true,
          });

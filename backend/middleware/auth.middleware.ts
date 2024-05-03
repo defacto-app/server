@@ -47,6 +47,7 @@ class AuthMiddleware {
                   phoneNumber: 0,
                   updatedAt: 0,
                   createdAt: 0,
+                  publicId: 0,
                   "user.updatedAt": 0,
                },
             },
