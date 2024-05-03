@@ -466,7 +466,65 @@
         "summary": "Ping to verify token validity",
         "responses": {
           "200": {
-            "description": "Ping successful"
+            "description": "Ping successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "role": {
+                          "type": "string",
+                          "example": "user"
+                        },
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "firstName": {
+                              "type": "string",
+                              "example": "katalsyt Tech"
+                            },
+                            "phoneNumber": {
+                              "type": "string",
+                              "example": "+2348063145125"
+                            },
+                            "userId": {
+                              "type": "string",
+                              "example": "23a0bf4f-b4f5-4b16-b265-3af65a5f21ad"
+                            },
+                            "joinedAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-05-03T00:42:56.589Z"
+                            },
+                            "lastSeenAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-05-03T00:42:56.589Z"
+                            },
+                            "publicId": {
+                              "type": "string",
+                              "example": "ca5a6b43-9cdf-4400-b8ec-979b4a5e32d8"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-05-03T02:11:09.581Z"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+              }
+              }
+            }
           }
         }
       }

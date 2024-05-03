@@ -7,6 +7,7 @@ export interface UserDataType extends Document {
    lastSeenAt: Date;
    joinedAt: Date;
    firstName: string;
+   role: string;
    phoneNumber: string;
    address?: AddressType;
    userId: string;
@@ -21,6 +22,12 @@ const userSchemaDefinitions = {
       unique: true,
       minLength: 1,
       maxLength: 255,
+   },
+   role: {
+      type: String,
+      required: true,
+      default: "user",
+      enum: ["user", "admin"],
    },
 
    address: {

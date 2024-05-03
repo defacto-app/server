@@ -231,6 +231,7 @@ const AuthController = {
             newUser = new UserModel({
                phoneNumber: data?.phoneNumber,
                userId: user.publicId,
+               role:user.role,
                joinedAt: new Date(),
                lastSeenAt: new Date(),
             });

@@ -48,6 +48,7 @@ class AuthMiddleware {
                   updatedAt: 0,
                   createdAt: 0,
                   publicId: 0,
+                  role: 0,
                   "user.updatedAt": 0,
                },
             },
