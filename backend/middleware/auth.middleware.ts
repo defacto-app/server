@@ -7,6 +7,7 @@ class AuthMiddleware {
    public async validateUser(req: Request, res: Response, next: NextFunction) {
       const authorization = req.headers["authorization"] as string;
 
+      console.log("authorization", authorization);
       if (!authorization) {
          return res.status(401).json({ error: "Authorization token required" });
       }
@@ -15,9 +16,13 @@ class AuthMiddleware {
       const token = authorization.split(" ")[1];
 
 
+      console.log("token", token);
 
       try {
          const data = await verifyToken(token);
+
+         console.log("data", data);
+
 
          if (!data) {
             return res.status(401).json({ error: "invalid token" });
