@@ -2,43 +2,64 @@ import { NextFunction, Request, Response } from "express";
 
 import { verifyToken } from "../services/jwt.service";
 import AuthModel from "../model/auth.model";
+import { ObjectId } from "mongodb";
 
 class AuthMiddleware {
    public async validateUser(req: Request, res: Response, next: NextFunction) {
       const authorization = req.headers["authorization"] as string;
 
-      console.log("authorization", authorization);
       if (!authorization) {
          return res.status(401).json({ error: "Authorization token required" });
       }
 
-
       const token = authorization.split(" ")[1];
-
-
-      console.log("token", token);
 
       try {
          const data = await verifyToken(token);
-
-         console.log("data", data);
-
 
          if (!data) {
             return res.status(401).json({ error: "invalid token" });
          }
 
-         const user = await AuthModel.findById(data.id, {
-            password: 0,
-            createdAt: 0,
-            updatedAt: 0,
-         });
+         const user = await AuthModel.aggregate([
+            {
+               $match: {
+                  _id: new ObjectId(data.id as string),
+               },
+            },
+            {
+               $lookup: {
+                  from: "users",
+                  localField: "publicId",
+                  foreignField: "userId",
+                  as: "user",
+               },
+            },
+            {
+               $unwind: "$user",
+            },
+            {
+               $project: {
+                  _id: 0,
+                  "user._id": 0,
+                  "user.createdAt": 0,
+                  phone_management: 0,
+                  phoneNumber: 0,
+                  updatedAt: 0,
+                  createdAt: 0,
+                  "user.updatedAt": 0,
+               },
+            },
+         ]);
+
+         // `user` will be an array, so you might want to take the first element if expecting a single result
+         const userData = user[0];
 
          if (!user) {
             return res.status(401).json({ error: "invalid token" });
          }
 
-         res.locals.user = user;
+         res.locals.user = userData;
 
          // update last seen
 
@@ -118,5 +139,3 @@ class AuthMiddleware {
 // Additional methods for loading user, checking admin rights, etc., can be added here
 
 export default new AuthMiddleware();
-
-
