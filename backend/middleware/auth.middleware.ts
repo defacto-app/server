@@ -8,11 +8,14 @@ class AuthMiddleware {
    public async validateUser(req: Request, res: Response, next: NextFunction) {
       const authorization = req.headers["authorization"] as string;
 
+      console.log(authorization);
+
       if (!authorization) {
          return res.status(401).json({ error: "Authorization token required" });
       }
 
       const token = authorization.split(" ")[1];
+      console.log(token);
 
       try {
          const data = await verifyToken(token);
