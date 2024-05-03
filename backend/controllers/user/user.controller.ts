@@ -1,16 +1,13 @@
 import { Request, Response } from "express";
 import UserModel from "../../model/user.model";
-import { AuthDataType } from "../../model/auth.model";
 
 const UserController = {
    async updateUser(req: Request, res: Response): Promise<void> {
-      const user = res.locals.user as AuthDataType;
-
-
+      const user = res.locals.user as any;
 
       try {
          const updatedUser = await UserModel.findOneAndUpdate(
-            { userId: user.publicId },
+            { userId: user?.userId },
             {
                $set: req.body,
                updated_at: new Date(),
@@ -37,7 +34,6 @@ const UserController = {
          // Handle possible errors
          res.status(500).send("Error updating user: " + error.message);
       }
-
    },
 };
 

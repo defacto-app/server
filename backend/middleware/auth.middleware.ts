@@ -61,7 +61,7 @@ class AuthMiddleware {
             return res.status(401).json({ error: "invalid token" });
          }
 
-         res.locals.user = userData;
+         res.locals.user = userData.user;
 
          // update last seen
 
