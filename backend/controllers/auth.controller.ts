@@ -182,7 +182,6 @@ const AuthController = {
 
    async phone_login(req: Request, res: Response): Promise<void> {
       try {
-         // Validate input
          const { data, error } = await AuthValidator.phone_login(req.body);
          if (error) {
             res.status(400).json({
@@ -196,7 +195,6 @@ const AuthController = {
          const user = await AuthModel.findOne({
             phoneNumber: data?.phoneNumber,
          });
-
          if (!user) {
             res.status(404).json({
                message: "User not found",
@@ -208,38 +206,27 @@ const AuthController = {
 
          if (user.phone_management.login.otp !== data?.otp) {
             res.status(400).json({
-               error: {
-                  otp: "Invalid OTP",
-               },
+               error: { otp: "Invalid OTP" },
                success: false,
                timestamp: new Date(),
             });
             return;
          }
 
-         // Check if OTP is still valid
          const currentTime = new Date();
          const otpExpiryTime = new Date(user.phone_management.login.expires_at);
-
          if (currentTime > otpExpiryTime) {
             res.status(400).json({
+               error: { otp: "OTP has expired" },
                success: false,
-
-               error: {
-                  otp: "OTP has expired",
-               },
                timestamp: new Date(),
             });
             return;
          }
 
-         // Generate token for the session
          const token = generateToken(user);
-
-         // Update last seen
-
-         // create user in db
          let newUser = null;
+
          if (user.phone_management.login.firstTime) {
             newUser = new UserModel({
                phoneNumber: data?.phoneNumber,
@@ -247,33 +234,21 @@ const AuthController = {
                joinedAt: new Date(),
                lastSeenAt: new Date(),
             });
-
             await newUser.save();
-
-            // remove firstTime
 
             await AuthModel.findOneAndUpdate(
                {
                   phoneNumber: data?.phoneNumber,
-                  phone_management: {
-                     login: {
-                        firstTime: true,
-                     },
-                  },
+                  "phone_management.login.firstTime": true,
                },
                {
-                  $set:{
-                     "phone_management.login.firstTime": undefined,
-                     "phone_management.login.otp": "",
-
-                  }
-
+                  $unset: { "phone_management.login.firstTime": "" },
+                  $set: { "phone_management.login.otp": "" },
                },
                { new: true }
             );
          }
 
-         // Send response
          res.status(200).json({
             message: "Logged in successfully",
             success: true,
@@ -281,9 +256,6 @@ const AuthController = {
             data: newUser,
             token,
          });
-         return;
-
-         //
       } catch (e: any) {
          res.status(500).json({ error: e.message });
       }

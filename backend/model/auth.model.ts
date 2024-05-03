@@ -98,11 +98,14 @@ const authSchemaDefinitions = {
             type: Date,
             required: false,
          },
+         firstTime: {
+            type: Boolean,
+            required: false,
+         }
       },
       verified: {
          type: Boolean,
          required: false,
-         default: false,
       },
    },
    email: {
