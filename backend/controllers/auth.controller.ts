@@ -254,6 +254,7 @@ const AuthController = {
             success: true,
             timeStamp: new Date(),
             data: newUser,
+            firstTime:user.phone_management.login.firstTime ? true : undefined,
             token,
          });
       } catch (e: any) {
