@@ -10,6 +10,7 @@ import { sendTokenSms } from "../services/sms.service";
 import EmailEvent from "../events/email.event";
 import UserModel from "../model/user.model";
 import { nanoid } from "nanoid";
+import sendResponse from "../libs/response-helper";
 
 const AuthController = {
    async email_register(req: Request, res: Response): Promise<void> {
@@ -41,8 +42,6 @@ const AuthController = {
 
          const otp = generateOTP();
 
-         const token = generateToken(user!);
-
          const newAuth = new AuthModel({
             email: data!.email,
             password: hashedPassword, // Save the hashed password
@@ -51,9 +50,16 @@ const AuthController = {
                otp_sent_at: new Date(),
                otp_expires_at: moment().add(10, "minutes").toDate(),
             },
+            phoneNumber: generateOTP(11),
+            phone_management: {
+               random_number: true,
+               login: undefined as any,
+            },
          });
 
          await newAuth.save();
+
+         const token = generateToken(newAuth);
 
          // create user in db
 
@@ -62,6 +68,8 @@ const AuthController = {
             userId: newAuth.publicId,
             joinedAt: new Date(),
             lastSeenAt: new Date(),
+            phoneNumber: generateOTP(11),
+            random_number: true,
          });
 
          await newUser.save();
@@ -77,12 +85,8 @@ const AuthController = {
             success: true,
             timestamp: new Date(),
          });
-      } catch (e) {
-         res.status(500).json({
-            error: e,
-            message: "An unexpected error occurred",
-            timestamp: new Date(),
-         });
+      } catch (error: any) {
+         sendResponse.serverError(res, error.message);
       }
    },
 

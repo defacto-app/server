@@ -1,0 +1,11 @@
+2024-05-04T17:24:42.435Z [undefined] [31merror[39m: null is not an object (evaluating 'user.id')
+2024-05-04T17:24:46.357Z [undefined] [31merror[39m: null is not an object (evaluating 'user.id')
+2024-05-04T17:27:20.159Z [undefined] [31merror[39m: Cannot read properties of null (reading 'id')
+2024-05-04T17:28:17.442Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-04T17:28:41.791Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-04T17:29:27.564Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-04T17:36:35.775Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-04T17:37:06.146Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-04T17:37:24.569Z [undefined] [31merror[39m: Validation failed: phoneNumber: Path `phoneNumber` (`KttU`) is shorter than the minimum allowed length (6).
+2024-05-04T17:38:13.514Z [undefined] [31merror[39m: Validation failed: phoneNumber: Path `phoneNumber` (`Kqlw0bfJ3F`) is shorter than the minimum allowed length (11).
+2024-05-04T17:39:04.129Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.users index: phoneNumber_1 dup key: { phoneNumber: null }

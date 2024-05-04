@@ -154,3 +154,29 @@
 2024-05-04T16:13:12.132Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 117ms
 2024-05-04T16:13:34.666Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 114ms
 2024-05-04T16:17:08.669Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 122ms
+2024-05-04T17:24:42.435Z [undefined] [31merror[39m: null is not an object (evaluating 'user.id')
+2024-05-04T17:24:42.439Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 207ms
+2024-05-04T17:24:46.357Z [undefined] [31merror[39m: null is not an object (evaluating 'user.id')
+2024-05-04T17:24:46.358Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 195ms
+2024-05-04T17:27:20.159Z [undefined] [31merror[39m: Cannot read properties of null (reading 'id')
+2024-05-04T17:27:20.162Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 18441ms
+2024-05-04T17:28:17.442Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-04T17:28:17.446Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 2830ms
+2024-05-04T17:28:41.791Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-04T17:28:41.792Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 19382ms
+2024-05-04T17:29:27.564Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-04T17:29:27.567Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 1825ms
+2024-05-04T17:36:23.008Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 131ms
+2024-05-04T17:36:35.775Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-04T17:36:35.777Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 3590ms
+2024-05-04T17:37:06.146Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-04T17:37:06.150Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 2731ms
+2024-05-04T17:37:24.569Z [undefined] [31merror[39m: Validation failed: phoneNumber: Path `phoneNumber` (`KttU`) is shorter than the minimum allowed length (6).
+2024-05-04T17:37:24.577Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 4233ms
+2024-05-04T17:38:13.514Z [undefined] [31merror[39m: Validation failed: phoneNumber: Path `phoneNumber` (`Kqlw0bfJ3F`) is shorter than the minimum allowed length (11).
+2024-05-04T17:38:13.518Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 2235ms
+2024-05-04T17:39:04.129Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.users index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-04T17:39:04.134Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 4964ms
+2024-05-04T17:39:23.323Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 128ms
+2024-05-04T17:39:25.551Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 120ms
+2024-05-04T17:39:34.013Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 201 5285ms

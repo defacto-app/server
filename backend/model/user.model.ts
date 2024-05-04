@@ -1,8 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import { AddressType } from "../../types";
-import { AuthSchema } from "./auth.model";
-import { nanoid } from "nanoid";
 
 export interface UserDataType extends Document {
    email: string;
@@ -14,6 +12,7 @@ export interface UserDataType extends Document {
    random_email?: boolean;
    address?: AddressType;
    userId: string;
+   random_number?: boolean;
 }
 
 const userSchemaDefinitions = {

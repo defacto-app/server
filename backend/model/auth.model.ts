@@ -1,8 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
-import { nanoid } from "nanoid";
-import UserModel, { UserDataType, UserSchema } from "./user.model";
 
 export interface AuthDataType extends Document {
    instance_id: string;
@@ -33,9 +31,6 @@ export interface AuthDataType extends Document {
 
    recovery: {
       recovery_token: string;
-      recovery_sent_at: null;
-      reauthentication_token: string;
-      reauthentication_sent_at: null;
    };
 
    phoneNumber: string;
@@ -45,7 +40,8 @@ export interface AuthDataType extends Document {
          otp: string;
          expires_at: Date;
          sent_at: Date;
-      };
+      } | any;
+      random_number?: boolean;
 
       verified?: boolean;
       phone_confirmed_at?: null;
@@ -80,7 +76,7 @@ const authSchemaDefinitions = {
    phoneNumber: {
       type: String,
       required: false,
-      minLength: 6,
+      minLength: 11,
       maxLength: 15,
       unique: true,
    },
