@@ -9,6 +9,7 @@ import { generateOTP } from "../utils/utils";
 import { sendTokenSms } from "../services/sms.service";
 import EmailEvent from "../events/email.event";
 import UserModel from "../model/user.model";
+import { nanoid } from "nanoid";
 
 const AuthController = {
    async email_register(req: Request, res: Response): Promise<void> {
@@ -184,6 +185,7 @@ const AuthController = {
    //
 
    async phone_login(req: Request, res: Response): Promise<void> {
+      const randomEmial = `${nanoid()}@defacto.com.ng`;
       try {
          const { data, error } = await AuthValidator.phone_login(req.body);
          if (error) {
@@ -197,6 +199,7 @@ const AuthController = {
 
          const user = await AuthModel.findOne({
             phoneNumber: data?.phoneNumber,
+            email: randomEmial,
          });
          if (!user) {
             res.status(404).json({
@@ -237,6 +240,8 @@ const AuthController = {
                role: user.role,
                joinedAt: new Date(),
                lastSeenAt: new Date(),
+               random_email: true,
+               email: randomEmial,
             });
             await newUser.save();
 

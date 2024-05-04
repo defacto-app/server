@@ -1,6 +1,8 @@
 import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
+import { nanoid } from "nanoid";
+import UserModel, { UserDataType, UserSchema } from "./user.model";
 
 export interface AuthDataType extends Document {
    instance_id: string;
@@ -26,6 +28,7 @@ export interface AuthDataType extends Document {
       otp_sent_at?: null | Date;
       verified?: boolean;
       email_confirmed_at?: null | Date;
+      random_email?: boolean;
    };
 
    recovery: {
@@ -56,7 +59,6 @@ export interface AuthDataType extends Document {
    bannedReason: string | null;
    bannedUntil: Date | null;
    isBanned: boolean;
-
 }
 
 const authSchemaDefinitions = {
@@ -101,7 +103,7 @@ const authSchemaDefinitions = {
          firstTime: {
             type: Boolean,
             required: false,
-         }
+         },
       },
       verified: {
          type: Boolean,
@@ -113,8 +115,8 @@ const authSchemaDefinitions = {
       type: String,
       index: {
          unique: true,
-         partialFilterExpression: { email: { $exists: true } }
-      }
+         partialFilterExpression: { email: { $exists: true } },
+      },
    },
 
    password: {
@@ -130,8 +132,7 @@ const authSchemaDefinitions = {
       type: Date,
       required: false,
    },
-}
-
+};
 
 export const AuthSchema: Schema = new Schema(authSchemaDefinitions, {
    timestamps: true,
@@ -139,18 +140,10 @@ export const AuthSchema: Schema = new Schema(authSchemaDefinitions, {
    strict: false,
 });
 
-
-AuthSchema.index(
-   { email: 1 },
-   { unique: true,
-      partialFilterExpression:
-         { email: { $exists: true } } }
-);
-
 class AuthModel extends mongoose.model<AuthDataType>("auth", AuthSchema) {
    static async comparePassword(
       password: string,
-      userPassword: string,
+      userPassword: string
    ): Promise<boolean> {
       return new Promise((resolve, reject) => {
          bcrypt.compare(password, userPassword, (err: any, isMatch: any) => {

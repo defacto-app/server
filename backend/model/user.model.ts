@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import { AddressType } from "../../types";
 import { AuthSchema } from "./auth.model";
+import { nanoid } from "nanoid";
 
 export interface UserDataType extends Document {
    email: string;
@@ -10,9 +11,9 @@ export interface UserDataType extends Document {
    firstName: string;
    role: string;
    phoneNumber: string;
+   random_email?: boolean;
    address?: AddressType;
    userId: string;
-
 }
 
 const userSchemaDefinitions = {
@@ -48,8 +49,8 @@ const userSchemaDefinitions = {
       type: String,
       index: {
          unique: true,
-         partialFilterExpression: { email: { $exists: true } }
-      }
+         partialFilterExpression: { email: { $exists: true } },
+      },
    },
    phoneNumber: {
       type: String,
@@ -69,7 +70,11 @@ const userSchemaDefinitions = {
    joinedAt: {
       type: Date,
       required: true,
-   }
+   },
+   random_email: {
+      type: Boolean,
+      required: false,
+   },
 };
 
 export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
@@ -78,15 +83,16 @@ export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
    strict: false,
 });
 
-
 UserSchema.index(
    { email: 1 },
-   { unique: true,
-      partialFilterExpression:
-         { email: { $exists: true } } }
+   {
+      unique: true,
+      partialFilterExpression: { email: { $exists: true } },
+   }
 );
 
-
-class UserModel extends mongoose.model<UserDataType>("user", UserSchema) {}
+class UserModel extends mongoose.model<UserDataType>("user", UserSchema) {
+   // set random email if email field is not provided
+}
 
 export default UserModel;
