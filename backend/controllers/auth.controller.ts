@@ -74,7 +74,6 @@ const AuthController = {
          res.status(201).json({
             message: "User created",
             token,
-
             success: true,
             timestamp: new Date(),
          });
