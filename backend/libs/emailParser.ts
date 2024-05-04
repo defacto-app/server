@@ -11,7 +11,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const emailFolder = path.join(__dirname, "../../views/emailTemplate");
 
-
+console.log(path.resolve(emailFolder), "email-folder");
+console.log('__dirname:', __dirname);
+console.log('emailFolder:', emailFolder);// See what this resolves to
 
 export function getEmailData() {
    const senderEmail = env.EMAIL_SENDER;

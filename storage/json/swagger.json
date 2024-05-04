@@ -712,31 +712,13 @@
 
     },
     "/api/v1/preview/verify-email": {
-      "post": {
+      "get": {
         "tags": [
           "email-preview"
         ],
         "summary": "Verify Email for Image Preview",
         "description": "Verify the email address click on the verification link.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "user@example.com"
-                  }
-                },
-                "required": [
-                  "email"
-                ]
-              }
-            }
-          }
-        },
+
         "responses": {
           "200": {
             "description": "Email Verification Successful"

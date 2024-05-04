@@ -6,6 +6,6 @@ import EmailController from "../controllers/email.controller";
 const router = Router();
 
 
-router.post("/verify-email", EmailController.verify_email);
+router.get("/verify-email", EmailController.verify_email);
 
 export default router;

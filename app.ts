@@ -6,29 +6,38 @@ import listEndpoints from "express-list-endpoints";
 import path from "path";
 import  logger  from "./config/logger";
 import fs from "fs";
+import { engine } from 'express-handlebars';
+import swaggerUi from "swagger-ui-express";
 
 import { fileURLToPath } from 'url';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
+import { connectDB } from "./config/mongodb";
+import { emailEvents } from "./config/eventEmitter";
+import { HandlePayload } from "./config/utils/api-routes";
+import swaggerDocument from "./storage/json/swagger.json";
 //  routes
 import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
 import AuthRoutes from "./backend/routes/auth.routes";
 import UserRoutes from "./backend/routes/user/user.routes";
 import PackageRoutes from "./backend/routes/user/package.routes";
 import EmailViewRoutes from "./backend/routes/email.routes";
-import { connectDB } from "./config/mongodb";
 
-import { emailEvents } from "./config/eventEmitter";
-import { HandlePayload } from "./config/utils/api-routes";
-import swaggerUi from "swagger-ui-express";
-
-
-import swaggerDocument from "./storage/json/swagger.json";
-import winston from "winston";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
+
+
+// list out files
+console.log(`Current directory: ${process.cwd()}`);
+
+try {
+   const viewsPath = path.join(__dirname, 'views');
+   const files = fs.readdirSync(viewsPath);
+   console.log('Files in the views directory:', files);
+} catch (err) {
+   console.error('Error accessing the views directory:', err);
+}
 
 
 
