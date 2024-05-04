@@ -152,7 +152,7 @@ export default {
       const { phoneNumber } = result.data;
       try {
          const parsedNumber = parsePhoneNumberFromString(phoneNumber, "NG"); // 'NG' is the country code for Nigeria
-         if (!parsedNumber?.isValid()) {
+         if(parsedNumber && !parsedNumber.isValid()){
             return {
                data: null,
                error: {

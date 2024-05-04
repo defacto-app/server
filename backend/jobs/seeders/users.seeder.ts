@@ -99,6 +99,8 @@ async function generateAuth() {
 
    try {
       const defaultPassword = await AuthModel.hashPassword("123456");
+
+      debugger;
       // use specialUsers to generate auths
       for (let i = 0; i < specialUsers.length; i++) {
          const auth = new AuthModel({
@@ -119,6 +121,7 @@ async function generateAuth() {
                   otp: "457303",
                   sent_at: moment().toDate(),
                   expires_at: moment().add(1, "day").toDate(),
+                  firstTime: i === 0,
                },
             },
             joinedAt: specialUsers[i].joinedAt,

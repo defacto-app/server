@@ -133,7 +133,7 @@ const AuthController = {
          // update user in db and save otp
 
          // remove this later
-         if (!user.phone_management.login.otp) {
+         if (!user.phone_management.login.otp && data?.phoneNumber) {
             await AuthModel.findOneAndUpdate(
                { phoneNumber: data?.phoneNumber }, // find a document with this filter
                {
@@ -147,7 +147,7 @@ const AuthController = {
             );
             const { error: smsError } = await sendTokenSms(
                otp,
-               data!.phoneNumber
+               data?.phoneNumber
             );
 
             if (smsError) {

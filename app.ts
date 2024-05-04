@@ -16,6 +16,7 @@ import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
 import AuthRoutes from "./backend/routes/auth.routes";
 import UserRoutes from "./backend/routes/user/user.routes";
 import PackageRoutes from "./backend/routes/user/package.routes";
+import EmailViewRoutes from "./backend/routes/email.routes";
 import { connectDB } from "./config/mongodb";
 
 import { emailEvents } from "./config/eventEmitter";
@@ -24,13 +25,15 @@ import swaggerUi from "swagger-ui-express";
 
 
 import swaggerDocument from "./storage/json/swagger.json";
+import winston from "winston";
 
 const app = express();
 
 
-app.use(cors());
 
-app.use(morgan("tiny"));
+
+
+app.use(cors());
 
 app.use(express.json());
 
@@ -41,6 +44,14 @@ app.use(
       saveUninitialized: false,
    })
 );
+
+app.use((err:any, req:any, res:any, next:any) => {
+   console.error(err);
+   res.status(500).send('Internal Server Error');
+});
+
+app.use(morgan(':method :url :status :response-time ms'));
+
 
 const options = {
    swaggerOptions: {
@@ -62,7 +73,6 @@ app.use(
    swaggerUi.setup(swaggerDocument, options)
 );
 
-
 app.get("/", (req, res) => {
    // Read the HTML file on every request
    fs.readFile(path.join(__dirname, "public/index.html"), 'utf8', (err, html) => {
@@ -82,11 +92,46 @@ app.get("/", (req, res) => {
 
 emailEvents();
 
+
+// Use response-time middleware to automatically calculate response times
+const logger = winston.createLogger({
+   level: 'info',
+   format: winston.format.json(),
+   defaultMeta: { service: 'app-service' },
+   transports: [
+      new winston.transports.File({ filename: 'error.log', level: 'error' }),
+      new winston.transports.File({ filename: 'combined.log' })
+   ],
+});
+
+if (process.env.NODE_ENV !== 'production') {
+   logger.add(new winston.transports.Console({
+      format: winston.format.simple(),
+   }));
+}
+
+// Custom middleware to use with Winston
+app.use((req, res, next) => {
+   const start = Date.now();
+
+   res.on('finish', () => {
+      const duration = Date.now() - start;
+      logger.info(`${req.method} ${req.originalUrl} ${res.statusCode} ${duration}ms`);
+   });
+
+   next();
+});
+
+
+// Use the custom logging middleware
+
 // app.use("/api", PublicRoutes);
+app.use("/api/v1/packages", PackageRoutes);
 app.use("/api/v1/packages", PackageRoutes);
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/user", UserRoutes);
 app.use("/api/v1/admin/dashboard", DashboardRoutes);
+app.use("/api/v1/preview/", EmailViewRoutes);
 
 
 

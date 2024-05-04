@@ -3,10 +3,15 @@ import fs from "fs";
 import handlebars from "handlebars";
 import { EmailTitleType } from "../../types";
 import env from "../../config/env";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const emailFolder = fs.realpathSync(`${__dirname}/../../views/emails`);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-console.log(emailFolder);
+
+const emailFolder = path.join(__dirname, "../../views/emailTemplate");
+
+
 
 export function getEmailData() {
    const senderEmail = env.EMAIL_SENDER;
@@ -43,27 +48,6 @@ export function getEmailTemplates(title: EmailTitleType) {
    handlebars.registerPartial("styles", styleSource);
    handlebars.registerPartial("header", headerSource);
    handlebars.registerPartial("footer", footerSource);
-
-   // Register the footer partial with default data (e.g., year)
-   // const compiledFooter = handlebars.compile(footerSource);
-   // const compiledHeader = handlebars.compile(headerSource);
-   /*   const footerWithData = compiledFooter({
-        year: new Date().getFullYear(),
-        slogan: website.slogan,
-        website: website.name,
-        clientUrl
-    });*/
-   /*
-    const headerWithData = compiledHeader({
-        slogan: website.slogan,
-        logo: website.email_logo,
-        clientUrl,
-        website: website.name
-    });
-*/
-
-   // handlebars.registerPartial("header", headerWithData);
-   // handlebars.registerPartial("footer", footerWithData);
 
    return handlebars.compile(emailTemplateSource);
 }
