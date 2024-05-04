@@ -25,6 +25,8 @@ const env = {
    SUPABASE_URL: envs.parsed?.SUPABASE_URL || "",
    SUPABASE_SERVICE_ROLE: envs.parsed?.SUPABASE_SERVICE_ROLE || "",
    TERMIAPIKEY: envs.parsed?.TERMIAPIKEY || "",
+
+   // SMTP_FROM_EMAIL: envs.parsed?.SMTP_FROM_EMAIL,
 };
 
 export default env;

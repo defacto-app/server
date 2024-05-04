@@ -8,12 +8,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-
 const emailFolder = path.join(__dirname, "../../views/emailTemplate");
-
-console.log(path.resolve(emailFolder), "email-folder");
-console.log('__dirname:', __dirname);
-console.log('emailFolder:', emailFolder);// See what this resolves to
 
 export function getEmailData() {
    const senderEmail = env.EMAIL_SENDER;
@@ -41,10 +36,7 @@ export function getEmailTemplates(title: EmailTitleType) {
       "utf8"
    );
 
-   const button = fs.readFileSync(
-      `${emailFolder}/commons/button.hbs`,
-      "utf8"
-   );
+   const buttonSource = fs.readFileSync(`${emailFolder}/commons/button.hbs`, "utf8");
 
    const emailTemplateSource = fs.readFileSync(
       `${emailFolder}/${title}.hbs`,
@@ -55,7 +47,35 @@ export function getEmailTemplates(title: EmailTitleType) {
    handlebars.registerPartial("styles", styleSource);
    handlebars.registerPartial("header", headerSource);
    handlebars.registerPartial("footer", footerSource);
-   handlebars.registerPartial("button", button);
+   handlebars.registerPartial("button", buttonSource);
+
+   const compiledFooter = handlebars.compile(footerSource);
+   const compiledHeader = handlebars.compile(headerSource);
+   const compiledButton = handlebars.compile(buttonSource);
+
+   const website = {
+      name: "Defacto App",
+      slogan: "We are the best",
+      logo: "https://api.defactoapp.com.ng/assets/email-logo.png",
+      domain: "https://defactoapp.com.ng",
+      token: "TObn__p",
+   };
+
+   const footerWithData = compiledFooter({
+      year: new Date().getFullYear(),
+      ...website,
+   });
+
+   const buttonWithData = compiledButton({
+      domain: website.domain,
+      token: website.token,
+   });
+
+   const headerWithData = compiledHeader(website);
+
+   handlebars.registerPartial("header", headerWithData);
+   handlebars.registerPartial("footer", footerWithData);
+   handlebars.registerPartial("button", buttonWithData);
 
    return handlebars.compile(emailTemplateSource);
 }
