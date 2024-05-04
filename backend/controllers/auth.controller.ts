@@ -106,7 +106,6 @@ const AuthController = {
             phoneNumber: data?.phoneNumber,
          });
 
-         console.log(user);
          if (!user) {
             // create user in db and save otp
 
@@ -185,7 +184,6 @@ const AuthController = {
    //
 
    async phone_login(req: Request, res: Response): Promise<void> {
-      const randomEmial = `${nanoid()}@defacto.com.ng`;
       try {
          const { data, error } = await AuthValidator.phone_login(req.body);
          if (error) {
@@ -199,7 +197,6 @@ const AuthController = {
 
          const user = await AuthModel.findOne({
             phoneNumber: data?.phoneNumber,
-
          });
          if (!user) {
             res.status(404).json({
@@ -241,7 +238,7 @@ const AuthController = {
                joinedAt: new Date(),
                lastSeenAt: new Date(),
                random_email: true,
-               email: randomEmial,
+               email: undefined
             });
             await newUser.save();
 
