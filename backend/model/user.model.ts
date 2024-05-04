@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import { AddressType } from "../../types";
+import { AuthSchema } from "./auth.model";
 
 export interface UserDataType extends Document {
    email: string;
@@ -45,10 +46,10 @@ const userSchemaDefinitions = {
    },
    email: {
       type: String,
-      required: false,
-      unique: true,
-      minLength: 1,
-      maxLength: 255,
+      index: {
+         unique: true,
+         partialFilterExpression: { email: { $exists: true } }
+      }
    },
    phoneNumber: {
       type: String,
@@ -76,6 +77,13 @@ export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
    versionKey: false,
    strict: false,
 });
+
+
+UserSchema.index(
+   { email: 1 },
+   { unique: true, partialFilterExpression: { email: { $exists: true } } }
+);
+
 
 class UserModel extends mongoose.model<UserDataType>("user", UserSchema) {}
 

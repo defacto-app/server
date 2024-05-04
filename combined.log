@@ -134,3 +134,9 @@
 2024-05-04T15:03:39.709Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 6ms
 2024-05-04T15:04:09.359Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 5ms
 2024-05-04T15:04:20.388Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 4ms
+2024-05-04T15:04:42.547Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 4ms
+2024-05-04T15:05:06.103Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 4ms
+2024-05-04T15:05:26.471Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 304 5ms
+2024-05-04T15:05:30.613Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 5ms
+2024-05-04T15:06:36.122Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 128ms
+2024-05-04T15:07:39.884Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 500 928ms
