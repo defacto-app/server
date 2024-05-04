@@ -10,7 +10,7 @@ import { sendTokenSms } from "../services/sms.service";
 import EmailEvent from "../events/email.event";
 import UserModel from "../model/user.model";
 import { nanoid } from "nanoid";
-import sendResponse from "../libs/response-helper";
+import SendResponse from "../libs/response-helper";
 
 const AuthController = {
    async email_register(req: Request, res: Response): Promise<void> {
@@ -24,18 +24,10 @@ const AuthController = {
          });
 
          if (user) {
-            res.status(400).json({
-               message: "User already exists",
-               success: false,
-            });
-
-            return;
+            SendResponse.badRequest(res, "User already exists");
          }
          if (error) {
-            res.status(400).json({
-               message: "Failed to register",
-               error: error,
-            });
+            SendResponse.badRequest(res, "Failed to register", error);
          }
 
          const hashedPassword = await AuthModel.hashPassword(data!.password);
@@ -79,14 +71,9 @@ const AuthController = {
             message: `here we go ${otp}`,
          });
 
-         res.status(201).json({
-            message: "User created",
-            token,
-            success: true,
-            timestamp: new Date(),
-         });
+         SendResponse.success(res, "User created", newUser);
       } catch (error: any) {
-         sendResponse.serverError(res, error.message);
+         SendResponse.serverError(res, error.message);
       }
    },
 
@@ -97,13 +84,7 @@ const AuthController = {
          const { data, error } = await AuthValidator.phone_number(req.body);
 
          if (error) {
-            res.status(400).json({
-               message: "Invalid phone number",
-               success: false,
-               timestamp: new Date(),
-               error,
-            });
-            return;
+            SendResponse.badRequest(res, "Invalid phone number", error);
          }
 
          /// send otp
@@ -132,11 +113,10 @@ const AuthController = {
 
             await newUser.save();
 
-            res.status(200).json({
-               message: "OTP sent successfully. Please verify.",
+
+
+            SendResponse.success(res, "OTP sent successfully. Please verify.", {
                userExists: false,
-               timestamp: new Date(),
-               success: true,
             });
             return;
          }
@@ -162,28 +142,19 @@ const AuthController = {
             );
 
             if (smsError) {
-               res.status(500).json({
-                  message: "Failed to send OTP",
-                  error: smsError,
-                  timestamp: new Date(),
-                  success: false,
-               });
-               return;
+               SendResponse.serviceUnavailable(
+                  res,
+                  "Failed to send OTP",
+                  smsError
+               );
             }
          }
 
-         res.status(200).json({
-            message: "OTP sent successfully. Please verify.",
+         SendResponse.success(res, "OTP sent successfully. Please verify.", {
             userExists: true,
          });
-         return;
       } catch (e: any) {
-         res.status(500).json({
-            message: "An unexpected error occurred",
-            error: e.message,
-            success: false,
-            timestamp: new Date(),
-         });
+         SendResponse.serverError(res, e.message);
       }
    },
    //
@@ -196,42 +167,31 @@ const AuthController = {
       try {
          const { data, error } = await AuthValidator.phone_login(req.body);
          if (error) {
-            res.status(400).json({
-               error,
-               success: false,
-               timestamp: new Date(),
-            });
-            return;
+            SendResponse.badRequest(res, "Invalid phone number", error);
          }
 
          const user = await AuthModel.findOne({
             phoneNumber: data?.phoneNumber,
          });
          if (!user) {
-            res.status(404).json({
-               message: "User not found",
-               success: false,
-               timestamp: new Date(),
-            });
+
+
+            SendResponse.notFound(res, "User not found");
+
             return;
          }
 
          if (user.phone_management.login.otp !== data?.otp) {
-            res.status(400).json({
-               error: { otp: "Invalid OTP" },
-               success: false,
-               timestamp: new Date(),
-            });
+
+            SendResponse.badRequest(res, "Invalid OTP");
             return;
          }
 
          const currentTime = new Date();
          const otpExpiryTime = new Date(user.phone_management.login.expires_at);
          if (currentTime > otpExpiryTime) {
-            res.status(400).json({
-               error: { otp: "OTP has expired" },
-               success: false,
-               timestamp: new Date(),
+            SendResponse.badRequest(res, "OTP has expired", {
+               otp: "OTP has expired",
             });
             return;
          }
@@ -264,20 +224,28 @@ const AuthController = {
             );
          }
 
-         res.status(200).json({
+      /*   res.status(200).json({
             message: "Logged in successfully",
             success: true,
             timeStamp: new Date(),
-            data: newUser,
+            firstTime: user.phone_management.login.firstTime ? true : undefined,
+            token,
+         });*/
+
+         // dont change yet
+         SendResponse.success(res, "Logged in successfully", {
             firstTime: user.phone_management.login.firstTime ? true : undefined,
             token,
          });
+
       } catch (e: any) {
          res.status(500).json({
             message: e.message,
             timestamp: new Date(),
             success: false,
          });
+
+         SendResponse.serverError(res, e.message);
       }
    },
 
@@ -313,18 +281,11 @@ const AuthController = {
 
          const token = generateToken(user!);
 
-         res.status(200).json({
-            message: "Login Successful",
-            success: true,
-            timestamp: new Date(),
-            token,
-         });
-      } catch (e) {
-         res.status(500).json({
-            success: false,
-            message: "An unexpected error occurred",
-            timestamp: new Date(),
-         });
+
+         SendResponse.success(res, "Login Successful", { token });
+      } catch (e:any) {
+
+         SendResponse.serverError(res, e.message);
       }
    },
 
@@ -339,6 +300,8 @@ const AuthController = {
                timestamp: new Date(),
                error,
             });
+
+
             return;
          }
 

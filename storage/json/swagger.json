@@ -118,8 +118,37 @@
         },
         "responses": {
           "200": {
-            "description": "Login successful",
-            "token": "Bearer token"
+            "description": "Logged in successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Logged in successfully"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2024-05-02T14:45:52.556Z"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "firstTime": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -335,10 +364,10 @@
                     "type": "string",
                     "example": "kats.com.g@gmail.com"
                   },
-                    "password": {
-                        "type": "string",
-                        "example": "123456"
-                    }
+                  "password": {
+                    "type": "string",
+                    "example": "123456"
+                  }
                 },
                 "required": [
                   "email",
@@ -363,7 +392,7 @@
         "tags": [
           "auth-phone"
         ],
-        "summary": "Send OTP To Phone Number to confirm login",
+        "summary": "Logged in successfully",
         "requestBody": {
           "required": true,
           "content": {
@@ -385,7 +414,7 @@
         },
         "responses": {
           "200": {
-            "description": "OTP sent to phone number",
+            "description": "OTP sent ",
             "content": {
               "application/json": {
                 "schema": {
@@ -393,7 +422,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "OTP successfully sent to your phone number."
+                      "example": "OTP sent successfully. Please verify."
                     },
                     "success": {
                       "type": "boolean",
@@ -402,6 +431,15 @@
                     "timestamp": {
                       "type": "string",
                       "example": "2024-05-02T14:45:52.556Z"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userExists": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
                     }
                   }
                 }
@@ -442,7 +480,6 @@
             }
           }
         }
-
       }
     },
     "/api/v1/auth/logout": {
@@ -522,7 +559,7 @@
                       "example": true
                     }
                   }
-              }
+                }
               }
             }
           }
@@ -657,7 +694,7 @@
           }
         }
       },
-      "put":  {
+      "put": {
         "summary": "Update a package",
         "tags": [
           "packages-routes"
@@ -686,30 +723,28 @@
           }
         }
       },
-       "delete": {
-          "summary": "Delete a package",
-          "tags": [
-             "packages-routes"
-          ],
-          "parameters": [
-             {
-                "name": "packageId",
-                "in": "path",
-                "required": true,
-                "description": "The ID of the package to retrieve",
-                "schema": {
-                  "type": "string"
-                }
-             }
-          ],
-          "responses": {
-             "200": {
-                "description": "Package deleted"
-             }
+      "delete": {
+        "summary": "Delete a package",
+        "tags": [
+          "packages-routes"
+        ],
+        "parameters": [
+          {
+            "name": "packageId",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the package to retrieve",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Package deleted"
           }
         }
-
-
+      }
     },
     "/api/v1/preview/verify-email": {
       "get": {
@@ -718,7 +753,6 @@
         ],
         "summary": "Verify Email for Image Preview",
         "description": "Verify the email address click on the verification link.",
-
         "responses": {
           "200": {
             "description": "Email Verification Successful"

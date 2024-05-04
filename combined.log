@@ -180,3 +180,19 @@
 2024-05-04T17:39:23.323Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 128ms
 2024-05-04T17:39:25.551Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 120ms
 2024-05-04T17:39:34.013Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 201 5285ms
+2024-05-04T17:48:07.304Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 201 469ms
+2024-05-04T17:50:05.288Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 304 29ms
+2024-05-04T17:50:19.272Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 122ms
+2024-05-04T17:56:58.545Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 136ms
+2024-05-04T17:56:58.739Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "katsaaa111aa.com.ng@gmail.com" }
+2024-05-04T17:57:08.689Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 232ms
+2024-05-04T17:57:08.968Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "katsaaa111aa.com.ng@gmail.com" }
+2024-05-04T18:08:41.331Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 132ms
+2024-05-04T18:08:41.852Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "katsaaa111aa.com.ng@gmail.com" }
+2024-05-04T18:16:35.322Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 304 34ms
+2024-05-04T19:37:48.774Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 136ms
+2024-05-04T19:40:21.587Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 128ms
+2024-05-04T19:48:12.981Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 127ms
+2024-05-04T19:48:41.108Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 119ms
+2024-05-04T19:48:49.573Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 500 118ms
+2024-05-04T19:49:05.536Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 200 939ms
