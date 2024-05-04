@@ -41,6 +41,11 @@ export function getEmailTemplates(title: EmailTitleType) {
       "utf8"
    );
 
+   const button = fs.readFileSync(
+      `${emailFolder}/commons/button.hbs`,
+      "utf8"
+   );
+
    const emailTemplateSource = fs.readFileSync(
       `${emailFolder}/${title}.hbs`,
       "utf8"
@@ -50,6 +55,7 @@ export function getEmailTemplates(title: EmailTitleType) {
    handlebars.registerPartial("styles", styleSource);
    handlebars.registerPartial("header", headerSource);
    handlebars.registerPartial("footer", footerSource);
+   handlebars.registerPartial("button", button);
 
    return handlebars.compile(emailTemplateSource);
 }

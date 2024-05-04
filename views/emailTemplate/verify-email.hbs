@@ -2,16 +2,12 @@
 
 <head>
 
-
     <title>{{title}}</title>
 </head>
 
 <body>
 {{> header}}
 {{> styles}}
-
-
-
 <tr style="border-collapse:collapse">
     <td align="left" style="padding:0;Margin:0;padding-left:40px;padding-right:40px">
         <table cellpadding="0" cellspacing="0" width="100%"
@@ -25,8 +21,8 @@
                         </tr>
                         <tr style="border-collapse:collapse">
                             <td align="left" style="padding:0;Margin:0">
-                                <h1 style="Margin:0;line-height:34px;mso-line-height-rule:exactly;font-family:-apple-system, blinkmacsystemfont, 'segoe ui', roboto, helvetica, arial, sans-serif, 'apple color emoji', 'segoe ui emoji', 'segoe ui symbol';font-size:28px;font-style:normal;font-weight:normal;color:#2f1c6a">
-                                    <strong>Verify your email address</strong></h1>
+                                <h1 style="Margin:0;line-height:34px;mso-line-height-rule:exactly;font-family:-apple-system, blinkmacsystemfont, 'segoe ui', roboto, helvetica, arial, sans-serif, 'apple color emoji', 'segoe ui emoji', 'segoe ui symbol';font-size:28px;font-style:normal;font-weight:normal;color:#092760">
+                                    <strong>Verify your email address ???---</strong></h1>
                             </td>
                         </tr>
                         <tr style="border-collapse:collapse">
@@ -34,49 +30,20 @@
                         </tr>
                         <tr style="border-collapse:collapse">
                             <td align="left" style="padding:0;Margin:0">
-                                <p style="Margin:10px 0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:-apple-system, blinkmacsystemfont, 'segoe ui', roboto, helvetica, arial, sans-serif, 'apple color emoji', 'segoe ui emoji', 'segoe ui symbol';line-height:14px;color:#2f1c6a;font-size:14px">
+                                <p style="Margin:10px 0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:-apple-system, blinkmacsystemfont, 'segoe ui', roboto, helvetica, arial, sans-serif, 'apple color emoji', 'segoe ui emoji', 'segoe ui symbol';line-height:14px;color:#092760;font-size:14px">
                                     Hi {{ name }},</p>
                             </td>
                         </tr>
 
                         <tr style="border-collapse:collapse">
                             <td align="left" style="padding:0;Margin:0">
-                                <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:-apple-system, blinkmacsystemfont, 'segoe ui', roboto, helvetica, arial, sans-serif, 'apple color emoji', 'segoe ui emoji', 'segoe ui symbol';line-height:14px;color:#2f1c6a;font-size:14px">
+                                <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:-apple-system, blinkmacsystemfont, 'segoe ui', roboto, helvetica, arial, sans-serif, 'apple color emoji', 'segoe ui emoji', 'segoe ui symbol';line-height:14px;color:#092760;font-size:14px">
                                     Click the button below to verify your email address.</p>
                             </td>
                         </tr>
 
-<!--                        //button area-->
-                        <tr style="border-collapse:collapse">
-                            <td align="center" height="24" style="padding:0;Margin:0"></td>
-                        </tr>
-                        <tr style="border-collapse:collapse">
-                            <td align="left" style="padding:0;Margin:0"><!--[if mso]><a
+                       {{> button}}
 
-href="{{ clientUrl }}/verify/email/{{ token}}"
-target="_blank" hidden>
-                                <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
-                                             xmlns:w="urn:schemas-microsoft-com:office:word" esdevVmlButton href="#"
-                                             style="height:46px; v-text-anchor:middle; width:132px" arcsize="9%"
-                                             stroke="f" fillcolor="#3c23cc">
-                                    <center
-                                        style='color:#ffffff; font-family:-apple-system, "system-ui", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; font-size:14px; font-weight:700; line-height:14px; mso-text-raise:1px'>
-                                        Verify Email
-                                    </center>
-                                </v:roundrect>
-                            </a>
-                                <![endif]--><!--[if !mso]><!-- --><span class="msohide es-button-border"
-                                                                        style="border-style:solid;border-color:#3c23cc;background:#3c23cc;border-width:0px;display:inline-block;border-radius:4px;width:auto;mso-hide:all"><a
-                                href="{{ clientUrl }}/verify/email/{{ token}}"
-                                class="es-button es-button-1" target="_blank"
-                                style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:14px;border-style:solid;border-color:#3c23cc;border-width:15px 25px;display:inline-block;background:#3c23cc;border-radius:4px;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';font-weight:bold;font-style:normal;line-height:17px;width:auto;text-align:center">Verify Email</a></span>
-                                <!--<![endif]--></td>
-                        </tr>
-                        <tr style="border-collapse:collapse">
-                            <td align="center" height="24" style="padding:0;Margin:0"></td>
-                        </tr>
-
-                        <!--                        //button area-->
 
                     </table>
 
@@ -87,7 +54,7 @@ target="_blank" hidden>
 
             <tr style="border-collapse:collapse">
                 <td align="left" style="padding:0;Margin:0">
-                    <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:-apple-system, blinkmacsystemfont, 'segoe ui', roboto, helvetica, arial, sans-serif, 'apple color emoji', 'segoe ui emoji', 'segoe ui symbol';line-height:14px;color:#2f1c6a;font-size:14px">
+                    <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:-apple-system, blinkmacsystemfont, 'segoe ui', roboto, helvetica, arial, sans-serif, 'apple color emoji', 'segoe ui emoji', 'segoe ui symbol';line-height:14px;color:#092760;font-size:14px">
                         This link will expire in 24 hours. If you did not make this request, please disregard this email.</p>
                 </td>
             </tr>
