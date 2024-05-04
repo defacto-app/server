@@ -140,3 +140,8 @@
 2024-05-04T15:05:30.613Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 5ms
 2024-05-04T15:06:36.122Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 128ms
 2024-05-04T15:07:39.884Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 500 928ms
+2024-05-04T15:10:23.592Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 143ms
+2024-05-04T15:11:53.334Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 500 264ms
+2024-05-04T15:12:00.391Z [undefined] [32minfo[39m: POST /api/v1/auth/email-confirm 200 119ms
+2024-05-04T15:29:31.776Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 500 261ms
+2024-05-04T15:31:00.872Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 500 256ms

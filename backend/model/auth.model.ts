@@ -142,7 +142,9 @@ export const AuthSchema: Schema = new Schema(authSchemaDefinitions, {
 
 AuthSchema.index(
    { email: 1 },
-   { unique: true, partialFilterExpression: { email: { $exists: true } } }
+   { unique: true,
+      partialFilterExpression:
+         { email: { $exists: true } } }
 );
 
 class AuthModel extends mongoose.model<AuthDataType>("auth", AuthSchema) {

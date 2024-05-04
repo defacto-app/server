@@ -81,7 +81,9 @@ export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
 
 UserSchema.index(
    { email: 1 },
-   { unique: true, partialFilterExpression: { email: { $exists: true } } }
+   { unique: true,
+      partialFilterExpression:
+         { email: { $exists: true } } }
 );
 
 

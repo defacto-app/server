@@ -76,6 +76,7 @@ const AuthController = {
       } catch (e) {
          res.status(500).json({
             error: e,
+            message: "An unexpected error occurred",
          });
       }
    },
@@ -110,7 +111,7 @@ const AuthController = {
 
             const newUser = new AuthModel({
                phoneNumber: data?.phoneNumber,
-               email:undefined,
+               email: undefined,
                phone_management: {
                   login: {
                      firstTime: true,
@@ -233,7 +234,7 @@ const AuthController = {
             newUser = new UserModel({
                phoneNumber: data?.phoneNumber,
                userId: user.publicId,
-               role:user.role,
+               role: user.role,
                joinedAt: new Date(),
                lastSeenAt: new Date(),
             });
@@ -257,7 +258,7 @@ const AuthController = {
             success: true,
             timeStamp: new Date(),
             data: newUser,
-            firstTime:user.phone_management.login.firstTime ? true : undefined,
+            firstTime: user.phone_management.login.firstTime ? true : undefined,
             token,
          });
       } catch (e: any) {
@@ -304,8 +305,8 @@ const AuthController = {
          });
       } catch (e) {
          res.status(500).json({
-            error: e,
             success: false,
+            message: "An unexpected error occurred",
          });
       }
    },
@@ -416,7 +417,6 @@ const AuthController = {
             message: "An unexpected error occurred",
             timestamp: new Date(),
             success: false,
-            error: e.message,
          });
       }
    },
@@ -453,8 +453,10 @@ const AuthController = {
 
          if (user.email_management.otp !== data!.otp) {
             res.status(400).json({
-               message: "Invalid OTP",
                success: false,
+               error: {
+                  otp: "Invalid OTP",
+               },
                timestamp: new Date(),
             });
             return;
@@ -469,7 +471,11 @@ const AuthController = {
          );
          if (currentTime > otpExpiryTime) {
             res.status(400).json({
-               message: "OTP has expired",
+               success: false,
+               error: {
+                  otp: "OTP has expired",
+               },
+               timestamp: new Date(),
             });
             return;
          }
@@ -485,7 +491,9 @@ const AuthController = {
       } catch (e: any) {
          res.status(500).json({
             message: "An unexpected error occurred",
-            error: e.message,
+
+            success: false,
+            timestamp: new Date(),
          });
       }
    },
@@ -499,9 +507,10 @@ const AuthController = {
             timestamp: new Date(),
             success: true,
          });
-      } catch (e) {
+      } catch (e: any) {
          res.status(500).json({
-            error: e,
+            message: "An unexpected error occurred",
+
             success: false,
             timestamp: new Date(),
          });
@@ -514,18 +523,20 @@ const AuthController = {
 
          if (error) {
             res.status(400).json({
-               message: "Failed to logout",
+               message: error.message,
+
                error: error.message,
             });
          }
 
          res.status(200).json({
             message: "User logged out",
+            success: true,
+            timestamp: new Date(),
          });
       } catch (e: any) {
          res.status(500).json({
             message: "An unexpected error occurred",
-            error: e.message,
          });
       }
    },
