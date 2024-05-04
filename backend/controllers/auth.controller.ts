@@ -66,10 +66,10 @@ const AuthController = {
 
          await newUser.save();
 
-      /*   await EmailEvent.sendContactMail({
-            email: "here we go",
-            message: `here we go ${otp}`,
-         });*/
+         /*   await EmailEvent.sendContactMail({
+               email: "here we go",
+               message: `here we go ${otp}`,
+            });*/
 
          SendResponse.success(res, "User created", { token });
       } catch (error: any) {

@@ -12,3 +12,4 @@
 2024-05-04T17:56:58.739Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "katsaaa111aa.com.ng@gmail.com" }
 2024-05-04T17:57:08.968Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "katsaaa111aa.com.ng@gmail.com" }
 2024-05-04T18:08:41.852Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "katsaaa111aa.com.ng@gmail.com" }
+2024-05-04T20:24:20.209Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "kats.com.ng@gmail.com" }
