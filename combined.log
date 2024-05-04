@@ -1,0 +1,5 @@
+{"level":"info","message":"POST /api/v1/auth/admin-login 404 123ms","service":"user-service"}
+{"level":"info","message":"POST /api/v1/auth/admin-login 404 119ms","service":"user-service"}
+{"level":"info","message":"POST /api/v1/auth/admin-login 404 115ms","service":"user-service"}
+{"level":"info","message":"POST /api/v1/auth/admin-login 404 133ms","service":"app-service"}
+{"level":"info","message":"POST /api/v1/auth/admin-login 404 118ms","service":"app-service"}
