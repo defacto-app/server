@@ -185,7 +185,41 @@
         },
         "responses": {
           "200": {
-            "description": "Login successful"
+            "description": "Logged in successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Logged in successfully"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2024-05-02T14:45:52.556Z"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "firstTime": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "token": {
+                          "type": "string",
+                          "example": "Bearer token"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -265,9 +299,40 @@
             }
           }
         },
+
         "responses": {
           "200": {
-            "description": "Registration successful"
+            "description": "Registration successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Registration successful"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2024-05-02T14:45:52.556Z"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "string",
+                          "example": "Bearer token"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

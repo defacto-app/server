@@ -66,12 +66,12 @@ const AuthController = {
 
          await newUser.save();
 
-         await EmailEvent.sendContactMail({
+      /*   await EmailEvent.sendContactMail({
             email: "here we go",
             message: `here we go ${otp}`,
-         });
+         });*/
 
-         SendResponse.success(res, "User created", newUser);
+         SendResponse.success(res, "User created", { token });
       } catch (error: any) {
          SendResponse.serverError(res, error.message);
       }
@@ -112,8 +112,6 @@ const AuthController = {
             });
 
             await newUser.save();
-
-
 
             SendResponse.success(res, "OTP sent successfully. Please verify.", {
                userExists: false,
@@ -174,15 +172,12 @@ const AuthController = {
             phoneNumber: data?.phoneNumber,
          });
          if (!user) {
-
-
             SendResponse.notFound(res, "User not found");
 
             return;
          }
 
          if (user.phone_management.login.otp !== data?.otp) {
-
             SendResponse.badRequest(res, "Invalid OTP");
             return;
          }
@@ -224,20 +219,19 @@ const AuthController = {
             );
          }
 
-      /*   res.status(200).json({
-            message: "Logged in successfully",
-            success: true,
-            timeStamp: new Date(),
-            firstTime: user.phone_management.login.firstTime ? true : undefined,
-            token,
-         });*/
+         /*   res.status(200).json({
+               message: "Logged in successfully",
+               success: true,
+               timeStamp: new Date(),
+               firstTime: user.phone_management.login.firstTime ? true : undefined,
+               token,
+            });*/
 
          // dont change yet
          SendResponse.success(res, "Logged in successfully", {
             firstTime: user.phone_management.login.firstTime ? true : undefined,
             token,
          });
-
       } catch (e: any) {
          res.status(500).json({
             message: e.message,
@@ -254,11 +248,7 @@ const AuthController = {
          const { data, error } = await AuthValidator.email_login(req.body);
 
          if (error) {
-            res.status(400).json({
-               error: error,
-               success: false,
-               timestamp: new Date(),
-            });
+            SendResponse.badRequest(res, "Invalid email or password", error);
          }
 
          const user = await AuthModel.findOne<AuthDataType>({
@@ -266,7 +256,7 @@ const AuthController = {
          });
 
          if (!user || !user.password) {
-            res.status(401).json({ message: "Invalid email or password" });
+            SendResponse.unauthorized(res, "Invalid email or password");
             return;
          }
 
@@ -276,15 +266,13 @@ const AuthController = {
          );
 
          if (!isMatch) {
-            res.status(401).json({ message: "Invalid email or password" });
+            SendResponse.unauthorized(res, "Invalid email or password");
          }
 
          const token = generateToken(user!);
 
-
          SendResponse.success(res, "Login Successful", { token });
-      } catch (e:any) {
-
+      } catch (e: any) {
          SendResponse.serverError(res, e.message);
       }
    },
@@ -294,13 +282,7 @@ const AuthController = {
          const { data, error } = await AuthValidator.email_address(req.body);
 
          if (error) {
-            res.status(400).json({
-               message: "Invalid email address",
-               success: false,
-               timestamp: new Date(),
-               error,
-            });
-
+            SendResponse.badRequest(res, "Invalid email address", error);
 
             return;
          }
@@ -331,20 +313,18 @@ const AuthController = {
                message: "OTP sent successfully",
                success: true,
             });
+
+            SendResponse.success(res, "OTP sent successfully", {});
          } else {
-            res.status(200).json({
-               exists: false,
-               timestamp: new Date(),
-               success: true,
-            });
+            SendResponse.notFound(res, "User not found");
+            return;
          }
-      } catch (e: any) {
-         res.status(500).json({
-            message: "An unexpected error occurred",
-            timestamp: new Date(),
-            success: false,
-            error: e.message,
+
+         SendResponse.success(res, "", {
+            exists: true,
          });
+      } catch (e: any) {
+         SendResponse.serverError(res, e.message);
       }
    },
 
@@ -353,12 +333,7 @@ const AuthController = {
          const { data, error } = await AuthValidator.email_address(req.body);
 
          if (error) {
-            res.status(400).json({
-               message: "Invalid email address",
-               error,
-               timestamp: new Date(),
-               success: false,
-            });
+            SendResponse.badRequest(res, "Invalid email address", error);
             return;
          }
 
@@ -379,25 +354,12 @@ const AuthController = {
                { new: true } // option to return the updated document
             );
 
-            res.status(200).json({
-               exists: true,
-               message: "Email confirmed",
-               success: true,
-               timestamp: new Date(),
-            });
+            SendResponse.success(res, "Email confirmed", {});
          } else {
-            res.status(200).json({
-               exists: false,
-               timestamp: new Date(),
-               message: "User not found",
-            });
+            SendResponse.notFound(res, "User not found");
          }
       } catch (e: any) {
-         res.status(500).json({
-            message: "An unexpected error occurred",
-            timestamp: new Date(),
-            success: false,
-         });
+         SendResponse.serverError(res, e.message);
       }
    },
 
@@ -406,12 +368,7 @@ const AuthController = {
          const { data, error } = await AuthValidator.admin_login(req.body);
 
          if (error) {
-            res.status(400).json({
-               message: "Invalid email address",
-               timestamp: new Date(),
-               success: false,
-               error,
-            });
+            SendResponse.badRequest(res, "Invalid email address", error);
             return;
          }
 
@@ -423,21 +380,13 @@ const AuthController = {
          });
 
          if (!user) {
-            res.status(404).json({
-               message: "Admin not found",
-               success: false,
-               timestamp: new Date(),
-            });
+            SendResponse.notFound(res, "Admin not found");
             return;
          }
 
          if (user.email_management.otp !== data!.otp) {
-            res.status(400).json({
-               success: false,
-               error: {
-                  otp: "Invalid OTP",
-               },
-               timestamp: new Date(),
+            SendResponse.badRequest(res, "Invalid OTP", {
+               otp: "Invalid OTP",
             });
             return;
          }
@@ -462,19 +411,9 @@ const AuthController = {
 
          const token = generateToken(user);
 
-         res.status(200).json({
-            message: "Admin logged in",
-            success: true,
-            timeStamp: new Date(),
-            token,
-         });
+         SendResponse.success(res, "Admin logged in", { token });
       } catch (e: any) {
-         res.status(500).json({
-            message: "An unexpected error occurred",
-
-            success: false,
-            timestamp: new Date(),
-         });
+         SendResponse.serverError(res, e.message);
       }
    },
 
@@ -482,18 +421,9 @@ const AuthController = {
       const currentUser = res.locals.user;
 
       try {
-         res.status(200).json({
-            data: currentUser,
-            timestamp: new Date(),
-            success: true,
-         });
+         SendResponse.success(res, "", currentUser);
       } catch (e: any) {
-         res.status(500).json({
-            message: "An unexpected error occurred",
-
-            success: false,
-            timestamp: new Date(),
-         });
+         SendResponse.serverError(res, e.message);
       }
    },
 
@@ -502,22 +432,12 @@ const AuthController = {
          const { error } = await supabase.auth.signOut();
 
          if (error) {
-            res.status(400).json({
-               message: error.message,
-
-               error: error.message,
-            });
+            SendResponse.badRequest(res, "Failed to logout", error);
          }
 
-         res.status(200).json({
-            message: "User logged out",
-            success: true,
-            timestamp: new Date(),
-         });
+         SendResponse.success(res, "User logged out", {});
       } catch (e: any) {
-         res.status(500).json({
-            message: "An unexpected error occurred",
-         });
+         SendResponse.serverError(res, e.message);
       }
    },
 };
