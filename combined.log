@@ -153,3 +153,4 @@
 2024-05-04T16:12:17.981Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 245ms
 2024-05-04T16:13:12.132Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 117ms
 2024-05-04T16:13:34.666Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 114ms
+2024-05-04T16:17:08.669Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 122ms

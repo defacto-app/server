@@ -41,6 +41,8 @@ const AuthController = {
 
          const otp = generateOTP();
 
+         const token = generateToken(user!);
+
          const newAuth = new AuthModel({
             email: data!.email,
             password: hashedPassword, // Save the hashed password
@@ -71,6 +73,8 @@ const AuthController = {
 
          res.status(201).json({
             message: "User created",
+            token,
+
             success: true,
             timestamp: new Date(),
          });
@@ -78,6 +82,7 @@ const AuthController = {
          res.status(500).json({
             error: e,
             message: "An unexpected error occurred",
+            timestamp: new Date(),
          });
       }
    },
