@@ -1,10 +1,10 @@
 import express from "express";
 import env from "./config/env";
 import cors from "cors";
-import morgan from "morgan";
 import session from "express-session";
 import listEndpoints from "express-list-endpoints";
 import path from "path";
+import  logger  from "./config/logger";
 import fs from "fs";
 
 import { fileURLToPath } from 'url';
@@ -50,7 +50,6 @@ app.use((err:any, req:any, res:any, next:any) => {
    res.status(500).send('Internal Server Error');
 });
 
-app.use(morgan(':method :url :status :response-time ms'));
 
 
 const options = {
@@ -94,21 +93,7 @@ emailEvents();
 
 
 // Use response-time middleware to automatically calculate response times
-const logger = winston.createLogger({
-   level: 'info',
-   format: winston.format.json(),
-   defaultMeta: { service: 'app-service' },
-   transports: [
-      new winston.transports.File({ filename: 'error.log', level: 'error' }),
-      new winston.transports.File({ filename: 'combined.log' })
-   ],
-});
 
-if (process.env.NODE_ENV !== 'production') {
-   logger.add(new winston.transports.Console({
-      format: winston.format.simple(),
-   }));
-}
 
 // Custom middleware to use with Winston
 app.use((req, res, next) => {

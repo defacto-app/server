@@ -137,12 +137,6 @@ export const AuthSchema: Schema = new Schema(authSchemaDefinitions, {
    strict: false,
 });
 
-/*
-AuthSchema.index(
-   { email: 1 },
-   { unique: true, partialFilterExpression: { email: { $exists: true } } },
-);
-*/
 
 class AuthModel extends mongoose.model<AuthDataType>("auth", AuthSchema) {
    static async comparePassword(

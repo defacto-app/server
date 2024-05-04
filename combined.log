@@ -3,3 +3,18 @@
 {"level":"info","message":"POST /api/v1/auth/admin-login 404 115ms","service":"user-service"}
 {"level":"info","message":"POST /api/v1/auth/admin-login 404 133ms","service":"app-service"}
 {"level":"info","message":"POST /api/v1/auth/admin-login 404 118ms","service":"app-service"}
+{"level":"info","message":"POST /api/v1/auth/confirm-phone-login 500 241ms","service":"app-service"}
+{"level":"info","message":"POST /api/v1/auth/confirm-phone-login 500 237ms","service":"app-service"}
+{"level":"info","message":"POST /api/v1/auth/confirm-phone-login 500 264ms","service":"app-service"}
+{"level":"info","message":"POST /api/v1/auth/confirm-phone-login 500 238ms","service":"app-service"}
+{"level":"info","message":"POST /api/v1/auth/confirm-phone-login 500 262ms","service":"app-service"}
+{"level":"info","message":"POST /api/v1/auth/confirm-phone-login 500 258ms","service":"app-service"}
+{"level":"info","message":"POST /api/v1/auth/confirm-phone-login 500 236ms","service":"app-service"}
+{"level":"info","message":"POST /api/v1/auth/confirm-phone-login 500 261ms","service":"app-service"}
+{"level":"info","message":"POST /api/v1/auth/confirm-phone-login 500 235ms","service":"app-service"}
+2024-05-04T12:27:00.264Z [app-service] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 500 253ms
+2024-05-04T12:27:39.025Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 500 233ms
+2024-05-04T12:28:26.068Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 500 233ms
+2024-05-04 13:30:48 [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 500 239ms
+2024-05-04 13:30:52 [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 500 237ms
+2024-05-04T12:31:00.408Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 500 274ms

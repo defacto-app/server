@@ -104,11 +104,13 @@ const AuthController = {
             phoneNumber: data?.phoneNumber,
          });
 
+         console.log(user);
          if (!user) {
             // create user in db and save otp
 
             const newUser = new AuthModel({
                phoneNumber: data?.phoneNumber,
+               email:undefined,
                phone_management: {
                   login: {
                      firstTime: true,
