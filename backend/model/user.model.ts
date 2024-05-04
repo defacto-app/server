@@ -83,13 +83,7 @@ export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
    strict: false,
 });
 
-UserSchema.index(
-   { email: 1 },
-   {
-      unique: true,
-      partialFilterExpression: { email: { $exists: true } },
-   }
-);
+
 
 class UserModel extends mongoose.model<UserDataType>("user", UserSchema) {
    // set random email if email field is not provided

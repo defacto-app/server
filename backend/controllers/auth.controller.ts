@@ -199,7 +199,7 @@ const AuthController = {
 
          const user = await AuthModel.findOne({
             phoneNumber: data?.phoneNumber,
-            email: randomEmial,
+
          });
          if (!user) {
             res.status(404).json({
