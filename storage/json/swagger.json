@@ -299,7 +299,6 @@
             }
           }
         },
-
         "responses": {
           "200": {
             "description": "Registration successful",

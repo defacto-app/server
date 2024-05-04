@@ -130,6 +130,7 @@ app.use("/api/v1/preview/", EmailViewRoutes);
 
 
 app.use("/uploads", express.static(path.join(__dirname, "storage/uploads")));
+app.use("/assets", express.static(path.join(__dirname, "storage/assets")));
 
 const listApis = listEndpoints(app);
 

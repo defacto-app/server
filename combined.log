@@ -201,3 +201,11 @@
 2024-05-04T20:24:20.012Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 133ms
 2024-05-04T20:24:20.209Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "kats.com.ng@gmail.com" }
 2024-05-04T20:24:34.679Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 457ms
+2024-05-04T20:42:18.306Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 304 17ms
+2024-05-04T22:44:53.549Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 304 8ms
+2024-05-04T22:45:46.505Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 304 7ms
+2024-05-04T22:45:54.406Z [undefined] [32minfo[39m: GET /api/uploads 404 4ms
+2024-05-04T22:47:38.238Z [undefined] [32minfo[39m: GET /api/assets/img.png 404 2ms
+2024-05-04T22:47:39.906Z [undefined] [32minfo[39m: GET /api/assets/img.png 404 1ms
+2024-05-04T22:47:47.082Z [undefined] [32minfo[39m: GET /assets/img.png 200 5ms
+2024-05-04T22:48:26.187Z [undefined] [32minfo[39m: GET /assets/email-logo.png 200 3ms
