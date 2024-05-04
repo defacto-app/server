@@ -184,6 +184,7 @@ const AuthController = {
    //
 
    async phone_login(req: Request, res: Response): Promise<void> {
+      const randomEmail = `${nanoid()}@defacto.com.ng`;
       try {
          const { data, error } = await AuthValidator.phone_login(req.body);
          if (error) {
@@ -238,7 +239,7 @@ const AuthController = {
                joinedAt: new Date(),
                lastSeenAt: new Date(),
                random_email: true,
-               email: undefined
+               email: randomEmail,
             });
             await newUser.save();
 
@@ -264,7 +265,11 @@ const AuthController = {
             token,
          });
       } catch (e: any) {
-         res.status(500).json({ error: e.message });
+         res.status(500).json({
+            message: e.message,
+            timestamp: new Date(),
+            success: false,
+         });
       }
    },
 
@@ -276,6 +281,7 @@ const AuthController = {
             res.status(400).json({
                error: error,
                success: false,
+               timestamp: new Date(),
             });
          }
 
@@ -309,6 +315,7 @@ const AuthController = {
          res.status(500).json({
             success: false,
             message: "An unexpected error occurred",
+            timestamp: new Date(),
          });
       }
    },
