@@ -219,26 +219,12 @@ const AuthController = {
             );
          }
 
-         /*   res.status(200).json({
-               message: "Logged in successfully",
-               success: true,
-               timeStamp: new Date(),
-               firstTime: user.phone_management.login.firstTime ? true : undefined,
-               token,
-            });*/
-
          // dont change yet
          SendResponse.success(res, "Logged in successfully", {
             firstTime: user.phone_management.login.firstTime ? true : undefined,
             token,
          });
       } catch (e: any) {
-         res.status(500).json({
-            message: e.message,
-            timestamp: new Date(),
-            success: false,
-         });
-
          SendResponse.serverError(res, e.message);
       }
    },
@@ -308,13 +294,9 @@ const AuthController = {
                message: `here we go ${otp}`,
             });
 
-            res.status(200).json({
+            SendResponse.success(res, "OTP sent successfully", {
                exists: true,
-               message: "OTP sent successfully",
-               success: true,
             });
-
-            SendResponse.success(res, "OTP sent successfully", {});
          } else {
             SendResponse.notFound(res, "User not found");
             return;
@@ -399,14 +381,9 @@ const AuthController = {
             user.email_management?.otp_expires_at || Date.now()
          );
          if (currentTime > otpExpiryTime) {
-            res.status(400).json({
-               success: false,
-               error: {
-                  otp: "OTP has expired",
-               },
-               timestamp: new Date(),
+            SendResponse.badRequest(res, "OTP has expired", {
+               otp: "OTP has expired",
             });
-            return;
          }
 
          const token = generateToken(user);
