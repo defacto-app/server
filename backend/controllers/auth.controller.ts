@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+Ede noimport { Request, Response } from "express";
 
 import { supabase } from "../../config/supabase.config";
 import AuthModel, { AuthDataType } from "../model/auth.model";
@@ -298,7 +298,7 @@ const AuthController = {
                exists: true,
             });
          } else {
-            SendResponse.notFound(res, "User not found");
+            SendResponse.success(res, "User not found");
             return;
          }
 
