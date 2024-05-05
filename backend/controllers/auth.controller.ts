@@ -298,7 +298,7 @@ const AuthController = {
                exists: true,
             });
          } else {
-            SendResponse.success(res, "User not found");
+            SendResponse.success(res, "User not found", {exists:false});
             return;
          }
 
