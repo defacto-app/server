@@ -1,4 +1,4 @@
-Ede noimport { Request, Response } from "express";
+import { Request, Response } from "express";
 
 import { supabase } from "../../config/supabase.config";
 import AuthModel, { AuthDataType } from "../model/auth.model";
