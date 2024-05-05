@@ -121,7 +121,6 @@ app.use((req, res, next) => {
 
 // app.use("/api", PublicRoutes);
 app.use("/api/v1/packages", PackageRoutes);
-app.use("/api/v1/packages", PackageRoutes);
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/user", UserRoutes);
 app.use("/api/v1/admin/dashboard", DashboardRoutes);

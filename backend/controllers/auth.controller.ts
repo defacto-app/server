@@ -32,13 +32,13 @@ const AuthController = {
 
          const hashedPassword = await AuthModel.hashPassword(data!.password);
 
-         const otp = generateOTP();
+         const email_token = nanoid(10);
 
          const newAuth = new AuthModel({
             email: data!.email,
             password: hashedPassword, // Save the hashed password
             email_management: {
-               otp: otp,
+               otp: email_token,
                otp_sent_at: new Date(),
                otp_expires_at: moment().add(10, "minutes").toDate(),
             },
@@ -298,7 +298,7 @@ const AuthController = {
                exists: true,
             });
          } else {
-            SendResponse.success(res, "User not found", {exists:false});
+            SendResponse.success(res, "User not found", { exists: false });
             return;
          }
 
@@ -368,7 +368,7 @@ const AuthController = {
 
          if (user.email_management.otp !== data!.otp) {
             SendResponse.badRequest(res, "Invalid OTP", {
-               otp: "Invalid OTP",
+               pin: "Invalid OTP",
             });
             return;
          }

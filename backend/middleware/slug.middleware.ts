@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 
 import PackageModel from "../model/package.model";
+import SendResponse from "../libs/response-helper";
 
 class SlugMiddleware {
    public async packageId(req: Request, res: Response, next: NextFunction) {
@@ -21,18 +22,15 @@ class SlugMiddleware {
          });
 
          if (!pkg) {
-            return res.status(404).json({
-               message: `Sorry, package  ${packageId} is deleted or doesnt exist `,
-               timestamp: new Date(),
-               success: false,
-            });
+            SendResponse.notFound(res, `Sorry, package  ${packageId} is deleted or doesnt exist `);
+
          }
 
          res.locals.packageItem = pkg;
 
          next();
       } catch (error: any) {
-         return res.status(400).json({ error: error.message });
+         SendResponse.serverError(res, error.message);
       }
    }
 

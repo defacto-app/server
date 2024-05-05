@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AuthDataType } from "../../model/auth.model";
 import PackageModel, { PackageDataType } from "../../model/package.model";
+import SendResponse from "../../libs/response-helper";
 
 const PackageController = {
    async all(req: Request, res: Response): Promise<void> {
@@ -32,16 +33,14 @@ const PackageController = {
       await newPackage.save();
 
       try {
-         // Send the updated user back to the client
-         res.json({
-            message: "Package delivery scheduled successfully.",
-            success: true,
+         // Send the updated user back to the client\
+         SendResponse.success(res, "Created New Package Delivery.", {
             packageId: newPackage.publicId,
-            timestamp: new Date(),
          });
+
       } catch (error: any) {
          // Handle possible errors
-         res.status(500).send("Error Creating  order: " + error.message);
+         SendResponse.serverError(res, error.message);
       }
    },
 
@@ -49,14 +48,11 @@ const PackageController = {
       const data = res.locals.packageItem as any;
 
       try {
-         res.json({
-            message: "Package retrieved",
-            success: true,
-            data,
-            timestamp: new Date(),
-         });
+
+         SendResponse.success(res, "Package retrieved", data);
       } catch (error: any) {
-         res.status(500).send("Error Fetching  package: " + error.message);
+
+         SendResponse.serverError(res, error.message);
       }
    },
 
@@ -71,12 +67,9 @@ const PackageController = {
       );
 
       try {
-         res.json({
-            message: "Package delivery updated successfully.",
-            success: true,
-            data,
-            timestamp: new Date(),
-         });
+
+
+         SendResponse.success(res, "Package delivery updated successfully.", data);
       } catch (error: any) {
          res.status(500).send("Error Updating  order: " + error.message);
       }
