@@ -57,7 +57,7 @@ class AuthMiddleware {
 
          // `user` will be an array, so you might want to take the first element if expecting a single result
          const userData = user[0];
-         console.log(userData);
+         // console.log(userData);
 
          if (!user) {
             return res.status(401).json({ error: "invalid token" });
