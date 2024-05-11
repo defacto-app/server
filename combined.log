@@ -341,3 +341,5 @@
 2024-05-11T02:25:20.570Z [undefined] [32minfo[39m: POST /api/v1/auth/admin-login 404 219ms
 2024-05-11T02:38:15.568Z [undefined] [32minfo[39m: POST /api/v1/auth/email-confirm 404 159ms
 2024-05-11T02:38:35.318Z [undefined] [32minfo[39m: POST /api/v1/auth/email-exists 200 277ms
+2024-05-11T02:48:02.377Z [undefined] [32minfo[39m: POST /api/v1/auth/email-exists 200 310ms
+2024-05-11T02:48:04.198Z [undefined] [32minfo[39m: POST /api/v1/auth/email-exists 200 270ms
