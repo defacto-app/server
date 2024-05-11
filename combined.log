@@ -337,3 +337,7 @@
 2024-05-05T14:04:24.758Z [undefined] [32minfo[39m: GET /api/v1/packages/create 404 304ms
 2024-05-05T14:04:57.395Z [undefined] [32minfo[39m: GET /api/v1/packages/create 200 567ms
 2024-05-05T14:09:36.066Z [undefined] [32minfo[39m: GET /api/v1/packages/create 200 277ms
+2024-05-11T02:24:10.968Z [undefined] [32minfo[39m: GET /favicon.ico 404 19ms
+2024-05-11T02:25:20.570Z [undefined] [32minfo[39m: POST /api/v1/auth/admin-login 404 219ms
+2024-05-11T02:38:15.568Z [undefined] [32minfo[39m: POST /api/v1/auth/email-confirm 404 159ms
+2024-05-11T02:38:35.318Z [undefined] [32minfo[39m: POST /api/v1/auth/email-exists 200 277ms
