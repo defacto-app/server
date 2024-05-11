@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Chance from "chance";
 
-import AuthModel from "../../model/auth.model";
+import AuthModel from "../../auth/model";
 
 
 const DashboardController = {

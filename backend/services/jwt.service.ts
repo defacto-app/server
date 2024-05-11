@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { AuthDataType } from "../model/auth.model";
+import { AuthDataType } from "../auth/model";
 import env from "../../config/env";
 import { isDev } from "../../config/config";
 

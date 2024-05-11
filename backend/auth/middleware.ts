@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 import { verifyToken } from "../services/jwt.service";
-import AuthModel from "../model/auth.model";
+import AuthModel from "./model";
 import { ObjectId } from "mongodb";
 
 class AuthMiddleware {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 import { supabase } from "../../config/supabase.config";
-import AuthModel, { AuthDataType } from "../model/auth.model";
+import AuthModel, { AuthDataType } from "./model";
 import AuthValidator from "../validator/auth.validator";
 import { generateToken } from "../services/jwt.service";
 import moment from "moment";

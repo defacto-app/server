@@ -6,7 +6,7 @@ import listEndpoints from "express-list-endpoints";
 import path from "path";
 import  logger  from "./config/logger";
 import fs from "fs";
-import { engine } from 'express-handlebars';
+
 import swaggerUi from "swagger-ui-express";
 
 import { fileURLToPath } from 'url';
@@ -17,7 +17,7 @@ import { HandlePayload } from "./config/utils/api-routes";
 import swaggerDocument from "./storage/json/swagger.json";
 //  routes
 import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
-import AuthRoutes from "./backend/routes/auth.routes";
+import AuthRoutes from "./backend/auth/routes";
 import UserRoutes from "./backend/routes/user/user.routes";
 import PackageRoutes from "./backend/routes/user/package.routes";
 import EmailViewRoutes from "./backend/routes/email.routes";
@@ -54,7 +54,7 @@ app.use(
    })
 );
 
-app.use((err:any, req:any, res:any, next:any) => {
+app.use((err:any, req:any, res:any) => {
    console.error(err);
    res.status(500).send('Internal Server Error');
 });

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { AuthDataType } from "../../model/auth.model";
+import { AuthDataType } from "../../auth/model";
 import PackageModel, { PackageDataType } from "../../model/package.model";
 import SendResponse from "../../libs/response-helper";
 

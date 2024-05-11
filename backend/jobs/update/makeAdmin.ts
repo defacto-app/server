@@ -1,5 +1,5 @@
 import { connectDB } from "../../../config/mongodb";
-import AuthModel from "../../model/auth.model";
+import AuthModel from "../../auth/model";
 
 async function makeAdmin(email: string) {
    await connectDB();
