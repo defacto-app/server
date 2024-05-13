@@ -610,6 +610,27 @@
                               "example": "ca5a6b43-9cdf-4400-b8ec-979b4a5e32d8"
                             }
                           }
+                        },
+                        "packages": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "packageId": {
+                                "type": "string",
+                                "example": "9FqF3NT"
+                              },
+                              "status": {
+                                "type": "string",
+                                "example": "active"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2024-05-03T00:42:56.589Z"
+                              }
+                            }
+                          }
                         }
                       }
                     },
