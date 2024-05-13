@@ -4,12 +4,12 @@ import cors from "cors";
 import session from "express-session";
 import listEndpoints from "express-list-endpoints";
 import path from "path";
-import  logger  from "./config/logger";
+import logger from "./config/logger";
 import fs from "fs";
 
 import swaggerUi from "swagger-ui-express";
 
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 
 import { connectDB } from "./config/mongodb";
 import { emailEvents } from "./config/eventEmitter";
@@ -19,28 +19,23 @@ import swaggerDocument from "./storage/json/swagger.json";
 import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
 import AuthRoutes from "./backend/auth/routes";
 import UserRoutes from "./backend/routes/user/user.routes";
-import PackageRoutes from "./backend/routes/user/package.routes";
+import PackageRoutes from "./backend/user/packages/route";
 import EmailViewRoutes from "./backend/routes/email.routes";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
-
-
 // list out files
 console.log(`Current directory: ${process.cwd()}`);
 
 try {
-   const viewsPath = path.join(__dirname, 'views');
+   const viewsPath = path.join(__dirname, "views");
    const files = fs.readdirSync(viewsPath);
-   console.log('Files in the views directory:', files);
+   console.log("Files in the views directory:", files);
 } catch (err) {
-   console.error('Error accessing the views directory:', err);
+   console.error("Error accessing the views directory:", err);
 }
-
-
-
 
 app.use(cors());
 
@@ -53,13 +48,6 @@ app.use(
       saveUninitialized: false,
    })
 );
-
-app.use((err:any, req:any, res:any) => {
-   console.error(err);
-   res.status(500).send('Internal Server Error');
-});
-
-
 
 const options = {
    swaggerOptions: {
@@ -83,39 +71,42 @@ app.use(
 
 app.get("/", (req, res) => {
    // Read the HTML file on every request
-   fs.readFile(path.join(__dirname, "public/index.html"), 'utf8', (err, html) => {
-      if (err) {
-         console.error("Error reading HTML file:", err);
-         res.status(500).send("Internal Server Error");
-         return;
+   fs.readFile(
+      path.join(__dirname, "public/index.html"),
+      "utf8",
+      (err, html) => {
+         if (err) {
+            console.error("Error reading HTML file:", err);
+            res.status(500).send("Internal Server Error");
+            return;
+         }
+
+         // Replace ${BASE_URL} with the actual base URL
+         html = html.replace("${BASE_URL}", env.BASE_URL);
+
+         // Send the modified HTML file
+         res.send(html);
       }
-
-      // Replace ${BASE_URL} with the actual base URL
-      html = html.replace('${BASE_URL}', env.BASE_URL);
-
-      // Send the modified HTML file
-      res.send(html);
-   });
+   );
 });
 
 emailEvents();
 
-
 // Use response-time middleware to automatically calculate response times
-
 
 // Custom middleware to use with Winston
 app.use((req, res, next) => {
    const start = Date.now();
 
-   res.on('finish', () => {
+   res.on("finish", () => {
       const duration = Date.now() - start;
-      logger.info(`${req.method} ${req.originalUrl} ${res.statusCode} ${duration}ms`);
+      logger.info(
+         `${req.method} ${req.originalUrl} ${res.statusCode} ${duration}ms`
+      );
    });
 
    next();
 });
-
 
 // Use the custom logging middleware
 
@@ -125,8 +116,6 @@ app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/user", UserRoutes);
 app.use("/api/v1/admin/dashboard", DashboardRoutes);
 app.use("/api/v1/preview/", EmailViewRoutes);
-
-
 
 app.use("/uploads", express.static(path.join(__dirname, "storage/uploads")));
 app.use("/assets", express.static(path.join(__dirname, "storage/assets")));
@@ -143,7 +132,9 @@ const handlePayload: HandlePayload = new HandlePayload(listApis);
       await connectDB().then(() => {
          app.listen(env.APP_PORT, () => {
             console.log(`listening at http://localhost:${env.APP_PORT}`);
-            console.log(`Api docs at http://localhost:${env.APP_PORT}/api/api-docs `);
+            console.log(
+               `Api docs at http://localhost:${env.APP_PORT}/api/api-docs `
+            );
          });
       });
    } catch (error) {

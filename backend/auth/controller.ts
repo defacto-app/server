@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { supabase } from "../../config/supabase.config";
 import AuthModel, { AuthDataType } from "./model";
-import AuthValidator from "../validator/auth.validator";
+import AuthValidator from "./validator";
 import { generateToken } from "../services/jwt.service";
 import moment from "moment";
 import { generateOTP } from "../utils/utils";
@@ -397,8 +397,13 @@ const AuthController = {
    async ping(req: Request, res: Response): Promise<void> {
       const currentUser = res.locals.user;
 
+      const packages = res.locals.packages;
+
       try {
-         SendResponse.success(res, "", currentUser);
+         SendResponse.success(res, "", {
+            user: currentUser,
+            packages,
+         });
       } catch (e: any) {
          SendResponse.serverError(res, e.message);
       }

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import AuthController from "./controller";
-import authMiddleware from "./middleware";
+import authMiddleware from "../user/middleware";
+import packageMiddleware from "../user/packages/middleware";
 
 const router = Router();
 
@@ -18,9 +19,13 @@ router.post("/email-confirm", AuthController.email_confirm);
 // admin routes
 router.post("/admin-login", AuthController.admin_login);
 
-
 router.get("/logout", AuthController.logout);
-router.get("/ping", authMiddleware.validateUser, AuthController.ping);
+router.get(
+   "/ping",
+   authMiddleware.validateUser,
+   packageMiddleware.userPackages,
+   AuthController.ping
+);
 
 router.get("/admin-ping", authMiddleware.validateAdmin, AuthController.ping);
 

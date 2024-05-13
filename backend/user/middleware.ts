@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 
 import { verifyToken } from "../services/jwt.service";
-import AuthModel from "./model";
+import AuthModel from "../auth/model";
 import { ObjectId } from "mongodb";
+import PackageModel from "../model/package.model";
 
 class AuthMiddleware {
    public async validateUser(req: Request, res: Response, next: NextFunction) {
       const authorization = req.headers["authorization"] as string;
-
 
       if (!authorization) {
          return res.status(401).json({ error: "Authorization token required" });

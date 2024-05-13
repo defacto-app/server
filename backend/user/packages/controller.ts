@@ -37,7 +37,6 @@ const PackageController = {
          SendResponse.success(res, "Created New Package Delivery.", {
             packageId: newPackage.publicId,
          });
-
       } catch (error: any) {
          // Handle possible errors
          SendResponse.serverError(res, error.message);
@@ -48,10 +47,8 @@ const PackageController = {
       const data = res.locals.packageItem as any;
 
       try {
-
          SendResponse.success(res, "Package retrieved", data);
       } catch (error: any) {
-
          SendResponse.serverError(res, error.message);
       }
    },
@@ -63,20 +60,22 @@ const PackageController = {
 
       await PackageModel.findOneAndUpdate(
          { publicId: data.publicId },
-         req.body
+         req.body,
+         { new: true }
       );
 
       try {
-
-
-         SendResponse.success(res, "Package delivery updated successfully.", data);
+         SendResponse.success(
+            res,
+            "Package delivery updated successfully.",
+            data
+         );
       } catch (error: any) {
          res.status(500).send("Error Updating  order: " + error.message);
       }
    },
 
    async delete(req: Request, res: Response): Promise<void> {
-
       const data = res.locals.packageItem as PackageDataType;
 
       await PackageModel.findOneAndDelete({

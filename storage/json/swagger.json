@@ -815,6 +815,29 @@
             }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "kats.com.ng@gmail.com"
+                  },
+                  "status": {
+                    "type": "string",
+                    "example": "Katalyst Technologies Dev"
+                  }
+                },
+                "required": [
+                  "email"
+                ]
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Details of a specific package",

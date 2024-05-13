@@ -1,7 +1,7 @@
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { z } from "zod";
 import { authBodyType } from "../../types";
-import { formatErrors, PhoneNumberSchema } from "./validation-helper";
+import { formatErrors, PhoneNumberSchema } from "../validator/validation-helper";
 
 
 const ngnError = "Invalid  Nigerian format phone number eg. +2348062516716";
@@ -54,7 +54,7 @@ export default {
 
          const result = registerSchema.safeParse(body);
 
-         // if there are errors, return the errors
+         // if there are errors, rPeturn the errors
 
          if (!result.success) {
             const formattedErrors: any = {};

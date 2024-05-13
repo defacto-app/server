@@ -12,7 +12,7 @@ class SlugMiddleware {
       try {
 
          if (!packageId) {
-            return res.status(400).json({ error: "Service  is required" });
+            return res.status(400).json({ error: "packageId  is required" });
          }
 
          // Execute the query
