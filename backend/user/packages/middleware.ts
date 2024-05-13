@@ -38,7 +38,7 @@ class PackageMiddleware {
 
       try {
          // Execute the query
-         const packages = await PackageModel.find(
+         res.locals.packages = await PackageModel.find(
             {
                userId: user.publicId,
             },
@@ -46,17 +46,13 @@ class PackageMiddleware {
                publicId: 1,
                packageName: 1,
                packageDescription: 1,
-               packagePrice: 1,
-               packageDuration: 1,
-               packageStatus: 1,
+               status: 1,
                createdAt: 1,
                updatedAt: 1,
+               charge: 1,
+               "dropOffDetails.name": 1,
             }
-         );
-         // userId: user.userId,
-         console.log("userpackageMiddleware", packages);
-         // console.log("useruseruser", user);
-         res.locals.packages = packages;
+         ).limit(5);
 
          next();
       } catch (error: any) {
