@@ -38,21 +38,9 @@ class PackageMiddleware {
 
       try {
          // Execute the query
-         res.locals.packages = await PackageModel.find(
-            {
-               userId: user.publicId,
-            },
-            {
-               publicId: 1,
-               packageName: 1,
-               packageDescription: 1,
-               status: 1,
-               createdAt: 1,
-               updatedAt: 1,
-               charge: 1,
-               "dropOffDetails.name": 1,
-            }
-         ).limit(5);
+         res.locals.packages = await PackageModel.find({
+            userId: user.publicId,
+         });
 
          next();
       } catch (error: any) {

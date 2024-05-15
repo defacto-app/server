@@ -20,6 +20,7 @@ import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
 import AuthRoutes from "./backend/auth/routes";
 import UserRoutes from "./backend/routes/user/user.routes";
 import PackageRoutes from "./backend/user/packages/route";
+import AddressRoutes from "./backend/address/route";
 import EmailViewRoutes from "./backend/routes/email.routes";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -111,6 +112,7 @@ app.use((req, res, next) => {
 // Use the custom logging middleware
 
 // app.use("/api", PublicRoutes);
+app.use("/api/v1/address", AddressRoutes);
 app.use("/api/v1/packages", PackageRoutes);
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/user", UserRoutes);

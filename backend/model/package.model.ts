@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { v4 as uuidv4 } from "uuid";
-import {  dropOffDetailsType, pickupDetailsType } from "../../types";
+
+import { dropOffDetailsType, pickupDetailsType } from "../../types";
 import { nanoid } from "nanoid";
 
 export interface PackageDataType extends Document {
@@ -20,38 +20,35 @@ export interface PackageDataType extends Document {
    cashPaymentLocation: "Pick-up" | "Delivery";
    cashAvailable: { available: boolean; amount: number };
    packageContent: string[];
-
 }
 
-const packageSchemaDefinitions =
-   {
-      publicId: {
-         type: String,
-         required: true,
-         default: () => nanoid(7),
-         unique: true,
-         minLength: 1,
-         maxLength: 255,
-      },
-      createdAt: {
-         type: Date,
-         required: true,
-         default: new Date(),
-      },
-      updatedAt: {
-         type: Date,
-         required: true,
-         default: new Date(),
-      },
-      userId: {
-         type: String,
-         required: true,
-         unique: false,
-         minLength: 1,
-         maxLength: 255,
-      }
-   }
-
+const packageSchemaDefinitions = {
+   publicId: {
+      type: String,
+      required: true,
+      default: () => nanoid(7),
+      unique: true,
+      minLength: 1,
+      maxLength: 255,
+   },
+   createdAt: {
+      type: Date,
+      required: true,
+      default: new Date(),
+   },
+   updatedAt: {
+      type: Date,
+      required: true,
+      default: new Date(),
+   },
+   userId: {
+      type: String,
+      required: true,
+      unique: false,
+      minLength: 1,
+      maxLength: 255,
+   },
+};
 
 export const PackageSchema: Schema = new Schema(packageSchemaDefinitions, {
    timestamps: true,
@@ -59,6 +56,9 @@ export const PackageSchema: Schema = new Schema(packageSchemaDefinitions, {
    strict: false,
 });
 
-class PackageModel extends mongoose.model<PackageDataType>("packages", PackageSchema) {}
+class PackageModel extends mongoose.model<PackageDataType>(
+   "packages",
+   PackageSchema
+) {}
 
 export default PackageModel;

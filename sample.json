@@ -1,0 +1,44 @@
+[
+  {
+    "_id": {"$oid": "6639e4113bb22c30dd9077f6"},
+    "createdAt": {"$date": "2024-05-06T08:02:01.511Z"},
+    "publicId": "IT3SAjs",
+    "updatedAt": {"$date": "2024-05-07T08:26:40.631Z"},
+    "userId": "3e12fc04-3471-47d6-bf1b-2420787fd2bc",
+    "assignedto": "No one",
+    "cashAvailable": {
+      "available": false,
+      "amount": 0
+    },
+    "cashPaymentLocation": "Pick-up",
+    "charge": 1000,
+    "deliveryMode": "Cab",
+    "dropoffDetails": {
+      "name": "Justice",
+      "phone": "08069760139",
+      "address": "2 Rwang Pam St, Gwarinpa, 900108, Federal Capital Territory, Nigeria",
+      "location": "Works and Housing Estate Gwarimpa",
+      "cordinates": {
+        "lat": 9.0955538,
+        "lng": 7.405718799999998
+      },
+      "email": "justice.nmegbu@gmail.com"
+    },
+    "isInstant": false,
+    "note": "",
+    "packageContent": ["Medicine", "Clothes"],
+    "pickupDetails": {
+      "name": "Justice",
+      "phone": "08069760139",
+      "email": "justice.nmegbu@gmail.com",
+      "address": "Bala Sokoto Wy, Jabi, Abuja 900108, Federal Capital Territory, Nigeria",
+      "location": "Jabi Lake Mall",
+      "cordinates": {
+        "lat": 9.076439100000002,
+        "lng": 7.425385499999998
+      }
+    },
+    "pickupTime": "2024-05-07T08:18:58.888Z",
+    "status": "pending"
+  }
+]

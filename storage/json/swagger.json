@@ -914,6 +914,83 @@
           }
         }
       }
+    },
+    "/api/v1/address": {
+      "get": {
+        "summary": "get all user address",
+        "tags": [
+          "address-routes"
+        ],
+
+        "responses": {
+          "200": {
+            "description": "New Package Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "New Package created"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2024-05-02T14:45:52.556Z"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "packageId": {
+                          "type": "string",
+                          "example": "9FqF3NT"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid package details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid package details"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "example": "2024-05-02T14:45:52.556Z"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "packageDetails": {
+                          "type": "string",
+                          "example": "Invalid package details"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
