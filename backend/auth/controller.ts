@@ -39,9 +39,18 @@ const AuthController = {
             email: data!.email,
             password: hashedPassword, // Save the hashed password
             email_management: {
-               otp: email_token,
-               otp_sent_at: new Date(),
-               otp_expires_at: moment().add(10, "minutes").toDate(),
+               login: {
+                  confirmed_at: null,
+                  token: email_token,
+                  expires_at: moment().add(10, "minutes").toDate(),
+                  sent_at: new Date(),
+               },
+               verified: false,
+               reset: {
+                  token: undefined,
+                  expires_at: undefined,
+                  sent_at: undefined,
+               },
             },
             phoneNumber: undefined,
             phone_management: {
@@ -311,7 +320,6 @@ const AuthController = {
    //
 
    async email_confirm(req: Request, res: Response): Promise<void> {
-      console.log("email_confirm");
       const { token } = req.params;
       const { email } = req.query; // Retrieve email from query parameters
 
@@ -324,8 +332,8 @@ const AuthController = {
          // Find user by the email token and email
          const user = await AuthModel.findOne({
             email: email as string, // Cast to string as query parameters are always strings
-            "email_management.otp": token,
-            "email_management.otp_expires_at": { $gt: new Date() }, // Ensure token is not expired
+            "email_management.login.token": token,
+            "email_management.login.expires_at": { $gt: new Date() }, // Ensure token is not expired
          });
 
          if (!user) {
@@ -337,8 +345,8 @@ const AuthController = {
 
          // Mark email as verified
          user.email_management.verified = true;
-         user.email_management.email_confirmed_at = new Date();
-         user.email_management.otp = "";
+         user.email_management.login.confirmed_at = new Date();
+         user.email_management.login.token = "";
          await user.save();
 
          // redirect to the frontend
@@ -372,7 +380,7 @@ const AuthController = {
             return;
          }
 
-         if (user.email_management.otp !== data!.otp) {
+         if (user.email_management.login.token !== data!.otp) {
             SendResponse.badRequest(res, "Invalid OTP", {
                pin: "Invalid OTP",
             });
@@ -384,7 +392,7 @@ const AuthController = {
          const currentTime = new Date();
 
          const otpExpiryTime = new Date(
-            user.email_management?.otp_expires_at || Date.now()
+            user.email_management?.login.expires_at || Date.now()
          );
          if (currentTime > otpExpiryTime) {
             SendResponse.badRequest(res, "OTP has expired", {
@@ -431,6 +439,70 @@ const AuthController = {
       }
    },
    //
+   async requestPasswordReset(req: Request, res: Response): Promise<void> {
+      const { data, error } = await AuthValidator.email_address(req.body);
+
+      if (error) {
+         SendResponse.badRequest(res, "Invalid email address", error);
+         return;
+      }
+      try {
+         const user = await AuthModel.findOne({ email: data?.email });
+
+         if (!user) {
+            SendResponse.notFound(res, "User not found");
+            return;
+         }
+
+         const resetToken = nanoid(10);
+
+         user.email_management.reset.token = resetToken;
+         user.email_management.reset.expires_at = moment()
+            .add(10, "minutes")
+            .toDate();
+         user.email_management.reset.sent_at = new Date();
+
+         await user.save();
+
+         await EmailEvent.sendPasswordResetMail({
+            email: user.email,
+            link: `${env.FRONTEND_URL}/reset-password?token=${resetToken}`,
+         });
+
+         SendResponse.success(res, "Password reset link sent");
+      } catch (e: any) {
+         SendResponse.serverError(res, e.message);
+      }
+   },
+
+   async resetPassword(req: Request, res: Response): Promise<void> {
+      try {
+         const { token, newPassword } = req.body;
+
+         const user = await AuthModel.findOne({
+            email_management: {
+               reset: {
+                  token: token,
+                  expires_at: { $gt: new Date() },
+               },
+            },
+         });
+
+         if (!user) {
+            SendResponse.badRequest(res, "Invalid or expired token");
+            return;
+         }
+
+         user.password = await AuthModel.hashPassword(newPassword);
+         user.email_management.reset.token = undefined;
+         user.email_management.reset.expires_at = undefined;
+         await user.save();
+
+         SendResponse.success(res, "Password reset successful");
+      } catch (e: any) {
+         SendResponse.serverError(res, e.message);
+      }
+   },
 };
 
 export default AuthController;

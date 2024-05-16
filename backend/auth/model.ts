@@ -21,11 +21,22 @@ export interface AuthDataType extends Document {
    password?: string;
    email: string;
    email_management: {
-      otp?: string;
-      otp_expires_at?: null | Date;
-      otp_sent_at?: null | Date;
-      verified?: boolean;
-      email_confirmed_at?: null | Date;
+      login: {
+         token?: string;
+         expires_at?: null | Date;
+         sent_at?: null | Date;
+         confirmed_at: null | Date;
+      };
+
+      verified: boolean;
+      reset:
+         | {
+              token: string | undefined;
+              expires_at: Date | undefined;
+              reset_at: Date | undefined;
+              sent_at: Date;
+           }
+         | any;
    };
 
    recovery: {
@@ -81,6 +92,10 @@ const authSchemaDefinitions = {
    },
    phone_management: {
       login: {
+         confirmed_at: {
+            type: Date,
+            required: false,
+         },
          otp: {
             type: String,
             required: false,
@@ -106,18 +121,25 @@ const authSchemaDefinitions = {
       },
    },
    email_management: {
-      otp: {
-         type: String,
-         required: false,
+      login: {
+         token: {
+            type: String,
+            required: false,
+         },
+         expires_at: {
+            type: Date,
+            required: false,
+         },
+         sent_at: {
+            type: Date,
+            required: false,
+         },
+         confirmed_at: {
+            type: Date,
+            required: false,
+         },
       },
-      otp_expires_at: {
-         type: Date,
-         required: false,
-      },
-      otp_sent_at: {
-         type: Date,
-         required: false,
-      },
+
       verified: {
          type: Boolean,
          required: false,
@@ -126,6 +148,20 @@ const authSchemaDefinitions = {
       email_confirmed_at: {
          type: Date,
          required: false,
+      },
+      reset: {
+         token: {
+            type: String,
+            required: false,
+         },
+         expires_at: {
+            type: Date,
+            required: false,
+         },
+         sent_at: {
+            type: Date,
+            required: false,
+         },
       },
    },
 

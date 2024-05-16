@@ -543,3 +543,28 @@
 2024-05-16T21:05:18.114Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/4lyZi9eONK?email=kats.com.ng%40gmail.com 302 5610ms
 2024-05-16T21:05:18.119Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/undefined/verification-success?email=kats.com.ng%40gmail.com 404 2ms
 2024-05-16T21:06:22.368Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/4lyZi9eONK?email=kats.com.ng%40gmail.com 302 6162ms
+2024-05-16T21:11:58.201Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 573ms
+2024-05-16T21:12:42.221Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/sKwb1Rmb7D?email=kats.com.ng%40gmail.com 302 231ms
+2024-05-16T23:20:04.658Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 599ms
+2024-05-16T23:20:44.154Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 400 117ms
+2024-05-16T23:23:26.613Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:23:26.624Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 500 141ms
+2024-05-16T23:25:14.355Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:25:14.357Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 500 113ms
+2024-05-16T23:26:15.722Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:26:15.732Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 500 2642ms
+2024-05-16T23:26:42.202Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:26:42.212Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 500 129ms
+2024-05-16T23:26:43.847Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:26:43.849Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 500 111ms
+2024-05-16T23:27:32.892Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:27:32.902Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 500 132ms
+2024-05-16T23:27:35.041Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:27:35.043Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 500 111ms
+2024-05-16T23:27:41.490Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:27:41.492Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 500 112ms
+2024-05-16T23:27:42.526Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:27:42.530Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 500 111ms
+2024-05-16T23:27:54.549Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'token')
+2024-05-16T23:27:54.557Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 500 732ms
+2024-05-16T23:29:22.366Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 302 242ms

@@ -32,3 +32,13 @@
 2024-05-16T13:55:27.828Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.users index: phoneNumber_1 dup key: { phoneNumber: null }
 2024-05-16T20:54:05.210Z [undefined] [31merror[39m: Validation failed: email_management.otp: Path `email_management.otp` (``) is shorter than the minimum allowed length (6).
 2024-05-16T20:54:54.770Z [undefined] [31merror[39m: Validation failed: email_management.otp: Path `email_management.otp` (``) is shorter than the minimum allowed length (6).
+2024-05-16T23:23:26.613Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:25:14.355Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:26:15.722Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:26:42.202Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:26:43.847Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:27:32.892Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:27:35.041Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:27:41.490Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:27:42.526Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'confirmed_at')
+2024-05-16T23:27:54.549Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'token')
