@@ -70,7 +70,7 @@ export function getEmailTemplates(title: EmailTitleType, data?: any) {
 
    const buttonWithData = compiledButton({
       domain: website.domain,
-      token: data?.token,
+      link: data?.link,
    });
 
    const headerWithData = compiledHeader(website);

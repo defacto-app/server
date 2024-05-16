@@ -501,3 +501,6 @@
 2024-05-16T16:26:08.078Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 401 128ms
 2024-05-16T16:26:23.194Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 486ms
 2024-05-16T16:27:06.254Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 415ms
+2024-05-16T19:24:34.821Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 525ms
+2024-05-16T19:26:30.731Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 518ms
+2024-05-16T19:26:41.014Z [undefined] [32minfo[39m: GET /verify/email/PvbIKwjhta?email=kats.com.ng%40gmail.com 404 4ms

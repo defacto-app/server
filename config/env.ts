@@ -5,11 +5,16 @@ const envs = dotenv.config({ path: ".env" });
 const isDev = process.env.NODE_ENV === "development";
 
 const env = {
-   BASE_URL: envs.parsed?.BASE_URL || `http://localhost:${envs.parsed?.APP_PORT}`,
+   BASE_URL:
+      envs.parsed?.BASE_URL || `http://localhost:${envs.parsed?.APP_PORT}`,
+   //
+   DOMAIN_NAME: envs.parsed?.DOMAIN_NAME,
+   API_URL: envs.parsed?.API_URL,
+   //
    MONGODB_SERVER: envs.parsed?.MONGODB_SERVER,
    MONGODB_DATABASE: envs.parsed?.MONGODB_DATABASE,
    MONGODB_PASSWORD: envs.parsed?.MONGODB_PASSWORD,
-   COINMARKETCAP_API_KEY: envs.parsed?.COINMARKETCAP_API_KEY,
+
    JWT_SECRET: envs.parsed?.JWT_SECRET || "secret",
    APP_PORT: envs.parsed?.APP_PORT,
    isDev: isDev,

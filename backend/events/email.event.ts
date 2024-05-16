@@ -10,9 +10,9 @@ const EmailEvent = {
       }
    },
 
-   async sendWelcomeMail(data: { email: string; token: string }) {
+   async sendWelcomeMail(data: { email: string; link: string }) {
       const compileEmail = getEmailTemplates("verify-email", data);
-      const html = compileEmail({ token: data.token });
+      const html = compileEmail({ link: data.link });
       try {
          eventEmitter.emit("sendWelcomeMail", {
             email: data.email,

@@ -11,6 +11,7 @@ import EmailEvent from "../events/email.event";
 import UserModel from "../user/model";
 import { nanoid } from "nanoid";
 import SendResponse from "../libs/response-helper";
+import env from "../../config/env";
 
 const AuthController = {
    async email_register(req: Request, res: Response): Promise<void> {
@@ -66,7 +67,7 @@ const AuthController = {
 
          await EmailEvent.sendWelcomeMail({
             email: newUser.email,
-            token: email_token,
+            link: `${env.API_URL}/verify/email/${email_token}?email=${encodeURIComponent(newUser.email)}`,
          });
 
          SendResponse.success(res, "User created", { token });
