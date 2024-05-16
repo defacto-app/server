@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import UserModel from "../../model/user.model";
+import UserModel from "../../user/model";
 
 const UserController = {
    async updateUser(req: Request, res: Response): Promise<void> {

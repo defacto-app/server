@@ -418,3 +418,86 @@
 2024-05-13T17:38:01.270Z [undefined] [32minfo[39m: GET /api/v1/address 200 280ms
 2024-05-15T23:19:39.021Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 404 145ms
 2024-05-15T23:24:15.015Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 312ms
+2024-05-15T23:53:51.467Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 383ms
+2024-05-16T00:01:33.431Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 10940ms
+2024-05-16T00:03:22.718Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 89582ms
+2024-05-16T08:45:32.163Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 763ms
+2024-05-16T08:46:02.874Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 40163ms
+2024-05-16T08:49:51.872Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 112ms
+2024-05-16T08:49:54.370Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 112ms
+2024-05-16T08:50:14.717Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 10022ms
+2024-05-16T08:56:48.844Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 5146ms
+2024-05-16T08:58:58.090Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 849ms
+2024-05-16T09:00:34.540Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 200 1236ms
+2024-05-16T09:04:25.851Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 263ms
+2024-05-16T09:04:47.480Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 200 363ms
+2024-05-16T09:10:51.854Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 251ms
+2024-05-16T09:11:21.128Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 200 334ms
+2024-05-16T09:13:47.014Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 404 122ms
+2024-05-16T09:13:51.528Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 404 118ms
+2024-05-16T09:13:56.090Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 257ms
+2024-05-16T10:26:37.216Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 137ms
+2024-05-16T10:26:54.847Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 123ms
+2024-05-16T10:27:19.904Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 113ms
+2024-05-16T10:27:21.167Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 400 113ms
+2024-05-16T10:28:02.722Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 200 396ms
+2024-05-16T10:29:57.117Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 230ms
+2024-05-16T10:30:26.749Z [undefined] [32minfo[39m: POST /api/v1/auth/confirm-phone-login 200 893ms
+2024-05-16T10:31:13.421Z [undefined] [32minfo[39m: POST /api/v1/auth/phone-login 200 344ms
+2024-05-16T10:33:38.825Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 401 113ms
+2024-05-16T10:35:26.967Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 424ms
+2024-05-16T12:06:16.679Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 455ms
+2024-05-16T12:41:23.744Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 68ms
+2024-05-16T12:41:37.340Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 304 21ms
+2024-05-16T12:41:37.607Z [undefined] [32minfo[39m: GET /favicon.ico 404 5ms
+2024-05-16T12:43:45.821Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 16ms
+2024-05-16T12:44:05.630Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 14ms
+2024-05-16T12:44:14.231Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 11ms
+2024-05-16T12:44:47.667Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 15ms
+2024-05-16T12:44:59.307Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 14ms
+2024-05-16T12:45:00.401Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 304 12ms
+2024-05-16T12:47:19.650Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 13ms
+2024-05-16T12:47:34.747Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 14ms
+2024-05-16T12:47:35.304Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 304 12ms
+2024-05-16T12:47:35.954Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 304 14ms
+2024-05-16T12:49:08.944Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 19ms
+2024-05-16T13:23:22.614Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-16T13:23:22.623Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 310ms
+2024-05-16T13:23:31.375Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-16T13:23:31.379Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 276ms
+2024-05-16T13:24:01.307Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-16T13:24:01.309Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 274ms
+2024-05-16T13:24:49.323Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-16T13:24:49.332Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 602ms
+2024-05-16T13:24:51.441Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-16T13:24:51.444Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 285ms
+2024-05-16T13:25:55.350Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-16T13:25:55.358Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 301ms
+2024-05-16T13:25:57.974Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-16T13:25:57.977Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 274ms
+2024-05-16T13:26:55.200Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-16T13:26:55.211Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 317ms
+2024-05-16T13:29:06.830Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-16T13:29:06.838Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 638ms
+2024-05-16T13:30:11.603Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 463ms
+2024-05-16T13:30:20.608Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 417ms
+2024-05-16T13:34:16.218Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 125ms
+2024-05-16T13:34:16.405Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "samnmejeg@gmail.com" }
+2024-05-16T13:34:28.450Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 127ms
+2024-05-16T13:34:28.630Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "samnmejeg@gmail.com" }
+2024-05-16T13:34:45.090Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 124ms
+2024-05-16T13:34:45.273Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "samnmejeg@gmail.com" }
+2024-05-16T13:35:41.435Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.users index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-16T13:35:41.448Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 426ms
+2024-05-16T13:36:50.318Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 21623ms
+2024-05-16T13:54:33.748Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.users index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-16T13:54:33.764Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 440ms
+2024-05-16T13:54:49.626Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 400 125ms
+2024-05-16T13:54:49.804Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "snmeje1g@gmail.com" }
+2024-05-16T13:55:27.828Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.users index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-16T13:55:27.845Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 500 427ms
+2024-05-16T13:59:11.521Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 12828ms
+2024-05-16T15:30:47.633Z [undefined] [32minfo[39m: GET /api/v1/preview/verify-email 200 29ms
+2024-05-16T16:26:08.078Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 401 128ms
+2024-05-16T16:26:23.194Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 486ms
+2024-05-16T16:27:06.254Z [undefined] [32minfo[39m: POST /api/v1/auth/email-register 200 415ms

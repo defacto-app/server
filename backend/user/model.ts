@@ -46,17 +46,15 @@ const userSchemaDefinitions = {
    },
    email: {
       type: String,
-      index: {
-         unique: true,
-         partialFilterExpression: { email: { $exists: true } },
-      },
+      unique: true,
+      sparse: true, // Ensure this index is sparse too
    },
    phoneNumber: {
       type: String,
-      required: false,
+      minLength: 11,
+      maxLength: 15,
+      sparse: true, // Make the index sparse
       unique: true,
-      minLength: 1,
-      maxLength: 255,
    },
    userId: {
       type: String,
@@ -81,8 +79,6 @@ export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
    versionKey: false,
    strict: false,
 });
-
-
 
 class UserModel extends mongoose.model<UserDataType>("user", UserSchema) {
    // set random email if email field is not provided

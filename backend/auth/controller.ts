@@ -8,7 +8,7 @@ import moment from "moment";
 import { generateOTP } from "../utils/utils";
 import { sendTokenSms } from "../services/sms.service";
 import EmailEvent from "../events/email.event";
-import UserModel from "../model/user.model";
+import UserModel from "../user/model";
 import { nanoid } from "nanoid";
 import SendResponse from "../libs/response-helper";
 
@@ -42,9 +42,8 @@ const AuthController = {
                otp_sent_at: new Date(),
                otp_expires_at: moment().add(10, "minutes").toDate(),
             },
-            phoneNumber: generateOTP(11),
+            phoneNumber: undefined,
             phone_management: {
-               random_number: true,
                login: undefined as any,
             },
          });
@@ -58,18 +57,17 @@ const AuthController = {
          const newUser = new UserModel({
             email: data!.email,
             userId: newAuth.publicId,
+            phoneNumber: undefined,
             joinedAt: new Date(),
             lastSeenAt: new Date(),
-            phoneNumber: generateOTP(11),
-            random_number: true,
          });
 
          await newUser.save();
 
-         /*   await EmailEvent.sendContactMail({
-               email: "here we go",
-               message: `here we go ${otp}`,
-            });*/
+         await EmailEvent.sendWelcomeMail({
+            email: newUser.email,
+            token: email_token,
+         });
 
          SendResponse.success(res, "User created", { token });
       } catch (error: any) {
@@ -121,8 +119,7 @@ const AuthController = {
 
          // update user in db and save otp
 
-         // remove this later
-         if (!user.phone_management.login.otp && data?.phoneNumber) {
+         if (data?.phoneNumber) {
             await AuthModel.findOneAndUpdate(
                { phoneNumber: data?.phoneNumber }, // find a document with this filter
                {
@@ -158,10 +155,8 @@ const AuthController = {
    //
    //
    //
-   //
 
    async phone_login(req: Request, res: Response): Promise<void> {
-      const randomEmail = `${nanoid()}@defacto.com.ng`;
       try {
          const { data, error } = await AuthValidator.phone_login(req.body);
          if (error) {
@@ -201,8 +196,8 @@ const AuthController = {
                role: user.role,
                joinedAt: new Date(),
                lastSeenAt: new Date(),
-               random_email: true,
-               email: randomEmail,
+
+               email: undefined,
             });
             await newUser.save();
 
@@ -212,8 +207,11 @@ const AuthController = {
                   "phone_management.login.firstTime": true,
                },
                {
-                  $unset: { "phone_management.login.firstTime": "" },
-                  $set: { "phone_management.login.otp": "" },
+                  $unset: {
+                     "phone_management.login.firstTime": "",
+                     "phone_management.login.otp": "",
+                     "phone_management.login.expires_at": "",
+                  },
                },
                { new: true }
             );
@@ -228,6 +226,8 @@ const AuthController = {
          SendResponse.serverError(res, e.message);
       }
    },
+   //
+   //
 
    async email_login(req: Request, res: Response): Promise<void> {
       try {
@@ -262,6 +262,8 @@ const AuthController = {
          SendResponse.serverError(res, e.message);
       }
    },
+   //
+   //
 
    async email_exist(req: Request, res: Response): Promise<void> {
       try {
@@ -309,6 +311,8 @@ const AuthController = {
          SendResponse.serverError(res, e.message);
       }
    },
+   //
+   //
 
    async email_confirm(req: Request, res: Response): Promise<void> {
       try {
@@ -344,6 +348,8 @@ const AuthController = {
          SendResponse.serverError(res, e.message);
       }
    },
+   //
+   //
 
    async admin_login(req: Request, res: Response): Promise<void> {
       try {
@@ -393,6 +399,8 @@ const AuthController = {
          SendResponse.serverError(res, e.message);
       }
    },
+   //
+   //
 
    async ping(req: Request, res: Response): Promise<void> {
       const currentUser = res.locals.user;
@@ -408,6 +416,8 @@ const AuthController = {
          SendResponse.serverError(res, e.message);
       }
    },
+   //
+   //
 
    async logout(req: Request, res: Response): Promise<void> {
       try {
@@ -422,6 +432,8 @@ const AuthController = {
          SendResponse.serverError(res, e.message);
       }
    },
+   //
+   //
 };
 
 export default AuthController;

@@ -35,12 +35,14 @@ export interface AuthDataType extends Document {
 
    phoneNumber: string;
    phone_management: {
-      login: {
-         firstTime: boolean;
-         otp: string;
-         expires_at: Date;
-         sent_at: Date;
-      } | any;
+      login:
+         | {
+              firstTime: boolean;
+              otp: string;
+              expires_at: Date;
+              sent_at: Date;
+           }
+         | any;
       random_number?: boolean;
 
       verified?: boolean;
@@ -75,9 +77,9 @@ const authSchemaDefinitions = {
    },
    phoneNumber: {
       type: String,
-      required: false,
       minLength: 11,
       maxLength: 15,
+      sparse: true, // Make the index sparse
       unique: true,
    },
    phone_management: {
@@ -109,10 +111,8 @@ const authSchemaDefinitions = {
 
    email: {
       type: String,
-      index: {
-         unique: true,
-         partialFilterExpression: { email: { $exists: true } },
-      },
+      unique: true,
+      sparse: true, // Ensure this index is sparse too
    },
 
    password: {

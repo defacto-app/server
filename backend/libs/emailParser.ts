@@ -20,7 +20,7 @@ export function getEmailData() {
    };
 }
 
-export function getEmailTemplates(title: EmailTitleType) {
+export function getEmailTemplates(title: EmailTitleType, data?: any) {
    // const { website, clientUrl } = getEmailData();
 
    const styleSource = fs.readFileSync(
@@ -36,7 +36,10 @@ export function getEmailTemplates(title: EmailTitleType) {
       "utf8"
    );
 
-   const buttonSource = fs.readFileSync(`${emailFolder}/commons/button.hbs`, "utf8");
+   const buttonSource = fs.readFileSync(
+      `${emailFolder}/commons/button.hbs`,
+      "utf8"
+   );
 
    const emailTemplateSource = fs.readFileSync(
       `${emailFolder}/${title}.hbs`,
@@ -58,7 +61,6 @@ export function getEmailTemplates(title: EmailTitleType) {
       slogan: "We are the best",
       logo: "https://api.defactoapp.com.ng/assets/email-logo.png",
       domain: "https://defactoapp.com.ng",
-      token: "TObn__p",
    };
 
    const footerWithData = compiledFooter({
@@ -68,7 +70,7 @@ export function getEmailTemplates(title: EmailTitleType) {
 
    const buttonWithData = compiledButton({
       domain: website.domain,
-      token: website.token,
+      token: data?.token,
    });
 
    const headerWithData = compiledHeader(website);

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import Chance from "chance";
 import { connectDB } from "../../config/mongodb";
 import AddressModel from "./model";
-import UserModel from "../model/user.model";
+import UserModel from "../user/model";
 
 const chance = new Chance();
 

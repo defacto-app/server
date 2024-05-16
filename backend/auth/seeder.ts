@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import { connectDB } from "../../../config/mongodb";
-import AuthModel from "../../auth/model";
+import { connectDB } from "../../config/mongodb";
+import AuthModel from "./model";
 import moment from "moment";
 
 import Chance from "chance";
-import UserModel from "../../model/user.model";
+import UserModel from "../user/model";
 
 const chance = new Chance();
 
@@ -26,6 +26,14 @@ const specialUsers = [
 
       role: "admin",
    },
+   {
+      email: `appdeveloper.sky@gmail.com`,
+      joinedAt: new Date("2024-04-29"),
+      firstName: "Justice",
+      lastSeenAt: new Date(),
+
+      role: "admin",
+   },
 
    {
       email: `isaiahogbodo06@gmail.com`,
@@ -38,7 +46,7 @@ const specialUsers = [
       email: `brianfury733@gmail.com`,
       joinedAt: new Date("2024-04-29"),
       lastSeenAt: new Date(),
-      role: "admin",
+      role: "user",
    },
    {
       email: `kats.com.ng@gmail.com`,
@@ -56,12 +64,9 @@ async function seedTeams() {
       await AuthModel.deleteMany();
       await UserModel.deleteMany();
 
+      const { auths, authError } = await generateAuth();
 
-
-
-      const {auths, authError} = await generateAuth();
-
-      const {users,  usersError} = await generateUsers(auths);
+      const { users, usersError } = await generateUsers(auths);
 
       if (authError) {
          throw new Error(authError);
@@ -84,8 +89,6 @@ async function seedTeams() {
       console.timeEnd("Seeding time");
 
       // log duration
-
-
    }
 }
 
@@ -117,7 +120,7 @@ async function generateAuth() {
             },
             phone_management: {
                verified: i === 0,
-               login:{
+               login: {
                   otp: "457303",
                   sent_at: moment().toDate(),
                   expires_at: moment().add(1, "day").toDate(),
@@ -144,8 +147,7 @@ async function generateAuth() {
    }
 }
 
-async function generateUsers(auth:any) {
-
+async function generateUsers(auth: any) {
    const users = [];
 
    try {
@@ -171,7 +173,4 @@ async function generateUsers(auth:any) {
          usersError: e.message,
       };
    }
-
-
-
 }
