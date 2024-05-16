@@ -348,7 +348,7 @@ const AuthController = {
 
          // redirect to the frontend
          return res.redirect(
-            `https://defactoapp.com.ng/verification-success?email=${encodeURIComponent(email as string)}`
+            `${env.FRONTEND_URL}/verification-success?email=${encodeURIComponent(email as string)}`
          );
       } catch (e: any) {
          SendResponse.serverError(res, e.message);
