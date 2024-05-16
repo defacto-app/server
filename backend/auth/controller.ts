@@ -154,8 +154,6 @@ const AuthController = {
       }
    },
    //
-   //
-   //
 
    async phone_login(req: Request, res: Response): Promise<void> {
       try {
@@ -228,7 +226,6 @@ const AuthController = {
       }
    },
    //
-   //
 
    async email_login(req: Request, res: Response): Promise<void> {
       try {
@@ -263,7 +260,6 @@ const AuthController = {
          SendResponse.serverError(res, e.message);
       }
    },
-   //
    //
 
    async email_exist(req: Request, res: Response): Promise<void> {
@@ -313,7 +309,6 @@ const AuthController = {
       }
    },
    //
-   //
 
    async email_confirm(req: Request, res: Response): Promise<void> {
       console.log("email_confirm");
@@ -354,7 +349,6 @@ const AuthController = {
          SendResponse.serverError(res, e.message);
       }
    },
-   //
    //
 
    async admin_login(req: Request, res: Response): Promise<void> {
@@ -406,7 +400,6 @@ const AuthController = {
       }
    },
    //
-   //
 
    async ping(req: Request, res: Response): Promise<void> {
       const currentUser = res.locals.user;
@@ -423,7 +416,6 @@ const AuthController = {
       }
    },
    //
-   //
 
    async logout(req: Request, res: Response): Promise<void> {
       try {
@@ -438,7 +430,6 @@ const AuthController = {
          SendResponse.serverError(res, e.message);
       }
    },
-   //
    //
 };
 
