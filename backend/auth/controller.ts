@@ -67,7 +67,7 @@ const AuthController = {
 
          await EmailEvent.sendWelcomeMail({
             email: newUser.email,
-            link: `${env.API_URL}/verify/email/${email_token}?email=${encodeURIComponent(newUser.email)}`,
+            link: `${env.API_URL}/auth/verify/email/${email_token}?email=${encodeURIComponent(newUser.email)}`,
          });
 
          SendResponse.success(res, "User created", { token });
@@ -316,35 +316,40 @@ const AuthController = {
    //
 
    async email_confirm(req: Request, res: Response): Promise<void> {
-      try {
-         const { data, error } = await AuthValidator.email_address(req.body);
+      console.log("email_confirm");
+      const { token } = req.params;
+      const { email } = req.query; // Retrieve email from query parameters
 
-         if (error) {
-            SendResponse.badRequest(res, "Invalid email address", error);
+      try {
+         if (!email) {
+            SendResponse.badRequest(res, "Email query parameter is required");
             return;
          }
 
-         // check if user exists
-         const userExists = await AuthModel.findOne({
-            email: data?.email,
-            "email_management.otp": req.body.otp,
+         // Find user by the email token and email
+         const user = await AuthModel.findOne({
+            email: email as string, // Cast to string as query parameters are always strings
+            "email_management.otp": token,
+            "email_management.otp_expires_at": { $gt: new Date() }, // Ensure token is not expired
          });
 
-         if (userExists) {
-            await AuthModel.findOneAndUpdate(
-               { email: data?.email }, // find a document with this filter
-               {
-                  "email_management.verified": true, // fields to update
-                  "email_management.email_confirmed_at": new Date(),
-                  "email_management.otp": "",
-               },
-               { new: true } // option to return the updated document
-            );
-
-            SendResponse.success(res, "Email confirmed", {});
-         } else {
-            SendResponse.notFound(res, "User not found");
+         if (!user) {
+            SendResponse.badRequest(res, "Invalid or expired token");
+            return;
          }
+
+         // Mark email as verified
+
+         // Mark email as verified
+         user.email_management.verified = true;
+         user.email_management.email_confirmed_at = new Date();
+         user.email_management.otp = "";
+         await user.save();
+
+         // redirect to the frontend
+         return res.redirect(
+            `https://defactoapp.com.ng/verification-success?email=${encodeURIComponent(email as string)}`
+         );
       } catch (e: any) {
          SendResponse.serverError(res, e.message);
       }

@@ -12,7 +12,7 @@ router.post("/confirm-phone-login", AuthController.confirm_phone_login);
 router.post("/email-login", AuthController.email_login);
 router.post("/email-register", AuthController.email_register);
 router.post("/email-exists", AuthController.email_exist);
-router.post("/email-confirm", AuthController.email_confirm);
+router.get("/verify/email/:token", AuthController.email_confirm);
 
 //
 

@@ -59,8 +59,8 @@ export function getEmailTemplates(title: EmailTitleType, data?: any) {
    const website = {
       name: "Defacto App",
       slogan: "We are the best",
-      logo: "https://api.defactoapp.com.ng/assets/email-logo.png",
-      domain: "https://defactoapp.com.ng",
+      logo: `${env.BASE_URL}/assets/email-logo.png`,
+      domain: `${env.FRONTEND_URL}`,
    };
 
    const footerWithData = compiledFooter({
@@ -69,7 +69,6 @@ export function getEmailTemplates(title: EmailTitleType, data?: any) {
    });
 
    const buttonWithData = compiledButton({
-      domain: website.domain,
       link: data?.link,
    });
 

@@ -26,7 +26,6 @@ export interface AuthDataType extends Document {
       otp_sent_at?: null | Date;
       verified?: boolean;
       email_confirmed_at?: null | Date;
-      random_email?: boolean;
    };
 
    recovery: {
@@ -43,8 +42,6 @@ export interface AuthDataType extends Document {
               sent_at: Date;
            }
          | any;
-      random_number?: boolean;
-
       verified?: boolean;
       phone_confirmed_at?: null;
       phone_change?: string;
@@ -105,6 +102,29 @@ const authSchemaDefinitions = {
       },
       verified: {
          type: Boolean,
+         required: false,
+      },
+   },
+   email_management: {
+      otp: {
+         type: String,
+         required: false,
+      },
+      otp_expires_at: {
+         type: Date,
+         required: false,
+      },
+      otp_sent_at: {
+         type: Date,
+         required: false,
+      },
+      verified: {
+         type: Boolean,
+         required: false,
+         default: false,
+      },
+      email_confirmed_at: {
+         type: Date,
          required: false,
       },
    },

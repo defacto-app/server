@@ -30,3 +30,5 @@
 2024-05-16T13:54:33.748Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.users index: phoneNumber_1 dup key: { phoneNumber: null }
 2024-05-16T13:54:49.804Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "snmeje1g@gmail.com" }
 2024-05-16T13:55:27.828Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.users index: phoneNumber_1 dup key: { phoneNumber: null }
+2024-05-16T20:54:05.210Z [undefined] [31merror[39m: Validation failed: email_management.otp: Path `email_management.otp` (``) is shorter than the minimum allowed length (6).
+2024-05-16T20:54:54.770Z [undefined] [31merror[39m: Validation failed: email_management.otp: Path `email_management.otp` (``) is shorter than the minimum allowed length (6).
