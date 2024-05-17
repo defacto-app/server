@@ -58,22 +58,20 @@ async function seedAddresses() {
          console.error("No users found");
          return;
       }
+      const labels = ["home", "office"];
 
       for (const user of allUsers) {
-         // Create multiple addresses for each user
-         for (let i = 0; i < 7; i++) {
-            // Change this number to create more or less addresses per user
+         // Create exactly 5 addresses for each user
+         for (let i = 0; i < 5; i++) {
             const { address, location } = getRandomAbujaAddress();
             const { lat, lng } = getRandomCoordinatesForAbuja();
 
             const newAddress = {
                userId: user.userId,
-               email: user.email,
-               phoneNumber: user.phoneNumber,
-               name: user.firstName, // or any other name you want
-               phone: user.phoneNumber,
                address,
                location,
+               label: chance.pickone(labels),
+
                coordinates: {
                   lat,
                   lng,

@@ -9,33 +9,8 @@ import packageModel from "../../model/package.model";
 const chance = new Chance();
 
 // Helper function to get a random latitude and longitude within Abuja's approximate boundaries
-function getRandomCoordinatesForAbuja() {
-   const latRange = { min: 8.9, max: 9.2 };
-   const lngRange = { min: 7.3, max: 7.6 };
-
-   return {
-      lat: chance.floating({ min: latRange.min, max: latRange.max }),
-      lng: chance.floating({ min: lngRange.min, max: lngRange.max }),
-   };
-}
 
 // Helper function to generate a random address in Abuja
-function getRandomAbujaAddress() {
-   const addresses = [
-      "2 Rwang Pam St, Gwarinpa, Federal Capital Territory, Nigeria",
-      "Bala Sokoto Wy, Jabi, Abuja 900108, Federal Capital Territory, Nigeria",
-      "No 5, Kandi Close, Off Aminu Kano Crescent, Wuse 2, Abuja",
-      "23 Lobito Crescent, Wuse 2, Abuja",
-      "Plot 224 Solomon Lar Way, Utako District, Abuja",
-   ];
-
-   const locations = ["Gwarinpa", "Jabi", "Wuse 2", "Utako", "Maitama"];
-
-   return {
-      address: chance.pickone(addresses),
-      location: chance.pickone(locations),
-   };
-}
 
 // Example usage
 
@@ -58,28 +33,9 @@ async function seedPackages() {
          const numPackages = 5;
 
          for (let i = 0; i < numPackages; i++) {
-            const { address, location } = getRandomAbujaAddress();
-            const { lat, lng } = getRandomCoordinatesForAbuja();
+            const pickupDetails = {};
 
-            const pickupDetails = {
-               phone: chance.phone({ country: "ng" }), // Generates a phone number in Nigerian format
-               address,
-               location,
-               coordinates: {
-                  lat,
-                  lng,
-               },
-            };
-
-            const dropoffDetails = {
-               phone: chance.phone({ country: "ng" }), // Generates a phone number in Nigerian format
-               address,
-               location,
-               coordinates: {
-                  lat,
-                  lng,
-               },
-            };
+            const dropoffDetails = {};
 
             const newPackage = {
                userId: user.userId,
