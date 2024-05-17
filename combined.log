@@ -575,3 +575,5 @@
 2024-05-17T06:48:46.259Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 237ms
 2024-05-17T06:49:37.382Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 200 230ms
 2024-05-17T06:51:34.499Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 200 252ms
+2024-05-17T06:55:16.265Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 200 329ms
+2024-05-17T06:56:15.212Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 200 237ms

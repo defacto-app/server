@@ -9,10 +9,8 @@ export interface UserDataType extends Document {
    firstName: string;
    role: string;
    phoneNumber: string;
-   random_email?: boolean;
    address?: AddressType;
    userId: string;
-   random_number?: boolean;
 }
 
 const userSchemaDefinitions = {
@@ -68,10 +66,6 @@ const userSchemaDefinitions = {
       type: Date,
       required: true,
    },
-   random_email: {
-      type: Boolean,
-      required: false,
-   },
 };
 
 export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
@@ -80,8 +74,6 @@ export const UserSchema: Schema = new Schema(userSchemaDefinitions, {
    strict: false,
 });
 
-class UserModel extends mongoose.model<UserDataType>("user", UserSchema) {
-   // set random email if email field is not provided
-}
+class UserModel extends mongoose.model<UserDataType>("user", UserSchema) {}
 
 export default UserModel;

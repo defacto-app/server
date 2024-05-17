@@ -14,7 +14,7 @@ const specialUsers = [
       email: `jaynette101@gmail.com`,
       joinedAt: new Date("2024-04-29"),
       lastSeenAt: new Date(),
-      firstName: "Justice",
+      firstName: "Janet",
 
       role: "admin",
    },
@@ -29,9 +29,8 @@ const specialUsers = [
    {
       email: `appdeveloper.sky@gmail.com`,
       joinedAt: new Date("2024-04-29"),
-      firstName: "Justice",
+      firstName: "zino",
       lastSeenAt: new Date(),
-
       role: "admin",
    },
 
@@ -39,6 +38,7 @@ const specialUsers = [
       email: `isaiahogbodo06@gmail.com`,
       joinedAt: new Date("2024-04-29"),
       lastSeenAt: new Date(),
+      firstName: "izu",
 
       role: "user",
    },
@@ -46,17 +46,21 @@ const specialUsers = [
       email: `brianfury733@gmail.com`,
       joinedAt: new Date("2024-04-29"),
       lastSeenAt: new Date(),
+      firstName: "briann",
+
       role: "user",
    },
    {
       email: `kats.com.ng@gmail.com`,
       joinedAt: new Date("2024-04-29"),
+      firstName: "katalyst",
+
       lastSeenAt: new Date(),
       role: "admin",
    },
 ];
 
-async function seedTeams() {
+async function seedUsers() {
    console.time("Seeding time");
    try {
       await connectDB();
@@ -92,7 +96,7 @@ async function seedTeams() {
    }
 }
 
-seedTeams().catch((error) => {
+seedUsers().catch((error) => {
    console.error("Unhandled Error:", error);
    process.exit(1);
 });
@@ -160,6 +164,8 @@ async function generateUsers(auth: any) {
          const user = new UserModel({
             email: auth[i].email,
             phoneNumber: auth[i].phoneNumber,
+            role: auth[i].role,
+            firstName: specialUsers[i].firstName,
             joinedAt: auth[i].joinedAt,
             lastSeenAt: auth[i].lastSeenAt,
             userId: auth[i].publicId,
