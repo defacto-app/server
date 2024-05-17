@@ -2,13 +2,12 @@ import mongoose from "mongoose";
 import { connectDB } from "../../config/mongodb";
 import AuthModel from "./model";
 import moment from "moment";
-
 import Chance from "chance";
 import UserModel from "../user/model";
 
 const chance = new Chance();
 
-// Separate module for DB connection
+// Define special users
 const specialUsers = [
    {
       email: `jaynette101@gmail.com`,
@@ -16,7 +15,6 @@ const specialUsers = [
       lastSeenAt: new Date(),
       firstName: "Janet",
       provider: "email",
-
       role: "admin",
    },
    {
@@ -24,9 +22,7 @@ const specialUsers = [
       joinedAt: new Date("2024-04-29"),
       firstName: "Justice",
       provider: "email",
-
       lastSeenAt: new Date(),
-
       role: "admin",
    },
    {
@@ -34,19 +30,15 @@ const specialUsers = [
       joinedAt: new Date("2024-04-29"),
       firstName: "zino",
       provider: "email",
-
       lastSeenAt: new Date(),
       role: "admin",
    },
-
    {
       email: `isaiahogbodo06@gmail.com`,
       joinedAt: new Date("2024-04-29"),
       lastSeenAt: new Date(),
       provider: "email",
-
       firstName: "izu",
-
       role: "user",
    },
    {
@@ -55,7 +47,6 @@ const specialUsers = [
       lastSeenAt: new Date(),
       firstName: "briann",
       provider: "email",
-
       role: "user",
    },
    {
@@ -63,7 +54,6 @@ const specialUsers = [
       joinedAt: new Date("2024-04-29"),
       firstName: "katalyst",
       provider: "email",
-
       lastSeenAt: new Date(),
       role: "admin",
    },
@@ -72,7 +62,6 @@ const specialUsers = [
       joinedAt: new Date("2024-04-29"),
       firstName: "katalyst",
       provider: "phone",
-
       lastSeenAt: new Date(),
       role: "admin",
    },
@@ -87,19 +76,12 @@ async function seedUsers() {
       await UserModel.deleteMany();
 
       const { auths, authError } = await generateAuth();
+      if (authError) throw new Error(authError);
 
       const { users, usersError } = await generateUsers(auths);
-
-      if (authError) {
-         throw new Error(authError);
-      }
-
-      if (usersError) {
-         throw new Error(usersError);
-      }
+      if (usersError) throw new Error(usersError);
 
       await AuthModel.insertMany(auths);
-
       await UserModel.insertMany(users);
 
       console.log(users);
@@ -109,8 +91,6 @@ async function seedUsers() {
       await mongoose.disconnect();
       console.log("Database connection closed.");
       console.timeEnd("Seeding time");
-
-      // log duration
    }
 }
 
@@ -125,16 +105,15 @@ async function generateAuth() {
    try {
       const defaultPassword = await AuthModel.hashPassword("123456");
 
-      debugger;
-      // use specialUsers to generate auths
       for (let i = 0; i < specialUsers.length; i++) {
+         const specialUser = specialUsers[i];
          const auth = new AuthModel({
-            email: specialUsers[i].email,
-            role: specialUsers[i].role,
-            provider: specialUsers[i].provider,
+            email: specialUser.email,
+            role: specialUser.role,
+            provider: specialUser.provider,
             phoneNumber:
-               specialUsers[i].provider === "phone"
-                  ? "+23480" + chance.string({ length: 7, pool: "0123456789" })
+               specialUser.provider === "phone"
+                  ? specialUser.phoneNumber
                   : undefined,
             password: defaultPassword,
             email_management: {
@@ -156,52 +135,45 @@ async function generateAuth() {
                   firstTime: i === 0,
                },
             },
-            joinedAt: specialUsers[i].joinedAt,
+            joinedAt: specialUser.joinedAt,
          });
 
          auths.push(auth);
       }
 
-      // use auths to generate users
-
-      return {
-         auths,
-         authError: null,
-      };
+      return { auths, authError: null };
    } catch (e: any) {
-      return {
-         auths: null,
-         authError: e.message,
-      };
+      return { auths: null, authError: e.message };
    }
 }
 
-async function generateUsers(auth: any) {
+async function generateUsers(auths: any) {
    const users = [];
 
    try {
-      for (let i = 0; i < auth.length; i++) {
+      for (let i = 0; i < auths.length; i++) {
+         const auth = auths[i];
+         const specialUser = specialUsers.find(
+            (user) =>
+               user.email === auth.email ||
+               user.phoneNumber === auth.phoneNumber
+         ) as any;
+
          const user = new UserModel({
-            email: auth[i].email,
-            phoneNumber: auth[i].phoneNumber,
-            role: auth[i].role,
-            firstName: specialUsers[i].firstName,
-            joinedAt: auth[i].joinedAt,
-            lastSeenAt: auth[i].lastSeenAt,
-            userId: auth[i].publicId,
+            email: auth.email,
+            phoneNumber: auth.phoneNumber,
+            role: auth.role,
+            firstName: specialUser.firstName,
+            joinedAt: auth.joinedAt,
+            lastSeenAt: specialUser.lastSeenAt,
+            userId: auth.publicId,
          });
 
          users.push(user);
       }
 
-      return {
-         users,
-         usersError: null,
-      };
+      return { users, usersError: null };
    } catch (e: any) {
-      return {
-         users: null,
-         usersError: e.message,
-      };
+      return { users: null, usersError: e.message };
    }
 }
