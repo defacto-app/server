@@ -10,7 +10,7 @@ export interface PackageDataType extends Document {
    dropOffDetails: dropOffDetailsType;
    pickupDetails: pickupDetailsType;
    charge: number;
-   status: "pending" | "completed" | "cancelled";
+   status: "pending" | "completed" | "cancelled" | "scheduled" | "ongoing";
    pickupTime: Date | null;
    assignedTo: string;
    isInstant: boolean | null;
@@ -61,7 +61,7 @@ const packageSchemaDefinitions = {
    status: {
       type: String,
       required: true,
-      enum: ["pending", "completed", "cancelled"],
+      enum: ["pending", "completed", "cancelled", "scheduled", "ongoing"],
    },
    pickupTime: {
       type: Date,

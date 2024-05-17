@@ -59,7 +59,13 @@ async function seedPackages() {
                },
 
                charge: chance.integer({ min: 1000, max: 5000 }),
-               status: chance.pickone(["pending", "completed", "cancelled"]),
+               status: chance.pickone([
+                  "pending",
+                  "completed",
+                  "cancelled",
+                  "scheduled",
+                  "ongoing",
+               ]),
                pickupTime: chance.date({ year: 2024 }),
                assignedTo: chance.name(),
                isInstant: chance.bool(),
@@ -81,8 +87,6 @@ async function seedPackages() {
             await PackageModel.create(newPackage);
          }
       }
-
-      console.log("All packages have been successfully created.");
    } catch (error) {
       console.error("Error seeding data:", error);
    } finally {
