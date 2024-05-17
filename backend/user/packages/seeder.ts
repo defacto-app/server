@@ -54,38 +54,43 @@ async function seedPackages() {
       }
 
       for (const user of allUsers) {
-         const { address, location } = getRandomAbujaAddress();
-         const { lat, lng } = getRandomCoordinatesForAbuja();
+         // Define the number of packages to create for each user
+         const numPackages = 5;
 
-         const pickupDetails = {
-            phone: chance.phone({ country: "ng" }), // Generates a phone number in Nigerian format
-            address,
-            location,
-            coordinates: {
-               lat,
-               lng,
-            },
-         };
+         for (let i = 0; i < numPackages; i++) {
+            const { address, location } = getRandomAbujaAddress();
+            const { lat, lng } = getRandomCoordinatesForAbuja();
 
-         const dropoffDetails = {
-            phone: chance.phone({ country: "ng" }), // Generates a phone number in Nigerian format
-            address,
-            location,
-            coordinates: {
-               lat,
-               lng,
-            },
-         };
+            const pickupDetails = {
+               phone: chance.phone({ country: "ng" }), // Generates a phone number in Nigerian format
+               address,
+               location,
+               coordinates: {
+                  lat,
+                  lng,
+               },
+            };
 
-         const newPackage = {
-            userId: user.userId,
-            email: user.email,
-            pickupDetails,
-            dropoffDetails,
-            // Add other package details here...
-         };
+            const dropoffDetails = {
+               phone: chance.phone({ country: "ng" }), // Generates a phone number in Nigerian format
+               address,
+               location,
+               coordinates: {
+                  lat,
+                  lng,
+               },
+            };
 
-         await PackageModel.create(newPackage);
+            const newPackage = {
+               userId: user.userId,
+               email: user.email,
+               pickupDetails,
+               dropoffDetails,
+               // Add other package details here...
+            };
+
+            await PackageModel.create(newPackage);
+         }
       }
 
       console.log("All packages have been successfully created.");
