@@ -3,21 +3,17 @@ import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 
 export interface AuthDataType extends Document {
-   instance_id: string;
    publicId: string;
-   provider: "email" | "phone" | "google";
+   provider: "email" | "phone" | "google" | any;
    role: string;
    is_super_admin: null;
    banned_until: null;
-   timestamps: {
-      created_at: string;
-      updated_at: string;
-      last_sign_in_at: null;
-      email_confirmed_at: null;
-      invited_at: null;
-      confirmed_at: null;
-      deleted_at: null;
+   banned?: {
+      until: null;
+      reason: null;
+      at: null;
    };
+
    password?: string;
    email: string;
    email_management: {
@@ -39,11 +35,7 @@ export interface AuthDataType extends Document {
          | any;
    };
 
-   recovery: {
-      recovery_token: string;
-   };
-
-   phoneNumber: string;
+   phoneNumber: string | null | undefined;
    phone_management: {
       login:
          | {
@@ -59,12 +51,7 @@ export interface AuthDataType extends Document {
       phone_change_token?: string;
       phone_change_sent_at?: null;
    };
-   joinedAt: Date;
-   lastSeenAt: Date | null;
-   bannedAt: Date | null;
-   bannedReason: string | null;
-   bannedUntil: Date | null;
-   isBanned: boolean;
+   joinedAt: Date | null;
 }
 
 const authSchemaDefinitions = {
@@ -182,7 +169,7 @@ const authSchemaDefinitions = {
    },
    joinedAt: {
       type: Date,
-      required: false,
+      default: Date.now,
    },
 };
 

@@ -15,6 +15,7 @@ const specialUsers = [
       joinedAt: new Date("2024-04-29"),
       lastSeenAt: new Date(),
       firstName: "Janet",
+      provider: "email",
 
       role: "admin",
    },
@@ -22,6 +23,8 @@ const specialUsers = [
       email: `justice.nmegbu@gmail.com`,
       joinedAt: new Date("2024-04-29"),
       firstName: "Justice",
+      provider: "email",
+
       lastSeenAt: new Date(),
 
       role: "admin",
@@ -30,6 +33,8 @@ const specialUsers = [
       email: `appdeveloper.sky@gmail.com`,
       joinedAt: new Date("2024-04-29"),
       firstName: "zino",
+      provider: "email",
+
       lastSeenAt: new Date(),
       role: "admin",
    },
@@ -38,6 +43,8 @@ const specialUsers = [
       email: `isaiahogbodo06@gmail.com`,
       joinedAt: new Date("2024-04-29"),
       lastSeenAt: new Date(),
+      provider: "email",
+
       firstName: "izu",
 
       role: "user",
@@ -47,6 +54,7 @@ const specialUsers = [
       joinedAt: new Date("2024-04-29"),
       lastSeenAt: new Date(),
       firstName: "briann",
+      provider: "email",
 
       role: "user",
    },
@@ -54,6 +62,16 @@ const specialUsers = [
       email: `kats.com.ng@gmail.com`,
       joinedAt: new Date("2024-04-29"),
       firstName: "katalyst",
+      provider: "email",
+
+      lastSeenAt: new Date(),
+      role: "admin",
+   },
+   {
+      phoneNumber: "+2348063145125",
+      joinedAt: new Date("2024-04-29"),
+      firstName: "katalyst",
+      provider: "phone",
 
       lastSeenAt: new Date(),
       role: "admin",
@@ -113,9 +131,11 @@ async function generateAuth() {
          const auth = new AuthModel({
             email: specialUsers[i].email,
             role: specialUsers[i].role,
-            provider: i === 0 ? "email" : "phone",
+            provider: specialUsers[i].provider,
             phoneNumber:
-               "+23480" + chance.string({ length: 7, pool: "0123456789" }),
+               specialUsers[i].provider === "phone"
+                  ? "+23480" + chance.string({ length: 7, pool: "0123456789" })
+                  : undefined,
             password: defaultPassword,
             email_management: {
                verified: i === 0,

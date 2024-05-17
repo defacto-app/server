@@ -5,12 +5,12 @@ import { AddressType } from "../../types";
 export interface UserDataType extends Document {
    email: string;
    lastSeenAt: Date;
-   joinedAt: Date;
    firstName: string;
    role: string;
    phoneNumber: string;
-   address?: AddressType;
+   address?: AddressType[];
    userId: string;
+   joinedAt: Date | null;
 }
 
 const userSchemaDefinitions = {
@@ -61,10 +61,9 @@ const userSchemaDefinitions = {
       minLength: 1,
       maxLength: 255,
    },
-
    joinedAt: {
       type: Date,
-      required: true,
+      default: Date.now,
    },
 };
 
