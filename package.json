@@ -12,7 +12,7 @@
     "lint": "eslint . --ext .ts,",
     "copyusers": "tsx --watch backend/jobs/seeders/copyusers.ts",
     "seed-users": "bun --watch backend/auth/seeder.ts",
-    "seed-packages": "bun --watch backend/jobs/seeders/packages.ts",
+    "seed-packages": "bun --watch backend/user/packages/seeder.ts",
     "seed-addresses": "bun --watch backend/address/seeder.ts",
     "prettify": "npx prettier . --write",
     "env:dev": "npx jsonbank-env dev .env force",

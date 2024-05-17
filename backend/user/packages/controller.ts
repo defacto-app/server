@@ -5,11 +5,11 @@ import SendResponse from "../../libs/response-helper";
 
 const PackageController = {
    async all(req: Request, res: Response): Promise<void> {
-      const user = res.locals.user as AuthDataType;
+      const user = res.locals.user as any;
 
       try {
          const packages = await PackageModel.find({
-            userId: user.publicId,
+            userId: user.userId,
          });
 
          res.json({

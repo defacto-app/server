@@ -39,7 +39,7 @@ class PackageMiddleware {
       try {
          // Execute the query
          res.locals.packages = await PackageModel.find({
-            userId: user.publicId,
+            userId: user.userId,
          });
 
          next();

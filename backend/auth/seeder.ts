@@ -115,8 +115,13 @@ async function generateAuth() {
             password: defaultPassword,
             email_management: {
                verified: i === 0,
-               otp: "457303",
-               otp_expires_at: moment().add(1, "day").toDate(),
+               login: {
+                  token: "457303",
+                  expires_at: moment().add(1, "day").toDate(),
+                  sent_at: moment().toDate(),
+                  confirmed_at: moment().toDate(),
+               },
+               reset: {},
             },
             phone_management: {
                verified: i === 0,

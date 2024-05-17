@@ -568,3 +568,10 @@
 2024-05-16T23:27:54.549Z [undefined] [31merror[39m: Cannot set properties of undefined (setting 'token')
 2024-05-16T23:27:54.557Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 500 732ms
 2024-05-16T23:29:22.366Z [undefined] [32minfo[39m: GET /api/v1/auth/verify/email/agUT8ac3aT?email=kats.com.ng%40gmail.com 302 242ms
+2024-05-17T06:45:40.359Z [undefined] [32minfo[39m: GET /api/v1/packages/all 401 13ms
+2024-05-17T06:45:51.236Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 200 894ms
+2024-05-17T06:46:15.601Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 248ms
+2024-05-17T06:46:36.309Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 200 230ms
+2024-05-17T06:48:46.259Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 237ms
+2024-05-17T06:49:37.382Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 200 230ms
+2024-05-17T06:51:34.499Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 200 252ms

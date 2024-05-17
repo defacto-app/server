@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { connectDB } from "../../../config/mongodb";
-import UserModel from "../../user/model";
+import UserModel from "../model";
 import Chance from "chance";
 import logger from "../../../config/logger";
 import PackageModel from "../../model/package.model";
