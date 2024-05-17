@@ -14,7 +14,6 @@ export interface PackageDataType extends Document {
    pickupTime: Date | null;
    assignedTo: string;
    isInstant: boolean | null;
-   deliveryId: string;
    description: string;
    cashPaymentLocation: "Pick-up" | "Delivery";
    cashAvailable: { available: boolean; amount: number };
@@ -78,10 +77,6 @@ const packageSchemaDefinitions = {
       type: Boolean,
       required: false,
       default: null,
-   },
-   deliveryId: {
-      type: String,
-      required: true,
    },
    description: {
       type: String,

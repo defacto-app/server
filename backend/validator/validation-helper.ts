@@ -1,7 +1,4 @@
-import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { z } from "zod";
-
-
 
 export function formatErrors(errors: any[]) {
    const formattedErrors: Record<string, string> = {};
@@ -20,9 +17,6 @@ export const PhoneNumberSchema = z.object({
          message: "Phone number must have at least 10 digits.",
       }),
 });
-
-
-
 
 /*
 

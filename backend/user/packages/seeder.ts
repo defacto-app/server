@@ -48,17 +48,21 @@ async function seedPackages() {
 
             const packageDetails = {
                dropOffDetails: {
-                  address: dropOffAddress,
+                  phoneNumber: chance.phone(),
+                  name: chance.name(),
+                  ...dropOffAddress,
                },
                pickupDetails: {
-                  address: pickupAddress,
+                  phoneNumber: chance.phone(),
+                  name: chance.name(),
+                  ...pickupAddress,
                },
+
                charge: chance.integer({ min: 1000, max: 5000 }),
                status: chance.pickone(["pending", "completed", "cancelled"]),
                pickupTime: chance.date({ year: 2024 }),
                assignedTo: chance.name(),
                isInstant: chance.bool(),
-               deliveryId: chance.guid(),
                description: chance.sentence({ words: 5 }),
                cashPaymentLocation: chance.pickone(["Pick-up", "Delivery"]),
                cashAvailable: {

@@ -3,7 +3,6 @@ import { NextFunction, Request, Response } from "express";
 import { verifyToken } from "../services/jwt.service";
 import AuthModel from "../auth/model";
 import { ObjectId } from "mongodb";
-import PackageModel from "../model/package.model";
 
 class AuthMiddleware {
    public async validateUser(req: Request, res: Response, next: NextFunction) {
