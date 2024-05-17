@@ -580,3 +580,8 @@
 2024-05-17T08:17:24.475Z [undefined] [31merror[39m: No users found
 2024-05-17T08:21:41.094Z [undefined] [31merror[39m: No users found
 2024-05-17T08:23:52.260Z [undefined] [31merror[39m: No users found
+2024-05-17T09:29:18.785Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 401 124ms
+2024-05-17T09:29:30.734Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 200 190ms
+2024-05-17T09:29:52.983Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 247ms
+2024-05-17T09:31:23.711Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 227ms
+2024-05-17T10:03:43.740Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 261ms
