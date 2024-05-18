@@ -36,18 +36,26 @@ class PackageMiddleware {
    public async userPackages(req: Request, res: Response, next: NextFunction) {
       const user = res.locals.user as any;
 
+      const { status } = req.query;
+
       try {
          // Execute the query
          res.locals.packages = await PackageModel.find(
             {
                userId: user.userId,
+               status: status || { $ne: "completed" },
             },
+
             {
                status: 1,
                createdAt: 1,
                publicId: 1,
                "dropOffDetails.location": 1,
                charge: 1,
+            },
+            {
+               sort: { createdAt: -1 },
+               limit: 10,
             }
          );
 

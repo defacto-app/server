@@ -596,3 +596,13 @@
 2024-05-17T16:40:56.809Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 200 238ms
 2024-05-17T16:41:40.081Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 200 813ms
 2024-05-17T16:43:57.290Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 200 248ms
+2024-05-18T20:48:49.473Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 200 180ms
+2024-05-18T20:49:12.401Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 200 258ms
+2024-05-18T20:49:47.853Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 200 20576ms
+2024-05-18T20:50:00.994Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 200 560ms
+2024-05-18T20:52:42.678Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 200 176ms
+2024-05-18T20:53:04.123Z [undefined] [32minfo[39m: GET /api/v1/auth/ping?status=active 200 223ms
+2024-05-18T20:53:21.527Z [undefined] [32minfo[39m: GET /api/v1/auth/ping?status=active 200 332ms
+2024-05-18T20:53:29.209Z [undefined] [32minfo[39m: GET /api/v1/auth/ping?status=completed 200 221ms
+2024-05-18T20:54:03.925Z [undefined] [32minfo[39m: GET /api/v1/auth/ping?status=completed 200 346ms
+2024-05-18T20:54:21.739Z [undefined] [32minfo[39m: GET /api/v1/auth/ping?status=pending 200 242ms

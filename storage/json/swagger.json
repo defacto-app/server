@@ -565,6 +565,19 @@
           "auth-routes"
         ],
         "summary": "Ping to verify token validity",
+        "description": "This endpoint verifies the token validity and can filter user packages by status.",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "description": "Status filter for the user packages",
+            "schema": {
+              "type": "string",
+              "example": "active"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Ping successful",
@@ -651,6 +664,7 @@
         }
       }
     },
+
     "/api/v1/auth/admin-ping": {
       "get": {
         "tags": [
