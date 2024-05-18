@@ -606,3 +606,9 @@
 2024-05-18T20:53:29.209Z [undefined] [32minfo[39m: GET /api/v1/auth/ping?status=completed 200 221ms
 2024-05-18T20:54:03.925Z [undefined] [32minfo[39m: GET /api/v1/auth/ping?status=completed 200 346ms
 2024-05-18T20:54:21.739Z [undefined] [32minfo[39m: GET /api/v1/auth/ping?status=pending 200 242ms
+2024-05-18T21:12:28.364Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 454ms
+2024-05-18T21:13:29.423Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 223ms
+2024-05-18T21:13:40.293Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 200 192ms
+2024-05-18T21:13:47.914Z [undefined] [32minfo[39m: GET /api/v1/auth/ping?status=pending 200 224ms
+2024-05-18T21:13:57.232Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 222ms
+2024-05-18T21:15:18.405Z [undefined] [32minfo[39m: GET /api/v1/packages/Vo9tXz2 200 1073ms

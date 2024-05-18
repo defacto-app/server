@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 
-
 import PackageModel from "../model/package.model";
 import SendResponse from "../libs/response-helper";
 
@@ -10,20 +9,21 @@ class SlugMiddleware {
       const packageId = req.params.packageId;
 
       try {
-
          if (!packageId) {
             return res.status(400).json({ error: "packageId  is required" });
          }
 
          // Execute the query
          const pkg = await PackageModel.findOne({
-            publicId: packageId ,
-            userId: user.publicId,
+            publicId: packageId,
+            userId: user.userId,
          });
 
          if (!pkg) {
-            SendResponse.notFound(res, `Sorry, package  ${packageId} is deleted or doesnt exist `);
-
+            SendResponse.notFound(
+               res,
+               `Sorry, package  ${packageId} is deleted or doesnt exist `
+            );
          }
 
          res.locals.packageItem = pkg;
@@ -33,7 +33,6 @@ class SlugMiddleware {
          SendResponse.serverError(res, error.message);
       }
    }
-
 }
 
 export default new SlugMiddleware();
