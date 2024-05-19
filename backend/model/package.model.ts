@@ -48,19 +48,15 @@ const packageSchemaDefinitions = {
    },
    dropOffDetails: {
       type: Object,
-      required: true,
    },
    pickupDetails: {
       type: Object,
-      required: true,
    },
    charge: {
       type: Number,
-      required: true,
    },
    status: {
       type: String,
-      required: true,
       enum: ["pending", "completed", "cancelled", "scheduled", "ongoing"],
    },
    pickupTime: {
@@ -80,20 +76,17 @@ const packageSchemaDefinitions = {
    },
    description: {
       type: String,
-      required: true,
    },
    cashPaymentLocation: {
       type: String,
-      required: true,
       enum: ["Pick-up", "Delivery"],
    },
    cashAvailable: {
-      available: { type: Boolean, required: true },
-      amount: { type: Number, required: true },
+      available: { type: Boolean },
+      amount: { type: Number },
    },
    packageContent: {
       type: [String],
-      required: true,
    },
 };
 

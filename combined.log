@@ -612,3 +612,6 @@
 2024-05-18T21:13:47.914Z [undefined] [32minfo[39m: GET /api/v1/auth/ping?status=pending 200 224ms
 2024-05-18T21:13:57.232Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 222ms
 2024-05-18T21:15:18.405Z [undefined] [32minfo[39m: GET /api/v1/packages/Vo9tXz2 200 1073ms
+2024-05-19T20:04:55.110Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 200 324ms
+2024-05-19T20:10:12.576Z [undefined] [32minfo[39m: GET /api/v1/packages/create 200 256ms
+2024-05-19T20:15:04.169Z [undefined] [32minfo[39m: GET /api/v1/packages/create 200 1217ms
