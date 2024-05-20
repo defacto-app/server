@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AuthDataType } from "../../auth/model";
 import PackageModel, { PackageDataType } from "../../model/package.model";
 import SendResponse from "../../libs/response-helper";
+import PackageValidator from "./validator";
 
 const PackageController = {
    async all(req: Request, res: Response): Promise<void> {
@@ -13,7 +14,6 @@ const PackageController = {
          });
 
          res.json({
-            message: "Packages retrieved successfully.",
             success: true,
             packages,
             timestamp: new Date(),
@@ -54,6 +54,9 @@ const PackageController = {
    },
 
    async update(req: Request, res: Response): Promise<void> {
+
+      const { data:packageItem, error } = await PackageValidator.update(req.body);
+
       const data = res.locals.packageItem as PackageDataType;
 
       // update the package

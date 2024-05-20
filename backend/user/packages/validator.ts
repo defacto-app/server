@@ -28,7 +28,7 @@ export default {
 
 
 
-   update_package: async function (body: any) {
+   update: async function (body: any) {
       const bodySchema = z.object({
          name: z.string().min(2),
          description: z.string().min(10),
