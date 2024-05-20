@@ -625,3 +625,23 @@
 2024-05-20T00:31:18.367Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=10 401 2ms
 2024-05-20T00:31:19.727Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=10 401 1ms
 2024-05-20T00:31:28.971Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=2 401 1ms
+2024-05-20T00:32:34.178Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=2 401 5ms
+2024-05-20T00:32:38.285Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=66 401 1ms
+2024-05-20T00:42:22.556Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=66 401 4ms
+2024-05-20T00:47:21.018Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 200 191ms
+2024-05-20T00:47:35.338Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=66 200 345ms
+2024-05-20T00:47:37.488Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=66 200 333ms
+2024-05-20T00:47:45.430Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 332ms
+2024-05-20T00:47:57.471Z [undefined] [32minfo[39m: GET /api/v1/packages/create 200 267ms
+2024-05-20T00:48:02.492Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 342ms
+2024-05-20T00:48:33.179Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 16122ms
+2024-05-20T01:10:10.128Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 7840ms
+2024-05-20T01:10:24.304Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 200 177ms
+2024-05-20T01:10:50.139Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=10 200 4062ms
+2024-05-20T01:12:43.147Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=10 200 4010ms
+2024-05-20T01:12:55.788Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=1 200 1887ms
+2024-05-20T01:14:11.689Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=1 200 3360ms
+2024-05-20T01:17:24.557Z [undefined] [32minfo[39m: PUT /api/v1/packages/Vo9tXz2 200 367ms
+2024-05-20T01:25:05.401Z [undefined] [32minfo[39m: PUT /api/v1/packages/Vo9tXz2 422 240ms
+2024-05-20T01:25:06.763Z [undefined] [32minfo[39m: PUT /api/v1/packages/Vo9tXz2 422 232ms
+2024-05-20T01:37:19.268Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client

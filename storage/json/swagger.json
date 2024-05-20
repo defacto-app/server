@@ -797,31 +797,109 @@
           "Package"
         ],
         "summary": "Get all packages",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "page",
             "in": "query",
+            "description": "Page number of the result set to retrieve.",
             "required": false,
-            "description": "Page number",
             "schema": {
               "type": "integer",
+              "default": 1,
               "example": 1
             }
           },
           {
             "name": "perPage",
             "in": "query",
+            "description": "Number of items per page.",
             "required": false,
-            "description": "Number of items per page",
             "schema": {
               "type": "integer",
+              "default": 10,
               "example": 10
             }
           }
-        ]
-      
+        ],
+        "responses": {
+          "200": {
+            "description": "A paged array of packages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Packages retrieved successfully."
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "packages": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Package"
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "perPage": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "total": {
+                          "type": "integer",
+                          "example": 50
+                        },
+                        "totalPages": {
+                          "type": "integer",
+                          "example": 5
+                        }
+                      }
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-05-20T12:34:56.789Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Error Fetching order: [error message]"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
+   
+
     "/api/v1/packages/{packageId}": {
       "get": {
         "summary": "Get one package",

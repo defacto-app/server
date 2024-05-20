@@ -2,7 +2,7 @@ import { Response } from "express";
 import logger from "../../config/logger";
 import moment from "moment";
 
-function formatAMPM(date: Date): string {
+function formattedTimeStamp(date: Date): string {
       return moment().format("MMMM Do YYYY, h:mm:ss A");
   
 
@@ -22,7 +22,7 @@ class SendResponse {
          success: true,
          message,
          data,
-         timestamp: formatAMPM(new Date())
+         timestamp: formattedTimeStamp(new Date())
 
       });
    }
@@ -35,7 +35,7 @@ class SendResponse {
          success: false,
          message,
          error,
-         timestamp: formatAMPM(new Date())
+         timestamp: formattedTimeStamp(new Date())
       });
    }
 
@@ -47,7 +47,7 @@ class SendResponse {
       return res.status(401).json({
          success: false,
          message,
-         timestamp: formatAMPM(new Date())
+         timestamp: formattedTimeStamp(new Date())
       });
    }
 
@@ -58,7 +58,7 @@ class SendResponse {
       return res.status(404).json({
          success: false,
          message,
-         timestamp: formatAMPM(new Date())
+         timestamp: formattedTimeStamp(new Date())
       });
    }
 
@@ -70,7 +70,7 @@ class SendResponse {
       return res.status(500).json({
          success: false,
          message: "An unexpected error occurred",
-         timestamp: formatAMPM(new Date())
+         timestamp: formattedTimeStamp(new Date())
       });
    }
 
@@ -81,9 +81,28 @@ class SendResponse {
          success: false,
          message,
          error,
-         timestamp: formatAMPM(new Date())
+         timestamp: formattedTimeStamp(new Date())
       });
    }
+
+   /**
+    * Send a validation error response with status 422.
+    */
+
+
+      static validationError(res: Response, errors: any) {
+         return res.status(422).json({
+            success: false,
+            message: "Validation error",
+            errors,
+            timestamp: formattedTimeStamp(new Date())
+         });
+   
+         
+   }
+   
+
+   
 }
 
 export default SendResponse;

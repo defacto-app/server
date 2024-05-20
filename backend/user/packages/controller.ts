@@ -3,48 +3,28 @@ import { AuthDataType } from "../../auth/model";
 import PackageModel, { PackageDataType } from "../../model/package.model";
 import SendResponse from "../../libs/response-helper";
 import PackageValidator from "./validator";
+import paginate from "../../utils/pagination";
 
 const PackageController = {
 
-   async all(req: Request, res: Response): Promise<void> {
-       const user = res.locals.user as any;
-   
-       // Extract page and perPage from request query. Set default values if not provided.
-       const page: number = parseInt(req.query.page as string) || 1;
-       const perPage: number = parseInt(req.query.perPage as string) || 10;
-   
-       try {
-           // Calculate the number of documents to skip
-           const skip = (page - 1) * perPage;
-   
-           // Query the total number of packages for the user
-           const total = await PackageModel.countDocuments({ userId: user.userId });
-   
-           // Find the packages with pagination
-           const packages = await PackageModel.find({ userId: user.userId })
-               .skip(skip)
-               .limit(perPage);
-   
-           // Calculate the total number of pages
-           const totalPages = Math.ceil(total / perPage);
-   
-           res.json({
-               message: "Packages retrieved successfully.",
-               success: true,
-               packages,
-               pagination: {
-                   page,
-                   perPage,
-                   total,
-                   totalPages,
-               },
-               timestamp: new Date(),
-           });
-       } catch (error: any) {
-           res.status(500).send("Error Fetching order: " + error.message);
-       }
-   },
-   
+   async  all(req: Request, res: Response): Promise<void> {
+      const user = res.locals.user as any;
+    
+      // Extract page and perPage from request query. Set default values if not provided.
+      const page: number = parseInt(req.query.page as string) || 1;
+      const perPage: number = parseInt(req.query.perPage as string) || 10;
+    
+      try {
+        const paginationResult = await paginate(PackageModel, page, perPage, { userId: user.userId });
+        
+        res.json(paginationResult);
+
+        SendResponse.success(res, "Packages retrieved", paginationResult);
+      } catch (error:any) {
+
+        SendResponse.serverError(res, error.message);
+      }
+    },
 
 
    async create(req: Request, res: Response): Promise<void> {
@@ -81,16 +61,23 @@ const PackageController = {
    async update(req: Request, res: Response): Promise<void> {
 
       const { data:packageItem, error } = await PackageValidator.update(req.body);
+      
+      if (error) {
+          SendResponse.validationError(res, error);
+          return
+      }
 
       const data = res.locals.packageItem as PackageDataType;
 
+      console.log(packageItem);
+
       // update the package
 
-      await PackageModel.findOneAndUpdate(
-         { publicId: data.publicId },
-         req.body,
-         { new: true }
-      );
+      // await PackageModel.findOneAndUpdate(
+      //    { publicId: data.publicId },
+      //    ...packageItem,
+      //    { new: true }
+      // );
 
       try {
          SendResponse.success(
