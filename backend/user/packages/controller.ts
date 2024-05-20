@@ -124,3 +124,60 @@ const PackageController = {
 };
 
 export default PackageController;
+
+
+/* 
+  {
+      "cashAvailable": {
+        "available": false,
+"amount":500
+
+   
+      },
+
+ 
+
+      "dropOffDetails": {
+     
+        "label": "office",
+        "address": "2 Rwang Pam St, Gwarinpa, Federal Capital Territory, Nigeria",
+        "location": "Wuse 2",
+        "coordinates": {
+          "lat": 9.0629,
+          "lng": 7.3498
+        },
+  
+
+        "phoneNumber": "(728) 698-8164",
+        "name": "Clara Roy"
+      },
+      "pickupDetails": {
+
+        "label": "office",
+        "address": "11 Julius Nyerere Crescent, Asokoro, Abuja, Federal Capital Territory, Nigeria",
+        "location": "Gwarinpa",
+        "coordinates": {
+          "lat": 9.0803,
+          "lng": 7.5403
+        },
+     
+      
+        "phoneNumber": "(508) 771-4224",
+        "name": "Beatrice Porter"
+      },
+      "charge": 4558,
+      "status": "pending",
+      
+    
+      "isInstant": true,
+      "description": "Zipkadbi ovapiz okfeavo pottej doum.",
+      "cashPaymentLocation": "Pick-up",
+      "packageContent": [
+        "clothes",
+        "furniture",
+        "toys",
+        "books",
+        "cosmetics"
+      ]
+    }
+*/

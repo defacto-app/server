@@ -35,6 +35,7 @@ const UpdatePackageSchema = z.object({
   cashAvailable: CashAvailableSchema,
   contactDetails: ContactDetailsSchema.optional(),
   packageContent: PackageContentSchema.optional(),
+   
 });
 
 export default {
