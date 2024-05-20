@@ -619,3 +619,9 @@
 2024-05-20T00:15:21.750Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 240ms
 2024-05-20T00:20:49.662Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 452ms
 2024-05-20T00:20:59.854Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 1219ms
+2024-05-20T00:25:16.735Z [undefined] [32minfo[39m: GET /api/v1/auth/ping?status=active 401 6ms
+2024-05-20T00:25:18.421Z [undefined] [32minfo[39m: GET /api/v1/auth/ping?status=active 401 2ms
+2024-05-20T00:25:24.887Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 401 1ms
+2024-05-20T00:31:18.367Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=10 401 2ms
+2024-05-20T00:31:19.727Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=10 401 1ms
+2024-05-20T00:31:28.971Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=2 401 1ms
