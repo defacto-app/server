@@ -43,7 +43,7 @@ class PackageMiddleware {
          res.locals.packages = await PackageModel.find(
             {
                userId: user.userId,
-               status: status || { $ne: "completed" },
+               status: status || { $ne: 0 },
             },
 
             {
