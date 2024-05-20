@@ -17,12 +17,13 @@ async function paginate<T extends Document>(
   model: Model<T>,
   page: number,
   perPage: number,
-  query: object
+  query: object,
+  projection?: object
 ): Promise<PaginationResult<T>> {
   try {
     const total = await model.countDocuments(query);
     const totalPages = Math.ceil(total / perPage);
-    const data = await model.find(query)
+    const data = await model.find(query, projection)
       .skip((page - 1) * perPage)
       .limit(perPage);
 

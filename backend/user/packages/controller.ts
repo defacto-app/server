@@ -13,9 +13,10 @@ const PackageController = {
       // Extract page and perPage from request query. Set default values if not provided.
       const page: number = parseInt(req.query.page as string) || 1;
       const perPage: number = parseInt(req.query.perPage as string) || 10;
-    
+     const query = { userId: user.userId };
+      const projection = { cashAvailable: 0 }; // Exclude password field
       try {
-        const paginationResult = await paginate(PackageModel, page, perPage, { userId: user.userId });
+        const paginationResult = await paginate(PackageModel, page, perPage, query, projection);
         
         res.json(paginationResult);
 
