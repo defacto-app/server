@@ -615,3 +615,7 @@
 2024-05-19T20:04:55.110Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 200 324ms
 2024-05-19T20:10:12.576Z [undefined] [32minfo[39m: GET /api/v1/packages/create 200 256ms
 2024-05-19T20:15:04.169Z [undefined] [32minfo[39m: GET /api/v1/packages/create 200 1217ms
+2024-05-20T00:14:47.230Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 200 207ms
+2024-05-20T00:15:21.750Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 240ms
+2024-05-20T00:20:49.662Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 452ms
+2024-05-20T00:20:59.854Z [undefined] [32minfo[39m: GET /api/v1/packages/all 200 1219ms

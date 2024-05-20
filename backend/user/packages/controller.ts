@@ -5,23 +5,48 @@ import SendResponse from "../../libs/response-helper";
 import PackageValidator from "./validator";
 
 const PackageController = {
+
    async all(req: Request, res: Response): Promise<void> {
-      const user = res.locals.user as any;
-
-      try {
-         const packages = await PackageModel.find({
-            userId: user.userId,
-         });
-
-         res.json({
-            success: true,
-            packages,
-            timestamp: new Date(),
-         });
-      } catch (error: any) {
-         res.status(500).send("Error Fetching  order: " + error.message);
-      }
+       const user = res.locals.user as any;
+   
+       // Extract page and perPage from request query. Set default values if not provided.
+       const page: number = parseInt(req.query.page as string) || 1;
+       const perPage: number = parseInt(req.query.perPage as string) || 10;
+   
+       try {
+           // Calculate the number of documents to skip
+           const skip = (page - 1) * perPage;
+   
+           // Query the total number of packages for the user
+           const total = await PackageModel.countDocuments({ userId: user.userId });
+   
+           // Find the packages with pagination
+           const packages = await PackageModel.find({ userId: user.userId })
+               .skip(skip)
+               .limit(perPage);
+   
+           // Calculate the total number of pages
+           const totalPages = Math.ceil(total / perPage);
+   
+           res.json({
+               message: "Packages retrieved successfully.",
+               success: true,
+               packages,
+               pagination: {
+                   page,
+                   perPage,
+                   total,
+                   totalPages,
+               },
+               timestamp: new Date(),
+           });
+       } catch (error: any) {
+           res.status(500).send("Error Fetching order: " + error.message);
+       }
    },
+   
+
+
    async create(req: Request, res: Response): Promise<void> {
       const user = res.locals.user as AuthDataType;
 
