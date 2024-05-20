@@ -44,6 +44,7 @@ class AuthMiddleware {
                   "user._id": 0,
                   "user.createdAt": 0,
                   phone_management: 0,
+                  userId: 0,
                   phoneNumber: 0,
                   updatedAt: 0,
                   createdAt: 0,
