@@ -1,0 +1,94 @@
+{
+  // open json editor for settings
+  "workbench.settings.editor": "json",
+  // Theme
+  "workbench.colorTheme": "Community Material Theme Ocean",
+  "workbench.iconTheme": "moxer-icons",
+  // Change font
+  "scm.inputFontFamily": "Monaspace Krypton",
+  "terminal.integrated.fontFamily": "Monaspace Krypton",
+  "chat.editor.fontFamily": "Geist Mono",
+  "editor.fontFamily": "Monaspace Krypton",
+  "debug.console.fontFamily": "Monaspace Krypton'",
+  "editor.codeLensFontFamily": "Monaspace Krypton",
+  "notebook.output.fontFamily": "Monaspace Krypton",
+  "markdown.preview.fontFamily": "Monaspace Krypton",
+  "editor.inlayHints.fontFamily": "Monaspace Krypton",
+  // Font size
+  "editor.fontSize": 13,
+  "terminal.integrated.fontSize": 12,
+  // ui
+  "editor.minimap.enabled": true,
+  "window.commandCenter": true,
+  "editor.scrollbar.vertical": "auto",
+  "window.titleBarStyle": "custom",
+  "editor.scrollbar.horizontal": "auto",
+  // APC
+  "apc.font.family": "Geist Mono",
+  "apc.monospace.font.family": "Geist Mono",
+  // Cusom css
+  // Toggle excluded files
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    ".git": true,
+    "bun.lockb": true,
+    "package-lock.json": true,
+    "yarn.lock": true
+  },
+  "files.exclude": {
+    "**/storage/public": true,
+    "**/.git": false,
+    "**/.svn": false,
+    "**/.hg": false,
+    "**/CVS": false,
+    "**/.DS_Store": false,
+    "**/Thumbs.db": false,
+    "**/node_modules": false,
+    "**/.next": false,
+    "**/.husky": false,
+    "**/drizzle": false,
+    "**/dist": false,
+    "**/.todo.md": false,
+    "**/.vscode": false,
+    "**/.eslintrc.cjs": false,
+    "**/.editorconfig": false,
+    "**/.gitignore": false,
+    "**/.lintstagedrc.mjs": false,
+    "**/.markdownlint.json": false,
+    "**/.markdownlintignore": false,
+    "**/.prettierignore": false,
+    "**/bun.lockb": false,
+    "**/cspell.json": false,
+    "**/package-lock.json": false,
+    "**/pnpm-lock.yaml": false,
+    "**/next-env.d.ts": false,
+    "**/postcss.config.cjs": false,
+    "**/prettier.config.js": false,
+    "**/README.md": false,
+    "**/next.config.js": false,
+    "**/tailwind.config.ts": false,
+    "**/drizzle.config.ts": false,
+    "**/migrate.ts": false,
+    "**/.env.example": false
+  },
+  // Misc
+  "workbench.startupEditor": "none",
+  "explorer.compactFolders": false,
+  "editor.tabSize": 2,
+  "editor.linkedEditing": true,
+  "breadcrumbs.filePath": "off",
+  "files.trimTrailingWhitespace": true,
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false
+  },
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "window.zoomLevel": 0.75,
+  // Neovim
+  "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
+  "vscode-neovim.neovimInitVimPaths.darwin": "$HOME/.config/nvim-vscode/init.vim",
+  "whichkey.sortOrder": "alphabetically",
+  "whichkey.delay": 0
+}

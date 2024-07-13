@@ -1,45 +1,50 @@
-import { Request, Response } from "express";
-import { AuthDataType } from "../../auth/model";
-import PackageModel, { PackageDataType } from "../../model/package.model";
+import type { Request, Response } from "express";
+import type { AuthDataType } from "../../auth/model";
+import PackageModel, { type PackageDataType } from "../../model/package.model";
 import SendResponse from "../../libs/response-helper";
 import PackageValidator from "./validator";
 import paginate from "../../utils/pagination";
 
 const PackageController = {
-
-   async  all(req: Request, res: Response): Promise<void> {
+   async all(req: Request, res: Response): Promise<void> {
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       const user = res.locals.user as any;
-    
+
       // Extract page and perPage from request query. Set default values if not provided.
-      const page: number = parseInt(req.query.page as string) || 1;
-      const perPage: number = parseInt(req.query.perPage as string) || 10;
-     const query = { userId: user.userId };
-     const projection = {
-      "dropOffDetails._id": 0,
-      "dropOffDetails.label": 0, // Ensure this field exists or remove if not necessary
-      "dropOffDetails.createdAt": 0,
-      "dropOffDetails.updatedAt": 0,
-      "dropOffDetails.userId": 0,
-      "pickupDetails._id": 0,
-      "pickupDetails.label": 0, // Ensure this field exists or remove if not necessary
-      "pickupDetails.userId": 0,
-      "pickupDetails.createdAt": 0,
-      "pickupDetails.updatedAt": 0,
-      "userId": 0,
-      "_id": 0,
-      "__v": 0, // Exclude the version key if not already done by default
-    };
+      const page: number = Number.parseInt(req.query.page as string) || 1;
+      const perPage: number =
+         Number.parseInt(req.query.perPage as string) || 10;
+      const query = { userId: user.userId };
+      const projection = {
+         "dropOffDetails._id": 0,
+         "dropOffDetails.label": 0, // Ensure this field exists or remove if not necessary
+         "dropOffDetails.createdAt": 0,
+         "dropOffDetails.updatedAt": 0,
+         "dropOffDetails.userId": 0,
+         "pickupDetails._id": 0,
+         "pickupDetails.label": 0, // Ensure this field exists or remove if not necessary
+         "pickupDetails.userId": 0,
+         "pickupDetails.createdAt": 0,
+         "pickupDetails.updatedAt": 0,
+         userId: 0,
+         _id: 0,
+         __v: 0, // Exclude the version key if not already done by default
+      };
       try {
-        const paginationResult = await paginate(PackageModel, page, perPage, query, projection);
-        
+         const paginationResult = await paginate(
+            PackageModel,
+            page,
+            perPage,
+            query,
+            projection
+         );
 
-        SendResponse.success(res, "Packages retrieved", paginationResult);
-      } catch (error:any) {
-
-        SendResponse.serverError(res, error.message);
+         SendResponse.success(res, "Packages retrieved", paginationResult);
+         // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      } catch (error: any) {
+         SendResponse.serverError(res, error.message);
       }
-    },
-
+   },
 
    async create(req: Request, res: Response): Promise<void> {
       const user = res.locals.user as AuthDataType;
@@ -56,6 +61,7 @@ const PackageController = {
          SendResponse.success(res, "Created New Package Delivery.", {
             packageId: newPackage.publicId,
          });
+         // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       } catch (error: any) {
          // Handle possible errors
          SendResponse.serverError(res, error.message);
@@ -63,35 +69,28 @@ const PackageController = {
    },
 
    async one(req: Request, res: Response): Promise<void> {
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       const data = res.locals.packageItem as any;
 
       try {
          SendResponse.success(res, "Package retrieved", data);
+         // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       } catch (error: any) {
          SendResponse.serverError(res, error.message);
       }
    },
 
    async update(req: Request, res: Response): Promise<void> {
+      const { error } = await PackageValidator.update(
+         req.body
+      );
 
-      const { data:packageItem, error } = await PackageValidator.update(req.body);
-      
       if (error) {
-          SendResponse.validationError(res, error);
-          return
+         SendResponse.validationError(res, error);
+         return;
       }
 
       const data = res.locals.packageItem as PackageDataType;
-
-      console.log(packageItem);
-
-      // update the package
-
-      // await PackageModel.findOneAndUpdate(
-      //    { publicId: data.publicId },
-      //    ...packageItem,
-      //    { new: true }
-      // );
 
       try {
          SendResponse.success(
@@ -99,8 +98,9 @@ const PackageController = {
             "Package delivery updated successfully.",
             data
          );
+         // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       } catch (error: any) {
-         res.status(500).send("Error Updating  order: " + error.message);
+         res.status(500).send(`Error Updating  order: ${error.message}`);
       }
    },
 
@@ -117,67 +117,11 @@ const PackageController = {
             success: true,
             timestamp: new Date(),
          });
+         // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       } catch (error: any) {
-         res.status(500).send("Error Deleting  order: " + error.message);
+         res.status(500).send(`Error Deleting  order: ${error.message}`);
       }
    },
 };
 
 export default PackageController;
-
-
-/* 
-  {
-      "cashAvailable": {
-        "available": false,
-"amount":500
-
-   
-      },
-
- 
-
-      "dropOffDetails": {
-     
-        "label": "office",
-        "address": "2 Rwang Pam St, Gwarinpa, Federal Capital Territory, Nigeria",
-        "location": "Wuse 2",
-        "coordinates": {
-          "lat": 9.0629,
-          "lng": 7.3498
-        },
-  
-
-        "phoneNumber": "(728) 698-8164",
-        "name": "Clara Roy"
-      },
-      "pickupDetails": {
-
-        "label": "office",
-        "address": "11 Julius Nyerere Crescent, Asokoro, Abuja, Federal Capital Territory, Nigeria",
-        "location": "Gwarinpa",
-        "coordinates": {
-          "lat": 9.0803,
-          "lng": 7.5403
-        },
-     
-      
-        "phoneNumber": "(508) 771-4224",
-        "name": "Beatrice Porter"
-      },
-      "charge": 4558,
-      "status": "pending",
-      
-    
-      "isInstant": true,
-      "description": "Zipkadbi ovapiz okfeavo pottej doum.",
-      "cashPaymentLocation": "Pick-up",
-      "packageContent": [
-        "clothes",
-        "furniture",
-        "toys",
-        "books",
-        "cosmetics"
-      ]
-    }
-*/

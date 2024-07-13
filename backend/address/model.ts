@@ -39,7 +39,7 @@ export const AddressSchema: Schema = new Schema(addressSchemaDefinitions, {
 
 class AddressModel extends mongoose.model<AddressDataType>(
    "address",
-   AddressSchema
+   AddressSchema,
 ) {
    // set random email if email field is not provided
 }

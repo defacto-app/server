@@ -3,13 +3,13 @@ import env from "./config/env";
 import cors from "cors";
 import session from "express-session";
 import listEndpoints from "express-list-endpoints";
-import path from "path";
+import path from "node:path";
 import logger from "./config/logger";
-import fs from "fs";
+import fs from "node:fs";
 
 import swaggerUi from "swagger-ui-express";
 
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
 
 import { connectDB } from "./config/mongodb";
 import { emailEvents } from "./config/eventEmitter";
@@ -20,6 +20,7 @@ import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
 import AuthRoutes from "./backend/auth/routes";
 import UserRoutes from "./backend/routes/user/user.routes";
 import PackageRoutes from "./backend/user/packages/route";
+import RestaurantRoutes from "./backend/resturant/route";
 import AddressRoutes from "./backend/address/route";
 import EmailViewRoutes from "./backend/routes/email.routes";
 
@@ -48,7 +49,7 @@ app.use(
       secret: "your_secret_key", // Replace with a real secret key
       resave: false,
       saveUninitialized: false,
-   })
+   }),
 );
 
 const options = {
@@ -60,15 +61,16 @@ const options = {
 app.use(
    "/api/api-docs",
    (
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       req: any,
       res: { set: (arg0: string, arg1: string) => void },
-      next: () => void
+      next: () => void,
    ) => {
       res.set("Cache-Control", "no-store");
       next();
    },
    swaggerUi.serve,
-   swaggerUi.setup(swaggerDocument, options)
+   swaggerUi.setup(swaggerDocument, options),
 );
 
 app.get("/", (req, res) => {
@@ -76,7 +78,7 @@ app.get("/", (req, res) => {
    fs.readFile(
       path.join(__dirname, "public/index.html"),
       "utf8",
-      (err, html) => {
+      (err, fileContent) => {
          if (err) {
             console.error("Error reading HTML file:", err);
             res.status(500).send("Internal Server Error");
@@ -84,11 +86,11 @@ app.get("/", (req, res) => {
          }
 
          // Replace ${BASE_URL} with the actual base URL
-         html = html.replace("${BASE_URL}", env.BASE_URL);
+         const modifiedContent = fileContent.replace("${BASE_URL}", env.BASE_URL);
 
          // Send the modified HTML file
-         res.send(html);
-      }
+         res.send(modifiedContent);
+      },
    );
 });
 
@@ -103,7 +105,7 @@ app.use((req, res, next) => {
    res.on("finish", () => {
       const duration = Date.now() - start;
       logger.info(
-         `${req.method} ${req.originalUrl} ${res.statusCode} ${duration}ms`
+         `${req.method} ${req.originalUrl} ${res.statusCode} ${duration}ms`,
       );
    });
 
@@ -111,10 +113,11 @@ app.use((req, res, next) => {
 });
 
 // Use the custom logging middleware
-
 // app.use("/api", PublicRoutes);
 app.use("/api/v1/address", AddressRoutes);
 app.use("/api/v1/packages", PackageRoutes);
+app.use("/api/v1/restaurant", RestaurantRoutes);
+// app.use("/api/v1/restaurant", RestaurantRoutes);
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/user", UserRoutes);
 app.use("/api/v1/admin/dashboard", DashboardRoutes);
@@ -136,7 +139,7 @@ const handlePayload: HandlePayload = new HandlePayload(listApis);
          app.listen(env.APP_PORT, () => {
             console.log(`listening at http://localhost:${env.APP_PORT}`);
             console.log(
-               `Api docs at http://localhost:${env.APP_PORT}/api/api-docs `
+               `Api docs at http://localhost:${env.APP_PORT}/api/api-docs `,
             );
          });
       });

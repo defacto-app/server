@@ -672,3 +672,12 @@
 2024-05-20T02:21:31.820Z [undefined] [32minfo[39m: PUT /api/v1/packages/Vo9tXz2 200 226ms
 2024-05-20T02:25:30.402Z [undefined] [32minfo[39m: PUT /api/v1/packages/Vo9tXz2 200 227ms
 2024-05-20T02:30:19.553Z [undefined] [32minfo[39m: PUT /api/v1/packages/Vo9tXz2 200 257ms
+2024-07-09T08:32:01.315Z [undefined] [32minfo[39m: GET /api/v1/packages/all?page=1&perPage=10 401 1ms
+2024-07-09T08:32:08.638Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 401 1ms
+2024-07-09T08:32:31.573Z [undefined] [32minfo[39m: GET /api/v1/admin/resturant 404 1ms
+2024-07-09T08:32:47.336Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 6ms
+2024-07-09T08:33:01.163Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 4ms
+2024-07-09T08:38:34.188Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 3ms
+2024-07-09T08:39:13.609Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 3ms
+2024-07-09T08:39:13.667Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 304 0ms
+2024-07-13T17:29:17.896Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 4ms
