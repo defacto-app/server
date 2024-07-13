@@ -1,92 +1,92 @@
-giimport mongoose from "mongoose";
-import { connectDB } from "../../../config/mongodb";
-import UserModel from "../model";
-import PackageModel from "../../model/package.model";
-import Chance from "chance";
-import logger from "../../../config/logger";
-import AddressModel from "../../address/model";
+import mongoose from "mongoose";
+import { v4 as uuidv4 } from "uuid";
+import { connectDB } from "../../config/mongodb";
+import RestaurantModel from "./model";
+import MenuItemModel from "../menu/model";
 
-const chance = new Chance();
-const packageItems = [
-   "books",
-   "food",
-   "shoes",
-   "clothes",
-   "electronics",
-   "toys",
-   "furniture",
-   "appliances",
-   "tools",
-   "cosmetics",
+const restaurants = [
+   {
+      name: "Italiano Delight",
+      rating: 4.7,
+      deliveryTime: "10-25 mins",
+      category: "Pasta",
+      image: "https://example.com/images/italiano_delight.jpg",
+      address: "123 Pasta Lane",
+      phone: "123-456-7890",
+      email: "contact@italianodelight.com",
+      openingHours: "10:00 AM - 11:00 PM",
+   },
+   {
+      name: "Sushi Paradise",
+      rating: 4.8,
+      deliveryTime: "15-30 mins",
+      category: "Sushi",
+      image: "https://example.com/images/sushi_paradise.jpg",
+      address: "456 Sushi Blvd",
+      phone: "987-654-3210",
+      email: "contact@sushiparadise.com",
+      openingHours: "11:00 AM - 10:00 PM",
+   },
+   // Add more restaurant objects as needed
 ];
 
-async function seedPackages() {
+const menuItems = [
+   {
+      name: "Spaghetti Carbonara",
+      price: 12.99,
+      description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
+      image: "https://example.com/images/spaghetti_carbonara.jpg",
+      restaurantName: "Italiano Delight",
+   },
+   {
+      name: "Fettuccine Alfredo",
+      price: 13.99,
+      description: "Rich and creamy Alfredo sauce served over fettuccine pasta.",
+      image: "https://example.com/images/fettuccine_alfredo.jpg",
+      restaurantName: "Italiano Delight",
+   },
+   {
+      name: "California Roll",
+      price: 8.99,
+      description: "Sushi roll with crab, avocado, and cucumber.",
+      image: "https://example.com/images/california_roll.jpg",
+      restaurantName: "Sushi Paradise",
+   },
+   {
+      name: "Spicy Tuna Roll",
+      price: 9.99,
+      description: "Sushi roll with spicy tuna and cucumber.",
+      image: "https://example.com/images/spicy_tuna_roll.jpg",
+      restaurantName: "Sushi Paradise",
+   },
+   // Add more menu items for other restaurants as needed
+];
+
+async function seedData() {
    console.time("Seeding time");
    try {
       await connectDB();
-      await PackageModel.deleteMany();
+      await RestaurantModel.deleteMany();
+      await MenuItemModel.deleteMany();
+      console.log("All existing restaurants and menu items deleted");
 
-      const allUsers = await UserModel.find({});
-      if (!allUsers.length) {
-         logger.error("No users found");
-         console.error("No users found");
-         return;
-      }
+      const restaurantDocs = await RestaurantModel.insertMany(restaurants);
+      console.log("Restaurant data seeded successfully");
 
-      for (const user of allUsers) {
-         const userAddresses = await AddressModel.find({ userId: user.userId });
-         if (!userAddresses.length) {
-            logger.error(`No addresses found for user ${user.userId}`);
-            console.error(`No addresses found for user ${user.userId}`);
-            continue;
-         }
+      const menuItemsWithRestaurantIds = menuItems.map(item => {
+         const restaurant = restaurantDocs.find(r => r.name === item.restaurantName);
+         return {
+            ...item,
+            restaurantId: restaurant._id as mongoose.Types.ObjectId,
+            publicId: uuidv4(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
+         };
+      });
 
-         const numPackages = 4;
-         for (let i = 0; i < numPackages; i++) {
-            const pickupAddress = chance.pickone(userAddresses);
-            const dropOffAddress = chance.pickone(userAddresses);
+      await MenuItemModel.insertMany(menuItemsWithRestaurantIds);
+      console.log("Menu item data seeded successfully");
 
-            const packageDetails = {
-               dropOffDetails: {
-                  phoneNumber: chance.phone(),
-                  name: chance.name(),
-                  ...dropOffAddress,
-               },
-               pickupDetails: {
-                  phoneNumber: chance.phone(),
-                  name: chance.name(),
-                  ...pickupAddress,
-               },
-
-               charge: chance.integer({ min: 1000, max: 5000 }),
-               status: chance.pickone([
-                  "pending",
-                  "completed",
-                  "cancelled",
-                  "scheduled",
-                  "ongoing",
-               ]),
-               pickupTime: chance.date({ year: 2024 }),
-               assignedTo: chance.name(),
-               isInstant: chance.bool(),
-               description: chance.sentence({ words: 5 }),
-               cashPaymentLocation: chance.pickone(["Pick-up", "Delivery"]),
-               cashAvailable: {
-                  available: chance.bool(),
-                  amount: chance.integer({ min: 100, max: 1000 }),
-               },
-               packageContent: chance.pickset(packageItems, 5),
-            };
-
-            const newPackage = {
-               userId: user.userId,
-               email: user.email,
-               ...packageDetails,
-            };
-
-            await PackageModel.create(newPackage);
-         }
-      }
    } catch (error) {
       console.error("Error seeding data:", error);
    } finally {
@@ -96,7 +96,7 @@ async function seedPackages() {
    }
 }
 
-seedPackages().catch((error) => {
+seedData().catch((error) => {
    console.error("Unhandled Error:", error);
    process.exit(1);
 });
