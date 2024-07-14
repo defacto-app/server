@@ -37,28 +37,32 @@ export default $logger;
 import winston from "winston";
 
 // Define your custom format with colors and timestamp
-const myFormat = winston.format.printf(({ level, message, label, timestamp }) => {
-   return `${timestamp} [${label}] ${level}: ${message}`;
-});
+const myFormat = winston.format.printf(
+	({ level, message, label, timestamp }) => {
+		return `${timestamp} [${label}] ${level}: ${message}`;
+	},
+);
 
 const logger = winston.createLogger({
-   level: 'info',
-   format: winston.format.combine(
-      winston.format.colorize(),        // This will add color to your console output
-      winston.format.timestamp(),       // Adds a timestamp to each log message
-     // Adds a label, which you set in your defaultMeta
-      myFormat                          // Use the custom format defined above
-   ),
-   transports: [
-      new winston.transports.File({ filename: 'error.log', level: 'error' }),
-      new winston.transports.File({ filename: 'combined.log' })
-   ],
+	level: "info",
+	format: winston.format.combine(
+		winston.format.colorize(), // This will add color to your console output
+		winston.format.timestamp(), // Adds a timestamp to each log message
+		// Adds a label, which you set in your defaultMeta
+		myFormat, // Use the custom format defined above
+	),
+	transports: [
+		new winston.transports.File({ filename: "error.log", level: "error" }),
+		new winston.transports.File({ filename: "combined.log" }),
+	],
 });
 
-if (process.env.NODE_ENV !== 'production') {
-   logger.add(new winston.transports.Console({
-      format: winston.format.simple(),
-   }));
+if (process.env.NODE_ENV !== "production") {
+	logger.add(
+		new winston.transports.Console({
+			format: winston.format.simple(),
+		}),
+	);
 }
 
 export default logger;

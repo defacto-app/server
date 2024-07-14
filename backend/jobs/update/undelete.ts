@@ -2,33 +2,33 @@ import { connectDB } from "../../../config/mongodb";
 import FileModel from "../../model/files.model";
 
 async function unDeleteFile() {
-   await connectDB();
+	await connectDB();
 
-   // find user by email
+	// find user by email
 
-   // update many files
+	// update many files
 
-   const files = await FileModel.find({
-      deleted: true,
-   });
+	const files = await FileModel.find({
+		deleted: true,
+	});
 
-   if (!files) {
-      process.exit(1);
-   }
+	if (!files) {
+		process.exit(1);
+	}
 
-   // update  all the deleted field to false
+	// update  all the deleted field to false
 
-   for (let i = 0; i < files.length; i++) {
-      const file = files[i];
+	for (let i = 0; i < files.length; i++) {
+		const file = files[i];
 
-      file.deleted = false;
+		file.deleted = false;
 
-      await file.save();
-   }
+		await file.save();
+	}
 
-   console.log(files, "all files");
+	console.log(files, "all files");
 
-   process.exit(1);
+	process.exit(1);
 }
 
 unDeleteFile();

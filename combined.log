@@ -681,3 +681,4 @@
 2024-07-09T08:39:13.609Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 3ms
 2024-07-09T08:39:13.667Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 304 0ms
 2024-07-13T17:29:17.896Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 4ms
+2024-07-14T05:01:00.586Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 4ms

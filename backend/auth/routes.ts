@@ -21,10 +21,10 @@ router.post("/admin-login", AuthController.admin_login);
 
 router.get("/logout", AuthController.logout);
 router.get(
-   "/ping",
-   authMiddleware.validateUser,
-   packageMiddleware.userPackages,
-   AuthController.ping
+	"/ping",
+	authMiddleware.validateUser,
+	packageMiddleware.userPackages,
+	AuthController.ping,
 );
 
 router.get("/admin-ping", authMiddleware.validateAdmin, AuthController.ping);
