@@ -693,3 +693,8 @@
 2024-07-14T08:09:30.091Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-joint 200 394ms
 2024-07-14T08:09:35.357Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-jointd 200 118ms
 2024-07-14T08:09:41.211Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-joint 200 118ms
+2024-07-14T08:11:37.658Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-joint 200 122ms
+2024-07-14T08:11:38.952Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-joint 200 127ms
+2024-07-14T08:11:45.534Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-joint 200 116ms
+2024-07-14T08:11:59.050Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all?page=1&perPage=10 200 244ms
+2024-07-14T08:12:06.869Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-bistro 200 134ms

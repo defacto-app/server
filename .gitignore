@@ -4,6 +4,7 @@ build/backend/controllers/application.controller.js
 
 node_modules/**/*
 
+combined.log
 
 yarn.lock
 
