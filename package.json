@@ -79,6 +79,7 @@
     "zod": "^3.23.4"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.8.3",
     "@japa/api-client": "^2.0.0-1",
     "@japa/expect": "^3.0.0-1",
     "@japa/runner": "^3.0.0-9",
