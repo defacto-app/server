@@ -1,4 +1,4 @@
-import Chance from "chance";
+
 import mongoose from "mongoose";
 import { connectDB } from "../../config/mongodb";
 import RestaurantModel from "./model";
@@ -9,21 +9,24 @@ import { generateMenuItemsForRestaurant, generateRestaurants } from "./utils";
 
 async function seedData() {
 	console.time("Seeding time");
+
+	const NUMBER_OF_RESTAURANTS = 5;
 	try {
 		await connectDB();
 		await RestaurantModel.deleteMany();
 		await MenuItemModel.deleteMany();
 		console.log("All existing restaurants and menu items deleted");
 
-		const restaurants = generateRestaurants(50); // Generate 50 restaurants
+		const restaurants = generateRestaurants(NUMBER_OF_RESTAURANTS); // Generate 50 restaurants
 		const restaurantDocs = await RestaurantModel.insertMany(restaurants);
 		console.log("Restaurant data seeded successfully");
 
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		let menuItems: any[] = [];
-		restaurantDocs.forEach((restaurant) => {
+		for (const restaurant of restaurantDocs) {
 			const items = generateMenuItemsForRestaurant(restaurant);
 			menuItems = menuItems.concat(items);
-		});
+		}
 
 		await MenuItemModel.insertMany(menuItems);
 		console.log("Menu item data seeded successfully");

@@ -1,4 +1,5 @@
 import Chance from "chance";
+import slugify from "slugify";
 
 const chance = new Chance();
 
@@ -143,10 +144,11 @@ function generateRestaurant(name: any) {
 	const category = chance.pickone(Object.keys(menuItemsByCategory));
 	return {
 		name: name,
+		slug: slugify(name, { lower: true, strict: true }),
 		rating: (Math.random() * (5 - 3.5) + 3.5).toFixed(1), // Random rating between 3.5 and 5
 		deliveryTime: `${chance.integer({ min: 10, max: 20 })}-${chance.integer({ min: 21, max: 45 })} mins`,
 		category: category,
-		image: `https://example.com/images/${chance.word()}.jpg`,
+		image: "https://placehold.co/600x400.png",
 		address: chance.address(),
 		phone: chance.phone(),
 		email: chance.email(),

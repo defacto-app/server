@@ -682,5 +682,14 @@
 2024-07-09T08:39:13.667Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 304 0ms
 2024-07-13T17:29:17.896Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 4ms
 2024-07-14T05:01:00.586Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 4ms
-2024-07-14T08:10:45.894Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-joint 404 1ms
-2024-07-14T08:10:47.012Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-joint 404 1ms
+2024-07-14T05:11:34.984Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 249ms
+2024-07-14T05:13:57.235Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 253ms
+2024-07-14T05:36:39.146Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 250ms
+2024-07-14T05:36:49.286Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 240ms
+2024-07-14T07:44:53.929Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all?page=1&perPage=10 200 249ms
+2024-07-14T07:44:59.863Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all?page=1&perPage=2 200 234ms
+2024-07-14T07:59:30.485Z [undefined] [32minfo[39m: GET /api/v1/restaurant/1276ea4f-13b3-404d-a1eb-899e87f8f1e8 200 133ms
+2024-07-14T08:08:43.642Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-joint 400 1ms
+2024-07-14T08:09:30.091Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-joint 200 394ms
+2024-07-14T08:09:35.357Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-jointd 200 118ms
+2024-07-14T08:09:41.211Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-joint 200 118ms

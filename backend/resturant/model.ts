@@ -1,9 +1,10 @@
 import mongoose, { type Document, Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
-
+import slugify from "slugify";
 export interface RestaurantDataType extends Document {
 	publicId: string;
 	name: string;
+	slug: string;
 	rating: number;
 	deliveryTime: string;
 	category: string;
@@ -22,6 +23,13 @@ const restaurantSchemaDefinitions = {
 		type: String,
 		required: true,
 		default: uuidv4,
+		unique: true,
+		minLength: 1,
+		maxLength: 255,
+	},
+	slug: {
+		type: String,
+		required: false,
 		unique: true,
 		minLength: 1,
 		maxLength: 255,
@@ -103,9 +111,9 @@ export const RestaurantSchema: Schema = new Schema(
 
 // Pre save middleware to auto-generate slug
 
-class RestaurantModel extends mongoose.model<RestaurantDataType>(
-	"restaurants",
-	RestaurantSchema,
-) {}
+// Pre-save middleware to auto-generate slug
+// Pre-save middleware to auto-generate slug
+
+const RestaurantModel = mongoose.model<RestaurantDataType>("restaurants", RestaurantSchema);
 
 export default RestaurantModel;
