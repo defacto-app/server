@@ -688,3 +688,4 @@
 2024-07-14T08:13:35.816Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-bistro 200 120ms
 2024-07-14T08:13:51.071Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all?page=1&perPage=10 200 248ms
 2024-07-14T08:13:59.486Z [undefined] [32minfo[39m: GET /api/v1/restaurant/gourmet-grill 200 120ms
+2024-07-14T08:16:58.636Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all?page=1&perPage=10 200 264ms
