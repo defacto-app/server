@@ -682,3 +682,5 @@
 2024-07-09T08:39:13.667Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 304 0ms
 2024-07-13T17:29:17.896Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 4ms
 2024-07-14T05:01:00.586Z [undefined] [32minfo[39m: GET /api/v1/restaurant/all 200 4ms
+2024-07-14T08:10:45.894Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-joint 404 1ms
+2024-07-14T08:10:47.012Z [undefined] [32minfo[39m: GET /api/v1/restaurant/yummy-joint 404 1ms
