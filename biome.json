@@ -1,8 +1,12 @@
 {
+	"files": {
+		"ignore": ["dist/**", ".vscode/**", "storage/**", "eslintrc.json", "biome.json", "prettier.json", "tsconfig.json","env.json", "jsonbank.env.json"]
+	},
 	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
 	"organizeImports": {
 		"enabled": true
 	},
+
 	"linter": {
 		"enabled": true,
 		"rules": {
