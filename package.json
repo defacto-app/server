@@ -22,6 +22,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@supabase/supabase-js": "^2.42.4",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
@@ -42,7 +43,7 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
-    "chance": "^1.1.11",
+    "chance": "^1.1.12",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
