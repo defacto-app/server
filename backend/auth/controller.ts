@@ -20,6 +20,10 @@ const AuthController = {
 		try {
 			const { data, error } = await AuthValidator.email_register(req.body);
 
+			if (error) {
+				SendResponse.badRequest(res, "Failed to register", error);
+			}
+
 			const user = await AuthModel.findOne<AuthDataType>({
 				email: req.body.email,
 			});
@@ -27,16 +31,19 @@ const AuthController = {
 			if (user) {
 				SendResponse.badRequest(res, "User already exists");
 			}
-			if (error) {
-				SendResponse.badRequest(res, "Failed to register", error);
-			}
+
+
+
+
+
+
 
 			const hashedPassword = await AuthModel.hashPassword(data!.password);
 
 			const email_token = nanoid(10);
 
 			const newAuth = new AuthModel({
-				email: data!.email,
+				email: data?.email,
 				password: hashedPassword, // Save the hashed password
 				email_management: {
 					login: {
@@ -65,7 +72,7 @@ const AuthController = {
 			// create user in db
 
 			const newUser = new UserModel({
-				email: data!.email,
+				email: data?.email,
 				userId: newAuth.publicId,
 				phoneNumber: undefined,
 				joinedAt: new Date(),
@@ -238,7 +245,7 @@ const AuthController = {
 			}
 
 			const user = await AuthModel.findOne<AuthDataType>({
-				email: data!.email,
+				email: data?.email,
 			});
 
 			if (!user || !user.password) {
@@ -248,14 +255,14 @@ const AuthController = {
 
 			const isMatch = await AuthModel.comparePassword(
 				req.body.password,
-				user!.password,
+				user?.password,
 			);
 
 			if (!isMatch) {
 				SendResponse.unauthorized(res, "Invalid email or password");
 			}
 
-			const token = generateToken(user!);
+			const token = generateToken(user);
 
 			SendResponse.success(res, "Login Successful", { token });
 		} catch (e: any) {
@@ -353,6 +360,7 @@ const AuthController = {
 	//
 
 	async admin_login(req: Request, res: Response): Promise<void> {
+
 		try {
 			const { data, error } = await AuthValidator.admin_login(req.body);
 
@@ -365,15 +373,16 @@ const AuthController = {
 			const user = await AuthModel.findOne({
 				email: data?.email,
 				role: "admin",
-				"email_management.otp": data!.otp,
+				"email_management.login.token": data?.otp,
 			});
+
 
 			if (!user) {
 				SendResponse.notFound(res, "Admin not found");
 				return;
 			}
 
-			if (user.email_management.login.token !== data!.otp) {
+			if (user.email_management.login.token !== data?.otp) {
 				SendResponse.badRequest(res, "Invalid OTP", {
 					pin: "Invalid OTP",
 				});

@@ -27,10 +27,12 @@ export default {
 
 			if (!result.success) {
 				const formattedErrors: any = {};
-				result.error.errors.forEach((error) => {
+				for (const error of result.error.errors) {
 					const fieldName = error.path[0];
 					formattedErrors[fieldName] = error.message;
-				});
+				}
+
+
 				return { data: null, error: formattedErrors };
 			}
 
@@ -59,10 +61,10 @@ export default {
 
 			if (!result.success) {
 				const formattedErrors: any = {};
-				result.error.errors.forEach((error) => {
+				for (const error of result.error.errors) {
 					const fieldName = error.path[0];
 					formattedErrors[fieldName] = error.message;
-				});
+				}
 				return { data: null, error: formattedErrors };
 			}
 
@@ -86,10 +88,10 @@ export default {
 
 		if (!result.success) {
 			const formattedErrors: any = {};
-			result.error.errors.forEach((error) => {
+			for (const error of result.error.errors) {
 				const fieldName = error.path[0];
 				formattedErrors[fieldName] = error.message;
-			});
+			}
 			return { data: null, error: formattedErrors };
 		}
 
@@ -176,10 +178,10 @@ export default {
 		const result = emailSchema.safeParse(body);
 		if (!result.success) {
 			const formattedErrors: any = {};
-			result.error.errors.forEach((error) => {
+			for (const error of result.error.errors) {
 				const fieldName = error.path[0];
 				formattedErrors[fieldName] = error.message;
-			});
+			}
 
 			return { data: null, error: formattedErrors };
 		}
