@@ -13,7 +13,7 @@ const router = Router();
 
 // middleware to validate packageId
 
-router.get("/all", RestaurantController.all);
+router.get("/", RestaurantController.all);
 router.get("/:slug", SlugMiddleware.restaurantSlug, RestaurantController.one);
 
 export default router;

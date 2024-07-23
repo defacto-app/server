@@ -115,7 +115,7 @@ app.use((req, res, next) => {
 // app.use("/api", PublicRoutes);
 app.use("/api/v1/address", AddressRoutes);
 app.use("/api/v1/packages", PackageRoutes);
-app.use("/api/v1/restaurant", RestaurantRoutes);
+app.use("/api/v1/restaurants", RestaurantRoutes);
 // app.use("/api/v1/restaurant", RestaurantRoutes);
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/user", UserRoutes);

@@ -805,7 +805,7 @@
       }
     },
 
-    "/api/v1/restaurant/all": {
+    "/api/v1/restaurants": {
       "get": {
         "summary": "all restaurants",
         "tags": [
@@ -952,7 +952,7 @@
       }
     },
 
-    "/api/v1/restaurant/{slug}": {
+    "/api/v1/restaurants/{slug}": {
       "get": {
         "summary": "Get one restaurant",
         "tags": [
