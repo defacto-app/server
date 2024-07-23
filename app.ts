@@ -60,7 +60,7 @@ const options = {
 app.use(
 	"/api/api-docs",
 	(
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+
 		req: any,
 		res: { set: (arg0: string, arg1: string) => void },
 		next: () => void,

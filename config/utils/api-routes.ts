@@ -2,7 +2,7 @@ import fs from "node:fs";
 import { $file } from "../config";
 
 export class HandlePayload {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	
 	constructor(private listApis: any[]) {
 		// You may want to use a specific interface instead of 'any[]'
 		// this.writeToFile().then();
@@ -32,7 +32,7 @@ export class HandlePayload {
 				version: "1.0.0",
 			},
 			paths: {},
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		
 		} as any;
 
 		// Populate paths object based on listApis

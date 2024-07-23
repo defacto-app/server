@@ -20,19 +20,19 @@ const RestaurantController = {
 			);
 
 			SendResponse.success(res, "Restaurants retrieved", paginationResult);
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
 	},
 
 	async one(req: Request, res: Response): Promise<void> {
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		
 		const data = res.locals.restaurantItem as any;
 
 		try {
 			SendResponse.success(res, "Restaurant retrieved", data);
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}

@@ -6,7 +6,7 @@ import transporter from "./mailer";
 export const eventEmitter = new EventEmitter();
 
 export const emailEvents = () => {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	
 	eventEmitter.on("sendContactMail", async (payload: any) => {
 		try {
 			// Use the transporter to send the email
@@ -24,7 +24,7 @@ export const emailEvents = () => {
 		}
 	});
 
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	
 	eventEmitter.on("sendWelcomeMail", async (payload: any) => {
 		try {
 			// Use the transporter to send the email

@@ -4,7 +4,7 @@ import type { AuthDataType } from "../auth/model";
 
 const AddressController = {
 	async all(req: Request, res: Response): Promise<void> {
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		
 		const user = res.locals.user as any;
 
 
@@ -19,7 +19,7 @@ const AddressController = {
 				address,
 				timestamp: new Date(),
 			});
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		
 		} catch (error: any) {
 			// biome-ignore lint/style/useTemplate: <explanation>
 			res.status(500).send("Error Fetching  order: " + error.message);
@@ -43,7 +43,7 @@ const AddressController = {
 				address: newAddress,
 				timestamp: new Date(),
 			});
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		
 		} catch (error: any) {
 			res.status(500).send(`Error Fetching  order: ${error.message}`);
 		}

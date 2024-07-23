@@ -21,7 +21,7 @@ async function seedData() {
 		const restaurantDocs = await RestaurantModel.insertMany(restaurants);
 		console.log("Restaurant data seeded successfully");
 
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		
 		let menuItems: any[] = [];
 		for (const restaurant of restaurantDocs) {
 			const items = generateMenuItemsForRestaurant(restaurant);

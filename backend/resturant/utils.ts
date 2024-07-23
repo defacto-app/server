@@ -139,7 +139,7 @@ export function generateRestaurants(n: number) {
 	return restaurants;
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+
 function generateRestaurant(name: any) {
 	const category = chance.pickone(Object.keys(menuItemsByCategory));
 	return {

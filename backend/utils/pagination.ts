@@ -39,7 +39,7 @@ async function paginate<T extends Document>(
 			success: true,
 			data,
 		};
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	
 	} catch (error: any) {
 		throw new Error(`Error in pagination: ${error.message}`);
 	}

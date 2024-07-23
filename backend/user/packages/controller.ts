@@ -7,7 +7,7 @@ import paginate from "../../utils/pagination";
 
 const PackageController = {
 	async all(req: Request, res: Response): Promise<void> {
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		
 		const user = res.locals.user as any;
 
 		// Extract page and perPage from request query. Set default values if not provided.
@@ -39,7 +39,7 @@ const PackageController = {
 			);
 
 			SendResponse.success(res, "Packages retrieved", paginationResult);
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
@@ -60,7 +60,7 @@ const PackageController = {
 			SendResponse.success(res, "Created New Package Delivery.", {
 				packageId: newPackage.publicId,
 			});
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			
 		} catch (error: any) {
 			// Handle possible errors
 			SendResponse.serverError(res, error.message);
@@ -68,12 +68,12 @@ const PackageController = {
 	},
 
 	async one(req: Request, res: Response): Promise<void> {
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		
 		const data = res.locals.packageItem as any;
 
 		try {
 			SendResponse.success(res, "Package retrieved", data);
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
@@ -91,7 +91,7 @@ const PackageController = {
 
 		try {
 			SendResponse.success(res, "Package delivery updated successfully.", data);
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			
 		} catch (error: any) {
 			res.status(500).send(`Error Updating  order: ${error.message}`);
 		}
@@ -110,7 +110,7 @@ const PackageController = {
 				success: true,
 				timestamp: new Date(),
 			});
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			
 		} catch (error: any) {
 			res.status(500).send(`Error Deleting  order: ${error.message}`);
 		}
