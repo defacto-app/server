@@ -32,12 +32,6 @@ const AuthController = {
 				SendResponse.badRequest(res, "User already exists");
 			}
 
-
-
-
-
-
-
 			const hashedPassword = await AuthModel.hashPassword(data!.password);
 
 			const email_token = nanoid(10);
@@ -360,7 +354,6 @@ const AuthController = {
 	//
 
 	async admin_login(req: Request, res: Response): Promise<void> {
-
 		try {
 			const { data, error } = await AuthValidator.admin_login(req.body);
 
@@ -375,7 +368,6 @@ const AuthController = {
 				role: "admin",
 				"email_management.login.token": data?.otp,
 			});
-
 
 			if (!user) {
 				SendResponse.notFound(res, "Admin not found");

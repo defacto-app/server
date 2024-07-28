@@ -4,7 +4,7 @@ build/backend/controllers/application.controller.js
 
 node_modules/**/*
 
-combined.log
+logs/combined.log
 
 yarn.lock
 
@@ -22,6 +22,6 @@ package-lock.json
 
 
 build/**/*
-combined.log
-combined.log
-combined.log
+logs/combined.log
+logs/combined.log
+logs/combined.log
