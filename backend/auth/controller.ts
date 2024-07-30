@@ -100,6 +100,8 @@ const AuthController = {
 
 			const otp = generateOTP();
 
+			console.log("otp", otp);
+
 			const user = await AuthModel.findOne({
 				phoneNumber: data?.phoneNumber,
 			});
@@ -162,7 +164,7 @@ const AuthController = {
 		try {
 			const { data, error } = await AuthValidator.phone_login(req.body);
 			if (error) {
-				SendResponse.badRequest(res, "Invalid phone number", error);
+				SendResponse.badRequest(res, "", error);
 			}
 
 			const user = await AuthModel.findOne({
@@ -175,7 +177,9 @@ const AuthController = {
 			}
 
 			if (user.phone_management.login.otp !== data?.otp) {
-				SendResponse.badRequest(res, "Invalid OTP");
+				SendResponse.badRequest(res, "Invalid OTP", {
+					otp: "Invalid OTP",
+				});
 				return;
 			}
 
@@ -278,7 +282,7 @@ const AuthController = {
 			// check if user exists
 			const userExists = await AuthModel.findOne({ email: data?.email });
 			if (userExists) {
-				const otp = generateOTP();
+		/*		const otp = generateOTP();
 				await AuthModel.findOneAndUpdate(
 					{ email: data?.email }, // find a document with this filter
 					{
@@ -298,7 +302,10 @@ const AuthController = {
 
 				SendResponse.success(res, "OTP sent successfully", {
 					exists: true,
-				});
+				});*/
+				SendResponse.success(res, "", {
+					exists: true,
+				})
 			} else {
 				SendResponse.success(res, "User not found", { exists: false });
 				return;

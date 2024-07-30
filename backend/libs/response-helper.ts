@@ -1,11 +1,12 @@
 import type { Response } from "express";
-import logger from "../../config/logger";
 import moment from "moment";
+import logger from "../../config/logger";
 
 function formattedTimeStamp(date: Date): string {
 	return moment().format("MMMM Do YYYY, h:mm:ss A");
 }
 
+// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 class SendResponse {
 	/**
 	 * Send a success response.

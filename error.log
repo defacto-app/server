@@ -52,3 +52,10 @@
 2024-05-20T01:49:57.868Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
 2024-05-20T01:50:18.496Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
 2024-05-20T01:50:59.122Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-07-28T22:28:07.687Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-07-28T22:37:10.896Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-07-28T22:39:10.924Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-07-29T22:24:50.148Z [undefined] [31merror[39m: null is not an object (evaluating 'data.password')
+2024-07-29T22:24:56.016Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "kawts.com.ng@gmail.com" }
+2024-07-29T22:25:07.681Z [undefined] [31merror[39m: null is not an object (evaluating 'data.password')
+2024-07-29T22:25:15.684Z [undefined] [31merror[39m: null is not an object (evaluating 'data.password')
