@@ -6,11 +6,9 @@
   },
   "servers": [
     {
-      "url": "http://localhost:5700"
-    },
-    {
-      "url": "https://api.defactoapp.com.ng"
+      "url": "/"
     }
+
   ],
   "security": [
     {
@@ -35,6 +33,19 @@
     }
   },
   "paths": {
+    "/api/v1/g/google-places": {
+      "get": {
+        "tags": [
+          "public-resources"
+        ],
+        "summary": "Google Places API",
+        "responses": {
+          "200": {
+            "description": "Google Places API"
+          }
+        }
+      }
+    },
     "/api/v1/auth/admin-login": {
       "post": {
         "tags": [

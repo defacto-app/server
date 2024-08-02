@@ -21,6 +21,7 @@ import AuthRoutes from "./backend/auth/routes";
 import UserRoutes from "./backend/routes/user/user.routes";
 import PackageRoutes from "./backend/user/packages/route";
 import RestaurantRoutes from "./backend/resturant/route";
+import PublicRoutes from "./backend/routes/public.routes";
 import AddressRoutes from "./backend/address/route";
 import EmailViewRoutes from "./backend/routes/email.routes";
 
@@ -40,6 +41,8 @@ try {
 }
 
 app.use(cors());
+
+
 
 app.use(express.json());
 
@@ -116,9 +119,23 @@ app.use((req, res, next) => {
 app.use("/api/v1/address", AddressRoutes);
 app.use("/api/v1/packages", PackageRoutes);
 app.use("/api/v1/restaurants", RestaurantRoutes);
+app.use("/api/v1/g", PublicRoutes);
+
 // app.use("/api/v1/restaurant", RestaurantRoutes);
+//
+//
+//
 app.use("/api/v1/auth", AuthRoutes);
+//
+//
+//
 app.use("/api/v1/user", UserRoutes);
+// admin routes
+
+//
+
+//
+//
 app.use("/api/v1/admin/dashboard", DashboardRoutes);
 app.use("/api/v1/preview/", EmailViewRoutes);
 

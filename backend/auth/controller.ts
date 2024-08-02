@@ -51,7 +51,7 @@ const AuthController = {
 						token: undefined,
 						expires_at: undefined,
 						sent_at: undefined,
-					},
+					}
 				},
 				phoneNumber: undefined,
 				phone_management: {
