@@ -4,8 +4,9 @@ import env from "../../config/env";
 
 const PublicController = {
 	async google_api(req: Request, res: Response): Promise<void> {
-		// const { input } = req.query;
-		const input = "life camp"
+		const { input } = req.query;
+
+		console.log("input", input);
 		try {
 			const response = await axios.get(
 				// biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>

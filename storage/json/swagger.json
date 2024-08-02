@@ -39,6 +39,18 @@
           "public-resources"
         ],
         "summary": "Google Places API",
+        "parameters": [
+          {
+            "name": "input",
+            "in": "query",
+            "required": true,
+            "description": "Input for Google Places API",
+            "schema": {
+              "type": "string",
+              "example": "koka junction mall"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Google Places API"

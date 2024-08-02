@@ -218,3 +218,8 @@
 2024-08-02T11:45:06.140Z [undefined] [32minfo[39m: GET /api/v1/g/google-places 200 2ms
 2024-08-02T11:45:06.880Z [undefined] [32minfo[39m: GET /api/v1/g/google-places 304 1ms
 2024-08-02T11:47:19.165Z [undefined] [32minfo[39m: GET /api/v1/g/google-places 200 791ms
+2024-08-02T11:52:50.879Z [undefined] [32minfo[39m: GET /api/v1/g/google-places?input=gwarimpa 200 362ms
+2024-08-02T11:53:04.415Z [undefined] [32minfo[39m: GET /api/v1/g/google-places?input=kado 200 199ms
+2024-08-02T11:55:29.564Z [undefined] [32minfo[39m: GET /api/v1/g/google-places?input=life%20camp 200 698ms
+2024-08-02T11:55:33.766Z [undefined] [32minfo[39m: GET /api/v1/g/google-places?input=kado 200 111ms
+2024-08-02T11:56:15.878Z [undefined] [32minfo[39m: GET /api/v1/g/google-places?input=koka%20junction%20mall 200 280ms
