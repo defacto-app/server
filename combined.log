@@ -212,3 +212,9 @@
 2024-08-01T17:12:34.003Z [undefined] [32minfo[39m: POST /api/v1/auth/email-login 200 197ms
 2024-08-02T11:37:54.970Z [undefined] [32minfo[39m: GET /api/v1/g/google-places 200 0ms
 2024-08-02T11:38:25.266Z [undefined] [32minfo[39m: GET /api/v1/g/google-places 200 1ms
+2024-08-02T11:44:58.192Z [undefined] [32minfo[39m: GET /api/v1/g/google-places 200 3ms
+2024-08-02T11:44:59.154Z [undefined] [32minfo[39m: GET /api/v1/g/google-places 304 0ms
+2024-08-02T11:44:59.538Z [undefined] [32minfo[39m: GET /api/v1/g/google-places 304 1ms
+2024-08-02T11:45:06.140Z [undefined] [32minfo[39m: GET /api/v1/g/google-places 200 2ms
+2024-08-02T11:45:06.880Z [undefined] [32minfo[39m: GET /api/v1/g/google-places 304 1ms
+2024-08-02T11:47:19.165Z [undefined] [32minfo[39m: GET /api/v1/g/google-places 200 791ms

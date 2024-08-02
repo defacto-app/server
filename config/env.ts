@@ -31,6 +31,7 @@ const env = {
 	SUPABASE_URL: envs.parsed?.SUPABASE_URL || "",
 	SUPABASE_SERVICE_ROLE: envs.parsed?.SUPABASE_SERVICE_ROLE || "",
 	TERMIAPIKEY: envs.parsed?.TERMIAPIKEY || "",
+	GOOGLE_MAPS_API_KEY: envs.parsed?.GOOGLE_MAPS_API_KEY || "",
 
 	// SMTP_FROM_EMAIL: envs.parsed?.SMTP_FROM_EMAIL,
 };

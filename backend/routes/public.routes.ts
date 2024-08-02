@@ -1,9 +1,10 @@
 import { Router } from "express";
+import PublicController from "../controllers/public.controller";
 
 const router = Router();
 
-router.get("/google-places", (req, res) => {
-	res.send("Google Places API wow !!");
-});
+
+
+router.get("/google-places", PublicController.google_api);
 
 export default router;
