@@ -58,6 +58,31 @@
         }
       }
     },
+    "/api/v1/g/place-details": {
+      "get": {
+        "tags": [
+          "public-resources"
+        ],
+        "summary": "Google Places API",
+        "parameters": [
+          {
+            "name": "place_id",
+            "in": "query",
+            "required": true,
+            "description": "The place_id of the place to retrieve",
+            "schema": {
+              "type": "string",
+              "example": "ChIJN1t_tDeuEmsRUsoyG83frY4"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Google Places API"
+          }
+        }
+      }
+    },
     "/api/v1/auth/admin-login": {
       "post": {
         "tags": [
