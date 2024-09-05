@@ -32,6 +32,7 @@ const AuthController = {
 				SendResponse.badRequest(res, "User already exists");
 			}
 
+			// biome-ignore lint/style/noNonNullAssertion: <explanation>
 			const hashedPassword = await AuthModel.hashPassword(data!.password);
 
 			const email_token = nanoid(10);
@@ -100,7 +101,7 @@ const AuthController = {
 
 			const otp = generateOTP();
 
-			console.log("otp", otp);
+
 
 			const user = await AuthModel.findOne({
 				phoneNumber: data?.phoneNumber,
@@ -360,54 +361,8 @@ const AuthController = {
 	},
 	//
 
-	async admin_login(req: Request, res: Response): Promise<void> {
-		try {
-			const { data, error } = await AuthValidator.admin_login(req.body);
 
-			if (error) {
-				SendResponse.badRequest(res, "Invalid email address", error);
-				return;
-			}
 
-			// check if user exists
-			const user = await AuthModel.findOne({
-				email: data?.email,
-				role: "admin",
-				"email_management.login.token": data?.otp,
-			});
-
-			if (!user) {
-				SendResponse.notFound(res, "Admin not found");
-				return;
-			}
-
-			if (user.email_management.login.token !== data?.otp) {
-				SendResponse.badRequest(res, "Invalid OTP", {
-					pin: "Invalid OTP",
-				});
-				return;
-			}
-
-			// Check if OTP is still valid
-
-			const currentTime = new Date();
-
-			const otpExpiryTime = new Date(
-				user.email_management?.login.expires_at || Date.now(),
-			);
-			if (currentTime > otpExpiryTime) {
-				SendResponse.badRequest(res, "OTP has expired", {
-					otp: "OTP has expired",
-				});
-			}
-
-			const token = generateToken(user);
-
-			SendResponse.success(res, "Admin logged in", { token });
-		} catch (e: any) {
-			SendResponse.serverError(res, e.message);
-		}
-	},
 	//
 
 	async ping(req: Request, res: Response): Promise<void> {

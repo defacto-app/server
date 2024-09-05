@@ -16,12 +16,13 @@ import { emailEvents } from "./config/eventEmitter";
 import { HandlePayload } from "./config/utils/api-routes";
 import swaggerDocument from "./storage/json/swagger.json";
 //  routes
-import DashboardRoutes from "./backend/routes/admin/dashboard.routes";
+import DashboardRoutes from "./backend/admin/dashboard.routes";
 import AuthRoutes from "./backend/auth/routes";
 import UserRoutes from "./backend/routes/user/user.routes";
+import AdminAuthRoutes from "./backend/admin/auth/routes";
 import PackageRoutes from "./backend/user/packages/route";
 import RestaurantRoutes from "./backend/resturant/route";
-import PublicRoutes from "./backend/routes/public.routes";
+import PublicRoutes from "./backend/public/index.routes";
 import AddressRoutes from "./backend/address/route";
 import EmailViewRoutes from "./backend/routes/email.routes";
 
@@ -131,11 +132,10 @@ app.use("/api/v1/auth", AuthRoutes);
 //
 app.use("/api/v1/user", UserRoutes);
 // admin routes
+//
+//
+app.use("/api/v1/admin/auth", AdminAuthRoutes);
 
-//
-
-//
-//
 app.use("/api/v1/admin/dashboard", DashboardRoutes);
 app.use("/api/v1/preview/", EmailViewRoutes);
 

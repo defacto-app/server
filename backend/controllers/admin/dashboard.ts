@@ -1,9 +1,9 @@
 import type { Request, Response } from "express";
-import Chance from "chance";
+
 
 import AuthModel from "../../auth/model";
 
-const DashboardController = {
+const Dashboard = {
 	async all_users(req: Request, res: Response): Promise<void> {
 		try {
 			const users = await AuthModel.find({});
@@ -17,4 +17,4 @@ const DashboardController = {
 	},
 };
 
-export default DashboardController;
+export default Dashboard;

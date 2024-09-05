@@ -1,1244 +1,1185 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-    "title": "Defacto API",
-    "version": "1.0.0"
-  },
-  "servers": [
-    {
-      "url": "/"
-    }
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Defacto API",
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	],
+	"security": [
+		{
+			"bearerAuth": [],
+			"basicAuth": [],
+			"apiKey": [],
+			"oauth2": [],
+			"openIdConnect": []
+		}
+	],
+	"components": {
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT",
+				"in": "header",
+				"name": "Authorization",
+				"description": "Bearer token"
+			}
+		}
+	},
+	"paths": {
+		"/api/v1/g/google-places": {
+			"get": {
+				"tags": ["public-resources"],
+				"summary": "Google Places API",
+				"parameters": [
+					{
+						"name": "input",
+						"in": "query",
+						"required": true,
+						"description": "Input for Google Places API",
+						"schema": {
+							"type": "string",
+							"example": "koka junction mall"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Google Places API"
+					}
+				}
+			}
+		},
+		"/api/v1/g/place-details": {
+			"get": {
+				"tags": ["public-resources"],
+				"summary": "Google Places API",
+				"parameters": [
+					{
+						"name": "place_id",
+						"in": "query",
+						"required": true,
+						"description": "The place_id of the place to retrieve",
+						"schema": {
+							"type": "string",
+							"example": "ChIJN1t_tDeuEmsRUsoyG83frY4"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Google Places API"
+					}
+				}
+			}
+		},
+		"/api/v1/admin/auth/admin-login": {
+			"post": {
+				"tags": ["admin-auth"],
+				"summary": "Admin login",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"example": "kats.com.ng@gmail.com"
+									},
+									"otp": {
+										"type": "string",
+										"example": "067741"
+									}
+								},
+								"required": ["email", "otp"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Admin Login successful",
+						"token": "Bearer token"
+					}
+				}
+			}
+		},
+		"/api/v1/admin/auth/send-otp": {
+			"post": {
+				"tags": ["admin-auth"],
+				"summary": "Send OTP",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"example": "kats.comg.ng@gmail.com"
+									},
+									"otp": {
+										"type": "string",
+										"example": "067741"
+									}
+								},
+								"required": ["email", "otp"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OTP sent"
+					}
+				}
+			}
+		},
+		"/api/v1/admin/dashboard": {
+			"get": {
+				"tags": ["admin-resources"],
+				"summary": "Admin dashboard",
+				"responses": {
+					"200": {
+						"description": "Admin dashboard"
+					}
+				}
+			}
+		},
+		"/api/v1/admin/resturant": {
+			"get": {
+				"tags": ["admin-restaurant"],
+				"summary": "Admin dashboard",
+				"responses": {
+					"200": {
+						"description": "all restaurants"
+					}
+				}
+			}
+		},
+		"/api/v1/auth/phone-login": {
+			"post": {
+				"tags": ["auth-phone"],
+				"summary": "phone number  login",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"phoneNumber": {
+										"type": "string",
+										"example": "08063145125"
+									},
+									"otp": {
+										"type": "string",
+										"example": "067741"
+									}
+								},
+								"required": ["phoneNumber", "otp"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Logged in successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "Logged in successfully"
+										},
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"timestamp": {
+											"type": "string",
+											"example": "2024-05-02T14:45:52.556Z"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"firstTime": {
+													"type": "boolean",
+													"example": true
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/auth/email-login": {
+			"post": {
+				"tags": ["auth-email"],
+				"summary": "User Email login",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"example": "kats.com.ng@gmail.com"
+									},
+									"password": {
+										"type": "string",
+										"example": "123456"
+									}
+								},
+								"required": ["email", "password"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Logged in successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "Logged in successfully"
+										},
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"timestamp": {
+											"type": "string",
+											"example": "2024-05-02T14:45:52.556Z"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"firstTime": {
+													"type": "boolean",
+													"example": true
+												},
+												"token": {
+													"type": "string",
+													"example": "Bearer token"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/auth/email-exists": {
+			"post": {
+				"tags": ["auth-email"],
+				"summary": "Check if a user exists",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"example": "kats.com.ng@gmail.com"
+									}
+								},
+								"required": ["email"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "user exists",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"exists": {
+											"type": "boolean",
+											"example": true
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/auth/email-register": {
+			"post": {
+				"tags": ["auth-email"],
+				"summary": "User registration",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"example": "kats.com.ng@gmail.com"
+									},
+									"password": {
+										"type": "string",
+										"example": "123456"
+									}
+								},
+								"required": ["email", "password"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Registration successful",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "Registration successful"
+										},
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"timestamp": {
+											"type": "string",
+											"example": "2024-05-02T14:45:52.556Z"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"token": {
+													"type": "string",
+													"example": "Bearer token"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/auth/email-confirm": {
+			"post": {
+				"tags": ["auth-email"],
+				"summary": "User registration",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"example": "kats.com.ng@gmail.com"
+									},
+									"otp": {
+										"type": "string",
+										"example": "123456"
+									}
+								},
+								"required": ["email", "otp"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Registration successful"
+					}
+				}
+			}
+		},
+		"/api/v1/auth/forgot-password": {
+			"post": {
+				"tags": ["auth-email"],
+				"summary": "This endpoint will send a password reset link to the user's email",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"phoneNumber": {
+										"type": "string",
+										"example": "08063145125"
+									},
+									"otp": {
+										"type": "string",
+										"example": "123456"
+									}
+								},
+								"required": ["phoneNumber", "otp"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Registration successful",
+						"token": "Bearer token"
+					}
+				}
+			}
+		},
+		"/api/v1/auth/reset-password": {
+			"post": {
+				"tags": ["auth-email"],
+				"summary": "This endpoint will use the forgot password link , take in the new password to reset the user's password",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"example": "kats.com.g@gmail.com"
+									},
+									"password": {
+										"type": "string",
+										"example": "123456"
+									}
+								},
+								"required": ["email", "password"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Registration successful"
+					},
+					"400": {
+						"description": "Invalid email"
+					}
+				}
+			}
+		},
+		"/api/v1/auth/confirm-phone-login": {
+			"post": {
+				"tags": ["auth-phone"],
+				"summary": "Logged in successfully",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"phoneNumber": {
+										"type": "string",
+										"example": "08063145125"
+									}
+								},
+								"required": ["phoneNumber"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OTP sent ",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "OTP sent successfully. Please verify."
+										},
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"timestamp": {
+											"type": "string",
+											"example": "2024-05-02T14:45:52.556Z"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"userExists": {
+													"type": "boolean",
+													"example": true
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid phone number",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "Invalid phone number"
+										},
+										"success": {
+											"type": "boolean",
+											"example": false
+										},
+										"timestamp": {
+											"type": "string",
+											"example": "2024-05-02T14:45:52.556Z"
+										},
+										"error": {
+											"type": "object",
+											"properties": {
+												"phoneNumber": {
+													"type": "string",
+													"example": "Invalid  Nigerian format phone number eg. +2348062516716"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/v1/auth/logout": {
+			"get": {
+				"tags": ["user-routes"],
+				"summary": "Log out a user",
+				"responses": {
+					"200": {
+						"description": "You have been logged out"
+					}
+				}
+			}
+		},
+		"/api/v1/auth/ping": {
+			"get": {
+				"tags": ["auth-routes"],
+				"summary": "Ping to verify token validity",
+				"description": "This endpoint verifies the token validity and can filter user packages by status.",
+				"parameters": [
+					{
+						"name": "status",
+						"in": "query",
+						"required": false,
+						"description": "Status filter for the user packages",
+						"schema": {
+							"type": "string",
+							"example": "active"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Ping successful",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"data": {
+											"type": "object",
+											"properties": {
+												"role": {
+													"type": "string",
+													"example": "user"
+												},
+												"user": {
+													"type": "object",
+													"properties": {
+														"firstName": {
+															"type": "string",
+															"example": "katalsyt Tech"
+														},
+														"phoneNumber": {
+															"type": "string",
+															"example": "+2348063145125"
+														},
+														"userId": {
+															"type": "string",
+															"example": "23a0bf4f-b4f5-4b16-b265-3af65a5f21ad"
+														},
+														"joinedAt": {
+															"type": "string",
+															"format": "date-time",
+															"example": "2024-05-03T00:42:56.589Z"
+														},
+														"lastSeenAt": {
+															"type": "string",
+															"format": "date-time",
+															"example": "2024-05-03T00:42:56.589Z"
+														},
+														"publicId": {
+															"type": "string",
+															"example": "ca5a6b43-9cdf-4400-b8ec-979b4a5e32d8"
+														}
+													}
+												},
+												"packages": {
+													"type": "array",
+													"items": {
+														"type": "object",
+														"properties": {
+															"packageId": {
+																"type": "string",
+																"example": "9FqF3NT"
+															},
+															"status": {
+																"type": "string",
+																"example": "active"
+															},
+															"createdAt": {
+																"type": "string",
+																"format": "date-time",
+																"example": "2024-05-03T00:42:56.589Z"
+															}
+														}
+													}
+												}
+											}
+										},
+										"timestamp": {
+											"type": "string",
+											"format": "date-time",
+											"example": "2024-05-03T02:11:09.581Z"
+										},
+										"success": {
+											"type": "boolean",
+											"example": true
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 
-  ],
-  "security": [
-    {
-      "bearerAuth": [
-      ],
-      "basicAuth": [],
-      "apiKey": [],
-      "oauth2": [],
-      "openIdConnect": []
-    }
-  ],
-  "components": {
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT",
-        "in": "header",
-        "name": "Authorization",
-        "description": "Bearer token"
-      }
-    }
-  },
-  "paths": {
-    "/api/v1/g/google-places": {
-      "get": {
-        "tags": [
-          "public-resources"
-        ],
-        "summary": "Google Places API",
-        "parameters": [
-          {
-            "name": "input",
-            "in": "query",
-            "required": true,
-            "description": "Input for Google Places API",
-            "schema": {
-              "type": "string",
-              "example": "koka junction mall"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Google Places API"
-          }
-        }
-      }
-    },
-    "/api/v1/g/place-details": {
-      "get": {
-        "tags": [
-          "public-resources"
-        ],
-        "summary": "Google Places API",
-        "parameters": [
-          {
-            "name": "place_id",
-            "in": "query",
-            "required": true,
-            "description": "The place_id of the place to retrieve",
-            "schema": {
-              "type": "string",
-              "example": "ChIJN1t_tDeuEmsRUsoyG83frY4"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Google Places API"
-          }
-        }
-      }
-    },
-    "/api/v1/auth/admin-login": {
-      "post": {
-        "tags": [
-          "admin-auth"
-        ],
-        "summary": "Admin login",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "kats.com.ng@gmail.com"
-                  },
-                  "otp": {
-                    "type": "string",
-                    "example": "067741"
-                  }
-                },
-                "required": [
-                  "email",
-                  "otp"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Admin Login successful",
-            "token": "Bearer token"
-          }
-        }
-      }
-    },
-    "/api/v1/admin/dashboard": {
-      "get": {
-        "tags": [
-          "admin-resources"
-        ],
-        "summary": "Admin dashboard",
-        "responses": {
-          "200": {
-            "description": "Admin dashboard"
-          }
-        }
-      }
-    },
-    "/api/v1/admin/resturant": {
-      "get": {
-        "tags": [
-          "admin-restaurant"
-        ],
-        "summary": "Admin dashboard",
-        "responses": {
-          "200": {
-            "description": "all restaurants"
-          }
-        }
-      }
-    },
-    "/api/v1/auth/phone-login": {
-      "post": {
-        "tags": [
-          "auth-phone"
-        ],
-        "summary": "phone number  login",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "phoneNumber": {
-                    "type": "string",
-                    "example": "08063145125"
-                  },
-                  "otp": {
-                    "type": "string",
-                    "example": "067741"
-                  }
-                },
-                "required": [
-                  "phoneNumber",
-                  "otp"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Logged in successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Logged in successfully"
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "example": "2024-05-02T14:45:52.556Z"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "firstTime": {
-                          "type": "boolean",
-                          "example": true
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/auth/email-login": {
-      "post": {
-        "tags": [
-          "auth-email"
-        ],
-        "summary": "User Email login",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "kats.com.ng@gmail.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "123456"
-                  }
-                },
-                "required": [
-                  "email",
-                  "password"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Logged in successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Logged in successfully"
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "example": "2024-05-02T14:45:52.556Z"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "firstTime": {
-                          "type": "boolean",
-                          "example": true
-                        },
-                        "token": {
-                          "type": "string",
-                          "example": "Bearer token"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/auth/email-exists": {
-      "post": {
-        "tags": [
-          "auth-email"
-        ],
-        "summary": "Check if a user exists",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "kats.com.ng@gmail.com"
-                  }
-                },
-                "required": [
-                  "email"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "user exists",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "exists": {
-                      "type": "boolean",
-                      "example": true
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/auth/email-register": {
-      "post": {
-        "tags": [
-          "auth-email"
-        ],
-        "summary": "User registration",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "kats.com.ng@gmail.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "123456"
-                  }
-                },
-                "required": [
-                  "email",
-                  "password"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Registration successful",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Registration successful"
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "example": "2024-05-02T14:45:52.556Z"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "token": {
-                          "type": "string",
-                          "example": "Bearer token"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/auth/email-confirm": {
-      "post": {
-        "tags": [
-          "auth-email"
-        ],
-        "summary": "User registration",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "kats.com.ng@gmail.com"
-                  },
-                  "otp": {
-                    "type": "string",
-                    "example": "123456"
-                  }
-                },
-                "required": [
-                  "email",
-                  "otp"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Registration successful"
-          }
-        }
-      }
-    },
-    "/api/v1/auth/forgot-password": {
-      "post": {
-        "tags": [
-          "auth-email"
-        ],
-        "summary": "This endpoint will send a password reset link to the user's email",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "phoneNumber": {
-                    "type": "string",
-                    "example": "08063145125"
-                  },
-                  "otp": {
-                    "type": "string",
-                    "example": "123456"
-                  }
-                },
-                "required": [
-                  "phoneNumber",
-                  "otp"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Registration successful",
-            "token": "Bearer token"
-          }
-        }
-      }
-    },
-    "/api/v1/auth/reset-password": {
-      "post": {
-        "tags": [
-          "auth-email"
-        ],
-        "summary": "This endpoint will use the forgot password link , take in the new password to reset the user's password",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "kats.com.g@gmail.com"
-                  },
-                  "password": {
-                    "type": "string",
-                    "example": "123456"
-                  }
-                },
-                "required": [
-                  "email",
-                  "password"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Registration successful"
-          },
-          "400": {
-            "description": "Invalid email"
-          }
-        }
-      }
-    },
-    "/api/v1/auth/confirm-phone-login": {
-      "post": {
-        "tags": [
-          "auth-phone"
-        ],
-        "summary": "Logged in successfully",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "phoneNumber": {
-                    "type": "string",
-                    "example": "08063145125"
-                  }
-                },
-                "required": [
-                  "phoneNumber"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OTP sent ",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "OTP sent successfully. Please verify."
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "example": "2024-05-02T14:45:52.556Z"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "userExists": {
-                          "type": "boolean",
-                          "example": true
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid phone number",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Invalid phone number"
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": false
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "example": "2024-05-02T14:45:52.556Z"
-                    },
-                    "error": {
-                      "type": "object",
-                      "properties": {
-                        "phoneNumber": {
-                          "type": "string",
-                          "example": "Invalid  Nigerian format phone number eg. +2348062516716"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/auth/logout": {
-      "get": {
-        "tags": [
-          "user-routes"
-        ],
-        "summary": "Log out a user",
-        "responses": {
-          "200": {
-            "description": "You have been logged out"
-          }
-        }
-      }
-    },
-    "/api/v1/auth/ping": {
-      "get": {
-        "tags": [
-          "auth-routes"
-        ],
-        "summary": "Ping to verify token validity",
-        "description": "This endpoint verifies the token validity and can filter user packages by status.",
-        "parameters": [
-          {
-            "name": "status",
-            "in": "query",
-            "required": false,
-            "description": "Status filter for the user packages",
-            "schema": {
-              "type": "string",
-              "example": "active"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ping successful",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "role": {
-                          "type": "string",
-                          "example": "user"
-                        },
-                        "user": {
-                          "type": "object",
-                          "properties": {
-                            "firstName": {
-                              "type": "string",
-                              "example": "katalsyt Tech"
-                            },
-                            "phoneNumber": {
-                              "type": "string",
-                              "example": "+2348063145125"
-                            },
-                            "userId": {
-                              "type": "string",
-                              "example": "23a0bf4f-b4f5-4b16-b265-3af65a5f21ad"
-                            },
-                            "joinedAt": {
-                              "type": "string",
-                              "format": "date-time",
-                              "example": "2024-05-03T00:42:56.589Z"
-                            },
-                            "lastSeenAt": {
-                              "type": "string",
-                              "format": "date-time",
-                              "example": "2024-05-03T00:42:56.589Z"
-                            },
-                            "publicId": {
-                              "type": "string",
-                              "example": "ca5a6b43-9cdf-4400-b8ec-979b4a5e32d8"
-                            }
-                          }
-                        },
-                        "packages": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "packageId": {
-                                "type": "string",
-                                "example": "9FqF3NT"
-                              },
-                              "status": {
-                                "type": "string",
-                                "example": "active"
-                              },
-                              "createdAt": {
-                                "type": "string",
-                                "format": "date-time",
-                                "example": "2024-05-03T00:42:56.589Z"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "format": "date-time",
-                      "example": "2024-05-03T02:11:09.581Z"
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
+		"/api/v1/auth/admin-ping": {
+			"get": {
+				"tags": ["admin-auth"],
+				"summary": "Ping to verify admin  token validity",
+				"responses": {
+					"200": {
+						"description": "Ping successful"
+					}
+				}
+			}
+		},
+		"/api/v1/user/update-user": {
+			"put": {
+				"summary": "Update User Details",
+				"tags": ["user-routes"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"example": "kats.com.ng@gmail.com"
+									},
+									"firstName": {
+										"type": "string",
+										"example": "Katalyst Technologies Dev"
+									}
+								},
+								"required": ["email"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "User details updated"
+					}
+				}
+			}
+		},
+		"/api/v1/packages/create": {
+			"get": {
+				"summary": "Create a new package",
+				"tags": ["packages-routes"],
 
-    "/api/v1/auth/admin-ping": {
-      "get": {
-        "tags": [
-          "admin-auth"
-        ],
-        "summary": "Ping to verify admin  token validity",
-        "responses": {
-          "200": {
-            "description": "Ping successful"
-          }
-        }
-      }
-    },
-    "/api/v1/user/update-user": {
-      "put": {
-        "summary": "Update User Details",
-        "tags": [
-          "user-routes"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "kats.com.ng@gmail.com"
-                  },
-                  "firstName": {
-                    "type": "string",
-                    "example": "Katalyst Technologies Dev"
-                  }
-                },
-                "required": [
-                  "email"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "User details updated"
-          }
-        }
-      }
-    },
-    "/api/v1/packages/create": {
-      "get": {
-        "summary": "Create a new package",
-        "tags": [
-          "packages-routes"
-        ],
+				"responses": {
+					"200": {
+						"description": "New Package Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "New Package created"
+										},
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"timestamp": {
+											"type": "string",
+											"example": "2024-05-02T14:45:52.556Z"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"packageId": {
+													"type": "string",
+													"example": "9FqF3NT"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid package details",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "Invalid package details"
+										},
+										"success": {
+											"type": "boolean",
+											"example": false
+										},
+										"timestamp": {
+											"type": "string",
+											"example": "2024-05-02T14:45:52.556Z"
+										},
+										"error": {
+											"type": "object",
+											"properties": {
+												"packageDetails": {
+													"type": "string",
+													"example": "Invalid package details"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 
-        "responses": {
-          "200": {
-            "description": "New Package Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "New Package created"
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "example": "2024-05-02T14:45:52.556Z"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "packageId": {
-                          "type": "string",
-                          "example": "9FqF3NT"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid package details",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Invalid package details"
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": false
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "example": "2024-05-02T14:45:52.556Z"
-                    },
-                    "error": {
-                      "type": "object",
-                      "properties": {
-                        "packageDetails": {
-                          "type": "string",
-                          "example": "Invalid package details"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
+		"/api/v1/restaurants": {
+			"get": {
+				"summary": "all restaurants",
+				"tags": ["restaurant-routes"],
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Page number for pagination",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "perPage",
+						"in": "query",
+						"description": "Number of items per page",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 10
+						}
+					}
+				],
 
-    "/api/v1/restaurants": {
-      "get": {
-        "summary": "all restaurants",
-        "tags": [
-          "restaurant-routes"
-        ],
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Page number for pagination",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "perPage",
-            "in": "query",
-            "description": "Number of items per page",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 10
-            }
-          }
-        ],
+				"responses": {
+					"200": {
+						"description": "all restaurants"
+					}
+				}
+			}
+		},
 
-        "responses": {
-          "200": {
-            "description": "all restaurants"
+		"/api/v1/packages/all": {
+			"get": {
+				"tags": ["Package"],
+				"summary": "Get all packages",
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Page number of the result set to retrieve.",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 1,
+							"example": 1
+						}
+					},
+					{
+						"name": "perPage",
+						"in": "query",
+						"description": "Number of items per page.",
+						"required": false,
+						"schema": {
+							"type": "integer",
+							"default": 10,
+							"example": 10
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "A paged array of packages",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "Packages retrieved successfully."
+										},
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"packages": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/Package"
+											}
+										},
+										"pagination": {
+											"type": "object",
+											"properties": {
+												"page": {
+													"type": "integer",
+													"example": 1
+												},
+												"perPage": {
+													"type": "integer",
+													"example": 10
+												},
+												"total": {
+													"type": "integer",
+													"example": 50
+												},
+												"totalPages": {
+													"type": "integer",
+													"example": 5
+												}
+											}
+										},
+										"timestamp": {
+											"type": "string",
+											"format": "date-time",
+											"example": "2024-05-20T12:34:56.789Z"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Server error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"error": {
+											"type": "string",
+											"example": "Error Fetching order: [error message]"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 
-          }
+		"/api/v1/restaurants/{slug}": {
+			"get": {
+				"summary": "Get one restaurant",
+				"tags": ["restaurant-routes"],
+				"parameters": [
+					{
+						"name": "slug",
+						"in": "path",
+						"required": true,
+						"description": "The slug of the restaurant to retrieve",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Details of a specific restaurant",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Restaurant"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 
-        }
-      }
-    },
+		"/api/v1/packages/{packageId}": {
+			"get": {
+				"summary": "Get one package",
+				"tags": ["packages-routes"],
+				"parameters": [
+					{
+						"name": "packageId",
+						"in": "path",
+						"required": true,
+						"description": "The ID of the package to retrieve",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Details of a specific package",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Package"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "Update a package",
+				"tags": ["packages-routes"],
+				"parameters": [
+					{
+						"name": "packageId",
+						"in": "path",
+						"required": true,
+						"description": "The ID of the package to retrieve",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"email": {
+										"type": "string",
+										"example": "kats.com.ng@gmail.com"
+									},
+									"status": {
+										"type": "string",
+										"example": "Katalyst Technologies Dev"
+									}
+								},
+								"required": ["email"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Details of a specific package",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Package"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Delete a package",
+				"tags": ["packages-routes"],
+				"parameters": [
+					{
+						"name": "packageId",
+						"in": "path",
+						"required": true,
+						"description": "The ID of the package to retrieve",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Package deleted"
+					}
+				}
+			}
+		},
+		"/api/v1/preview/verify-email": {
+			"get": {
+				"tags": ["email-preview"],
+				"summary": "Verify Email for Image Preview",
+				"description": "Verify the email address click on the verification link.",
+				"responses": {
+					"200": {
+						"description": "Email Verification Successful"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"404": {
+						"description": "Email Not Found"
+					}
+				}
+			}
+		},
+		"/api/v1/address": {
+			"get": {
+				"summary": "get all user address",
+				"tags": ["address-routes"],
 
-    "/api/v1/packages/all": {
-      "get": {
-        "tags": [
-          "Package"
-        ],
-        "summary": "Get all packages",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Page number of the result set to retrieve.",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 1,
-              "example": 1
-            }
-          },
-          {
-            "name": "perPage",
-            "in": "query",
-            "description": "Number of items per page.",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 10,
-              "example": 10
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A paged array of packages",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Packages retrieved successfully."
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "packages": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Package"
-                      }
-                    },
-                    "pagination": {
-                      "type": "object",
-                      "properties": {
-                        "page": {
-                          "type": "integer",
-                          "example": 1
-                        },
-                        "perPage": {
-                          "type": "integer",
-                          "example": 10
-                        },
-                        "total": {
-                          "type": "integer",
-                          "example": 50
-                        },
-                        "totalPages": {
-                          "type": "integer",
-                          "example": 5
-                        }
-                      }
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "format": "date-time",
-                      "example": "2024-05-20T12:34:56.789Z"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "example": "Error Fetching order: [error message]"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-
-    "/api/v1/restaurants/{slug}": {
-      "get": {
-        "summary": "Get one restaurant",
-        "tags": [
-          "restaurant-routes"
-        ],
-        "parameters": [
-          {
-            "name": "slug",
-            "in": "path",
-            "required": true,
-            "description": "The slug of the restaurant to retrieve",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Details of a specific restaurant",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Restaurant"
-                }
-              }
-            }
-          }
-        }
-      }
-
-    },
-
-
-    "/api/v1/packages/{packageId}": {
-      "get": {
-        "summary": "Get one package",
-        "tags": [
-          "packages-routes"
-        ],
-        "parameters": [
-          {
-            "name": "packageId",
-            "in": "path",
-            "required": true,
-            "description": "The ID of the package to retrieve",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Details of a specific package",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Package"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "summary": "Update a package",
-        "tags": [
-          "packages-routes"
-        ],
-        "parameters": [
-          {
-            "name": "packageId",
-            "in": "path",
-            "required": true,
-            "description": "The ID of the package to retrieve",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "kats.com.ng@gmail.com"
-                  },
-                  "status": {
-                    "type": "string",
-                    "example": "Katalyst Technologies Dev"
-                  }
-                },
-                "required": [
-                  "email"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Details of a specific package",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Package"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Delete a package",
-        "tags": [
-          "packages-routes"
-        ],
-        "parameters": [
-          {
-            "name": "packageId",
-            "in": "path",
-            "required": true,
-            "description": "The ID of the package to retrieve",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Package deleted"
-          }
-        }
-      }
-    },
-    "/api/v1/preview/verify-email": {
-      "get": {
-        "tags": [
-          "email-preview"
-        ],
-        "summary": "Verify Email for Image Preview",
-        "description": "Verify the email address click on the verification link.",
-        "responses": {
-          "200": {
-            "description": "Email Verification Successful"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Email Not Found"
-          }
-        }
-      }
-    },
-    "/api/v1/address": {
-      "get": {
-        "summary": "get all user address",
-        "tags": [
-          "address-routes"
-        ],
-
-        "responses": {
-          "200": {
-            "description": "New Package Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "New Package created"
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": true
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "example": "2024-05-02T14:45:52.556Z"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "packageId": {
-                          "type": "string",
-                          "example": "9FqF3NT"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid package details",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Invalid package details"
-                    },
-                    "success": {
-                      "type": "boolean",
-                      "example": false
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "example": "2024-05-02T14:45:52.556Z"
-                    },
-                    "error": {
-                      "type": "object",
-                      "properties": {
-                        "packageDetails": {
-                          "type": "string",
-                          "example": "Invalid package details"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-
-  }
+				"responses": {
+					"200": {
+						"description": "New Package Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "New Package created"
+										},
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"timestamp": {
+											"type": "string",
+											"example": "2024-05-02T14:45:52.556Z"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"packageId": {
+													"type": "string",
+													"example": "9FqF3NT"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid package details",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "Invalid package details"
+										},
+										"success": {
+											"type": "boolean",
+											"example": false
+										},
+										"timestamp": {
+											"type": "string",
+											"example": "2024-05-02T14:45:52.556Z"
+										},
+										"error": {
+											"type": "object",
+											"properties": {
+												"packageDetails": {
+													"type": "string",
+													"example": "Invalid package details"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
-
-

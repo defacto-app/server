@@ -32,7 +32,7 @@ const UserController = {
 			});
 		} catch (error: any) {
 			// Handle possible errors
-			res.status(500).send("Error updating user: " + error.message);
+			res.status(500).send(`Error updating user: ${error.message}`);
 		}
 	},
 };
