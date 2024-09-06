@@ -2,15 +2,13 @@
 import type { Model, Document } from "mongoose";
 
 interface PaginationResult<T> {
-	success: boolean;
 	data: T[];
-	pagination: {
+	meta: {
 		page: number;
 		perPage: number;
 		total: number;
 		totalPages: number;
 	};
-	timestamp: Date;
 }
 
 async function paginate<T extends Document>(
@@ -29,14 +27,12 @@ async function paginate<T extends Document>(
 			.limit(perPage);
 
 		return {
-			pagination: {
+			meta: {
 				page,
 				perPage,
 				total,
 				totalPages,
 			},
-			timestamp: new Date(),
-			success: true,
 			data,
 		};
 	

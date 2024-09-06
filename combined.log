@@ -1347,3 +1347,11 @@
 2024-09-06T23:09:17.696Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 401 0ms
 2024-09-06T23:09:18.678Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants 200 350ms
 2024-09-06T23:09:19.029Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants 200 348ms
+2024-09-06T23:12:24.314Z [undefined] [32minfo[39m: GET /api/v1/admin/auth/ping 200 134ms
+2024-09-06T23:12:24.332Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 401 1ms
+2024-09-06T23:12:25.284Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants 200 356ms
+2024-09-06T23:12:25.633Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants 304 347ms
+2024-09-06T23:12:53.761Z [undefined] [32minfo[39m: GET /api/v1/admin/auth/ping 200 130ms
+2024-09-06T23:12:53.777Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 401 1ms
+2024-09-06T23:12:54.728Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants 200 358ms
+2024-09-06T23:12:55.088Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants 200 357ms
