@@ -22,6 +22,14 @@ import UserRoutes from "./backend/routes/user/user.routes";
 import AdminAuthRoutes from "./backend/admin/auth/routes";
 import PackageRoutes from "./backend/user/packages/route";
 import RestaurantRoutes from "./backend/resturant/route";
+
+//
+//
+//
+//
+import AdminRestaurantRoutes from "./backend/admin/resturant/route";
+
+
 import PublicRoutes from "./backend/public/index.routes";
 import AddressRoutes from "./backend/address/route";
 import EmailViewRoutes from "./backend/routes/email.routes";
@@ -137,6 +145,9 @@ app.use("/api/v1/user", UserRoutes);
 app.use("/api/v1/admin/auth", AdminAuthRoutes);
 
 app.use("/api/v1/admin/dashboard", DashboardRoutes);
+app.use("/api/v1/admin/restaurants", AdminRestaurantRoutes);
+// admin routes
+
 app.use("/api/v1/preview/", EmailViewRoutes);
 
 app.use("/uploads", express.static(path.join(__dirname, "storage/uploads")));

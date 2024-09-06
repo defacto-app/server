@@ -124,13 +124,9 @@
 									"email": {
 										"type": "string",
 										"example": "kats.comg.ng@gmail.com"
-									},
-									"otp": {
-										"type": "string",
-										"example": "067741"
 									}
 								},
-								"required": ["email", "otp"]
+								"required": ["email"]
 							}
 						}
 					}
@@ -153,7 +149,7 @@
 				}
 			}
 		},
-		"/api/v1/admin/resturant": {
+		"/api/v1/admin/restaurants": {
 			"get": {
 				"tags": ["admin-restaurant"],
 				"summary": "Admin dashboard",

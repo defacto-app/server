@@ -1,6 +1,6 @@
 import mongoose, { type Document, Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
-import slugify from "slugify";
+// import slugify from "slugify";
 export interface RestaurantDataType extends Document {
 	publicId: string;
 	name: string;

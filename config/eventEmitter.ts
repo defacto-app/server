@@ -40,4 +40,22 @@ export const emailEvents = () => {
 			console.error("Error handling contact mail event", error);
 		}
 	});
+
+	eventEmitter.on("sendOtpMail", async (payload: any) => {
+		try {
+			// Use the transporter to send the email
+			const info = await transporter.sendMail({
+				from: '"Sender Name" <sender@example.com>',
+				to: payload.email, // Pulled from event payload
+				subject: "One time Password",
+				html: payload.html, // Pulled from event payload
+			});
+
+			console.log("Message sent: %s", info.messageId);
+		} catch (error) {
+			console.error("Error handling contact mail event", error);
+		}
+	});
+
+
 };

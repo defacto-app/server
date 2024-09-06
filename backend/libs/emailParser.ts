@@ -1,10 +1,10 @@
 // Read the header, footer, and main content templates
-import fs from "fs";
+import fs from "node:fs";
 import handlebars from "handlebars";
 import type { EmailTitleType } from "../../types";
 import env from "../../config/env";
-import path from "path";
-import { fileURLToPath } from "url";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
