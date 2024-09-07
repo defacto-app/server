@@ -10,7 +10,7 @@ import { generateMenuItemsForRestaurant, generateRestaurants } from "./utils";
 async function seedData() {
 	console.time("Seeding time");
 
-	const NUMBER_OF_RESTAURANTS = 5;
+	const NUMBER_OF_RESTAURANTS = 50;
 	try {
 		await connectDB();
 		await RestaurantModel.deleteMany();

@@ -14,6 +14,7 @@
     "seed-users": "bun --watch backend/auth/seeder.ts",
     "seed-packages": "bun --watch backend/user/packages/seeder.ts",
     "seed-addresses": "bun --watch backend/address/seeder.ts",
+    "seed-restaurants": "bun --watch backend/restaurant/seeder.ts",
     "prettify": "npx prettier . --write",
     "env:dev": "npx jsonbank-env dev .env force",
     "swagger": "tsoa spec"

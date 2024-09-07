@@ -283,27 +283,7 @@ const AuthController = {
 			// check if user exists
 			const userExists = await AuthModel.findOne({ email: data?.email });
 			if (userExists) {
-		/*		const otp = generateOTP();
-				await AuthModel.findOneAndUpdate(
-					{ email: data?.email }, // find a document with this filter
-					{
-						"email_management.otp": otp,
-						"email_management.otp_sent_at": new Date(),
-						"email_management.otp_expires_at": moment()
-							.add(10, "minutes")
-							.toDate(),
-					},
-					{ new: true }, // option to return the updated document
-				);
 
-				await EmailEvent.sendContactMail({
-					email: "here we go",
-					message: `here we go ${otp}`,
-				});
-
-				SendResponse.success(res, "OTP sent successfully", {
-					exists: true,
-				});*/
 				SendResponse.success(res, "", {
 					exists: true,
 				})

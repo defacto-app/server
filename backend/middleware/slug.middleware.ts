@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 
 import PackageModel from "../model/package.model";
 import SendResponse from "../libs/response-helper";
-import RestaurantModel from "../resturant/model";
+import RestaurantModel from "../restaurant/model";
 
 class SlugMiddleware {
 	public async packageId(req: Request, res: Response, next: NextFunction) {

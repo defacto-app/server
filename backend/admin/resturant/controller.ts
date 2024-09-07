@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import paginate from "../../utils/pagination";
 import SendResponse from "../../libs/response-helper";
-import RestaurantModel from "../../resturant/model";
+import RestaurantModel from "../../restaurant/model";
 
 const AdminRestaurantController = {
 	async all(req: Request, res: Response): Promise<void> {

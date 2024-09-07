@@ -21,7 +21,7 @@ import AuthRoutes from "./backend/auth/routes";
 import UserRoutes from "./backend/routes/user/user.routes";
 import AdminAuthRoutes from "./backend/admin/auth/routes";
 import PackageRoutes from "./backend/user/packages/route";
-import RestaurantRoutes from "./backend/resturant/route";
+import RestaurantRoutes from "./backend/restaurant/route";
 
 //
 //

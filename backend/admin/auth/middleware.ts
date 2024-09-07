@@ -21,6 +21,8 @@ class AuthMiddleware {
 				return res.status(401).json({ error: "invalid token" });
 			}
 
+			console.log(data);
+
 			const user = await AuthModel.findById(data.id, {
 				password: 0,
 				createdAt: 0,
