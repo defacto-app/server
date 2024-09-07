@@ -68,6 +68,7 @@ class SlugMiddleware {
 	public async restaurantPublicId(req: Request, res: Response, next: NextFunction) {
 		const publicId = req.params.publicId;
 
+		console.log(publicId,"restaurantPublicId");
 		try {
 			if (!publicId) {
 				return res.status(400).json({ error: "restaurant name  is required" });

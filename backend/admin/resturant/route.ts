@@ -9,13 +9,13 @@ const router = Router();
 
 // Apply the middleware to all routes
 router.use(authMiddleware.validateAdmin);
-// router.param('packageId', SlugMiddleware.packageId);
+router.param('publicId', SlugMiddleware.restaurantPublicId);
 
 // middleware to validate user
 
 // middleware to validate packageId
 
 router.get("/", RestaurantController.all);
-router.get("/:slug", SlugMiddleware.restaurantPublicId, RestaurantController.one);
+router.get("/:publicId", SlugMiddleware.restaurantPublicId, RestaurantController.one);
 
 export default router;

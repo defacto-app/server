@@ -291,36 +291,88 @@
 		}
 },
 
-		"/api/v1/admin/restaurants/{publicId}": {
-			"get": {
-				"summary": "Get one Restaurant",
-				"tags": ["packages-routes"],
-				"parameters": [
-					{
-						"name": "packageId",
-						"in": "path",
-						"required": true,
-						"description": "The ID of the package to retrieve",
-						"schema": {
-							"type": "string"
-						}
+	"/api/v1/admin/restaurants/{publicId}": {
+		"get": {
+			"summary": "Get details of a specific restaurant by its slug",
+			"tags": ["admin-restaurant"],
+			"parameters": [
+				{
+					"name": "publicId",
+					"in": "path",
+					"required": true,
+					"description": "The slug of the restaurant to retrieve",
+					"schema": {
+						"type": "string"
 					}
-				],
-				"responses": {
-					"200": {
-						"description": "Details of a specific package",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Package"
+				}
+			],
+			"responses": {
+				"200": {
+					"description": "Details of a specific restaurant",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"success": {
+										"type": "boolean",
+										"example": true
+									},
+									"message": {
+										"type": "string",
+										"example": "Restaurant retrieved"
+									},
+									"data": {
+										"type": "object",
+										"properties": {
+											"_id": {
+												"type": "string",
+												"example": "66dc75eee60cbd565a48c82f"
+											},
+											"name": {
+												"type": "string",
+												"example": "Zesty Tavern"
+											},
+											"slug": {
+												"type": "string",
+												"example": "zesty-tavern"
+											},
+											"rating": {
+												"type": "number",
+												"example": 4.8
+											},
+											"address": {
+												"type": "string",
+												"example": "837 Okajek Plaza"
+											},
+											"phone": {
+												"type": "string",
+												"example": "(481) 775-2287"
+											},
+											"createdAt": {
+												"type": "string",
+												"example": "2024-09-07T17:00:00Z"
+											},
+											"updatedAt": {
+												"type": "string",
+												"example": "2024-09-07T17:00:00Z"
+											}
+										}
+									}
 								}
 							}
 						}
 					}
+				},
+				"404": {
+					"description": "Restaurant not found"
+				},
+				"500": {
+					"description": "Server error"
 				}
 			}
-
-		},
+		}
+	},
 
 "/api/v1/auth/phone-login": {
 			"post": {
@@ -1216,11 +1268,7 @@
 					"200": {
 						"description": "Details of a specific package",
 						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Package"
-								}
-							}
+
 						}
 					}
 				}
