@@ -64,6 +64,34 @@ class SlugMiddleware {
 			SendResponse.serverError(res, error.message);
 		}
 	}
+
+	public async restaurantPublicId(req: Request, res: Response, next: NextFunction) {
+		const publicId = req.params.publicId;
+
+		try {
+			if (!publicId) {
+				return res.status(400).json({ error: "restaurant name  is required" });
+			}
+
+			const rst = await RestaurantModel.findOne({
+				publicId: publicId,
+			});
+
+			if (!rst) {
+				SendResponse.notFound(
+					res,
+					`Sorry, restaurant  ${publicId} is deleted or doesnt exist `,
+				);
+			}
+
+			res.locals.restaurantItem = rst;
+
+			next();
+
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	}
 }
 
 export default new SlugMiddleware();

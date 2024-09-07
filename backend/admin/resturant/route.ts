@@ -3,6 +3,7 @@ import { Router } from "express";
 import RestaurantController from "./controller";
 // import SlugMiddleware from "../middleware/slug.middleware";
 import authMiddleware from "../auth/middleware";
+import SlugMiddleware from "../../middleware/slug.middleware";
 
 const router = Router();
 
@@ -15,6 +16,6 @@ router.use(authMiddleware.validateAdmin);
 // middleware to validate packageId
 
 router.get("/", RestaurantController.all);
-// router.get("/:slug", SlugMiddleware.restaurantSlug, RestaurantController.one);
+router.get("/:slug", SlugMiddleware.restaurantPublicId, RestaurantController.one);
 
 export default router;
