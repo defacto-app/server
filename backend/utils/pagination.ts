@@ -1,5 +1,5 @@
 // utils/pagination.ts
-import type { Model, Document } from "mongoose";
+import type { Model, Document ,SortOrder} from "mongoose";
 
 interface PaginationResult<T> {
 	data: T[];
@@ -17,6 +17,7 @@ async function paginate<T extends Document>(
 	perPage: number,
 	query: object,
 	projection?: object,
+	sort?: string | { [key: string]: SortOrder | { $meta: any; }; } | [string, SortOrder][] | null | undefined, // Update sort parameter type
 ): Promise<PaginationResult<T>> {
 	try {
 		const total = await model.countDocuments(query);
@@ -24,7 +25,8 @@ async function paginate<T extends Document>(
 		const data = await model
 			.find(query, projection)
 			.skip((page - 1) * perPage)
-			.limit(perPage);
+			.limit(perPage)
+			.sort(sort); // Apply sorting
 
 		return {
 			meta: {
@@ -35,7 +37,6 @@ async function paginate<T extends Document>(
 			},
 			data,
 		};
-	
 	} catch (error: any) {
 		throw new Error(`Error in pagination: ${error.message}`);
 	}

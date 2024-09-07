@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import paginate from "../../utils/pagination";
 import SendResponse from "../../libs/response-helper";
 import RestaurantModel from "../../restaurant/model";
+import type { SortOrder } from "mongoose";
 
 const AdminRestaurantController = {
 	async all(req: Request, res: Response): Promise<void> {
@@ -16,12 +17,17 @@ const AdminRestaurantController = {
 				? { name: { $regex: search, $options: "i" } } // Search by restaurant name (case-insensitive)
 				: {}; // If no search term, return all restaurants
 
+			// Define the sort order
+			const sort: { [key: string]: SortOrder } = { name: 1 }; // Sort by name in ascending order
+
 			// Use the searchQuery in the pagination
 			const paginationResult = await paginate(
 				RestaurantModel,
 				page,
 				perPage,
 				searchQuery,
+				undefined,
+				sort, // Pass the sort parameter
 			);
 
 			SendResponse.success(res, "Restaurants retrieved", paginationResult);
