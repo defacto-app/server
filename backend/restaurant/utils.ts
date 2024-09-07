@@ -99,48 +99,59 @@ export function generateOpeningHours() {
 
 export function generateRestaurantNames(n: number) {
 	const foodAdjectives = [
-		"Tasty",
-		"Delicious",
-		"Savory",
-		"Spicy",
-		"Sweet",
-		"Zesty",
-		"Yummy",
-		"Gourmet",
+		"Appetizing", "Blazing", "Charming", "Delightful", "Exquisite", "Flavorful", "Gourmet", "Hearty",
+		"Inviting", "Juicy", "Kitschy", "Luxurious", "Mouthwatering", "Nostalgic", "Organic", "Piquant",
+		"Quaint", "Rustic", "Savory", "Tantalizing", "Upscale", "Vibrant", "Wholesome", "Xotic",
+		"Yummy", "Zesty"
 	];
 	const foodNouns = [
-		"Bistro",
-		"Café",
-		"Grill",
-		"Kitchen",
-		"Tavern",
-		"Diner",
-		"Eatery",
-		"Joint",
+		"Alcove", "Bistro", "Café", "Diner", "Eatery", "Farmhouse", "Grill", "Hub",
+		"Inn", "Joint", "Kitchen", "Lounge", "Mess", "Nook", "Oasis", "Pub",
+		"Quarters", "Restaurant", "Steakhouse", "Tavern", "Umbrella", "Venue", "Watering Hole", "Xpress",
+		"Yard", "Zone"
 	];
 
-	const restaurantNames = [];
-	for (let i = 0; i < n; i++) {
-		const adjective =
-			foodAdjectives[Math.floor(Math.random() * foodAdjectives.length)];
+	const restaurantNames = new Set<string>(); // Use a Set to ensure unique names
+
+	while (restaurantNames.size < n) {
+		const adjective = foodAdjectives[Math.floor(Math.random() * foodAdjectives.length)];
 		const noun = foodNouns[Math.floor(Math.random() * foodNouns.length)];
 		const name = `${adjective} ${noun}`;
-		restaurantNames.push(name);
+
+		restaurantNames.add(name); // Set will automatically avoid duplicates
 	}
-	return restaurantNames;
+
+	return Array.from(restaurantNames); // Convert back to array
 }
+
 
 export function generateRestaurants(n: number) {
 	const restaurantNames = generateRestaurantNames(n);
 	const restaurants = [];
+	const slugs = new Set<string>(); // Track unique slugs
+
 	for (let i = 0; i < n; i++) {
-		restaurants.push(generateRestaurant(restaurantNames[i]));
+		const restaurant = generateRestaurant(restaurantNames[i]);
+
+		// Ensure slug is unique by modifying it if necessary
+		let uniqueSlug = restaurant.slug;
+		let counter = 1;
+		while (slugs.has(uniqueSlug)) {
+			uniqueSlug = `${restaurant.slug}-${counter}`;
+			counter++;
+		}
+
+		restaurant.slug = uniqueSlug;
+		slugs.add(uniqueSlug);
+		restaurants.push(restaurant);
 	}
+
 	return restaurants;
 }
 
 
-function generateRestaurant(name: any) {
+
+function generateRestaurant(name: string) {
 	const category = chance.pickone(Object.keys(menuItemsByCategory));
 	return {
 		name: name,
@@ -155,6 +166,7 @@ function generateRestaurant(name: any) {
 		openingHours: generateOpeningHours(),
 	};
 }
+
 
 export function generateMenuItemsForRestaurant(restaurant: Restaurant) {
 	const items = menuItemsByCategory[restaurant.category];

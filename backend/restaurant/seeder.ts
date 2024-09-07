@@ -10,7 +10,7 @@ import { generateMenuItemsForRestaurant, generateRestaurants } from "./utils";
 async function seedData() {
 	console.time("Seeding time");
 
-	const NUMBER_OF_RESTAURANTS = 50;
+	const NUMBER_OF_RESTAURANTS = 100;
 	try {
 		await connectDB();
 		await RestaurantModel.deleteMany();
@@ -18,10 +18,13 @@ async function seedData() {
 		console.log("All existing restaurants and menu items deleted");
 
 		const restaurants = generateRestaurants(NUMBER_OF_RESTAURANTS); // Generate 50 restaurants
-		const restaurantDocs = await RestaurantModel.insertMany(restaurants);
-		console.log("Restaurant data seeded successfully");
+		console.log(`${restaurants.length} restaurants generated successfully`);
 
-		
+		const restaurantDocs = await RestaurantModel.insertMany(restaurants);
+		console.log(`${restaurantDocs.length} restaurants seeded successfully into the database`);
+
+
+
 		let menuItems: any[] = [];
 		for (const restaurant of restaurantDocs) {
 			const items = generateMenuItemsForRestaurant(restaurant);
@@ -29,7 +32,7 @@ async function seedData() {
 		}
 
 		await MenuItemModel.insertMany(menuItems);
-		console.log("Menu item data seeded successfully");
+		console.log(`${menuItems.length} menu items seeded successfully into the database`);
 	} catch (error) {
 		console.error("Error seeding data:", error);
 	} finally {
