@@ -7290,3 +7290,35 @@
 2024-09-08T05:14:34.852Z [undefined] [32minfo[39m: GET /api/v1/admin/auth/ping 200 114ms
 2024-09-08T05:14:34.966Z [undefined] [32minfo[39m: GET /api/v1/admin/auth/ping 304 113ms
 2024-09-08T05:14:35.084Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants?page=1&perPage=20&search= 200 347ms
+2024-09-08T05:15:58.445Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants?page=1&perPage=20&search= 200 371ms
+2024-09-08T05:16:26.164Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants?page=1&perPage=20&search= 200 349ms
+2024-09-08T05:16:27.131Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants?page=1&perPage=20&search= 200 355ms
+2024-09-08T05:16:30.786Z [undefined] [32minfo[39m: GET /api/v1/admin/auth/ping 200 121ms
+2024-09-08T05:16:30.809Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 401 2ms
+2024-09-08T05:16:31.012Z [undefined] [32minfo[39m: GET /api/v1/admin/auth/ping 200 116ms
+2024-09-08T05:16:31.019Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 401 0ms
+2024-09-08T05:16:31.501Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants/31dd6407-a4c7-4c2d-9bd4-c085091f383b 200 358ms
+2024-09-08T05:16:31.856Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants/31dd6407-a4c7-4c2d-9bd4-c085091f383b 304 352ms
+2024-09-08T05:16:38.421Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants?page=1&perPage=20&search= 200 346ms
+2024-09-08T05:16:39.614Z [undefined] [32minfo[39m: GET /api/v1/admin/auth/ping 200 123ms
+2024-09-08T05:16:39.628Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 401 0ms
+2024-09-08T05:16:39.960Z [undefined] [32minfo[39m: GET /api/v1/admin/auth/ping 200 119ms
+2024-09-08T05:16:39.969Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 401 0ms
+2024-09-08T07:22:36.390Z [undefined] [32minfo[39m: POST /api/v1/admin/restaurants 400 59993ms
+2024-09-08T07:37:02.170Z [undefined] [32minfo[39m: GET /api/v1/admin/auth/ping 200 127ms
+2024-09-08T07:37:02.183Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 401 1ms
+2024-09-08T07:37:03.533Z [undefined] [32minfo[39m: GET /api/v1/admin/auth/ping 200 116ms
+2024-09-08T07:37:03.649Z [undefined] [32minfo[39m: GET /api/v1/admin/auth/ping 304 115ms
+2024-09-08T07:38:16.345Z [undefined] [32minfo[39m: POST /api/upload-image 404 2ms
+2024-09-08T07:38:44.356Z [undefined] [32minfo[39m: POST /api/upload-image 404 4ms
+2024-09-08T07:39:04.220Z [undefined] [32minfo[39m: POST /api/v1/upload-image 404 2ms
+2024-09-08T07:39:20.338Z [undefined] [32minfo[39m: POST /api/v1/upload-image 404 3ms
+2024-09-08T07:44:45.993Z [undefined] [31merror[39m: Invalid cloud_name defacto
+2024-09-08T07:44:46.000Z [undefined] [32minfo[39m: POST /api/v1/upload/image 500 1177ms
+2024-09-08T07:45:56.481Z [undefined] [31merror[39m: Invalid cloud_name defacto
+2024-09-08T07:45:56.487Z [undefined] [32minfo[39m: POST /api/v1/upload/image 500 1184ms
+2024-09-08T07:48:01.574Z [undefined] [32minfo[39m: POST /api/v1/upload/image 200 1706ms
+2024-09-08T08:04:55.428Z [undefined] [32minfo[39m: GET /api/v1/admin/auth/ping 200 122ms
+2024-09-08T08:04:55.438Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 401 0ms
+2024-09-08T08:05:20.642Z [undefined] [32minfo[39m: POST /api/v1/upload/image 200 1812ms
+2024-09-08T08:19:39.168Z [undefined] [32minfo[39m: POST /api/v1/upload/image 200 1596ms

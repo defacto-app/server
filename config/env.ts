@@ -33,6 +33,12 @@ const env = {
 	TERMIAPIKEY: envs.parsed?.TERMIAPIKEY || "",
 	GOOGLE_MAPS_API_KEY: envs.parsed?.GOOGLE_MAPS_API_KEY || "",
 
+	// cloudinary
+
+	CLOUDINARY_CLOUD_NAME: envs.parsed?.CLOUDINARY_CLOUD_NAME,
+	CLOUDINARY_API_KEY: envs.parsed?.CLOUDINARY_API_KEY,
+	CLOUDINARY_API_SECRET: envs.parsed?.CLOUDINARY_API_SECRET,
+
 	// SMTP_FROM_EMAIL: envs.parsed?.SMTP_FROM_EMAIL,
 };
 

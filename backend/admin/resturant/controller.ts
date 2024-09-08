@@ -97,7 +97,7 @@ const AdminRestaurantController = {
 
 			if (!restaurant) {
 				// If no restaurant is found, return a 404 error
-				 SendResponse.notFound(res, "Restaurant not found");
+				SendResponse.notFound(res, "Restaurant not found");
 			}
 
 			// Use deleteOne() to remove the document
@@ -109,8 +109,7 @@ const AdminRestaurantController = {
 			// Return server error response in case of any exceptions
 			SendResponse.serverError(res, error.message);
 		}
-	}
-
+	},
 };
 
 export default AdminRestaurantController;

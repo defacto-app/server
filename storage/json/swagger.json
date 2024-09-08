@@ -149,7 +149,7 @@
 				}
 			}
 		},
-	"/api/v1/admin/restaurants": {
+		"/api/v1/admin/restaurants": {
 		"get": {
 			"tags": ["admin-restaurant"],
 			"summary": "Get all restaurants for admin dashboard with optional pagination, search, and sorting",
@@ -398,9 +398,9 @@
 				}
 			}
 		}
-},
+		},
 
-	"/api/v1/admin/restaurants/{publicId}": {
+		"/api/v1/admin/restaurants/{publicId}": {
 		"get": {
 			"summary": "Get details of a specific restaurant by its slug",
 			"tags": ["admin-restaurant"],
@@ -654,9 +654,9 @@
 				}
 			}
 		}
-	},
+		},
 
-"/api/v1/auth/phone-login": {
+		"/api/v1/auth/phone-login": {
 			"post": {
 				"tags": ["auth-phone"],
 				"summary": "phone number  login",
@@ -1668,6 +1668,97 @@
 					}
 				}
 			}
+		},
+		"/api/v1/upload/image": {
+			"post": {
+				"summary": "Upload an image",
+				"tags": ["Image Upload"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"image": {
+										"type": "string",
+										"format": "binary",
+										"description": "The image file to upload"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Image uploaded successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"imageUrl": {
+											"type": "string",
+											"example": "https://res.cloudinary.com/my_cloud/image/upload/v1234567890/my_image.jpg"
+										},
+										"message": {
+											"type": "string",
+											"example": "Image uploaded successfully"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "No image file uploaded",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": false
+										},
+										"message": {
+											"type": "string",
+											"example": "No image file uploaded"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Server error during image upload",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": false
+										},
+										"message": {
+											"type": "string",
+											"example": "Failed to upload image"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
-	}
+}
+
+
 }

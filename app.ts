@@ -30,6 +30,9 @@ import RestaurantRoutes from "./backend/restaurant/route";
 import AdminRestaurantRoutes from "./backend/admin/resturant/route";
 
 
+import UploadRoutes from "./backend/upload/route";
+
+
 import PublicRoutes from "./backend/public/index.routes";
 import AddressRoutes from "./backend/address/route";
 import EmailViewRoutes from "./backend/routes/email.routes";
@@ -50,8 +53,6 @@ try {
 }
 
 app.use(cors());
-
-
 
 app.use(express.json());
 
@@ -148,9 +149,14 @@ app.use("/api/v1/admin/dashboard", DashboardRoutes);
 app.use("/api/v1/admin/restaurants", AdminRestaurantRoutes);
 // admin routes
 
+// image upload
+
+app.use("/api/v1/upload", UploadRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "storage/uploads")));
+
 app.use("/api/v1/preview/", EmailViewRoutes);
 
-app.use("/uploads", express.static(path.join(__dirname, "storage/uploads")));
+
 app.use("/assets", express.static(path.join(__dirname, "storage/assets")));
 
 const listApis = listEndpoints(app);
