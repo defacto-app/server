@@ -1,6 +1,7 @@
 import mongoose, { type Document, Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
-// import slugify from "slugify";
+import slugify from "slugify";
+
 export interface RestaurantDataType extends Document {
 	publicId: string;
 	name: string;
@@ -111,10 +112,27 @@ export const RestaurantSchema: Schema = new Schema(
 	},
 );
 
-// Pre save middleware to auto-generate slug
+// Pre-save middleware to auto-generate slug
+RestaurantSchema.pre<RestaurantDataType>('save', async function (next) {
+	if (!this.isModified('name')) {
+		return next();
+	}
 
-// Pre-save middleware to auto-generate slug
-// Pre-save middleware to auto-generate slug
+	// Generate a slug from the restaurant name
+	let generatedSlug = slugify(this.name, { lower: true, strict: true });
+
+	// Check if the slug already exists in the database
+	const existingRestaurant = await RestaurantModel.findOne({ slug: generatedSlug });
+
+	// If a restaurant with the same slug exists, append a random string to make it unique
+	if (existingRestaurant) {
+		const randomString = uuidv4().slice(0, 6); // Use part of the UUID to avoid duplicate slugs
+		generatedSlug = `${generatedSlug}-${randomString}`;
+	}
+
+	this.slug = generatedSlug; // Assign the unique slug
+	next();
+});
 
 const RestaurantModel = mongoose.model<RestaurantDataType>("restaurants", RestaurantSchema);
 
