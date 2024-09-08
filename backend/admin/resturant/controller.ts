@@ -45,6 +45,24 @@ const AdminRestaurantController = {
 			SendResponse.serverError(res, error.message);
 		}
 	},
+
+	async update(req: Request, res: Response): Promise<void> {
+		const restaurant = res.locals.restaurantItem as any;
+		const { name, description, location } = req.body;
+
+		try {
+			restaurant.name = name;
+
+
+			await restaurant.save();
+
+			SendResponse.success(res, "Restaurant updated", restaurant);
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	},
 };
 
 export default AdminRestaurantController;
+
+

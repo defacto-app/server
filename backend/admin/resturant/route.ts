@@ -17,5 +17,6 @@ router.param('publicId', SlugMiddleware.restaurantPublicId);
 
 router.get("/", RestaurantController.all);
 router.get("/:publicId", SlugMiddleware.restaurantPublicId, RestaurantController.one);
+router.put("/:publicId", SlugMiddleware.restaurantPublicId, RestaurantController.update);
 
 export default router;

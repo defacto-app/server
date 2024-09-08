@@ -371,6 +371,101 @@
 					"description": "Server error"
 				}
 			}
+		},
+		"put": {
+			"summary": "Update details of a specific restaurant by its publicId",
+			"tags": ["admin-restaurant"],
+			"parameters": [
+				{
+					"name": "publicId",
+					"in": "path",
+					"required": true,
+					"description": "The publicId of the restaurant to update",
+					"schema": {
+						"type": "string"
+					}
+				}
+			],
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string",
+									"example": "Updated Restaurant Name"
+								},
+								"description": {
+									"type": "string",
+									"example": "Updated description for the restaurant"
+								},
+								"location": {
+									"type": "string",
+									"example": "Updated restaurant location"
+								}
+							}
+						}
+					}
+				}
+			},
+			"responses": {
+				"200": {
+					"description": "Restaurant updated successfully",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"success": {
+										"type": "boolean",
+										"example": true
+									},
+									"message": {
+										"type": "string",
+										"example": "Restaurant updated"
+									},
+									"data": {
+										"type": "object",
+										"properties": {
+											"_id": {
+												"type": "string",
+												"example": "66dc75eee60cbd565a48c82f"
+											},
+											"name": {
+												"type": "string",
+												"example": "Updated Restaurant Name"
+											},
+											"slug": {
+												"type": "string",
+												"example": "updated-restaurant"
+											},
+											"description": {
+												"type": "string",
+												"example": "Updated description for the restaurant"
+											},
+											"location": {
+												"type": "string",
+												"example": "Updated restaurant location"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"400": {
+					"description": "Invalid request body"
+				},
+				"404": {
+					"description": "Restaurant not found"
+				},
+				"500": {
+					"description": "Server error"
+				}
+			}
 		}
 	},
 
