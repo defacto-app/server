@@ -27,7 +27,7 @@ import RestaurantRoutes from "./backend/restaurant/route";
 //
 //
 //
-import AdminRestaurantRoutes from "./backend/admin/resturant/route";
+import AdminRestaurantRoutes from "./backend/admin/restaurant/route";
 
 
 import UploadRoutes from "./backend/upload/route";

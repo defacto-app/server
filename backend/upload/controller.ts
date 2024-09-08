@@ -27,13 +27,17 @@ const UploadController = {
 			// Optional: remove file from server after upload to Cloudinary
 			fs.unlinkSync(req.file.path);
 
+			// Generate an optimized URL
+			const optimizedUrl = cloudinary.url(result.public_id, {
+				transformation: [
+					{ width: 800, crop: "scale" },
+					{ fetch_format: "auto", quality: "auto" },
+				],
+			});
+
 			// Return the image URL from Cloudinary
 
-			SendResponse.success(
-				res,
-				"Image uploaded successfully",
-				result.secure_url,
-			);
+			SendResponse.success(res, "Image uploaded successfully", optimizedUrl);
 		} catch (error: any) {
 			console.error(error);
 			SendResponse.serverError(res, error.message);
