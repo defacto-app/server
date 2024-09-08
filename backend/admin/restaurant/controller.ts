@@ -62,14 +62,13 @@ const AdminRestaurantController = {
 	},
 
 	async create(req: Request, res: Response): Promise<void> {
-		const { name, rating, category, address, phone, email, openingHours } =
+		const { name,  category, address, phone, email, openingHours } =
 			req.body;
 
 		try {
 			// Create a new restaurant instance
 			const newRestaurant = new RestaurantModel({
 				name,
-				rating,
 				category,
 				address,
 				phone,

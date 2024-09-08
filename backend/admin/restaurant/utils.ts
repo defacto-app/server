@@ -145,8 +145,7 @@ function generateRestaurant(name: any) {
 	return {
 		name: name,
 		slug: slugify(name, { lower: true, strict: true }),
-		rating: (Math.random() * (5 - 3.5) + 3.5).toFixed(1), // Random rating between 3.5 and 5
-		deliveryTime: `${chance.integer({ min: 10, max: 20 })}-${chance.integer({ min: 21, max: 45 })} mins`,
+	deliveryTime: `${chance.integer({ min: 10, max: 20 })}-${chance.integer({ min: 21, max: 45 })} mins`,
 		category: category,
 		image: "https://placehold.co/600x400.png",
 		address: chance.address(),

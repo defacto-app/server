@@ -7325,3 +7325,4 @@
 2024-09-08T08:26:44.944Z [undefined] [32minfo[39m: POST /api/v1/upload/image 200 1168ms
 2024-09-08T08:27:22.605Z [undefined] [32minfo[39m: POST /api/v1/upload/image 200 1160ms
 2024-09-08T08:31:00.094Z [undefined] [32minfo[39m: POST /api/v1/admin/restaurants 400 135ms
+2024-09-08T08:47:19.771Z [undefined] [32minfo[39m: POST /api/v1/upload/image 200 1651ms

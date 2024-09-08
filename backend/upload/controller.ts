@@ -17,6 +17,7 @@ const UploadController = {
 			// Check if a file was uploaded
 			if (!req.file) {
 				SendResponse.badRequest(res, "No image file uploaded");
+				return; // Exit the function if no file is uploaded
 			}
 
 			// Upload the file to Cloudinary
@@ -36,7 +37,6 @@ const UploadController = {
 			});
 
 			// Return the image URL from Cloudinary
-
 			SendResponse.success(res, "Image uploaded successfully", optimizedUrl);
 		} catch (error: any) {
 			console.error(error);

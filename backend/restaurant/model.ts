@@ -6,7 +6,6 @@ export interface RestaurantDataType extends Document {
 	publicId: string;
 	name: string;
 	slug: string;
-	rating: number;
 	deliveryTime: string;
 	category: string;
 	image: string;
@@ -41,12 +40,7 @@ const restaurantSchemaDefinitions = {
 		minLength: 1,
 		maxLength: 255,
 	},
-	rating: {
-		type: Number,
-		required: true,
-		min: 0,
-		max: 5,
-	},
+
 	deliveryTime: {
 		type: String,
 		required: false,
