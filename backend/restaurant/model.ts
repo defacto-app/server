@@ -48,7 +48,8 @@ const restaurantSchemaDefinitions = {
 	},
 	deliveryTime: {
 		type: String,
-		required: true,
+		required: false,
+		default: "30-45 mins",
 	},
 	category: {
 		type: String,
@@ -58,7 +59,8 @@ const restaurantSchemaDefinitions = {
 	},
 	image: {
 		type: String,
-		required: true,
+		required: false,
+		default: "https://placehold.co/600x400.png",
 	},
 	address: {
 		type: String,

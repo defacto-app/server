@@ -48,11 +48,10 @@ const AdminRestaurantController = {
 
 	async update(req: Request, res: Response): Promise<void> {
 		const restaurant = res.locals.restaurantItem as any;
-		const { name, description, location } = req.body;
+		const { name } = req.body;
 
 		try {
 			restaurant.name = name;
-
 
 			await restaurant.save();
 
@@ -61,8 +60,33 @@ const AdminRestaurantController = {
 			SendResponse.serverError(res, error.message);
 		}
 	},
+
+	async create(req: Request, res: Response): Promise<void> {
+		const { name, rating, category, address, phone, email, openingHours } = req.body;
+
+		try {
+			// Create a new restaurant instance
+			const newRestaurant = new RestaurantModel({
+				name,
+				rating,
+				category,
+				address,
+				phone,
+				email,
+				openingHours
+			});
+
+			// Save the new restaurant to the database
+			await newRestaurant.save();
+
+			// Return success response
+			SendResponse.success(res, "Restaurant created successfully", newRestaurant);
+		} catch (error: any) {
+			SendResponse.badRequest(res, error.message);
+		}
+	}
+
+
 };
 
 export default AdminRestaurantController;
-
-

@@ -59,3 +59,5 @@
 2024-07-29T22:24:56.016Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "kawts.com.ng@gmail.com" }
 2024-07-29T22:25:07.681Z [undefined] [31merror[39m: null is not an object (evaluating 'data.password')
 2024-07-29T22:25:15.684Z [undefined] [31merror[39m: null is not an object (evaluating 'data.password')
+2024-09-08T04:37:06.740Z [undefined] [31merror[39m: restaurants validation failed: image: Path `image` is required., deliveryTime: Path `deliveryTime` is required.
+2024-09-08T04:37:41.311Z [undefined] [31merror[39m: restaurants validation failed: image: Path `image` is required., deliveryTime: Path `deliveryTime` is required.

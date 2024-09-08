@@ -16,7 +16,10 @@ router.param('publicId', SlugMiddleware.restaurantPublicId);
 // middleware to validate packageId
 
 router.get("/", RestaurantController.all);
+router.post("/", RestaurantController.create);
 router.get("/:publicId", SlugMiddleware.restaurantPublicId, RestaurantController.one);
 router.put("/:publicId", SlugMiddleware.restaurantPublicId, RestaurantController.update);
 
 export default router;
+
+
