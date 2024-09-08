@@ -62,7 +62,8 @@ const AdminRestaurantController = {
 	},
 
 	async create(req: Request, res: Response): Promise<void> {
-		const { name, rating, category, address, phone, email, openingHours } = req.body;
+		const { name, rating, category, address, phone, email, openingHours } =
+			req.body;
 
 		try {
 			// Create a new restaurant instance
@@ -73,19 +74,42 @@ const AdminRestaurantController = {
 				address,
 				phone,
 				email,
-				openingHours
+				openingHours,
 			});
 
 			// Save the new restaurant to the database
 			await newRestaurant.save();
 
 			// Return success response
-			SendResponse.success(res, "Restaurant created successfully", newRestaurant);
+			SendResponse.success(
+				res,
+				"Restaurant created successfully",
+				newRestaurant,
+			);
 		} catch (error: any) {
 			SendResponse.badRequest(res, error.message);
 		}
-	}
+	},
+	async delete(req: Request, res: Response): Promise<void> {
+		try {
+			// The restaurant is already loaded in res.locals by middleware
+			const restaurant = res.locals.restaurantItem as any;
 
+			if (!restaurant) {
+				// If no restaurant is found, return a 404 error
+				 SendResponse.notFound(res, "Restaurant not found");
+			}
+
+			// Use deleteOne() to remove the document
+			await restaurant.deleteOne();
+
+			// Return success response
+			SendResponse.success(res, "Restaurant deleted successfully");
+		} catch (error: any) {
+			// Return server error response in case of any exceptions
+			SendResponse.serverError(res, error.message);
+		}
+	}
 
 };
 

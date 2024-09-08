@@ -575,6 +575,84 @@
 					"description": "Server error"
 				}
 			}
+		},
+		"delete": {
+			"summary": "Delete a restaurant by its publicId",
+			"tags": ["admin-restaurant"],
+			"parameters": [
+				{
+					"name": "publicId",
+					"in": "path",
+					"required": true,
+					"description": "The publicId of the restaurant to delete",
+					"schema": {
+						"type": "string",
+						"example": "66dc75eee60cbd565a48c82f"
+					}
+				}
+			],
+			"responses": {
+				"200": {
+					"description": "Restaurant deleted successfully",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"success": {
+										"type": "boolean",
+										"example": true
+									},
+									"message": {
+										"type": "string",
+										"example": "Restaurant deleted successfully"
+									}
+								}
+							}
+						}
+					}
+				},
+				"404": {
+					"description": "Restaurant not found",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"success": {
+										"type": "boolean",
+										"example": false
+									},
+									"message": {
+										"type": "string",
+										"example": "Restaurant not found"
+									}
+								}
+							}
+						}
+					}
+				},
+				"500": {
+					"description": "Server error",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"success": {
+										"type": "boolean",
+										"example": false
+									},
+									"message": {
+										"type": "string",
+										"example": "An error occurred while deleting the restaurant"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 

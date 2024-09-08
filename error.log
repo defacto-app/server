@@ -61,3 +61,6 @@
 2024-07-29T22:25:15.684Z [undefined] [31merror[39m: null is not an object (evaluating 'data.password')
 2024-09-08T04:37:06.740Z [undefined] [31merror[39m: restaurants validation failed: image: Path `image` is required., deliveryTime: Path `deliveryTime` is required.
 2024-09-08T04:37:41.311Z [undefined] [31merror[39m: restaurants validation failed: image: Path `image` is required., deliveryTime: Path `deliveryTime` is required.
+2024-09-08T05:12:18.980Z [undefined] [31merror[39m: restaurant.remove is not a function. (In 'restaurant.remove()', 'restaurant.remove' is undefined)
+2024-09-08T05:12:58.242Z [undefined] [31merror[39m: restaurant.delete is not a function. (In 'restaurant.delete()', 'restaurant.delete' is undefined)
+2024-09-08T05:13:09.799Z [undefined] [31merror[39m: restaurant.remove is not a function. (In 'restaurant.remove()', 'restaurant.remove' is undefined)

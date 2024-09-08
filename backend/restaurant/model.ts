@@ -137,3 +137,5 @@ RestaurantSchema.pre<RestaurantDataType>('save', async function (next) {
 const RestaurantModel = mongoose.model<RestaurantDataType>("restaurants", RestaurantSchema);
 
 export default RestaurantModel;
+
+

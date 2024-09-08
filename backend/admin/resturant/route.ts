@@ -19,6 +19,7 @@ router.get("/", RestaurantController.all);
 router.post("/", RestaurantController.create);
 router.get("/:publicId", SlugMiddleware.restaurantPublicId, RestaurantController.one);
 router.put("/:publicId", SlugMiddleware.restaurantPublicId, RestaurantController.update);
+router.delete("/:publicId", SlugMiddleware.restaurantPublicId, RestaurantController.delete);
 
 export default router;
 
