@@ -5,8 +5,8 @@ import type { SortOrder } from "mongoose";
 import { uploadToCloudinary } from "../../helper/cloudinary";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "node:fs";*/
-import MenuModel from "../../../model/menu.model";
 import SendResponse from "../../../libs/response-helper";
+import MenuModel from "../../../menu/model";
 // Set up Cloudinary configuration
 
 const AdminRestaurantMenuController = {

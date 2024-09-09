@@ -25,15 +25,44 @@ const AdminRestaurantController = {
 			// Define the sort order
 			const sort: { [key: string]: SortOrder } = { name: 1 }; // Sort by name in ascending order
 
-			// Use the searchQuery in the pagination
-			const paginationResult = await paginate(
-				RestaurantModel,
+			// Use aggregation to include menu item count
+			const aggregationPipeline = [
+				{ $match: searchQuery }, // Match search query
+				{
+					$lookup: {
+						from: "menus", // Collection to join (menus)
+						localField: "publicId", // Field from the restaurant collection
+						foreignField: "parent", // Field from the menu collection (assuming `parent` is the restaurant's publicId)
+						as: "menuItems", // Alias for the joined data
+					},
+				},
+				{
+					$addFields: {
+						menuCount: { $size: "$menuItems" }, // Add field with the count of menu items
+					},
+				},
+				{
+					$project: {
+						menuItems: 0, // Exclude the actual menuItems array if you don't need it
+					},
+				},
+				{ $sort: sort }, // Sort results by name
+				{ $skip: (page - 1) * perPage }, // Pagination: skip documents
+				{ $limit: perPage }, // Pagination: limit documents
+			] as any;
+
+			const data = await RestaurantModel.aggregate(aggregationPipeline);
+
+			// Calculate the total number of restaurants (for pagination)
+			const total = await RestaurantModel.countDocuments(searchQuery);
+
+			const paginationResult = {
+				data,
 				page,
 				perPage,
-				searchQuery,
-				undefined,
-				sort, // Pass the sort parameter
-			);
+				total,
+				totalPages: Math.ceil(total / perPage),
+			};
 
 			SendResponse.success(res, "Restaurants retrieved", paginationResult);
 		} catch (error: any) {
