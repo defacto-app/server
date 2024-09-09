@@ -8647,3 +8647,13 @@
 2024-09-09T05:45:39.679Z [undefined] [32minfo[39m: GET /api/v1/admin/auth/ping 304 111ms
 2024-09-09T05:45:39.790Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants/31dd6407-a4c7-4c2d-9bd4-c085091f383b 200 335ms
 2024-09-09T05:45:40.129Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants/31dd6407-a4c7-4c2d-9bd4-c085091f383b 200 336ms
+2024-09-09T06:11:29.176Z [undefined] [32minfo[39m: POST /api/v1/admin/menu/31dd6407-a4c7-4c2d-9bd4-c085091f383b 401 1ms
+2024-09-09T06:11:45.359Z [undefined] [32minfo[39m: POST /api/v1/admin/menu/31dd6407-a4c7-4c2d-9bd4-c085091f383b 400 129ms
+2024-09-09T06:14:08.996Z [undefined] [32minfo[39m: POST /api/v1/admin/menu/31dd6407-a4c7-4c2d-9bd4-c085091f383b 400 128ms
+2024-09-09T06:14:56.826Z [undefined] [32minfo[39m: POST /api/v1/admin/menu/31dd6407-a4c7-4c2d-9bd4-c085091f383b 400 1025ms
+2024-09-09T06:17:41.791Z [undefined] [32minfo[39m: POST /api/v1/admin/menu/%7BpublicId%7D 400 126ms
+2024-09-09T06:17:51.388Z [undefined] [32minfo[39m: POST /api/v1/admin/menu/%7BpublicId%7D 400 120ms
+2024-09-09T06:17:53.255Z [undefined] [32minfo[39m: POST /api/v1/admin/menu/%7BpublicId%7D 400 119ms
+2024-09-09T06:18:16.450Z [undefined] [32minfo[39m: POST /api/v1/admin/menu/%7BpublicId%7D 400 1156ms
+2024-09-09T06:18:41.408Z [undefined] [32minfo[39m: POST /api/v1/admin/menu/%7BpublicId%7D 400 1214ms
+2024-09-09T06:19:44.275Z [undefined] [32minfo[39m: POST /api/v1/admin/menu/31dd6407-a4c7-4c2d-9bd4-c085091f383b 200 508ms

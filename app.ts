@@ -22,6 +22,7 @@ import UserRoutes from "./backend/routes/user/user.routes";
 import AdminAuthRoutes from "./backend/admin/auth/routes";
 import PackageRoutes from "./backend/user/packages/route";
 import RestaurantRoutes from "./backend/restaurant/route";
+import AdminMenuRoutes from "./backend/admin/restaurant/menu/route";
 
 //
 //
@@ -147,6 +148,7 @@ app.use("/api/v1/admin/auth", AdminAuthRoutes);
 
 app.use("/api/v1/admin/dashboard", DashboardRoutes);
 app.use("/api/v1/admin/restaurants", AdminRestaurantRoutes);
+app.use("/api/v1/admin/menu", AdminMenuRoutes);
 // admin routes
 
 // image upload
