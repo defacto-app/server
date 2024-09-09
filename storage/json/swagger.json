@@ -653,7 +653,82 @@
 					}
 				}
 			}
-		}
+		},
+			"post": {
+				"summary": "Create a new restaurant with a specific publicId and an image upload",
+				"tags": ["admin-restaurant"],
+				"parameters": [
+					{
+						"name": "publicId",
+						"in": "path",
+						"required": true,
+						"description": "The publicId for the restaurant",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+
+									"image": {
+										"type": "string",
+										"format": "binary",
+										"description": "Image file to upload"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Restaurant created successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string",
+											"example": "Restaurant created"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"_id": {
+													"type": "string",
+													"example": "66dc75eee60cbd565a48c82f"
+												},
+
+												"imageUrl": {
+													"type": "string",
+													"example": "https://cloudinary.com/new-restaurant-image-url"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid request body"
+					},
+					"500": {
+						"description": "Server error"
+					}
+				}
+			}
 		},
 
 		"/api/v1/auth/phone-login": {

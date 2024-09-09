@@ -3,6 +3,11 @@ import paginate from "../../utils/pagination";
 import SendResponse from "../../libs/response-helper";
 import RestaurantModel from "../../restaurant/model";
 import type { SortOrder } from "mongoose";
+import { uploadToCloudinary } from "../../helper/cloudinary";
+import { v2 as cloudinary } from "cloudinary";
+import fs from "node:fs";
+// Set up Cloudinary configuration
+
 
 const AdminRestaurantController = {
 	async all(req: Request, res: Response): Promise<void> {
@@ -109,6 +114,46 @@ const AdminRestaurantController = {
 			SendResponse.serverError(res, error.message);
 		}
 	},
+
+	async upload(req: Request, res: Response): Promise<void> {
+		const restaurant = res.locals.restaurantItem as any;
+
+		console.log(req.file, restaurant, "upload restuarant !!");
+		try {
+			if (!req.file) {
+				SendResponse.badRequest(res, "No image file uploaded");
+				return;
+			}
+
+			// Upload the file to Cloudinary
+			const result = await uploadToCloudinary(req.file.path, "defacto/restaurant");
+
+			// Remove file from server after upload
+			fs.unlinkSync(req.file.path);
+
+			// Generate an optimized URL
+			const optimizedUrl = cloudinary.url(result.public_id, {
+				transformation: [
+					{ width: 800, crop: "scale" },
+					{ fetch_format: "auto", quality: "auto" },
+				],
+			});
+
+
+			// update the restaurant with the image URL
+
+			restaurant.image = optimizedUrl;
+
+			await restaurant.save();
+
+			SendResponse.success(res, "Restaurant image uploaded successfully", optimizedUrl);
+		} catch (error: any) {
+			console.error(error);
+			SendResponse.serverError(res, error.message);
+		}
+	},
 };
 
 export default AdminRestaurantController;
+
+
