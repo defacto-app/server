@@ -15,6 +15,7 @@ router.param('publicId', SlugMiddleware.restaurantPublicId);
 
 
 router.post("/:publicId", AdminRestaurantMenuController.create);
+router.get("/:publicId",  AdminRestaurantMenuController.all);
 /*
 router.get("/", RestaurantController.all);
 

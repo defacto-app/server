@@ -730,7 +730,7 @@
 				}
 			}
 		},
-		"/api/v1/admin/menu/{publicId}": {
+		"/api/v1/admin/restaurants/menu/{publicId}": {
 			"post": {
 				"summary": "Create a new menu item for a specific restaurant",
 				"tags": ["admin-restaurant-menu"],
@@ -834,6 +834,85 @@
 					},
 					"400": {
 						"description": "Invalid request body"
+					},
+					"500": {
+						"description": "Server error"
+					}
+				}
+			},
+			"get": {
+				"summary": "Get menu items for a specific restaurant",
+				"tags": ["admin-restaurant-menu"],
+				"parameters": [
+					{
+						"name": "publicId",
+						"in": "path",
+						"required": true,
+						"description": "The public ID of the restaurant for which to retrieve menu items",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Menu items retrieved successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string",
+											"example": "Menu items retrieved successfully"
+										},
+										"data": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"_id": {
+														"type": "string",
+														"example": "66dc75eee60cbd565a48c82f"
+													},
+													"name": {
+														"type": "string",
+														"example": "Grilled Chicken Burger"
+													},
+													"category": {
+														"type": "string",
+														"example": "Main Course"
+													},
+													"price": {
+														"type": "number",
+														"example": 10.99
+													},
+													"available": {
+														"type": "boolean",
+														"example": true
+													},
+													"image": {
+														"type": "string",
+														"example": "https://example.com/menu-item-image.jpg"
+													},
+													"parent": {
+														"type": "string",
+														"example": "609b8b5b8f1d2c3bcd098765"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid request parameters"
 					},
 					"500": {
 						"description": "Server error"

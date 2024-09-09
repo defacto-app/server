@@ -39,6 +39,18 @@ const AdminRestaurantMenuController = {
 		} catch (error: any) {
 			SendResponse.badRequest(res, error.message);
 		}
+	},
+
+	async all(req: Request, res: Response): Promise<void> {
+		const restaurant = res.locals.restaurantItem as any;
+
+		try {
+			const menuItems = await MenuModel.find({ parent: restaurant.publicId });
+
+			SendResponse.success(res, "Menu items retrieved", menuItems);
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
 	}
 
 
@@ -159,3 +171,5 @@ const AdminRestaurantMenuController = {
 };
 
 export default AdminRestaurantMenuController;
+
+
