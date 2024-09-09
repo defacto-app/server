@@ -8855,3 +8855,7 @@
 2024-09-09T11:14:04.228Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants/31dd6407-a4c7-4c2d-9bd4-c085091f383b 200 347ms
 2024-09-09T11:14:04.591Z [undefined] [32minfo[39m: GET /api/v1/admin/restaurants/31dd6407-a4c7-4c2d-9bd4-c085091f383b 304 359ms
 2024-09-09T14:53:29.695Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1 200 1330ms
+2024-09-09T14:55:53.645Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1 200 257ms
+2024-09-09T14:56:53.285Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10 200 248ms
+2024-09-09T14:57:07.993Z [undefined] [32minfo[39m: GET /api/v1/restaurants/delightful-cafe 200 121ms
+2024-09-09T14:57:16.192Z [undefined] [32minfo[39m: GET /api/v1/restaurants/menu/delightful-cafe 200 239ms

@@ -1748,6 +1748,35 @@
 				}
 			}
 		},
+		"/api/v1/restaurants/menu/{slug}": {
+			"get": {
+				"summary": "Get one restaurant",
+				"tags": ["restaurant-routes"],
+				"parameters": [
+					{
+						"name": "slug",
+						"in": "path",
+						"required": true,
+						"description": "The slug of the restaurant to retrieve",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Details of a specific restaurant",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Restaurant"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 
 		"/api/v1/packages/{packageId}": {
 			"get": {
