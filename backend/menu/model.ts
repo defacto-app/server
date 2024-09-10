@@ -13,6 +13,7 @@ export interface MenuDataType extends Document {
 	available: boolean;
 	updatedAt: Date;
 	parent: string;
+	menuType: string;
 }
 
 const menuSchemaDefinitions = {
@@ -61,6 +62,11 @@ const menuSchemaDefinitions = {
 		required: true,
 		default: true,
 	},
+	menuType: {
+		type: String,
+		required: true,
+
+		},
 
 	price: {
 		type: Number,

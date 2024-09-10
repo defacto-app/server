@@ -7,11 +7,12 @@ import { v2 as cloudinary } from "cloudinary";
 import fs from "node:fs";*/
 import SendResponse from "../../../libs/response-helper";
 import MenuModel from "../../../menu/model";
+import paginate from "../../../utils/pagination";
+import PackageModel from "../../../model/package.model";
 // Set up Cloudinary configuration
 
 const AdminRestaurantMenuController = {
 	async create(req: Request, res: Response): Promise<void> {
-
 		const restaurant = res.locals.restaurantItem as any;
 		const { name, category, price, available, image } = req.body;
 
@@ -31,11 +32,7 @@ const AdminRestaurantMenuController = {
 			await newMenu.save();
 
 			// Return success response
-			SendResponse.success(
-				res,
-				"Menu item created successfully",
-				newMenu,
-			);
+			SendResponse.success(res, "Menu item created successfully", newMenu);
 		} catch (error: any) {
 			SendResponse.badRequest(res, error.message);
 		}
@@ -44,16 +41,36 @@ const AdminRestaurantMenuController = {
 	async all(req: Request, res: Response): Promise<void> {
 		const restaurant = res.locals.restaurantItem as any;
 
-		try {
-			const menuItems = await MenuModel.find({ parent: restaurant.publicId });
+		const page: number = Number.parseInt(req.query.page as string) || 1;
+		const perPage: number = Number.parseInt(req.query.perPage as string) || 10;
+		const query = { parent: restaurant.publicId }
 
-			SendResponse.success(res, "Menu items retrieved", menuItems);
+		try {
+
+			const paginationResult = await paginate(
+				MenuModel,
+				page,
+				perPage,
+				query,
+			);
+
+
+			SendResponse.success(res, "Menu items retrieved", paginationResult);
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	},
+
+	async one(req: Request, res: Response): Promise<void> {
+		const data = res.locals.menuItem as any;
+
+		try {
+			SendResponse.success(res, "Menu item retrieved", data);
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
 	}
 	//
-
 
 	/* async all(req: Request, res: Response): Promise<void> {
       // Extract page, perPage, and search term from request query. Set default values if not provided.
@@ -172,5 +189,4 @@ const AdminRestaurantMenuController = {
 };
 
 export default AdminRestaurantMenuController;
-
 

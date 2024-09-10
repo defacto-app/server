@@ -86,11 +86,12 @@ async function seedMenus() {
 					slug: slugify(`${foodName} ${uuidv4()}`, { lower: true }), // Ensure unique slug
 					category: categoryName,
 					image: "https://placehold.co/600x400.png", // Placeholder image
-					price: chance.floating({ min: 5, max: 100, fixed: 2 }), // Random price between $5 and $100
+					price: chance.floating({ min: 1250, max: 7830, fixed: 2 }), // Random price between $5 and $100
 					available: chance.bool(), // Randomly available or not
 					parent: restaurant.publicId, // Associate menu item with restaurant
 					createdAt: new Date(),
 					updatedAt: new Date(),
+					menuType: "food",
 				};
 
 				menuItems.push(menuItem);

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import authMiddleware from "../middleware";
 import PackageController from "./controller";
-import SlugMiddleware from "../../middleware/slug.middleware";
+import PackageMiddleware from "../../user/packages/middleware";
 
 const router = Router();
 
@@ -15,11 +15,11 @@ router.use(authMiddleware.validateUser);
 
 router.get("/all", PackageController.all);
 router.get("/create", PackageController.create);
-router.get("/:packageId", SlugMiddleware.packageId, PackageController.one);
-router.put("/:packageId", SlugMiddleware.packageId, PackageController.update);
+router.get("/:packageId", PackageMiddleware.packageId, PackageController.one);
+router.put("/:packageId", PackageMiddleware.packageId, PackageController.update);
 router.delete(
 	"/:packageId",
-	SlugMiddleware.packageId,
+	PackageMiddleware.packageId,
 	PackageController.delete,
 );
 

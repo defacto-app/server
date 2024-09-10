@@ -655,7 +655,7 @@
 			}
 		},
 			"post": {
-				"summary": "Create a new restaurant with a specific publicId and an image upload",
+				"summary": "Upload Restaurant Image",
 				"tags": ["admin-restaurant"],
 				"parameters": [
 					{
@@ -916,6 +916,332 @@
 					},
 					"500": {
 						"description": "Server error"
+					}
+				}
+			}
+		},
+
+
+		"/api/v1/admin/menu/{menuId}": {
+			"get": {
+				"summary": "Get details of a specific menu item by its publicId",
+				"tags": ["admin-restaurant-menu"],
+				"parameters": [
+					{
+						"name": "menuId",
+						"in": "path",
+						"required": true,
+						"description": "The publicId of the menu item to retrieve",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Details of a specific menu item",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string",
+											"example": "Menu item retrieved"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"_id": {
+													"type": "string",
+													"example": "66dc75eee60cbd565a48c82f"
+												},
+												"name": {
+													"type": "string",
+													"example": "Spicy Chicken Wings"
+												},
+												"category": {
+													"type": "string",
+													"example": "Appetizer"
+												},
+												"price": {
+													"type": "number",
+													"example": 12.99
+												},
+												"description": {
+													"type": "string",
+													"example": "Crispy chicken wings tossed in spicy sauce"
+												},
+												"createdAt": {
+													"type": "string",
+													"example": "2024-09-07T17:00:00Z"
+												},
+												"updatedAt": {
+													"type": "string",
+													"example": "2024-09-07T17:00:00Z"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Menu item not found"
+					},
+					"500": {
+						"description": "Server error"
+					}
+				}
+			},
+			"put": {
+				"summary": "Update details of a specific menu item by its publicId",
+				"tags": ["admin-restaurant-menu"],
+				"parameters": [
+					{
+						"name": "menuId",
+						"in": "path",
+						"required": true,
+						"description": "The publicId of the menu item to update",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string",
+										"example": "Updated Menu Item Name"
+									},
+									"description": {
+										"type": "string",
+										"example": "Updated description for the menu item"
+									},
+									"price": {
+										"type": "number",
+										"example": 15.99
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Menu item updated successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string",
+											"example": "Menu item updated"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"_id": {
+													"type": "string",
+													"example": "66dc75eee60cbd565a48c82f"
+												},
+												"name": {
+													"type": "string",
+													"example": "Updated Menu Item Name"
+												},
+												"category": {
+													"type": "string",
+													"example": "Updated category"
+												},
+												"price": {
+													"type": "number",
+													"example": 15.99
+												},
+												"description": {
+													"type": "string",
+													"example": "Updated description for the menu item"
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+						"400": {
+							"description": "Invalid request body"
+						},
+						"404": {
+							"description": "Menu item not found"
+						},
+						"500": {
+							"description": "Server error"
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "Delete a menu item by its publicId",
+				"tags": ["admin-restaurant-menu"],
+				"parameters": [
+					{
+						"name": "menuId",
+						"in": "path",
+						"required": true,
+						"description": "The publicId of the menu item to delete",
+						"schema": {
+							"type": "string",
+							"example": "66dc75eee60cbd565a48c82f"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Menu item deleted successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string",
+											"example": "Menu item deleted successfully"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Menu item not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": false
+										},
+										"message": {
+											"type": "string",
+											"example": "Menu item not found"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Server error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": false
+										},
+										"message": {
+											"type": "string",
+											"example": "An error occurred while deleting the menu item"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"post": {
+				"summary": "Upload Menu Item Image",
+				"tags": ["admin-restaurant-menu"],
+				"parameters": [
+					{
+						"name": "menuId",
+						"in": "path",
+						"required": true,
+						"description": "The publicId for the menu item",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"image": {
+										"type": "string",
+										"format": "binary",
+										"description": "Image file to upload"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Menu item image uploaded successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string",
+											"example": "Menu item image uploaded"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"_id": {
+													"type": "string",
+													"example": "66dc75eee60cbd565a48c82f"
+												},
+												"imageUrl": {
+													"type": "string",
+													"example": "https://cloudinary.com/new-menu-item-image-url"
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+						"400": {
+							"description": "Invalid request body"
+						},
+						"500": {
+							"description": "Server error"
+						}
 					}
 				}
 			}

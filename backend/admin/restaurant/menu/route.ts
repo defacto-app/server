@@ -1,7 +1,7 @@
 import { Router } from "express";
 // import SlugMiddleware from "../middleware/slug.middleware";
 import authMiddleware from "../../auth/middleware";
-import SlugMiddleware from "../../../middleware/slug.middleware";
+import RestaurantMiddleWare from "../../../middleware/slug.middleware";
 import multer from "multer";
 import AdminRestaurantMenuController from "./controller";
 
@@ -11,11 +11,17 @@ const router = Router();
 
 // Apply the middleware to all routes
 router.use(authMiddleware.validateAdmin);
-router.param('publicId', SlugMiddleware.restaurantPublicId);
+router.param('publicId', RestaurantMiddleWare.restaurantPublicId);
+
+router.param('menuId', RestaurantMiddleWare.restaurantPublicId);
+
 
 
 router.post("/:publicId", AdminRestaurantMenuController.create);
 router.get("/:publicId",  AdminRestaurantMenuController.all);
+
+router.get("/:menuId", RestaurantMiddleWare.menuPublicId, AdminRestaurantMenuController.one);
+
 /*
 router.get("/", RestaurantController.all);
 

@@ -8,7 +8,6 @@ import { v2 as cloudinary } from "cloudinary";
 import fs from "node:fs";
 // Set up Cloudinary configuration
 
-
 const AdminRestaurantController = {
 	async all(req: Request, res: Response): Promise<void> {
 		// Extract page, perPage, and search term from request query. Set default values if not provided.
@@ -58,10 +57,13 @@ const AdminRestaurantController = {
 
 			const paginationResult = {
 				data,
-				page,
-				perPage,
-				total,
-				totalPages: Math.ceil(total / perPage),
+
+				meta: {
+					totalPages: Math.ceil(total / perPage),
+					page,
+					perPage,
+					total,
+				},
 			};
 
 			SendResponse.success(res, "Restaurants retrieved", paginationResult);
@@ -96,8 +98,7 @@ const AdminRestaurantController = {
 	},
 
 	async create(req: Request, res: Response): Promise<void> {
-		const { name,  category, address, phone, email, openingHours } =
-			req.body;
+		const { name, category, address, phone, email, openingHours } = req.body;
 
 		try {
 			// Create a new restaurant instance
@@ -155,7 +156,10 @@ const AdminRestaurantController = {
 			}
 
 			// Upload the file to Cloudinary
-			const result = await uploadToCloudinary(req.file.path, "defacto/restaurant");
+			const result = await uploadToCloudinary(
+				req.file.path,
+				"defacto/restaurant",
+			);
 
 			// Remove file from server after upload
 			fs.unlinkSync(req.file.path);
@@ -168,14 +172,17 @@ const AdminRestaurantController = {
 				],
 			});
 
-
 			// update the restaurant with the image URL
 
 			restaurant.image = optimizedUrl;
 
 			await restaurant.save();
 
-			SendResponse.success(res, "Restaurant image uploaded successfully", optimizedUrl);
+			SendResponse.success(
+				res,
+				"Restaurant image uploaded successfully",
+				optimizedUrl,
+			);
 		} catch (error: any) {
 			console.error(error);
 			SendResponse.serverError(res, error.message);
@@ -184,5 +191,3 @@ const AdminRestaurantController = {
 };
 
 export default AdminRestaurantController;
-
-
