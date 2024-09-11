@@ -756,6 +756,10 @@
 										"type": "string",
 										"example": "Grilled Chicken Burger"
 									},
+									"menuType": {
+										"type": "string",
+										"example": "food"
+									},
 									"category": {
 										"type": "string",
 										"example": "Main Course"
@@ -804,6 +808,10 @@
 												"name": {
 													"type": "string",
 													"example": "Grilled Chicken Burger"
+												},
+												"menuType": {
+													"type": "string",
+													"example": "food"
 												},
 												"category": {
 													"type": "string",
@@ -1028,9 +1036,21 @@
 										"type": "string",
 										"example": "Updated description for the menu item"
 									},
+									"menuType": {
+										"type": "string",
+										"example": "food"
+									},
 									"price": {
 										"type": "number",
 										"example": 15.99
+									},
+									"category": {
+										"type": "string",
+										"example": "Updated category"
+									},
+									"available": {
+										"type": "boolean",
+										"example": true
 									}
 								}
 							}
@@ -1075,6 +1095,14 @@
 												"description": {
 													"type": "string",
 													"example": "Updated description for the menu item"
+												},
+												"menuType": {
+													"type": "string",
+													"example": "food"
+												},
+												"available": {
+													"type": "boolean",
+													"example": true
 												}
 											}
 										}

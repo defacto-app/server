@@ -148,7 +148,7 @@ app.use("/api/v1/admin/auth", AdminAuthRoutes);
 
 app.use("/api/v1/admin/dashboard", DashboardRoutes);
 app.use("/api/v1/admin/restaurants", AdminRestaurantRoutes);
-app.use("/api/v1/admin/restaurants/menu", AdminMenuRoutes);
+app.use("/api/v1/admin/menu", AdminMenuRoutes);
 // admin routes
 
 // image upload

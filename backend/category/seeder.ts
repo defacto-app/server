@@ -39,6 +39,7 @@ async function seedCategories() {
          active: true, // Set active to true for all
          createdAt: new Date(),
          updatedAt: new Date(),
+         categoryType: "food",
       }));
 
       // Insert the new categories

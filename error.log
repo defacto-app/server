@@ -71,3 +71,8 @@
 2024-09-09T02:59:02.514Z [undefined] [31merror[39m: restaurants validation failed: name: Path `name` is required.
 2024-09-09T02:59:13.970Z [undefined] [31merror[39m: restaurants validation failed: name: Path `name` is required.
 2024-09-09T05:40:01.304Z [undefined] [31merror[39m: null is not an object (evaluating 'restaurant.image = optimizedUrl')
+2024-09-10T19:13:10.447Z [undefined] [31merror[39m: Menu validation failed: menuType: Path `menuType` is required., category: Path `category` is required., available: Path `available` is required.
+2024-09-10T19:13:12.528Z [undefined] [31merror[39m: Menu validation failed: menuType: Path `menuType` is required., category: Path `category` is required., available: Path `available` is required.
+2024-09-11T07:41:01.861Z [undefined] [31merror[39m: Menu validation failed: category: Path `category` is required., available: Path `available` is required.
+2024-09-11T07:41:09.502Z [undefined] [31merror[39m: Menu validation failed: category: Path `category` is required., available: Path `available` is required.
+2024-09-11T17:29:20.823Z [undefined] [31merror[39m: undefined is not an object (evaluating 'restaurant.image = optimizedUrl')

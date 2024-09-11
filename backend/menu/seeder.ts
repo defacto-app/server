@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { connectDB } from "../../config/mongodb";
-
 import { v4 as uuidv4 } from "uuid";
 import Chance from "chance";
 import RestaurantModel from "../restaurant/model";
@@ -12,7 +11,7 @@ const chance = new Chance();
 
 // Menu items for each category
 const menuItemsByCategory = {
-	"Bakery and Pastry": ["Croissant", "Baguette", "Danish", "Muffin", "Bagel", "Scones", "Eclair"],
+	"pastry": ["Croissant", "Baguette", "Danish", "Muffin", "Bagel", "Scones", "Eclair"],
 	"Breakfast": ["Pancakes", "Omelette", "French Toast", "Cereal", "Eggs Benedict", "Avocado Toast", "Hash Browns"],
 	"Burgers": ["Cheeseburger", "Bacon Burger", "Veggie Burger", "Chicken Burger", "Double Cheeseburger"],
 	"Chinese": ["Sweet and Sour Chicken", "Kung Pao Chicken", "Spring Rolls", "Fried Dumplings", "Peking Duck"],
@@ -22,14 +21,25 @@ const menuItemsByCategory = {
 	"Healthy": ["Quinoa Salad", "Avocado Salad", "Green Smoothie", "Grilled Chicken Salad", "Acai Bowl"],
 	"international": ["Tacos", "Sushi", "Pizza", "Paella", "Ramen"],
 	"juices": ["Orange Juice", "Apple Juice", "Carrot Juice", "Green Juice", "Watermelon Juice"],
-	"Local food": ["Amala", "Pounded Yam", "Efo Riro", "Banga Soup", "Afang Soup"],
-	"Nigerian": ["Jollof Rice", "Pounded Yam", "Egusi Soup", "Moi Moi", "Fried Plantain"],
+	"swallow": ["Amala", "Pounded Yam", "Eba", "Semo", "Fufu"],
+	"Nigerian": ["Moi Moi", "Fried Plantain", "Fried yam", "Akara"],
 	"Pizza": ["Pepperoni Pizza", "Margherita Pizza", "BBQ Chicken Pizza", "Veggie Pizza", "Hawaiian Pizza"],
 	"Seafood": ["Grilled Salmon", "Shrimp Scampi", "Lobster Tail", "Crab Cakes", "Fish Tacos"],
-	"Shawarma": ["Chicken Shawarma", "Beef Shawarma", "Lamb Shawarma", "Falafel Wrap", "Shawarma Salad"],
-	"Snacks": ["Chips", "Popcorn", "Nachos", "Pretzels", "Fries"],
-	"Traditional": ["Efo Riro", "Fufu", "Afang Soup", "Bitterleaf Soup", "Ogbono Soup"],
+	"shawarma": ["Chicken Shawarma", "Beef Shawarma", "Lamb Shawarma", "Falafel Wrap", "Shawarma Salad"],
+	"snacks": ["Chips", "Popcorn", "Nachos", "Pretzels", "Fries"],
+	"proteins": ["Grilled Chicken", "BBQ Beef", "Steak", "Fried Fish", "Tofu Steak"],
+	"soup": ["Chicken Soup", "Bitterleaf Soup", "Ogbono Soup", "Tomato Soup", "Mushroom Soup", "Efo Riro", "Banga Soup", "Afang Soup", "Lentil Soup", "Miso Soup"],
+	"drinks": ["Coke", "Pepsi", "Lemonade", "Iced Tea", "Beer", "Wine"],
 } as any;
+
+// Menu type mapping based on categories
+const categoryToMenuTypeMap: Record<string, string> = {
+	"pastry": "pastry",
+	"juices": "drinks",
+	"drinks": "drinks",
+	"soup": "soup",
+	"swallow": "food",
+};
 
 async function seedMenus() {
 	console.time("Seeding time");
@@ -79,6 +89,9 @@ async function seedMenus() {
 				// Pick a random food item from the category
 				const foodName = chance.pickone(foodItems);
 
+				// Assign a menu type based on the category
+				const menuType = categoryToMenuTypeMap[categoryName] || "food"; // Default to 'food' if no specific type is defined
+
 				// Generate a menu item
 				const menuItem = {
 					publicId: uuidv4(),
@@ -86,12 +99,12 @@ async function seedMenus() {
 					slug: slugify(`${foodName} ${uuidv4()}`, { lower: true }), // Ensure unique slug
 					category: categoryName,
 					image: "https://placehold.co/600x400.png", // Placeholder image
-					price: chance.floating({ min: 1250, max: 7830, fixed: 2 }), // Random price between $5 and $100
+					price: chance.floating({ min: 1250, max: 7830, fixed: 2 }), // Random price
 					available: chance.bool(), // Randomly available or not
 					parent: restaurant.publicId, // Associate menu item with restaurant
 					createdAt: new Date(),
 					updatedAt: new Date(),
-					menuType: "food",
+					menuType: menuType, // Assigned menu type based on category
 				};
 
 				menuItems.push(menuItem);

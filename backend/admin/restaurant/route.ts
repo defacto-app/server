@@ -3,16 +3,17 @@ import { Router } from "express";
 import RestaurantController from "./controller";
 // import SlugMiddleware from "../middleware/slug.middleware";
 import authMiddleware from "../auth/middleware";
-import SlugMiddleware from "../../middleware/slug.middleware";
+import RestaurantMiddleware from "../../middleware/restaurant.middleware";
 import multer from "multer";
+import AdminRestaurantMenuController from "./menu/controller";
 
-const upload = multer({ dest: 'uploads/' }); // Temporary location to store uploaded files
+const upload = multer({ dest: "uploads/" }); // Temporary location to store uploaded files
 
 const router = Router();
 
 // Apply the middleware to all routes
 router.use(authMiddleware.validateAdmin);
-router.param('publicId', SlugMiddleware.restaurantPublicId);
+router.param("publicId", RestaurantMiddleware.restaurantPublicId);
 
 // middleware to validate user
 
@@ -20,11 +21,12 @@ router.param('publicId', SlugMiddleware.restaurantPublicId);
 
 router.get("/", RestaurantController.all);
 router.post("/", RestaurantController.create);
-router.get("/:publicId", SlugMiddleware.restaurantPublicId, RestaurantController.one);
-router.put("/:publicId", SlugMiddleware.restaurantPublicId, RestaurantController.update);
-router.delete("/:publicId", SlugMiddleware.restaurantPublicId, RestaurantController.delete);
-router.post("/:publicId", SlugMiddleware.restaurantPublicId, upload.single("image"),RestaurantController.upload);
+router.get("/:publicId", RestaurantController.one);
+router.put("/:publicId", RestaurantController.update);
+router.delete("/:publicId", RestaurantController.delete);
+router.post("/:publicId", upload.single("image"), RestaurantController.upload);
+
+router.post("/menu/:publicId", AdminRestaurantMenuController.create);
+router.get("/menu/:publicId", AdminRestaurantMenuController.all);
 
 export default router;
-
-

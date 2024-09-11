@@ -1,5 +1,4 @@
 import type { Request, Response } from "express";
-import paginate from "../../utils/pagination";
 import SendResponse from "../../libs/response-helper";
 import RestaurantModel from "../../restaurant/model";
 import type { SortOrder } from "mongoose";

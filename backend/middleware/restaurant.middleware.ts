@@ -4,7 +4,7 @@ import SendResponse from "../libs/response-helper";
 import RestaurantModel from "../restaurant/model";
 import MenuModel from "../menu/model";
 
-class SlugMiddleware {
+class RestaurantMiddleware {
 
 
 	public async restaurantSlug(req: Request, res: Response, next: NextFunction) {
@@ -65,21 +65,21 @@ class SlugMiddleware {
 	}
 
 	public async menuPublicId(req: Request, res: Response, next: NextFunction) {
-		const publicId = req.params.publicId;
+		const menuId = req.params.menuId;
 
 		try {
-			if (!publicId) {
-				return res.status(400).json({ error: "restaurant name  is required" });
+			if (!menuId) {
+				return res.status(400).json({ error: "Menu  Public id  is required" });
 			}
 
 			const menu = await MenuModel.findOne({
-				publicId: publicId,
+				publicId: menuId,
 			});
 
 			if (!menu) {
 				SendResponse.notFound(
 					res,
-					`Sorry, restaurant  ${publicId} is deleted or doesnt exist `,
+					`Sorry, Menu  ${menuId} is deleted or doesnt exist `,
 				);
 			}
 
@@ -93,4 +93,4 @@ class SlugMiddleware {
 	}
 }
 
-export default new SlugMiddleware();
+export default new RestaurantMiddleware();

@@ -8,13 +8,15 @@ import fs from "node:fs";*/
 import SendResponse from "../../../libs/response-helper";
 import MenuModel from "../../../menu/model";
 import paginate from "../../../utils/pagination";
-import PackageModel from "../../../model/package.model";
+import fs from "node:fs";
+import { v2 as cloudinary } from "cloudinary";
+import { uploadToCloudinary } from "../../../helper/cloudinary";
 // Set up Cloudinary configuration
 
 const AdminRestaurantMenuController = {
 	async create(req: Request, res: Response): Promise<void> {
 		const restaurant = res.locals.restaurantItem as any;
-		const { name, category, price, available, image } = req.body;
+		const { name, category, price, available, image,menuType } = req.body;
 
 		console.log(req.body, "create menu !!");
 		try {
@@ -25,6 +27,7 @@ const AdminRestaurantMenuController = {
 				price,
 				available,
 				image,
+				menuType,
 				parent: restaurant.publicId,
 			});
 
@@ -64,13 +67,79 @@ const AdminRestaurantMenuController = {
 	async one(req: Request, res: Response): Promise<void> {
 		const data = res.locals.menuItem as any;
 
+
+
 		try {
 			SendResponse.success(res, "Menu item retrieved", data);
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
-	}
+	},
 	//
+
+	async update(req: Request, res: Response): Promise<void> {
+		const menu = res.locals.menuItem as any;
+		const { name, category, price, available, image } = req.body;
+
+		try {
+			menu.name = name;
+			menu.category = category;
+			menu.price = price;
+			menu.available = available;
+			menu.image = image;
+
+			await menu.save();
+
+			SendResponse.success(res, "Menu item updated", menu);
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	},
+
+	async upload(req: Request, res: Response): Promise<void> {
+		const menu = res.locals.menuItem as any;
+
+
+		try {
+			if (!req.file) {
+				SendResponse.badRequest(res, "No image file uploaded");
+				return;
+			}
+
+			// Upload the file to Cloudinary
+			const result = await uploadToCloudinary(
+				req.file.path,
+				"defacto/menu",
+			);
+
+			// Remove file from server after upload
+			fs.unlinkSync(req.file.path);
+
+			// Generate an optimized URL
+			const optimizedUrl = cloudinary.url(result.public_id, {
+				transformation: [
+					{ width: 800, crop: "scale" },
+					{ fetch_format: "auto", quality: "auto" },
+				],
+			});
+
+
+
+			menu.image = optimizedUrl;
+
+			await menu.save();
+
+			SendResponse.success(
+				res,
+				"Menu image uploaded successfully",
+				optimizedUrl,
+			);
+		} catch (error: any) {
+			console.error(error);
+			SendResponse.serverError(res, error.message);
+		}
+	},
+
 
 	/* async all(req: Request, res: Response): Promise<void> {
       // Extract page, perPage, and search term from request query. Set default values if not provided.

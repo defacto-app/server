@@ -1,7 +1,7 @@
 import { Router } from "express";
 // import authMiddleware from "../user/middleware";
 import RestaurantController from "./controller";
-import SlugMiddleware from "../middleware/slug.middleware";
+import RestaurantMiddleware from "../middleware/restaurant.middleware";
 
 const router = Router();
 
@@ -14,7 +14,7 @@ const router = Router();
 // middleware to validate packageId
 
 router.get("/", RestaurantController.all);
-router.get("/:slug", SlugMiddleware.restaurantSlug, RestaurantController.one);
-router.get("/menu/:slug", SlugMiddleware.restaurantSlug, RestaurantController.menu);
+router.get("/:slug", RestaurantMiddleware.restaurantSlug, RestaurantController.one);
+router.get("/menu/:slug", RestaurantMiddleware.restaurantSlug, RestaurantController.menu);
 
 export default router;
