@@ -1,7 +1,7 @@
 import multer from "multer";
 import type { NextFunction, Request, Response } from "express";
 import { $file } from "../../config/config";
-import fs from "fs";
+import fs from "node:fs";
 import moment from "moment";
 import FileModel from "../model/files.model";
 

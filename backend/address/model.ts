@@ -1,9 +1,13 @@
 import mongoose, { type Document, Schema } from "mongoose";
+import { v4 as uuidv4 } from "uuid";
 
 export interface AddressDataType extends Document {
 	label: string;
+	publicId: string;
 	address: string;
+	city: string;
 	location: string;
+	postalCode: string;
 	coordinates: {
 		lat: number;
 		lng: number;
@@ -11,6 +15,14 @@ export interface AddressDataType extends Document {
 }
 
 const addressSchemaDefinitions = {
+	publicId: {
+		type: String,
+		required: true,
+		default: uuidv4,
+		unique: true,
+		minLength: 1,
+		maxLength: 255,
+	},
 	label: {
 		type: String,
 		required: false,
@@ -18,9 +30,18 @@ const addressSchemaDefinitions = {
 	},
 	address: {
 		type: String,
-		required: true,
 	},
 	location: {
+		type: String,
+	},
+	city: {
+		type: String,
+		required: true,
+	},
+	postalCode: {
+		type: String,
+	},
+	country: {
 		type: String,
 		required: true,
 	},

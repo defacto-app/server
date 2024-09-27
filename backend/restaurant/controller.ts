@@ -8,7 +8,7 @@ const RestaurantController = {
 	async all(req: Request, res: Response): Promise<void> {
 		// Extract page and perPage from request query. Set default values if not provided.
 		const page: number = Number.parseInt(req.query.page as string) || 1;
-		const perPage: number = Number.parseInt(req.query.perPage as string) || 10;
+		const perPage: number = Number.parseInt(req.query.perPage as string) || 9;
 
 
 		try {
@@ -28,28 +28,29 @@ const RestaurantController = {
 	},
 
 	async one(req: Request, res: Response): Promise<void> {
-		
+
 		const data = res.locals.restaurantItem as any;
+		const searchQuery = req.query.search as string; // Get search query from request query
 
 		try {
-			SendResponse.success(res, "Restaurant retrieved", data);
-			
-		} catch (error: any) {
-			SendResponse.serverError(res, error.message);
-		}
-	},
+			// Create a search condition to check if a search query exists
+			const searchCondition = searchQuery
+				? { parent: data.publicId, name: { $regex: searchQuery, $options: 'i' } } // Case-insensitive search by name
+				: { parent: data.publicId }; // If no search query, fetch all items
 
-	async menu(req: Request, res: Response): Promise<void> {
-		const restaurant = res.locals.restaurantItem as any;
-		const menuItems = await MenuModel.find({ parent: restaurant.publicId });
+			// Fetch menu items for the restaurant based on search
+			const menuItems = await MenuModel.find(searchCondition);
 
-		try {
-			SendResponse.success(res, "Restaurant menu retrieved", menuItems);
+			// Return both the restaurant data and the filtered menu items
+			SendResponse.success(res, "Restaurant and menu retrieved", { restaurant: data, menu: menuItems });
 
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
 	}
+
+
+
 };
 
 export default RestaurantController;

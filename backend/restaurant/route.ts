@@ -15,6 +15,5 @@ const router = Router();
 
 router.get("/", RestaurantController.all);
 router.get("/:slug", RestaurantMiddleware.restaurantSlug, RestaurantController.one);
-router.get("/menu/:slug", RestaurantMiddleware.restaurantSlug, RestaurantController.menu);
 
 export default router;

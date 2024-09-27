@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import UserModel from "../../user/model";
+import SendResponse from "../../libs/response-helper";
 
 const UserController = {
 	async updateUser(req: Request, res: Response): Promise<void> {
@@ -16,22 +17,13 @@ const UserController = {
 			);
 
 			if (!updatedUser) {
-				res.status(404).send({
-					message: "User not found",
-					success: false,
-					timestamp: new Date(),
-				});
-				return;
+				SendResponse.notFound(res, "User not found");
 			}
 
-			// Send the updated user back to the client
-			res.json({
-				message: "User updated successfully",
-				success: true,
-				timestamp: new Date(),
-			});
+			SendResponse.success(res, "User updated successfully", {});
 		} catch (error: any) {
 			// Handle possible errors
+			SendResponse.serverError(res, error.message);
 			res.status(500).send(`Error updating user: ${error.message}`);
 		}
 	},
