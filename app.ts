@@ -53,7 +53,16 @@ try {
 	console.error("Error accessing the views directory:", err);
 }
 
-app.use(cors());
+// app.use(cors());
+
+const corsOptions = {
+  origin: ['https://your-frontend-domain.com', 'http://localhost:3000'], // Your frontend domains (add localhost if for dev)
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Allow credentials (cookies, authorization headers)
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions)); // Apply CORS middleware
 
 app.use(express.json());
 

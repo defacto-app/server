@@ -5,6 +5,7 @@ import type { SortOrder } from "mongoose";
 import { uploadToCloudinary } from "../../helper/cloudinary";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "node:fs";
+import CategoryModel from "../../category/model";
 // Set up Cloudinary configuration
 
 const AdminRestaurantController = {
@@ -187,6 +188,29 @@ const AdminRestaurantController = {
 			SendResponse.serverError(res, error.message);
 		}
 	},
+
+	async categories(req: Request, res: Response): Promise<void> {
+		try {
+			// Extract search query from request query params
+			const search = req.query.search as string || '';
+
+			// Build the query object
+			const query: any = {};
+
+			// If search is provided, add a regex filter to search in the 'name' field
+			if (search) {
+				query.name = { $regex: search, $options: 'i' }; // 'i' for case-insensitive
+			}
+
+			// Find categories with the query (either filtered by search or returning all)
+			const categories = await CategoryModel.find(query);
+
+			SendResponse.success(res, "Categories retrieved", categories);
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	}
+
 };
 
 export default AdminRestaurantController;

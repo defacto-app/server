@@ -399,6 +399,29 @@
 				}
 			}
 		},
+		"/api/v1/admin/restaurants/categories": {
+			"get": {
+				"tags": ["admin-restaurant"],
+				"summary": "Get all categories with optional search",
+				"parameters": [
+					{
+						"name": "search",
+						"in": "query",
+						"description": "Search term to filter categories by name",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Categories retrieved successfully"
+					}
+				}
+			}
+		},
+
 
 		"/api/v1/admin/restaurants/{publicId}": {
 			"get": {

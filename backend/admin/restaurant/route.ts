@@ -21,6 +21,7 @@ router.param("publicId", RestaurantMiddleware.restaurantPublicId);
 
 router.get("/", RestaurantController.all);
 router.post("/", RestaurantController.create);
+router.get("/categories", RestaurantController.categories);
 router.get("/:publicId", RestaurantController.one);
 router.put("/:publicId", RestaurantController.update);
 router.delete("/:publicId", RestaurantController.delete);
