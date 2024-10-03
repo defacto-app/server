@@ -17069,3 +17069,9 @@
 2024-09-30T16:44:05.329Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 401 2ms
 2024-09-30T16:44:05.333Z [undefined] [32minfo[39m: GET /api/v1/auth/ping 401 1ms
 2024-09-30T16:44:11.382Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=30&search= 200 239ms
+2024-10-01T12:54:08.081Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10 200 921ms
+2024-10-01T12:54:25.062Z [undefined] [31merror[39m: null is not an object (evaluating 'data.publicId')
+2024-10-01T12:54:25.063Z [undefined] [32minfo[39m: GET /api/v1/restaurants/04fe923d-aed7-4e67-a941-1d00afc94c1b 500 129ms
+2024-10-01T12:54:42.879Z [undefined] [32minfo[39m: GET /api/v1/restaurants/luxurious-oasis 200 254ms
+2024-10-03T14:03:39.610Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10 200 257ms
+2024-10-03T14:04:45.225Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10&category=Sushi 200 237ms

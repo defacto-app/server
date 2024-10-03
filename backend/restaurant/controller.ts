@@ -6,19 +6,26 @@ import MenuModel from "../menu/model";
 
 const RestaurantController = {
 	async all(req: Request, res: Response): Promise<void> {
-		// Extract page, perPage, and search from request query. Set default values if not provided.
+		// Extract page, perPage, search, and category from request query. Set default values if not provided.
 		const page: number = Number.parseInt(req.query.page as string) || 1;
 		const perPage: number = Number.parseInt(req.query.perPage as string) || 9;
 		const search: string = (req.query.search as string) || '';
+		const category: string = (req.query.category as string) || '';
 
 		try {
 			// Construct the query object
-			const query: any = {};
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+						const query: any = {};
 
 			// If search parameter is provided, add it to the query object
 			if (search) {
 				// Assuming you want to search in the 'name' field of the restaurant
 				query.name = { $regex: search, $options: 'i' }; // 'i' for case-insensitive
+			}
+
+			// If category parameter is provided, add it to the query object
+			if (category) {
+				query.category = category; // Match exact category
 			}
 
 			const paginationResult = await paginate(
@@ -30,6 +37,7 @@ const RestaurantController = {
 
 			SendResponse.success(res, "Restaurants retrieved", paginationResult);
 
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
@@ -53,6 +61,7 @@ const RestaurantController = {
 			// Return both the restaurant data and the filtered menu items
 			SendResponse.success(res, "Restaurant and menu retrieved", { restaurant: data, menu: menuItems });
 
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}

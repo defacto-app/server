@@ -1977,16 +1977,73 @@
 							"type": "integer",
 							"default": 10
 						}
+					},
+					{
+						"name": "search",
+						"in": "query",
+						"description": "Search for restaurants by name",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "category",
+						"in": "query",
+						"description": "Filter restaurants by category",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
 					}
 				],
 
 				"responses": {
 					"200": {
-						"description": "all restaurants"
+						"description": "all restaurants",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"restaurants": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/Restaurant"
+											}
+										},
+										"page": {
+											"type": "integer",
+											"description": "Current page number"
+										},
+										"perPage": {
+											"type": "integer",
+											"description": "Number of restaurants per page"
+										},
+										"totalPages": {
+											"type": "integer",
+											"description": "Total number of pages"
+										},
+										"totalRestaurants": {
+											"type": "integer",
+											"description": "Total number of restaurants"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid request parameters"
+					},
+					"500": {
+						"description": "Server error"
 					}
 				}
 			}
 		},
+
+
 		"/api/v1/restaurants/{slug}": {
 			"get": {
 				"summary": "Get one restaurant with optional search for menu items",
