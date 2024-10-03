@@ -3,6 +3,7 @@ import SendResponse from "../libs/response-helper";
 import paginate from "../utils/pagination";
 import RestaurantModel from "./model";
 import MenuModel from "../menu/model";
+import CategoryModel from "../category/model";
 
 const RestaurantController = {
 	async all(req: Request, res: Response): Promise<void> {
@@ -62,6 +63,33 @@ const RestaurantController = {
 			SendResponse.success(res, "Restaurant and menu retrieved", { restaurant: data, menu: menuItems });
 
 		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	},
+
+
+	async categories(req: Request, res: Response): Promise<void> {
+		try {
+			// Extract search query from request query params
+			const search = req.query.search as string || '';
+
+			// Build the query object
+			const query: any = {};
+
+			// If search is provided, add a regex filter to search in the 'name' field
+			if (search) {
+				query.name = { $regex: search, $options: 'i' }; // 'i' for case-insensitive
+			}
+
+			// Aggregate unique categories with the provided query
+			const categories = await RestaurantModel.aggregate([
+				{ $match: query }, // Match query (if search is applied)
+				{ $group: { _id: "$category" } }, // Group by category
+				{ $project: { _id: 0, category: "$_id" } } // Return the category field only
+			]);
+
+			SendResponse.success(res, "Categories retrieved", categories);
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}

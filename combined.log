@@ -17075,3 +17075,11 @@
 2024-10-01T12:54:42.879Z [undefined] [32minfo[39m: GET /api/v1/restaurants/luxurious-oasis 200 254ms
 2024-10-03T14:03:39.610Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10 200 257ms
 2024-10-03T14:04:45.225Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10&category=Sushi 200 237ms
+2024-10-03T14:07:49.499Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10&category=Su 200 232ms
+2024-10-03T14:16:06.266Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10 200 258ms
+2024-10-03T14:16:17.815Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10&category=Burgers 200 238ms
+2024-10-03T14:16:28.423Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10&search=Kitchen&category=Burgers 200 231ms
+2024-10-03T14:16:36.038Z [undefined] [32minfo[39m: GET /api/v1/restaurants/categories 200 118ms
+2024-10-03T14:16:49.176Z [undefined] [32minfo[39m: GET /api/v1/restaurants/categories?search=Sushi 200 115ms
+2024-10-03T14:16:59.852Z [undefined] [32minfo[39m: GET /api/v1/restaurants/categories 200 120ms
+2024-10-03T14:22:20.538Z [undefined] [32minfo[39m: GET /api/v1/restaurants/categories 200 130ms
