@@ -172,7 +172,9 @@ app.use("/assets", express.static(path.join(__dirname, "storage/assets")));
 
 const listApis = listEndpoints(app);
 
-console.table(listApis);
+if (env.isDev) {
+	console.table(listApis);
+}
 //
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const handlePayload: HandlePayload = new HandlePayload(listApis);

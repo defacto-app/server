@@ -4,7 +4,7 @@ import env from "./env";
 const uri = `${env.MONGODB_SERVER}/${env.MONGODB_DATABASE}`;
 
 if (env.isDev) {
-	// mongoose.set("debug", true);
+	mongoose.set("debug", true);
 }
 
 export async function connectDB(): Promise<void> {
