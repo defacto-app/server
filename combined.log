@@ -17136,3 +17136,5 @@
 2024-10-04T21:42:03.305Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10 200 242ms
 2024-10-04T21:42:04.691Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10 200 236ms
 2024-10-04T21:42:06.419Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10 200 240ms
+2024-10-04T21:58:40.705Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10 200 254ms
+2024-10-04T21:58:42.628Z [undefined] [32minfo[39m: GET /api/v1/restaurants?page=1&perPage=10 200 239ms
