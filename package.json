@@ -2,6 +2,7 @@
   "name": "katalyst-server",
   "version": "1.0.0",
   "description": "",
+  "type": "commonjs",
   "main": "app.ts",
   "scripts": {
     "dev": "bun --watch app.ts",
@@ -102,6 +103,5 @@
     "supertest": "^7.0.0",
     "ts-jest": "^29.1.2",
     "tsoa": "^6.2.0"
-  },
-  "type": "module"
+  }
 }
