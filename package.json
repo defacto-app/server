@@ -56,6 +56,7 @@
     "express-handlebars": "^7.1.2",
     "express-list-endpoints": "^6.0.0",
     "express-session": "^1.18.0",
+    "flutterwave-node-v3": "^1.1.12",
     "handlebars": "^4.7.8",
     "joi": "^17.12.1",
     "jsonbank-env": "^1.0.2",

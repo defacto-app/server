@@ -22,6 +22,7 @@ import UserRoutes from "./backend/routes/user/user.routes";
 import AdminAuthRoutes from "./backend/admin/auth/routes";
 import PackageRoutes from "./backend/user/packages/route";
 import RestaurantRoutes from "./backend/restaurant/route";
+import PaymentRoutes from "./backend/payment/route";
 import AdminMenuRoutes from "./backend/admin/restaurant/menu/route";
 
 //
@@ -30,9 +31,7 @@ import AdminMenuRoutes from "./backend/admin/restaurant/menu/route";
 //
 import AdminRestaurantRoutes from "./backend/admin/restaurant/route";
 
-
 import UploadRoutes from "./backend/upload/route";
-
 
 import PublicRoutes from "./backend/public/index.routes";
 import AddressRoutes from "./backend/address/route";
@@ -83,7 +82,6 @@ const options = {
 app.use(
 	"/api/api-docs",
 	(
-
 		req: any,
 		res: { set: (arg0: string, arg1: string) => void },
 		next: () => void,
@@ -139,6 +137,7 @@ app.use((req, res, next) => {
 app.use("/api/v1/address", AddressRoutes);
 app.use("/api/v1/packages", PackageRoutes);
 app.use("/api/v1/restaurants", RestaurantRoutes);
+app.use("/api/v1/payments", PaymentRoutes);
 app.use("/api/v1/g", PublicRoutes);
 
 // app.use("/api/v1/restaurant", RestaurantRoutes);
@@ -166,7 +165,6 @@ app.use("/api/v1/upload", UploadRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "storage/uploads")));
 
 app.use("/api/v1/preview/", EmailViewRoutes);
-
 
 app.use("/assets", express.static(path.join(__dirname, "storage/assets")));
 

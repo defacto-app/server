@@ -78,3 +78,4 @@
 2024-09-11T17:29:20.823Z [undefined] [31merror[39m: undefined is not an object (evaluating 'restaurant.image = optimizedUrl')
 2024-09-11T17:31:53.195Z [undefined] [31merror[39m: null is not an object (evaluating 'restaurant.image = optimizedUrl')
 2024-10-01T12:54:25.062Z [undefined] [31merror[39m: null is not an object (evaluating 'data.publicId')
+2024-10-07T12:28:05.751Z [undefined] [31merror[39m: Payment initialization failed
