@@ -15,34 +15,26 @@ const RestaurantController = {
 
 		try {
 			// Construct the query object
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-						const query: any = {};
+			const query: any = {};
 
 			// If search parameter is provided, add it to the query object
 			if (search) {
-				// Assuming you want to search in the 'name' field of the restaurant
 				query.name = { $regex: search, $options: 'i' }; // 'i' for case-insensitive
 			}
 
 			// If category parameter is provided, add it to the query object
 			if (category) {
-				query.category = category; // Match exact category
+				query.category = { $regex: category, $options: 'i' }; // Case-insensitive match for category
 			}
 
-			const paginationResult = await paginate(
-				RestaurantModel,
-				page,
-				perPage,
-				query,
-			);
+			const paginationResult = await paginate(RestaurantModel, page, perPage, query);
 
 			SendResponse.success(res, "Restaurants retrieved", paginationResult);
-
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
 	},
+
 
 
 	async one(req: Request, res: Response): Promise<void> {

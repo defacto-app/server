@@ -79,3 +79,10 @@
 2024-09-11T17:31:53.195Z [undefined] [31merror[39m: null is not an object (evaluating 'restaurant.image = optimizedUrl')
 2024-10-01T12:54:25.062Z [undefined] [31merror[39m: null is not an object (evaluating 'data.publicId')
 2024-10-07T12:28:05.751Z [undefined] [31merror[39m: Payment initialization failed
+2024-10-08T17:47:04.513Z [undefined] [31merror[39m: Failed to initiate bank account charge
+2024-10-08T17:47:24.674Z [undefined] [31merror[39m: Failed to initiate bank account charge
+2024-10-08T17:47:48.329Z [undefined] [31merror[39m: Failed to initiate bank account charge
+2024-10-08T17:48:20.180Z [undefined] [31merror[39m: Failed to initiate bank account charge
+2024-10-08T17:48:21.873Z [undefined] [31merror[39m: Failed to initiate bank account charge
+2024-10-08T17:48:25.292Z [undefined] [31merror[39m: Failed to initiate bank account charge
+2024-10-08T17:48:39.541Z [undefined] [31merror[39m: Failed to initiate bank account charge
