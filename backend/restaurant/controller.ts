@@ -74,26 +74,23 @@ const RestaurantController = {
 			// Extract search query from request query params
 			const search = req.query.search as string || '';
 
-			// Build the query object
-			const query: any = {};
+			// Build the query object to filter active categories
+			const query: any = { active: true };
 
 			// If search is provided, add a regex filter to search in the 'name' field
 			if (search) {
 				query.name = { $regex: search, $options: 'i' }; // 'i' for case-insensitive
 			}
 
-			// Aggregate unique categories with the provided query
-			const categories = await RestaurantModel.aggregate([
-				{ $match: query }, // Match query (if search is applied)
-				{ $group: { _id: "$category" } }, // Group by category
-				{ $project: { _id: 0, category: "$_id" } } // Return the category field only
-			]);
+			// Find categories with the query (filtered by search and active status)
+			const categories = await CategoryModel.find(query, 'slug name description');
 
 			SendResponse.success(res, "Categories retrieved", categories);
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
 	}
+
 
 
 
