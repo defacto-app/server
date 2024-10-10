@@ -5,7 +5,7 @@ import { isDev } from "../../config/config";
 
 export function generateToken(user: AuthDataType): string {
 	return jwt.sign({ id: user.id }, env.JWT_SECRET, {
-		expiresIn: isDev ? "1h" : "5h",
+		expiresIn: isDev ? "3h" : "5h",
 	});
 }
 

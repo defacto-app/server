@@ -8,9 +8,10 @@ const flw = new Flutterwave(
 	env.FLUTTER_WAVE.TEST.SECRET_KEY,
 );
 import open from 'open';
+import axios from "axios";
 
 const PaymentController = {
-	async chargeBankAccount(req: Request, res: Response): Promise<void> {
+	async cardPayment(req: Request, res: Response): Promise<void> {
 		try {
 			const { amount, email, phone_number, fullname } = req.body;
 
@@ -75,6 +76,77 @@ const PaymentController = {
 			SendResponse.serverError(res, "Failed to initiate bank account charge");
 		}
 	},
+
+	async verifyTransaction(req: Request, res: Response): Promise<void> {
+		try {
+			const { transaction_id } = req.body;
+			// Make request to Flutterwave's transaction verification endpoint
+			const response = await axios.get(
+				`https://api.flutterwave.com/v3/transactions/${transaction_id}/verify`,
+				{
+					headers: {
+						Authorization: `Bearer ${env.FLUTTER_WAVE.TEST.SECRET_KEY}`,
+					},
+				}
+			);
+
+
+			// Check the status of the verification response
+			if (response.data.status === "success") {
+				const transactionData = response.data.data;
+
+				// Process the transaction data here (e.g., store it in your database)
+				console.log("Transaction verified:", transactionData);
+
+
+				SendResponse.success(res, "Transaction verified", transactionData);
+			} else {
+
+				SendResponse.badRequest(res, "Transaction verification failed");
+
+			}
+
+
+
+
+		} catch (error) {
+			console.error(error);
+			SendResponse.serverError(res, "Failed to verify transaction");
+		}
+	},
+
+	async webhook(req: Request, res: Response): Promise<void> {
+		const payload = req.body;
+
+		// You should validate the webhook source by checking Flutterwave's signature
+		const secretHash = env.FLUTTER_WAVE.TEST.WEBHOOK_SECRET;
+		const hash = req.headers['verif-hash'];
+
+		if (!hash || hash !== secretHash) {
+			SendResponse.forbidden(res, "Invalid request signature");
+		}
+
+		try {
+			if (payload.event === 'charge.completed' && payload.data.status === 'successful') {
+				// Payment is successful
+				console.log("Webhook received: Payment successful", payload.data);
+
+				// Update your order/payment status in your database here
+				// Example: saveTransaction(payload.data);
+
+
+				SendResponse.success(res, "Payment processed successfully", payload);
+			}
+
+			// You can handle other events like failed payments, refunds, etc.
+
+			SendResponse.success(res, "Webhook received but not processed", payload);
+		} catch (error) {
+			console.error("Error processing webhook:", error);
+
+			SendResponse.serverError(res, "Failed to process webhook");
+		}
+	}
 }
 
 export default PaymentController;

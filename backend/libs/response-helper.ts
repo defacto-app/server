@@ -92,6 +92,19 @@ class SendResponse {
 			timestamp: formattedTimeStamp(new Date()),
 		});
 	}
+
+
+	/**
+	 * Send a forbidden error response with status 403.
+	 */
+
+	static forbidden(res: Response, message: string) {
+		return res.status(403).json({
+			success: false,
+			message,
+			timestamp: formattedTimeStamp(new Date()),
+		});
+	}
 }
 
 export default SendResponse;
