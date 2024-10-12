@@ -23,7 +23,7 @@ jobs:
                  git fetch --force origin main
                  git reset --hard origin/main
                  git pull origin main
-                 npx jsonbank-env dev .env force
+                 npx jsonbank-env prod .env force
                  rm -rf node_modules
                  npm install --production
                  pm2 restart all
