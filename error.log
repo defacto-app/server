@@ -86,3 +86,14 @@
 2024-10-08T17:48:21.873Z [undefined] [31merror[39m: Failed to initiate bank account charge
 2024-10-08T17:48:25.292Z [undefined] [31merror[39m: Failed to initiate bank account charge
 2024-10-08T17:48:39.541Z [undefined] [31merror[39m: Failed to initiate bank account charge
+2024-10-10T07:45:42.260Z [undefined] [31merror[39m: Cannot do exclusion on field publicId in inclusion projection
+2024-10-10T07:45:42.498Z [undefined] [31merror[39m: Cannot do exclusion on field publicId in inclusion projection
+2024-10-10T11:21:15.440Z [undefined] [31merror[39m: Error in pagination: connection 8 to 34.235.107.190:27017 closed
+2024-10-10T11:21:21.108Z [undefined] [31merror[39m: Error in pagination: connection 8 to 34.235.107.190:27017 closed
+2024-10-10T11:21:26.172Z [undefined] [31merror[39m: Error in pagination: connection 8 to 34.235.107.190:27017 closed
+2024-10-10T11:21:26.173Z [undefined] [31merror[39m: Error in pagination: connection 8 to 34.235.107.190:27017 closed
+2024-10-10T11:21:35.548Z [undefined] [31merror[39m: Error in pagination: Failed to connect
+2024-10-11T08:35:25.247Z [undefined] [31merror[39m: Error in pagination: Server selection timed out after 30000 ms
+2024-10-11T08:35:45.286Z [undefined] [31merror[39m: Error in pagination: Server selection timed out after 30000 ms
+2024-10-12T00:56:57.596Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.users index: email_1 dup key: { email: "snmeje@gmail.com" }
+2024-10-12T00:57:43.561Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.users index: email_1 dup key: { email: "snmeje@gmail.com" }

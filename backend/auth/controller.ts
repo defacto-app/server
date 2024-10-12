@@ -83,6 +83,8 @@ const AuthController = {
 
 			SendResponse.success(res, "User created", { token });
 		} catch (error: any) {
+
+			console.log(error);
 			SendResponse.serverError(res, error.message);
 		}
 	},
@@ -164,6 +166,7 @@ const AuthController = {
 	async phone_login(req: Request, res: Response): Promise<void> {
 		try {
 			const { data, error } = await AuthValidator.phone_login(req.body);
+			console.log(data, error);
 			if (error) {
 				SendResponse.badRequest(res, "", error);
 			}

@@ -6,22 +6,17 @@ import SendResponse from "../libs/response-helper";
 const AddressController = {
 	async all(req: Request, res: Response): Promise<void> {
 		const user = res.locals.user as any;
-		console.log(user.publicId, "user");
 
 		try {
 			const address = await AddressModel.find({
 				userId: user.publicId,
-			});
+			}).select('-_id -updatedAt').sort({
+				createdAt: -1,
+			}); // Exclude these fields
 
-			res.json({
-				message: "Address retrieved successfully.",
-				success: true,
-				address,
-				timestamp: new Date(),
-			});
+			SendResponse.success(res, "Address retrieved successfully", address);
 		} catch (error: any) {
-			// biome-ignore lint/style/useTemplate: <explanation>
-			res.status(500).send("Error Fetching  order: " + error.message);
+			SendResponse.serverError(res, error.message);
 		}
 	},
 
@@ -52,9 +47,7 @@ const AddressController = {
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
-	}
-
-
+	},
 };
 
 export default AddressController;
