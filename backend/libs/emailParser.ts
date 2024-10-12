@@ -21,8 +21,6 @@ export function getEmailData() {
 }
 
 export function getEmailTemplates(title: EmailTitleType, data?: any) {
-	// const { website, clientUrl } = getEmailData();
-
 	const styleSource = fs.readFileSync(
 		`${emailFolder}/commons/styles.hbs`,
 		"utf8",
@@ -35,48 +33,37 @@ export function getEmailTemplates(title: EmailTitleType, data?: any) {
 		`${emailFolder}/commons/footer.hbs`,
 		"utf8",
 	);
-
 	const buttonSource = fs.readFileSync(
 		`${emailFolder}/commons/button.hbs`,
 		"utf8",
 	);
-
 	const emailTemplateSource = fs.readFileSync(
 		`${emailFolder}/${title}.hbs`,
 		"utf8",
 	);
 
-	// Compile the templates
+	// Register partials once
 	handlebars.registerPartial("styles", styleSource);
 	handlebars.registerPartial("header", headerSource);
 	handlebars.registerPartial("footer", footerSource);
 	handlebars.registerPartial("button", buttonSource);
 
-	const compiledFooter = handlebars.compile(footerSource);
-	const compiledHeader = handlebars.compile(headerSource);
-	const compiledButton = handlebars.compile(buttonSource);
+	// Compile the main email template
+	const compiledEmailTemplate = handlebars.compile(emailTemplateSource);
 
-	const website = {
-		name: "Defacto App",
-		slogan: "We are the best",
-		logo: `${env.BASE_URL}/assets/email-logo.png`,
-		domain: `${env.FRONTEND_URL}`,
+	// Return the compiled function, which can accept data
+	return (data: any) => {
+		const website = {
+			name: "Defacto",
+			slogan: "We are the best",
+			logo: `${env.BASE_URL}/assets/email-logo.png`,
+			domain: `${env.FRONTEND_URL}`,
+		};
+
+		// Merge website and provided data
+		return compiledEmailTemplate({
+			website, // Pass website object to the email template
+			...data, // Spread other possible data (like link, etc.)
+		});
 	};
-
-	const footerWithData = compiledFooter({
-		year: new Date().getFullYear(),
-		...website,
-	});
-
-	const buttonWithData = compiledButton({
-		link: data?.link,
-	});
-
-	const headerWithData = compiledHeader(website);
-
-	handlebars.registerPartial("header", headerWithData);
-	handlebars.registerPartial("footer", footerWithData);
-	handlebars.registerPartial("button", buttonWithData);
-
-	return handlebars.compile(emailTemplateSource);
 }

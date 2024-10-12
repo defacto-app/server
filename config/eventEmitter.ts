@@ -1,6 +1,7 @@
 // eventEmitter.ts
 import { EventEmitter } from "node:events";
 import transporter from "./mailer";
+import env from "./env";
 // import {autoLoadedConfig} from "../backend/model/db-config.model";
 
 export const eventEmitter = new EventEmitter();
@@ -11,7 +12,7 @@ export const emailEvents = () => {
 		try {
 			// Use the transporter to send the email
 			const info = await transporter.sendMail({
-				from: '"Sender Name" <sender@example.com>',
+				from: `"Defacto Restaurant" <${env.EMAIL_SENDER}>`,
 				to: "sender@gmail.com", // Pulled from event payload
 				subject: "Contact Email Subject",
 				text: payload.message, // Pulled from event payload
@@ -29,7 +30,7 @@ export const emailEvents = () => {
 		try {
 			// Use the transporter to send the email
 			const info = await transporter.sendMail({
-				from: '"Sender Name" <sender@example.com>',
+				from: `"${env.APP_NAME}" <${env.EMAIL_SENDER}>`,
 				to: payload.email, // Pulled from event payload
 				subject: "Welcome to Defacto",
 				html: payload.html, // Pulled from event payload
@@ -45,7 +46,7 @@ export const emailEvents = () => {
 		try {
 			// Use the transporter to send the email
 			const info = await transporter.sendMail({
-				from: '"Sender Name" <sender@example.com>',
+				from: `"${env.APP_NAME}" <${env.EMAIL_SENDER}>`,
 				to: payload.email, // Pulled from event payload
 				subject: "One time Password",
 				html: payload.html, // Pulled from event payload

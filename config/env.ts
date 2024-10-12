@@ -5,11 +5,14 @@ const envs = dotenv.config({ path: ".env" });
 const isDev = process.env.NODE_ENV === "development";
 
 const env = {
+
+	APP_NAME:"Defacto",
 	BASE_URL:
 		envs.parsed?.BASE_URL || `http://localhost:${envs.parsed?.APP_PORT}`,
 	//
 	FRONTEND_URL: envs.parsed?.FRONTEND_URL,
 	API_URL: envs.parsed?.API_URL,
+
 
 	//
 	MONGODB_SERVER: envs.parsed?.MONGODB_SERVER,

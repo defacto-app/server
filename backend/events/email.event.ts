@@ -1,5 +1,6 @@
 import { eventEmitter } from "../../config/eventEmitter";
 import { getEmailTemplates } from "../libs/emailParser";
+import env from "../../config/env";
 
 const EmailEvent = {
 	async sendContactMail(data: { email: string; message: string }) {
@@ -17,7 +18,7 @@ const EmailEvent = {
 			eventEmitter.emit("sendWelcomeMail", {
 				email: data.email,
 				html: html,
-				message: "Welcome to Defacto",
+				message: `Welcome to ${env.APP_NAME}`,
 			});
 		} catch (e) {
 			console.error("Error during update:", e);
@@ -31,7 +32,7 @@ const EmailEvent = {
 			eventEmitter.emit("sendWelcomeMail", {
 				email: data.email,
 				html: html,
-				message: "Welcome to Defacto",
+				message: `Welcome to ${env.APP_NAME}`,
 			});
 		} catch (e) {
 			console.error("Error during update:", e);

@@ -2,7 +2,7 @@
 
 <head>
 
-    <title>{{title}}</title>
+   <title>{{title}}</title>
 </head>
 
 <body>
@@ -11,60 +11,62 @@
 
 
 <tr style="border-collapse:collapse">
-    <td align="left" style="padding:0;Margin:0;padding-left:40px;padding-right:40px">
-        <table cellpadding="0" cellspacing="0" width="100%"
-               style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-            <tr style="border-collapse:collapse">
-                <td class="es-m-p0r" valign="top" align="center" style="padding:0;Margin:0;width:520px">
-                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation"
-                           style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                        <tr style="border-collapse:collapse">
-                            <td align="center" height="24" style="padding:0;Margin:0"></td>
-                        </tr>
-                        <tr style="border-collapse:collapse">
-                            <td align="left" style="padding:0;Margin:0">
-                                <h1 style="Margin:0;line-height:34px;mso-line-height-rule:exactly;font-family:-apple-system, blinkmacsystemfont, 'segoe ui', roboto, helvetica, arial, sans-serif, 'apple color emoji', 'segoe ui emoji', 'segoe ui symbol';font-size:28px;font-style:normal;font-weight:normal;color:#2f1c6a">
-                                    <strong>One time password for  {{website}}</strong></h1>
-                            </td>
-                        </tr>
-                        <tr style="border-collapse:collapse">
-                            <td align="center" height="16" style="padding:0;Margin:0"></td>
-                        </tr>
-                        <tr style="border-collapse:collapse">
-                            <td align="left" style="padding:0;Margin:0">
-                                <p style="Margin:10px 0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:-apple-system, blinkmacsystemfont, 'segoe ui', roboto, helvetica, arial, sans-serif, 'apple color emoji', 'segoe ui emoji', 'segoe ui symbol';line-height:14px;color:#2f1c6a;font-size:14px">
-                                    your otp {{ otp }},</p>
-                            </td>
-                        </tr>
+   <td align="left" style="padding:0;Margin:0;padding-left:40px;padding-right:40px">
+      <table cellpadding="0" cellspacing="0" width="100%"
+             style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+         <tr style="border-collapse:collapse">
+            <td class="es-m-p0r" valign="top" align="center" style="padding:0;Margin:0;width:520px">
+               <table cellpadding="0" cellspacing="0" width="100%" role="presentation"
+                      style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
+                  <tr style="border-collapse:collapse">
+                     <td align="center" height="24" style="padding:0;Margin:0"></td>
+                  </tr>
+                  <tr style="border-collapse:collapse">
+                     <td align="left" style="padding:0;Margin:0">
+                        <h1
+                           style="Margin:0;line-height:34px;mso-line-height-rule:exactly;font-family:-apple-system, blinkmacsystemfont, 'segoe ui', roboto, helvetica, arial, sans-serif, 'apple color emoji', 'segoe ui emoji', 'segoe ui symbol';font-size:28px;font-style:normal;font-weight:normal;color:#2f1c6a">
+                           <strong>One time password for  {{website.name}}</strong></h1>
+                     </td>
+                  </tr>
+                  <tr style="border-collapse:collapse">
+                     <td align="center" height="16" style="padding:0;Margin:0"></td>
+                  </tr>
+                  <tr style="border-collapse:collapse">
+                     <td align="left" style="padding:0;Margin:0">
+                        <p style="Margin:10px 0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:-apple-system, blinkmacsystemfont, 'segoe ui', roboto, helvetica, arial, sans-serif, 'apple color emoji', 'segoe ui emoji', 'segoe ui symbol';line-height:14px;color:#2f1c6a;font-size:14px">
+                           Your OTP is <strong
+                           style="font-weight:bold; padding-left:5px; padding-right:5px">{{ otp }}</strong>,
+                        </p>
 
-                        <tr style="border-collapse:collapse">
-                            <td align="left" style="padding:0;Margin:0">
+                     </td>
+                  </tr>
 
-
-
-
-                                <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;line-height:14px;color:#2f1c6a;font-size:14px;">
-
-                                    Thank you for choosing {{website}}!
-                                </p>
-                                <br />
-                                <br />
-                                <br />
-                                <br />
-                                <br />
-                            </td>
-                        </tr>
-
-                        <!---->
-
-                    </table>
-
-                <td>
+                  <tr style="border-collapse:collapse">
+                     <td align="left" style="padding:0;Margin:0">
 
 
-        </table>
+                        <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;line-height:14px;color:#2f1c6a;font-size:14px;">
 
-    </td>
+                           Thank you for choosing {{website.name}}!
+                        </p>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                     </td>
+                  </tr>
+
+                  <!---->
+
+               </table>
+
+            <td>
+
+
+      </table>
+
+   </td>
 </tr>
 {{> footer}}
 </body>
