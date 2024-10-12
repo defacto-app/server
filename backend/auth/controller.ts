@@ -36,6 +36,7 @@ const AuthController = {
 			const hashedPassword = await AuthModel.hashPassword(data!.password);
 
 			const email_token = nanoid(10);
+			console.log(email_token,"email_token")
 
 			const newAuth = new AuthModel({
 				email: data?.email,
@@ -80,6 +81,9 @@ const AuthController = {
 				email: newUser.email,
 				link: `${env.API_URL}/auth/verify/email/${email_token}?email=${encodeURIComponent(newUser.email)}`,
 			});
+
+			console.log(email_token,"email_token senderer")
+
 
 			SendResponse.success(res, "User created", { token });
 		} catch (error: any) {
@@ -336,7 +340,7 @@ const AuthController = {
 
 			// redirect to the frontend
 			return res.redirect(
-				`${env.FRONTEND_URL}/verification-success?email=${encodeURIComponent(email as string)}`,
+				`${env.FRONTEND_URL}/user/account?email=${encodeURIComponent(email as string)}`,
 			);
 		} catch (e: any) {
 			SendResponse.serverError(res, e.message);
