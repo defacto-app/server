@@ -24,6 +24,7 @@ import PackageRoutes from "./backend/user/packages/route";
 import RestaurantRoutes from "./backend/restaurant/route";
 import PaymentRoutes from "./backend/payment/route";
 import AdminMenuRoutes from "./backend/admin/restaurant/menu/route";
+import AdminUsersRoutes from "./backend/admin/users/route";
 
 //
 //
@@ -147,6 +148,7 @@ app.use("/api/v1/user", UserRoutes);
 //
 app.use("/api/v1/admin/auth", AdminAuthRoutes);
 
+app.use("/api/v1/admin/users", AdminUsersRoutes);
 app.use("/api/v1/admin/dashboard", DashboardRoutes);
 app.use("/api/v1/admin/restaurants", AdminRestaurantRoutes);
 app.use("/api/v1/admin/menu", AdminMenuRoutes);
