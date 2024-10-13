@@ -13,5 +13,6 @@ router.use(authMiddleware.validateAdmin);
 // middleware to validate packageId
 
 router.get("/", AdminUserController.all);
+router.delete("/:userId", AdminUserController.delete);
 
 export default router;

@@ -1,14 +1,20 @@
+
+
+//
+//
+//
+
 import mongoose, { type Document, Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
-import type { AddressType } from "../../types";
+import type { AddressType } from "../../../types";
 
 // Define the structure of the Order document
 export interface OrderDataType extends Document {
 	publicId: string;
 	createdAt: Date;
 	updatedAt: Date;
-	type: "food" | "package"; // Type of order: food (restaurant) or package (delivery)
-	typeId: string; // For linking to external services if needed (e.g., restaurant or package ID)
+	type: "food" | "package";
+	typeId: string;
 	dropOffDetails: {
 		name: string;
 		phone: string;
@@ -24,14 +30,14 @@ export interface OrderDataType extends Document {
 	charge: number;
 	status: "pending" | "completed" | "cancelled";
 	pickupTime: Date | null;
-	assignedTo: string; // Driver or delivery person assigned
+	assignedTo: string;
 	isInstant: boolean | null;
-	deliveryMode?: "Motorcycle" | "Tricycle" | "Bicycle" | "Foot"; // Optional for package delivery
-	description: string; // Common description field for any notes
-	cashPaymentLocation: "Pick-up" | "Delivery"; // Location for cash payment
+	deliveryMode?: "Motorcycle" | "Tricycle" | "Bicycle" | "Foot";
+	description: string;
+	cashPaymentLocation: "Pick-up" | "Delivery";
 	cashAvailable: { available: boolean; amount: number };
-	packageContent?: string[]; // Only used for package delivery
-	menuItems?: { name: string; quantity: number; price: number }[]; // Only used for restaurant orders
+	packageContent?: string[];
+	menuItems?: { name: string; quantity: number; price: number }[];
 }
 
 // Define the schema fields for the unified order model
@@ -57,7 +63,7 @@ const orderSchemaDefinitions = {
 	type: {
 		type: String,
 		required: true,
-		enum: ["food", "package"], // Specify if it's a food or package order
+		enum: ["food", "package"],
 	},
 	dropOffDetails: {
 		name: { type: String, required: true },
@@ -81,7 +87,7 @@ const orderSchemaDefinitions = {
 		default: "pending",
 	},
 	pickupTime: { type: Date, default: null },
-	assignedTo: { type: String }, // Driver or person assigned to the order
+	assignedTo: { type: String },
 	isInstant: { type: Boolean, default: null },
 	deliveryMode: {
 		type: String,
@@ -98,14 +104,14 @@ const orderSchemaDefinitions = {
 		available: { type: Boolean, default: false },
 		amount: { type: Number, default: 0 },
 	},
-	// Specific fields for restaurant orders
 	menuItems: [
 		{
-			name: { type: String },
-			quantity: { type: Number },
-			price: { type: Number },
+			name: { type: String, required: true },
+			quantity: { type: Number, required: true },
+			price: { type: Number, required: true },
 		},
 	],
+	packageContent: [{ type: String }],
 };
 
 // Define the schema and apply timestamps for automatic tracking of createdAt and updatedAt
@@ -116,6 +122,6 @@ export const OrderSchema: Schema = new Schema(orderSchemaDefinitions, {
 });
 
 // Create a Mongoose model for the Order based on the schema
-class OrderModel extends mongoose.model<OrderDataType>("orders", OrderSchema) {}
+const OrderModel = mongoose.model<OrderDataType>("orders", OrderSchema);
 
 export default OrderModel;

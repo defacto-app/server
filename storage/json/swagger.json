@@ -33,7 +33,9 @@
 	"paths": {
 		"/api/v1/g/google-places": {
 			"get": {
-				"tags": ["public-resources"],
+				"tags": [
+					"public-resources"
+				],
 				"summary": "Google Places API",
 				"parameters": [
 					{
@@ -56,7 +58,9 @@
 		},
 		"/api/v1/g/place-details": {
 			"get": {
-				"tags": ["public-resources"],
+				"tags": [
+					"public-resources"
+				],
 				"summary": "Google Places API",
 				"parameters": [
 					{
@@ -79,7 +83,9 @@
 		},
 		"/api/v1/admin/auth/admin-login": {
 			"post": {
-				"tags": ["admin-auth"],
+				"tags": [
+					"admin-auth"
+				],
 				"summary": "Admin login",
 				"requestBody": {
 					"required": true,
@@ -97,7 +103,10 @@
 										"example": "067741"
 									}
 								},
-								"required": ["email", "otp"]
+								"required": [
+									"email",
+									"otp"
+								]
 							}
 						}
 					}
@@ -112,7 +121,9 @@
 		},
 		"/api/v1/admin/auth/send-otp": {
 			"post": {
-				"tags": ["admin-auth"],
+				"tags": [
+					"admin-auth"
+				],
 				"summary": "Send OTP",
 				"requestBody": {
 					"required": true,
@@ -126,7 +137,9 @@
 										"example": "kats.comg.ng@gmail.com"
 									}
 								},
-								"required": ["email"]
+								"required": [
+									"email"
+								]
 							}
 						}
 					}
@@ -140,7 +153,9 @@
 		},
 		"/api/v1/admin/dashboard": {
 			"get": {
-				"tags": ["admin-resources"],
+				"tags": [
+					"admin-resources"
+				],
 				"summary": "Admin dashboard",
 				"responses": {
 					"200": {
@@ -151,7 +166,9 @@
 		},
 		"/api/v1/admin/restaurants": {
 			"get": {
-				"tags": ["admin-restaurant"],
+				"tags": [
+					"admin-restaurant"
+				],
 				"summary": "Get all restaurants for admin dashboard with optional pagination, search, and sorting",
 				"parameters": [
 					{
@@ -291,7 +308,9 @@
 			},
 			"post": {
 				"summary": "Create a new restaurant",
-				"tags": ["admin-restaurant"],
+				"tags": [
+					"admin-restaurant"
+				],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -401,7 +420,9 @@
 		},
 		"/api/v1/admin/users": {
 			"get": {
-				"tags": ["admin-users"],
+				"tags": [
+					"admin-users"
+				],
 				"summary": "Get all users for admin dashboard with optional pagination, search, and sorting",
 				"parameters": [
 					{
@@ -536,10 +557,95 @@
 				}
 			}
 		},
+		"/api/v1/admin/users/{userId}": {
+			"delete": {
+				"summary": "Delete a user by their userId",
+				"tags": [
+					"admin-users"
+				],
+				"parameters": [
+					{
+						"name": "userId",
+						"in": "path",
+						"required": true,
+						"description": "The userId of the user to delete",
+						"schema": {
+							"type": "string",
+							"example": "ba8c9a1b-26e3-45dc-969e-f166b53d8552"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "User deleted successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string",
+											"example": "User deleted successfully"
+										}
+									}
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "User not found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": false
+										},
+										"message": {
+											"type": "string",
+											"example": "User not found"
+										}
+									}
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Server error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": false
+										},
+										"message": {
+											"type": "string",
+											"example": "An error occurred while deleting the user"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+
 
 		"/api/v1/admin/restaurants/categories": {
 			"get": {
-				"tags": ["admin-restaurant"],
+				"tags": [
+					"admin-restaurant"
+				],
 				"summary": "Get all categories with optional search",
 				"parameters": [
 					{
@@ -559,12 +665,12 @@
 				}
 			}
 		},
-
-
 		"/api/v1/admin/restaurants/{publicId}": {
 			"get": {
 				"summary": "Get details of a specific restaurant by its slug",
-				"tags": ["admin-restaurant"],
+				"tags": [
+					"admin-restaurant"
+				],
 				"parameters": [
 					{
 						"name": "publicId",
@@ -644,7 +750,9 @@
 			},
 			"put": {
 				"summary": "Update details of a specific restaurant by its publicId",
-				"tags": ["admin-restaurant"],
+				"tags": [
+					"admin-restaurant"
+				],
 				"parameters": [
 					{
 						"name": "publicId",
@@ -739,7 +847,9 @@
 			},
 			"delete": {
 				"summary": "Delete a restaurant by its publicId",
-				"tags": ["admin-restaurant"],
+				"tags": [
+					"admin-restaurant"
+				],
 				"parameters": [
 					{
 						"name": "publicId",
@@ -817,7 +927,9 @@
 			},
 			"post": {
 				"summary": "Upload Restaurant Image",
-				"tags": ["admin-restaurant"],
+				"tags": [
+					"admin-restaurant"
+				],
 				"parameters": [
 					{
 						"name": "publicId",
@@ -869,7 +981,6 @@
 													"type": "string",
 													"example": "66dc75eee60cbd565a48c82f"
 												},
-
 												"imageUrl": {
 													"type": "string",
 													"example": "https://cloudinary.com/new-restaurant-image-url"
@@ -893,7 +1004,9 @@
 		"/api/v1/admin/restaurants/menu/{publicId}": {
 			"post": {
 				"summary": "Create a new menu item for a specific restaurant",
-				"tags": ["admin-restaurant-menu"],
+				"tags": [
+					"admin-restaurant-menu"
+				],
 				"parameters": [
 					{
 						"name": "publicId",
@@ -937,7 +1050,11 @@
 										"example": "https://example.com/menu-item-image.jpg"
 									}
 								},
-								"required": ["name", "category", "price"]
+								"required": [
+									"name",
+									"category",
+									"price"
+								]
 							}
 						}
 					}
@@ -1010,7 +1127,9 @@
 			},
 			"get": {
 				"summary": "Get menu items for a specific restaurant",
-				"tags": ["admin-restaurant-menu"],
+				"tags": [
+					"admin-restaurant-menu"
+				],
 				"parameters": [
 					{
 						"name": "publicId",
@@ -1088,11 +1207,12 @@
 				}
 			}
 		},
-
 		"/api/v1/admin/menu/{menuId}": {
 			"get": {
 				"summary": "Get details of a specific menu item by its publicId",
-				"tags": ["admin-restaurant-menu"],
+				"tags": [
+					"admin-restaurant-menu"
+				],
 				"parameters": [
 					{
 						"name": "menuId",
@@ -1168,7 +1288,9 @@
 			},
 			"put": {
 				"summary": "Update details of a specific menu item by its publicId",
-				"tags": ["admin-restaurant-menu"],
+				"tags": [
+					"admin-restaurant-menu"
+				],
 				"parameters": [
 					{
 						"name": "menuId",
@@ -1283,7 +1405,9 @@
 			},
 			"delete": {
 				"summary": "Delete a menu item by its publicId",
-				"tags": ["admin-restaurant-menu"],
+				"tags": [
+					"admin-restaurant-menu"
+				],
 				"parameters": [
 					{
 						"name": "menuId",
@@ -1361,7 +1485,9 @@
 			},
 			"post": {
 				"summary": "Upload Menu Item Image",
-				"tags": ["admin-restaurant-menu"],
+				"tags": [
+					"admin-restaurant-menu"
+				],
 				"parameters": [
 					{
 						"name": "menuId",
@@ -1433,621 +1559,407 @@
 				}
 			}
 		},
-
-		"/api/v1/auth/phone-login": {
+		"/api/v1/admin/orders": {
 			"post": {
-				"tags": ["auth-phone"],
-				"summary": "phone number  login",
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"phoneNumber": {
-										"type": "string",
-										"example": "08063145125"
-									},
-									"otp": {
-										"type": "string",
-										"example": "067741"
-									}
-								},
-								"required": ["phoneNumber", "otp"]
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Logged in successfully",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string",
-											"example": "Logged in successfully"
-										},
-										"success": {
-											"type": "boolean",
-											"example": true
-										},
-										"timestamp": {
-											"type": "string",
-											"example": "2024-05-02T14:45:52.556Z"
-										},
-										"data": {
-											"type": "object",
-											"properties": {
-												"firstTime": {
-													"type": "boolean",
-													"example": true
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/auth/email-login": {
-			"post": {
-				"tags": ["auth-email"],
-				"summary": "User Email login",
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"email": {
-										"type": "string",
-										"example": "kats.com.ng@gmail.com"
-									},
-									"password": {
-										"type": "string",
-										"example": "123456"
-									}
-								},
-								"required": ["email", "password"]
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Logged in successfully",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string",
-											"example": "Logged in successfully"
-										},
-										"success": {
-											"type": "boolean",
-											"example": true
-										},
-										"timestamp": {
-											"type": "string",
-											"example": "2024-05-02T14:45:52.556Z"
-										},
-										"data": {
-											"type": "object",
-											"properties": {
-												"firstTime": {
-													"type": "boolean",
-													"example": true
-												},
-												"token": {
-													"type": "string",
-													"example": "Bearer token"
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/auth/email-exists": {
-			"post": {
-				"tags": ["auth-email"],
-				"summary": "Check if a user exists",
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"email": {
-										"type": "string",
-										"example": "kats.com.ng@gmail.com"
-									}
-								},
-								"required": ["email"]
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "user exists",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"exists": {
-											"type": "boolean",
-											"example": true
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/auth/email-register": {
-			"post": {
-				"tags": ["auth-email"],
-				"summary": "User registration",
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"email": {
-										"type": "string",
-										"example": "kats.com.ng@gmail.com"
-									},
-									"password": {
-										"type": "string",
-										"example": "123456"
-									}
-								},
-								"required": ["email", "password"]
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Registration successful",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string",
-											"example": "Registration successful"
-										},
-										"success": {
-											"type": "boolean",
-											"example": true
-										},
-										"timestamp": {
-											"type": "string",
-											"example": "2024-05-02T14:45:52.556Z"
-										},
-										"data": {
-											"type": "object",
-											"properties": {
-												"token": {
-													"type": "string",
-													"example": "Bearer token"
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/auth/email-confirm": {
-			"post": {
-				"tags": ["auth-email"],
-				"summary": "User registration",
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"email": {
-										"type": "string",
-										"example": "kats.com.ng@gmail.com"
-									},
-									"otp": {
-										"type": "string",
-										"example": "123456"
-									}
-								},
-								"required": ["email", "otp"]
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Registration successful"
-					}
-				}
-			}
-		},
-		"/api/v1/auth/forgot-password": {
-			"post": {
-				"tags": ["auth-email"],
-				"summary": "This endpoint will send a password reset link to the user's email",
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"phoneNumber": {
-										"type": "string",
-										"example": "08063145125"
-									},
-									"otp": {
-										"type": "string",
-										"example": "123456"
-									}
-								},
-								"required": ["phoneNumber", "otp"]
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Registration successful",
-						"token": "Bearer token"
-					}
-				}
-			}
-		},
-		"/api/v1/auth/reset-password": {
-			"post": {
-				"tags": ["auth-email"],
-				"summary": "This endpoint will use the forgot password link , take in the new password to reset the user's password",
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"email": {
-										"type": "string",
-										"example": "kats.com.g@gmail.com"
-									},
-									"password": {
-										"type": "string",
-										"example": "123456"
-									}
-								},
-								"required": ["email", "password"]
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Registration successful"
-					},
-					"400": {
-						"description": "Invalid email"
-					}
-				}
-			}
-		},
-		"/api/v1/auth/confirm-phone-login": {
-			"post": {
-				"tags": ["auth-phone"],
-				"summary": "Logged in successfully",
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"phoneNumber": {
-										"type": "string",
-										"example": "08063145125"
-									}
-								},
-								"required": ["phoneNumber"]
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "OTP sent ",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string",
-											"example": "OTP sent successfully. Please verify."
-										},
-										"success": {
-											"type": "boolean",
-											"example": true
-										},
-										"timestamp": {
-											"type": "string",
-											"example": "2024-05-02T14:45:52.556Z"
-										},
-										"data": {
-											"type": "object",
-											"properties": {
-												"userExists": {
-													"type": "boolean",
-													"example": true
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Invalid phone number",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string",
-											"example": "Invalid phone number"
-										},
-										"success": {
-											"type": "boolean",
-											"example": false
-										},
-										"timestamp": {
-											"type": "string",
-											"example": "2024-05-02T14:45:52.556Z"
-										},
-										"error": {
-											"type": "object",
-											"properties": {
-												"phoneNumber": {
-													"type": "string",
-													"example": "Invalid  Nigerian format phone number eg. +2348062516716"
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/api/v1/auth/logout": {
-			"get": {
-				"tags": ["user-routes"],
-				"summary": "Log out a user",
-				"responses": {
-					"200": {
-						"description": "You have been logged out"
-					}
-				}
-			}
-		},
-		"/api/v1/auth/ping": {
-			"get": {
-				"tags": ["auth-routes"],
-				"summary": "Ping to verify token validity",
-				"description": "This endpoint verifies the token validity and can filter user packages by status.",
-				"parameters": [
-					{
-						"name": "status",
-						"in": "query",
-						"required": false,
-						"description": "Status filter for the user packages",
-						"schema": {
-							"type": "string",
-							"example": "active"
-						}
-					}
+				"summary": "Create a new order",
+				"tags": [
+					"admin-orders"
 				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string",
+										"enum": [
+											"food",
+											"package"
+										],
+										"example": "food"
+									},
+									"dropOffDetails": {
+										"type": "object",
+										"properties": {
+											"name": {
+												"type": "string",
+												"example": "John Doe"
+											},
+											"phone": {
+												"type": "string",
+												"example": "(123) 456-7890"
+											},
+											"email": {
+												"type": "string",
+												"example": "john@example.com"
+											},
+											"address": {
+												"type": "object",
+												"properties": {
+													"street": {
+														"type": "string",
+														"example": "456 DropOff Street"
+													},
+													"city": {
+														"type": "string",
+														"example": "Los Angeles"
+													},
+													"state": {
+														"type": "string",
+														"example": "CA"
+													},
+													"zipCode": {
+														"type": "string",
+														"example": "90001"
+													},
+													"country": {
+														"type": "string",
+														"example": "USA"
+													}
+												}
+											}
+										}
+									},
+									"pickupDetails": {
+										"type": "object",
+										"properties": {
+											"name": {
+												"type": "string",
+												"example": "Jane Doe"
+											},
+											"phone": {
+												"type": "string",
+												"example": "(987) 654-3210"
+											},
+											"email": {
+												"type": "string",
+												"example": "jane@example.com"
+											},
+											"address": {
+												"type": "object",
+												"properties": {
+													"street": {
+														"type": "string",
+														"example": "123 Pickup Street"
+													},
+													"city": {
+														"type": "string",
+														"example": "San Francisco"
+													},
+													"state": {
+														"type": "string",
+														"example": "CA"
+													},
+													"zipCode": {
+														"type": "string",
+														"example": "94101"
+													},
+													"country": {
+														"type": "string",
+														"example": "USA"
+													}
+												}
+											}
+										}
+									},
+									"charge": {
+										"type": "number",
+										"example": 49.99
+									},
+									"status": {
+										"type": "string",
+										"enum": [
+											"pending",
+											"completed",
+											"cancelled"
+										],
+										"example": "pending"
+									},
+									"pickupTime": {
+										"type": "string",
+										"format": "date-time",
+										"example": "2024-10-12T15:00:00Z"
+									},
+									"assignedTo": {
+										"type": "string",
+										"example": "Driver123"
+									},
+									"isInstant": {
+										"type": "boolean",
+										"example": false
+									},
+									"deliveryMode": {
+										"type": "string",
+										"enum": [
+											"Motorcycle",
+											"Tricycle",
+											"Bicycle",
+											"Foot"
+										],
+										"example": "Motorcycle"
+									},
+									"description": {
+										"type": "string",
+										"example": "Fragile package, handle with care"
+									},
+									"cashPaymentLocation": {
+										"type": "string",
+										"enum": [
+											"Pick-up",
+											"Delivery"
+										],
+										"example": "Delivery"
+									},
+									"cashAvailable": {
+										"type": "object",
+										"properties": {
+											"available": {
+												"type": "boolean",
+												"example": true
+											},
+											"amount": {
+												"type": "number",
+												"example": 100
+											}
+										}
+									},
+									"packageContent": {
+										"type": "array",
+										"items": {
+											"type": "string"
+										},
+										"example": [
+											"Books",
+											"Clothing"
+										]
+									},
+									"menuItems": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"name": {
+													"type": "string",
+													"example": "Pizza"
+												},
+												"quantity": {
+													"type": "number",
+													"example": 2
+												},
+												"price": {
+													"type": "number",
+													"example": 15.99
+												}
+											}
+										}
+									}
+								},
+								"required": [
+									"type",
+									"dropOffDetails",
+									"pickupDetails",
+									"charge",
+									"cashPaymentLocation",
+									"cashAvailable"
+								]
+							}
+						}
+					}
+				},
 				"responses": {
-					"200": {
-						"description": "Ping successful",
+					"201": {
+						"description": "Order created successfully",
 						"content": {
 							"application/json": {
 								"schema": {
 									"type": "object",
 									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string",
+											"example": "Order created successfully"
+										},
 										"data": {
 											"type": "object",
 											"properties": {
-												"role": {
+												"_id": {
 													"type": "string",
-													"example": "user"
+													"example": "609b84e4206f9b52b4b875e1"
 												},
-												"user": {
+												"publicId": {
+													"type": "string",
+													"example": "b1fabc12-3f4b-41d7-984b-0223b8ad4e65"
+												},
+												"type": {
+													"type": "string",
+													"example": "food"
+												},
+												"dropOffDetails": {
 													"type": "object",
 													"properties": {
-														"firstName": {
+														"name": {
 															"type": "string",
-															"example": "katalsyt Tech"
+															"example": "John Doe"
 														},
-														"phoneNumber": {
+														"phone": {
 															"type": "string",
-															"example": "+2348063145125"
+															"example": "(123) 456-7890"
 														},
-														"userId": {
+														"email": {
 															"type": "string",
-															"example": "23a0bf4f-b4f5-4b16-b265-3af65a5f21ad"
+															"example": "john@example.com"
 														},
-														"joinedAt": {
-															"type": "string",
-															"format": "date-time",
-															"example": "2024-05-03T00:42:56.589Z"
-														},
-														"lastSeenAt": {
-															"type": "string",
-															"format": "date-time",
-															"example": "2024-05-03T00:42:56.589Z"
-														},
-														"publicId": {
-															"type": "string",
-															"example": "ca5a6b43-9cdf-4400-b8ec-979b4a5e32d8"
+														"address": {
+															"type": "object",
+															"properties": {
+																"street": {
+																	"type": "string",
+																	"example": "456 DropOff Street"
+																},
+																"city": {
+																	"type": "string",
+																	"example": "Los Angeles"
+																},
+																"state": {
+																	"type": "string",
+																	"example": "CA"
+																},
+																"zipCode": {
+																	"type": "string",
+																	"example": "90001"
+																},
+																"country": {
+																	"type": "string",
+																	"example": "USA"
+																}
+															}
 														}
 													}
 												},
-												"packages": {
+												"pickupDetails": {
+													"type": "object",
+													"properties": {
+														"name": {
+															"type": "string",
+															"example": "Jane Doe"
+														},
+														"phone": {
+															"type": "string",
+															"example": "(987) 654-3210"
+														},
+														"email": {
+															"type": "string",
+															"example": "jane@example.com"
+														},
+														"address": {
+															"type": "object",
+															"properties": {
+																"street": {
+																	"type": "string",
+																	"example": "123 Pickup Street"
+																},
+																"city": {
+																	"type": "string",
+																	"example": "San Francisco"
+																},
+																"state": {
+																	"type": "string",
+																	"example": "CA"
+																},
+																"zipCode": {
+																	"type": "string",
+																	"example": "94101"
+																},
+																"country": {
+																	"type": "string",
+																	"example": "USA"
+																}
+															}
+														}
+													}
+												},
+												"charge": {
+													"type": "number",
+													"example": 49.99
+												},
+												"status": {
+													"type": "string",
+													"example": "pending"
+												},
+												"pickupTime": {
+													"type": "string",
+													"format": "date-time",
+													"example": "2024-10-12T15:00:00Z"
+												},
+												"assignedTo": {
+													"type": "string",
+													"example": "Driver123"
+												},
+												"isInstant": {
+													"type": "boolean",
+													"example": false
+												},
+												"deliveryMode": {
+													"type": "string",
+													"example": "Motorcycle"
+												},
+												"description": {
+													"type": "string",
+													"example": "Fragile package, handle with care"
+												},
+												"cashPaymentLocation": {
+													"type": "string",
+													"example": "Delivery"
+												},
+												"cashAvailable": {
+													"type": "object",
+													"properties": {
+														"available": {
+															"type": "boolean",
+															"example": true
+														},
+														"amount": {
+															"type": "number",
+															"example": 100
+														}
+													}
+												},
+												"packageContent": {
+													"type": "array",
+													"items": {
+														"type": "string"
+													},
+													"example": [
+														"Books",
+														"Clothing"
+													]
+												},
+												"menuItems": {
 													"type": "array",
 													"items": {
 														"type": "object",
 														"properties": {
-															"packageId": {
+															"name": {
 																"type": "string",
-																"example": "9FqF3NT"
+																"example": "Pizza"
 															},
-															"status": {
-																"type": "string",
-																"example": "active"
+															"quantity": {
+																"type": "number",
+																"example": 2
 															},
-															"createdAt": {
-																"type": "string",
-																"format": "date-time",
-																"example": "2024-05-03T00:42:56.589Z"
+															"price": {
+																"type": "number",
+																"example": 15.99
 															}
 														}
 													}
 												}
 											}
-										},
-										"timestamp": {
-											"type": "string",
-											"format": "date-time",
-											"example": "2024-05-03T02:11:09.581Z"
-										},
-										"success": {
-											"type": "boolean",
-											"example": true
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-
-		"/api/v1/auth/admin-ping": {
-			"get": {
-				"tags": ["admin-auth"],
-				"summary": "Ping to verify admin  token validity",
-				"responses": {
-					"200": {
-						"description": "Ping successful"
-					}
-				}
-			}
-		},
-		"/api/v1/user/update-user": {
-			"put": {
-				"summary": "Update User Details",
-				"tags": ["user-routes"],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"email": {
-										"type": "string",
-										"example": "kats.com.ng@gmail.com"
-									},
-									"firstName": {
-										"type": "string",
-										"example": "Katalyst Technologies Dev"
-									}
-								},
-								"required": ["email"]
-							}
-						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "User details updated"
-					}
-				}
-			}
-		},
-
-		"/api/v1/packages/create": {
-			"get": {
-				"summary": "Create a new package",
-				"tags": ["packages-routes"],
-
-				"responses": {
-					"200": {
-						"description": "New Package Created",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string",
-											"example": "New Package created"
-										},
-										"success": {
-											"type": "boolean",
-											"example": true
-										},
-										"timestamp": {
-											"type": "string",
-											"example": "2024-05-02T14:45:52.556Z"
-										},
-										"data": {
-											"type": "object",
-											"properties": {
-												"packageId": {
-													"type": "string",
-													"example": "9FqF3NT"
-												}
-											}
 										}
 									}
 								}
@@ -2055,124 +1967,7 @@
 						}
 					},
 					"400": {
-						"description": "Invalid package details",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string",
-											"example": "Invalid package details"
-										},
-										"success": {
-											"type": "boolean",
-											"example": false
-										},
-										"timestamp": {
-											"type": "string",
-											"example": "2024-05-02T14:45:52.556Z"
-										},
-										"error": {
-											"type": "object",
-											"properties": {
-												"packageDetails": {
-													"type": "string",
-													"example": "Invalid package details"
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-
-		"/api/v1/restaurants": {
-			"get": {
-				"summary": "all restaurants",
-				"tags": ["restaurant-routes"],
-				"parameters": [
-					{
-						"name": "page",
-						"in": "query",
-						"description": "Page number for pagination",
-						"required": false,
-						"schema": {
-							"type": "integer",
-							"default": 1
-						}
-					},
-					{
-						"name": "perPage",
-						"in": "query",
-						"description": "Number of items per page",
-						"required": false,
-						"schema": {
-							"type": "integer",
-							"default": 10
-						}
-					},
-					{
-						"name": "search",
-						"in": "query",
-						"description": "Search for restaurants by name",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "category",
-						"in": "query",
-						"description": "Filter restaurants by category",
-						"required": false,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-
-				"responses": {
-					"200": {
-						"description": "all restaurants",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"restaurants": {
-											"type": "array",
-											"items": {
-												"$ref": "#/components/schemas/Restaurant"
-											}
-										},
-										"page": {
-											"type": "integer",
-											"description": "Current page number"
-										},
-										"perPage": {
-											"type": "integer",
-											"description": "Number of restaurants per page"
-										},
-										"totalPages": {
-											"type": "integer",
-											"description": "Total number of pages"
-										},
-										"totalRestaurants": {
-											"type": "integer",
-											"description": "Total number of restaurants"
-										}
-									}
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Invalid request parameters"
+						"description": "Invalid request body"
 					},
 					"500": {
 						"description": "Server error"
@@ -2180,6 +1975,799 @@
 				}
 			}
 		},
+	"/api/v1/auth/phone-login": {
+		"post": {
+			"tags": [
+				"auth-phone"
+			],
+			"summary": "phone number  login",
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"phoneNumber": {
+									"type": "string",
+									"example": "08063145125"
+								},
+								"otp": {
+									"type": "string",
+									"example": "067741"
+								}
+							},
+							"required": [
+								"phoneNumber",
+								"otp"
+							]
+						}
+					}
+				}
+			},
+			"responses": {
+				"200": {
+					"description": "Logged in successfully",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"message": {
+										"type": "string",
+										"example": "Logged in successfully"
+									},
+									"success": {
+										"type": "boolean",
+										"example": true
+									},
+									"timestamp": {
+										"type": "string",
+										"example": "2024-05-02T14:45:52.556Z"
+									},
+									"data": {
+										"type": "object",
+										"properties": {
+											"firstTime": {
+												"type": "boolean",
+												"example": true
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"/api/v1/auth/email-login": {
+		"post": {
+			"tags": [
+				"auth-email"
+			],
+			"summary": "User Email login",
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"email": {
+									"type": "string",
+									"example": "kats.com.ng@gmail.com"
+								},
+								"password": {
+									"type": "string",
+									"example": "123456"
+								}
+							},
+							"required": [
+								"email",
+								"password"
+							]
+						}
+					}
+				}
+			},
+			"responses": {
+				"200": {
+					"description": "Logged in successfully",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"message": {
+										"type": "string",
+										"example": "Logged in successfully"
+									},
+									"success": {
+										"type": "boolean",
+										"example": true
+									},
+									"timestamp": {
+										"type": "string",
+										"example": "2024-05-02T14:45:52.556Z"
+									},
+									"data": {
+										"type": "object",
+										"properties": {
+											"firstTime": {
+												"type": "boolean",
+												"example": true
+											},
+											"token": {
+												"type": "string",
+												"example": "Bearer token"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"/api/v1/auth/email-exists": {
+		"post": {
+			"tags": [
+				"auth-email"
+			],
+			"summary": "Check if a user exists",
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"email": {
+									"type": "string",
+									"example": "kats.com.ng@gmail.com"
+								}
+							},
+							"required": [
+								"email"
+							]
+						}
+					}
+				}
+			},
+			"responses": {
+				"200": {
+					"description": "user exists",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"exists": {
+										"type": "boolean",
+										"example": true
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"/api/v1/auth/email-register": {
+		"post": {
+			"tags": [
+				"auth-email"
+			],
+			"summary": "User registration",
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"email": {
+									"type": "string",
+									"example": "kats.com.ng@gmail.com"
+								},
+								"password": {
+									"type": "string",
+									"example": "123456"
+								}
+							},
+							"required": [
+								"email",
+								"password"
+							]
+						}
+					}
+				}
+			},
+			"responses": {
+				"200": {
+					"description": "Registration successful",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"message": {
+										"type": "string",
+										"example": "Registration successful"
+									},
+									"success": {
+										"type": "boolean",
+										"example": true
+									},
+									"timestamp": {
+										"type": "string",
+										"example": "2024-05-02T14:45:52.556Z"
+									},
+									"data": {
+										"type": "object",
+										"properties": {
+											"token": {
+												"type": "string",
+												"example": "Bearer token"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"/api/v1/auth/email-confirm": {
+		"post": {
+			"tags": [
+				"auth-email"
+			],
+			"summary": "User registration",
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"email": {
+									"type": "string",
+									"example": "kats.com.ng@gmail.com"
+								},
+								"otp": {
+									"type": "string",
+									"example": "123456"
+								}
+							},
+							"required": [
+								"email",
+								"otp"
+							]
+						}
+					}
+				}
+			},
+			"responses": {
+				"200": {
+					"description": "Registration successful"
+				}
+			}
+		}
+	},
+	"/api/v1/auth/forgot-password": {
+		"post": {
+			"tags": [
+				"auth-email"
+			],
+			"summary": "This endpoint will send a password reset link to the user's email",
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"phoneNumber": {
+									"type": "string",
+									"example": "08063145125"
+								},
+								"otp": {
+									"type": "string",
+									"example": "123456"
+								}
+							},
+							"required": [
+								"phoneNumber",
+								"otp"
+							]
+						}
+					}
+				}
+			},
+			"responses": {
+				"200": {
+					"description": "Registration successful",
+					"token": "Bearer token"
+				}
+			}
+		}
+	},
+	"/api/v1/auth/reset-password": {
+		"post": {
+			"tags": [
+				"auth-email"
+			],
+			"summary": "This endpoint will use the forgot password link , take in the new password to reset the user's password",
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"email": {
+									"type": "string",
+									"example": "kats.com.g@gmail.com"
+								},
+								"password": {
+									"type": "string",
+									"example": "123456"
+								}
+							},
+							"required": [
+								"email",
+								"password"
+							]
+						}
+					}
+				}
+			},
+			"responses": {
+				"200": {
+					"description": "Registration successful"
+				},
+				"400": {
+					"description": "Invalid email"
+				}
+			}
+		}
+	},
+	"/api/v1/auth/confirm-phone-login": {
+		"post": {
+			"tags": [
+				"auth-phone"
+			],
+			"summary": "Logged in successfully",
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"phoneNumber": {
+									"type": "string",
+									"example": "08063145125"
+								}
+							},
+							"required": [
+								"phoneNumber"
+							]
+						}
+					}
+				}
+			},
+			"responses": {
+				"200": {
+					"description": "OTP sent ",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"message": {
+										"type": "string",
+										"example": "OTP sent successfully. Please verify."
+									},
+									"success": {
+										"type": "boolean",
+										"example": true
+									},
+									"timestamp": {
+										"type": "string",
+										"example": "2024-05-02T14:45:52.556Z"
+									},
+									"data": {
+										"type": "object",
+										"properties": {
+											"userExists": {
+												"type": "boolean",
+												"example": true
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"400": {
+					"description": "Invalid phone number",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"message": {
+										"type": "string",
+										"example": "Invalid phone number"
+									},
+									"success": {
+										"type": "boolean",
+										"example": false
+									},
+									"timestamp": {
+										"type": "string",
+										"example": "2024-05-02T14:45:52.556Z"
+									},
+									"error": {
+										"type": "object",
+										"properties": {
+											"phoneNumber": {
+												"type": "string",
+												"example": "Invalid  Nigerian format phone number eg. +2348062516716"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"/api/v1/auth/logout": {
+		"get": {
+			"tags": [
+				"user-routes"
+			],
+			"summary": "Log out a user",
+			"responses": {
+				"200": {
+					"description": "You have been logged out"
+				}
+			}
+		}
+	},
+	"/api/v1/auth/ping": {
+		"get": {
+			"tags": [
+				"auth-routes"
+			],
+			"summary": "Ping to verify token validity",
+			"description": "This endpoint verifies the token validity and can filter user packages by status.",
+			"parameters": [
+				{
+					"name": "status",
+					"in": "query",
+					"required": false,
+					"description": "Status filter for the user packages",
+					"schema": {
+						"type": "string",
+						"example": "active"
+					}
+				}
+			],
+			"responses": {
+				"200": {
+					"description": "Ping successful",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"data": {
+										"type": "object",
+										"properties": {
+											"role": {
+												"type": "string",
+												"example": "user"
+											},
+											"user": {
+												"type": "object",
+												"properties": {
+													"firstName": {
+														"type": "string",
+														"example": "katalsyt Tech"
+													},
+													"phoneNumber": {
+														"type": "string",
+														"example": "+2348063145125"
+													},
+													"userId": {
+														"type": "string",
+														"example": "23a0bf4f-b4f5-4b16-b265-3af65a5f21ad"
+													},
+													"joinedAt": {
+														"type": "string",
+														"format": "date-time",
+														"example": "2024-05-03T00:42:56.589Z"
+													},
+													"lastSeenAt": {
+														"type": "string",
+														"format": "date-time",
+														"example": "2024-05-03T00:42:56.589Z"
+													},
+													"publicId": {
+														"type": "string",
+														"example": "ca5a6b43-9cdf-4400-b8ec-979b4a5e32d8"
+													}
+												}
+											},
+											"packages": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"packageId": {
+															"type": "string",
+															"example": "9FqF3NT"
+														},
+														"status": {
+															"type": "string",
+															"example": "active"
+														},
+														"createdAt": {
+															"type": "string",
+															"format": "date-time",
+															"example": "2024-05-03T00:42:56.589Z"
+														}
+													}
+												}
+											}
+										}
+									},
+									"timestamp": {
+										"type": "string",
+										"format": "date-time",
+										"example": "2024-05-03T02:11:09.581Z"
+									},
+									"success": {
+										"type": "boolean",
+										"example": true
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"/api/v1/auth/admin-ping": {
+		"get": {
+			"tags": [
+				"admin-auth"
+			],
+			"summary": "Ping to verify admin  token validity",
+			"responses": {
+				"200": {
+					"description": "Ping successful"
+				}
+			}
+		}
+	},
+	"/api/v1/user/update-user": {
+		"put": {
+			"summary": "Update User Details",
+			"tags": [
+				"user-routes"
+			],
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"email": {
+									"type": "string",
+									"example": "kats.com.ng@gmail.com"
+								},
+								"firstName": {
+									"type": "string",
+									"example": "Katalyst Technologies Dev"
+								}
+							},
+							"required": [
+								"email"
+							]
+						}
+					}
+				}
+			},
+			"responses": {
+				"200": {
+					"description": "User details updated"
+				}
+			}
+		}
+	},
+	"/api/v1/packages/create": {
+		"get": {
+			"summary": "Create a new package",
+			"tags": [
+				"packages-routes"
+			],
+			"responses": {
+				"200": {
+					"description": "New Package Created",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"message": {
+										"type": "string",
+										"example": "New Package created"
+									},
+									"success": {
+										"type": "boolean",
+										"example": true
+									},
+									"timestamp": {
+										"type": "string",
+										"example": "2024-05-02T14:45:52.556Z"
+									},
+									"data": {
+										"type": "object",
+										"properties": {
+											"packageId": {
+												"type": "string",
+												"example": "9FqF3NT"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"400": {
+					"description": "Invalid package details",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"message": {
+										"type": "string",
+										"example": "Invalid package details"
+									},
+									"success": {
+										"type": "boolean",
+										"example": false
+									},
+									"timestamp": {
+										"type": "string",
+										"example": "2024-05-02T14:45:52.556Z"
+									},
+									"error": {
+										"type": "object",
+										"properties": {
+											"packageDetails": {
+												"type": "string",
+												"example": "Invalid package details"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"/api/v1/restaurants": {
+		"get": {
+			"summary": "all restaurants",
+			"tags": [
+				"restaurant-routes"
+			],
+			"parameters": [
+				{
+					"name": "page",
+					"in": "query",
+					"description": "Page number for pagination",
+					"required": false,
+					"schema": {
+						"type": "integer",
+						"default": 1
+					}
+				},
+				{
+					"name": "perPage",
+					"in": "query",
+					"description": "Number of items per page",
+					"required": false,
+					"schema": {
+						"type": "integer",
+						"default": 10
+					}
+				},
+				{
+					"name": "search",
+					"in": "query",
+					"description": "Search for restaurants by name",
+					"required": false,
+					"schema": {
+						"type": "string"
+					}
+				},
+				{
+					"name": "category",
+					"in": "query",
+					"description": "Filter restaurants by category",
+					"required": false,
+					"schema": {
+						"type": "string"
+					}
+				}
+			],
+			"responses": {
+				"200": {
+					"description": "all restaurants",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"restaurants": {
+										"type": "array",
+										"items": {
+											"$ref": "#/components/schemas/Restaurant"
+										}
+									},
+									"page": {
+										"type": "integer",
+										"description": "Current page number"
+									},
+									"perPage": {
+										"type": "integer",
+										"description": "Number of restaurants per page"
+									},
+									"totalPages": {
+										"type": "integer",
+										"description": "Total number of pages"
+									},
+									"totalRestaurants": {
+										"type": "integer",
+										"description": "Total number of restaurants"
+									}
+								}
+							}
+						}
+					}
+				},
+				"400": {
+					"description": "Invalid request parameters"
+				},
+				"500": {
+					"description": "Server error"
+				}
+			}
+		}
+	},
 
 
 		"/api/v1/restaurants/{slug}": {

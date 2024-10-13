@@ -36,7 +36,6 @@ const AuthController = {
 			const hashedPassword = await AuthModel.hashPassword(data!.password);
 
 			const email_token = nanoid(10);
-			console.log(email_token,"email_token")
 
 			const newAuth = new AuthModel({
 				email: data?.email,

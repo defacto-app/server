@@ -23,8 +23,14 @@ import AdminAuthRoutes from "./backend/admin/auth/routes";
 import PackageRoutes from "./backend/user/packages/route";
 import RestaurantRoutes from "./backend/restaurant/route";
 import PaymentRoutes from "./backend/payment/route";
+//
+//
+//
+//
+//
 import AdminMenuRoutes from "./backend/admin/restaurant/menu/route";
 import AdminUsersRoutes from "./backend/admin/users/route";
+import AdminOrderRoutes from "./backend/admin/order/route";
 
 //
 //
@@ -152,6 +158,7 @@ app.use("/api/v1/admin/users", AdminUsersRoutes);
 app.use("/api/v1/admin/dashboard", DashboardRoutes);
 app.use("/api/v1/admin/restaurants", AdminRestaurantRoutes);
 app.use("/api/v1/admin/menu", AdminMenuRoutes);
+app.use("/api/v1/admin/orders", AdminOrderRoutes);
 // admin routes
 
 // image upload
