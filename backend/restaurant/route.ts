@@ -1,5 +1,5 @@
 import { Router } from "express";
-// import authMiddleware from "../user/middleware";
+import authMiddleware from "../user/middleware";
 import RestaurantController from "./controller";
 import RestaurantMiddleware from "../middleware/restaurant.middleware";
 
@@ -15,6 +15,11 @@ const router = Router();
 
 router.get("/", RestaurantController.all);
 router.get("/categories", RestaurantController.categories);
-router.get("/:slug", RestaurantMiddleware.restaurantSlug, RestaurantController.one);
+router.get(
+	"/:slug",
+	RestaurantMiddleware.restaurantSlug,
+	RestaurantController.one,
+);
+router.post("/order", authMiddleware.validateUser, RestaurantController.order);
 
 export default router;

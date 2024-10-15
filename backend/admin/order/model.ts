@@ -14,6 +14,7 @@ export interface OrderDataType extends Document {
 	createdAt: Date;
 	updatedAt: Date;
 	type: "food" | "package";
+	userId: string;
 	typeId: string;
 	dropOffDetails: {
 		name: string;

@@ -23,4 +23,5 @@ router.delete(
 	PackageController.delete,
 );
 
+
 export default router;

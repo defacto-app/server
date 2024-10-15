@@ -19,7 +19,7 @@ import swaggerDocument from "./storage/json/swagger.json";
 import DashboardRoutes from "./backend/admin/dashboard.routes";
 import AuthRoutes from "./backend/auth/routes";
 import UserRoutes from "./backend/routes/user/user.routes";
-import AdminAuthRoutes from "./backend/admin/auth/routes";
+
 import PackageRoutes from "./backend/user/packages/route";
 import RestaurantRoutes from "./backend/restaurant/route";
 import PaymentRoutes from "./backend/payment/route";
@@ -27,16 +27,17 @@ import PaymentRoutes from "./backend/payment/route";
 //
 //
 //
-//
+//Admin Routes
 import AdminMenuRoutes from "./backend/admin/restaurant/menu/route";
 import AdminUsersRoutes from "./backend/admin/users/route";
 import AdminOrderRoutes from "./backend/admin/order/route";
+import AdminAuthRoutes from "./backend/admin/auth/routes";
+import AdminRestaurantRoutes from "./backend/admin/restaurant/route";
 
 //
 //
 //
 //
-import AdminRestaurantRoutes from "./backend/admin/restaurant/route";
 
 import UploadRoutes from "./backend/upload/route";
 

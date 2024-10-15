@@ -25,6 +25,18 @@ class SendResponse {
 	}
 
 	/**
+	 * Send a created response with status 201.
+	 */
+	static created(res: Response, message: string, data?: any) {
+		return res.status(201).json({
+			success: true,
+			message,
+			data,
+			timestamp: formattedTimeStamp(new Date()),
+		});
+	}
+
+	/**
 	 * Send a generic error response with status 400.
 	 */
 	static badRequest(res: Response, message: string, error?: any) {

@@ -1973,9 +1973,147 @@
 						"description": "Server error"
 					}
 				}
+			},
+			"get": {
+				"tags": [
+					"admin-orders"
+				],
+				"summary": "Get all orders for admin dashboard with optional pagination, search, and sorting",
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"required": false,
+						"description": "Page number for pagination (defaults to 1)",
+						"schema": {
+							"type": "integer",
+							"default": 1
+						}
+					},
+					{
+						"name": "perPage",
+						"in": "query",
+						"required": false,
+						"description": "Number of items per page (defaults to 20)",
+						"schema": {
+							"type": "integer",
+							"default": 20
+						}
+					},
+					{
+						"name": "search",
+						"in": "query",
+						"required": false,
+						"description": "Search term to filter orders by first name, email, or phone number (case-insensitive)",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "A list of orders with pagination info",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"message": {
+											"type": "string",
+											"example": "Orders retrieved"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"meta": {
+													"type": "object",
+													"properties": {
+														"page": {
+															"type": "integer",
+															"example": 1
+														},
+														"perPage": {
+															"type": "integer",
+															"example": 20
+														},
+														"total": {
+															"type": "integer",
+															"example": 100
+														},
+														"totalPages": {
+															"type": "integer",
+															"example": 5
+														}
+													}
+												},
+												"data": {
+													"type": "array",
+													"items": {
+														"type": "object",
+														"properties": {
+															"_id": {
+																"type": "string",
+																"example": "5f75e8d5eecf2a7b3c5e1234"
+															},
+															"firstName": {
+																"type": "string",
+																"example": "John"
+															},
+															"lastName": {
+																"type": "string",
+																"example": "Doe"
+															},
+															"email": {
+																"type": "string",
+																"example": "johndoe@example.com"
+															},
+															"phoneNumber": {
+																"type": "string",
+																"example": "+1234567890"
+															},
+															"orderDate": {
+																"type": "string",
+																"example": "2024-09-07T12:00:00Z"
+															},
+															"totalAmount": {
+																"type": "number",
+																"example": 59.99
+															},
+															"createdAt": {
+																"type": "string",
+																"example": "2024-09-07T17:00:00Z"
+															},
+															"updatedAt": {
+																"type": "string",
+																"example": "2024-09-07T17:00:00Z"
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid query parameter"
+					},
+					"500": {
+						"description": "Server error"
+					}
+				}
 			}
+
 		},
-	"/api/v1/auth/phone-login": {
+
+
+		"/api/v1/auth/phone-login": {
 		"post": {
 			"tags": [
 				"auth-phone"
@@ -2761,6 +2899,149 @@
 				},
 				"400": {
 					"description": "Invalid request parameters"
+				},
+				"500": {
+					"description": "Server error"
+				}
+			}
+		}
+	},
+	"/api/v1/restaurants/order": {
+		"post": {
+			"summary": "Create a new restaurant order",
+			"tags": [
+				"restaurant-routes"
+			],
+			"requestBody": {
+				"required": true,
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"required": [
+								"userId",
+								"dropOffDetails",
+								"pickupDetails",
+								"menuItems",
+								"charge"
+							],
+							"properties": {
+								"userId": {
+									"type": "string",
+									"description": "ID of the user placing the order"
+								},
+								"dropOffDetails": {
+									"type": "object",
+									"description": "Details about the drop-off location"
+								},
+								"pickupDetails": {
+									"type": "object",
+									"description": "Details about the pickup location"
+								},
+								"menuItems": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"name": {
+												"type": "string"
+											},
+											"quantity": {
+												"type": "integer"
+											},
+											"price": {
+												"type": "number"
+											}
+										}
+									}
+								},
+								"charge": {
+									"type": "number",
+									"description": "Total charge for the order"
+								},
+								"description": {
+									"type": "string",
+									"description": "Optional description for the order"
+								},
+								"cashPaymentLocation": {
+									"type": "string",
+									"description": "Optional location for cash payment"
+								}
+							}
+						}
+					}
+				}
+			},
+			"responses": {
+				"201": {
+					"description": "Order created successfully",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"message": {
+										"type": "string",
+										"example": "Order created successfully"
+									},
+									"data": {
+										"type": "object",
+										"properties": {
+											"_id": {
+												"type": "string"
+											},
+											"type": {
+												"type": "string",
+												"example": "food"
+											},
+											"userId": {
+												"type": "string"
+											},
+											"dropOffDetails": {
+												"type": "object"
+											},
+											"pickupDetails": {
+												"type": "object"
+											},
+											"charge": {
+												"type": "number"
+											},
+											"status": {
+												"type": "string",
+												"example": "pending"
+											},
+											"description": {
+												"type": "string"
+											},
+											"cashPaymentLocation": {
+												"type": "string"
+											},
+											"menuItems": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"name": {
+															"type": "string"
+														},
+														"quantity": {
+															"type": "integer"
+														},
+														"price": {
+															"type": "number"
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"400": {
+					"description": "Invalid request payload"
 				},
 				"500": {
 					"description": "Server error"
