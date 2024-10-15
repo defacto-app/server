@@ -1,5 +1,3 @@
-
-
 //
 //
 //
@@ -22,21 +20,24 @@ export interface OrderDataType extends Document {
 		email: string;
 		address: AddressType;
 	};
-	pickupDetails: {
+	/*	pickupDetails: {
 		name: string;
 		phone: string;
 		email: string;
 		address: AddressType;
 	};
+	deliveryMode?: "Motorcycle" | "Tricycle" | "Bicycle" | "Foot";
+	cashPaymentLocation: "Pick-up" | "Delivery";
+	cashAvailable: { available: boolean; amount: number };
+	*/
 	charge: number;
 	status: "pending" | "completed" | "cancelled";
 	pickupTime: Date | null;
 	assignedTo: string;
 	isInstant: boolean | null;
-	deliveryMode?: "Motorcycle" | "Tricycle" | "Bicycle" | "Foot";
 	description: string;
-	cashPaymentLocation: "Pick-up" | "Delivery";
-	cashAvailable: { available: boolean; amount: number };
+	//
+	//
 	packageContent?: string[];
 	menuItems?: { name: string; quantity: number; price: number }[];
 }
@@ -68,16 +69,35 @@ const orderSchemaDefinitions = {
 	},
 	dropOffDetails: {
 		name: { type: String, required: true },
-		phone: { type: String, required: true },
-		email: { type: String, required: true },
+		phoneNumber: { type: String, required: true },
+		email: { type: String, required: false },
 		address: { type: Object, required: true }, // Using AddressType
 	},
-	pickupDetails: {
+	/*
+
+
+pickupDetails: {
 		name: { type: String, required: true },
 		phone: { type: String, required: true },
 		email: { type: String, required: true },
 		address: { type: Object, required: true },
 	},
+	deliveryMode: {
+		type: String,
+		enum: ["Motorcycle", "Tricycle", "Bicycle", "Foot"],
+		required: true,
+	},
+
+	cashPaymentLocation: {
+		type: String,
+		enum: ["Pick-up", "Delivery"],
+		required: true,
+	},
+	cashAvailable: {
+		available: { type: Boolean, default: false },
+		amount: { type: Number, default: 0 },
+	},
+	*/
 	charge: {
 		type: Number,
 		required: true,
@@ -90,22 +110,10 @@ const orderSchemaDefinitions = {
 	pickupTime: { type: Date, default: null },
 	assignedTo: { type: String },
 	isInstant: { type: Boolean, default: null },
-	deliveryMode: {
-		type: String,
-		enum: ["Motorcycle", "Tricycle", "Bicycle", "Foot"],
-		required: true,
-	},
+
 	description: { type: String },
-	cashPaymentLocation: {
-		type: String,
-		enum: ["Pick-up", "Delivery"],
-		required: true,
-	},
-	cashAvailable: {
-		available: { type: Boolean, default: false },
-		amount: { type: Number, default: 0 },
-	},
-	menuItems: [
+
+	restaurantOrder: [
 		{
 			name: { type: String, required: true },
 			quantity: { type: Number, required: true },

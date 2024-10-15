@@ -18,7 +18,6 @@ import swaggerDocument from "./storage/json/swagger.json";
 //  routes
 import DashboardRoutes from "./backend/admin/dashboard.routes";
 import AuthRoutes from "./backend/auth/routes";
-import UserRoutes from "./backend/routes/user/user.routes";
 
 import PackageRoutes from "./backend/user/packages/route";
 import RestaurantRoutes from "./backend/restaurant/route";
@@ -149,7 +148,6 @@ app.use("/api/v1/auth", AuthRoutes);
 //
 //
 //
-app.use("/api/v1/user", UserRoutes);
 // admin routes
 //
 //

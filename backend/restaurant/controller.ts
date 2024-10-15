@@ -95,6 +95,7 @@ const RestaurantController = {
 	},
 
 	async order(req: Request, res: Response): Promise<void> {
+		const user = res.locals.user as any;
 		try {
 			// Step 1: Validate the request payload using the CreateOrderSchema
 			const value = req.body;
@@ -104,16 +105,16 @@ const RestaurantController = {
 				userId,
 				dropOffDetails,
 				pickupDetails,
-				menuItems,
 				deliveryCharge,
+				restaurantOrder,
 				charge,
 				description,
 				cashPaymentLocation,
 			} = value;
 
-			console.log(value);
+			console.log({ user, value });
 
-		/*	// Step 3: Create a new order document for a restaurant order
+			// Step 3: Create a new order document for a restaurant order
 			const newOrder = new OrderModel({
 				type: "food", // This is a restaurant order
 				userId,
@@ -124,7 +125,8 @@ const RestaurantController = {
 				description,
 				cashPaymentLocation,
 				deliveryCharge,
-				menuItems: menuItems.map((item: any) => ({
+				isInstant: true,
+				restaurantOrder: restaurantOrder.map((item: any) => ({
 					name: item.name,
 					quantity: item.quantity,
 					price: item.price,
@@ -132,7 +134,7 @@ const RestaurantController = {
 			});
 
 			// Step 4: Save the order to the database
-			const savedOrder = await newOrder.save();*/
+			await newOrder.save();
 
 			// Step 5: Send success response with the created order
 			SendResponse.created(res, "Order created successfully");
