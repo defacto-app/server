@@ -32,7 +32,8 @@ const AddressController = {
 		await newAddress.save();
 
 		try {
-			SendResponse.success(res, "New address added", {});
+			SendResponse.success(res, "New address added", newAddress);
+
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
