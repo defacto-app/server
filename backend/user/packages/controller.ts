@@ -4,10 +4,10 @@ import PackageModel, { type PackageDataType } from "../../model/package.model";
 import SendResponse from "../../libs/response-helper";
 import PackageValidator from "./validator";
 import paginate from "../../utils/pagination";
+import OrderModel from "../../admin/order/model";
 
 const PackageController = {
 	async all(req: Request, res: Response): Promise<void> {
-		
 		const user = res.locals.user as any;
 
 		// Extract page and perPage from request query. Set default values if not provided.
@@ -39,28 +39,50 @@ const PackageController = {
 			);
 
 			SendResponse.success(res, "Packages retrieved", paginationResult);
-			
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
 	},
 
 	async create(req: Request, res: Response): Promise<void> {
-		const user = res.locals.user as AuthDataType;
-
-		const newPackage = new PackageModel({
-			userId: user.publicId,
-			...req.body,
-		});
-
-		await newPackage.save();
-
 		try {
-			// Send the updated user back to the client\
+			console.log(req.body, "Package data");
+
+			const user = res.locals.user as AuthDataType;
+
+			const newPackage = new OrderModel({
+				userId: user.publicId,
+				description: req.body.description,
+				pickupDate: req.body.pickupDate,
+				package_image: req.body.package_image,
+				type:"package",
+				pickupDetails: {
+					location: req.body.pickupDetails.location,
+					address: req.body.pickupDetails.address,
+				/*	name: req.body.pickupDetails.name,
+					phone: req.body.pickupDetails.phone,*/
+					name:"katalyst",
+					phone:"08012345678"
+
+				},
+				dropOffDetails: {
+					location: req.body.dropOffDetails.location,
+					address: req.body.dropOffDetails.address,
+				/*	name: req.body.dropOffDetails.name,
+					phone: req.body.dropOffDetails.phone,*/
+					name:"sender  name",
+					phone:"08012345678"
+				},
+				charge: req.body.charge,
+			});
+
+			// Save the new package to the database
+			await newPackage.save();
+
+			// Send a successful response back to the client
 			SendResponse.success(res, "Created New Package Delivery.", {
 				packageId: newPackage.publicId,
 			});
-			
 		} catch (error: any) {
 			// Handle possible errors
 			SendResponse.serverError(res, error.message);
@@ -68,12 +90,10 @@ const PackageController = {
 	},
 
 	async one(req: Request, res: Response): Promise<void> {
-		
 		const data = res.locals.packageItem as any;
 
 		try {
 			SendResponse.success(res, "Package retrieved", data);
-			
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
@@ -91,7 +111,6 @@ const PackageController = {
 
 		try {
 			SendResponse.success(res, "Package delivery updated successfully.", data);
-			
 		} catch (error: any) {
 			res.status(500).send(`Error Updating  order: ${error.message}`);
 		}
@@ -110,7 +129,6 @@ const PackageController = {
 				success: true,
 				timestamp: new Date(),
 			});
-			
 		} catch (error: any) {
 			res.status(500).send(`Error Deleting  order: ${error.message}`);
 		}

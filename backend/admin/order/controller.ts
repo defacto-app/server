@@ -14,15 +14,15 @@ const AdminOrderController = {
 		try {
 			const searchQuery = search
 				? {
-					$or: [
-						{ firstName: { $regex: search, $options: "i" } },
-						{ email: { $regex: search, $options: "i" } },
-						{ phoneNumber: { $regex: search, $options: "i" } },
-					],
-				}
+						$or: [
+							{ firstName: { $regex: search, $options: "i" } },
+							{ email: { $regex: search, $options: "i" } },
+							{ phoneNumber: { $regex: search, $options: "i" } },
+						],
+					}
 				: {};
 
-			const sort: { [key: string]: SortOrder } = { firstName: 1 };
+			const sort: { [key: string]: SortOrder } = { createdAt: -1 };
 
 			const aggregationPipeline = [
 				{ $match: searchQuery },
@@ -42,6 +42,8 @@ const AdminOrderController = {
 						description: 1,
 						cashPaymentLocation: 1,
 						publicId: 1,
+						orderId: 1,
+						"dropOffDetails.name": 1,
 					},
 				},
 			] as any;
@@ -65,9 +67,7 @@ const AdminOrderController = {
 		}
 	},
 
-
 	async create(req: Request, res: Response): Promise<void> {
-
 		try {
 			// Validate the request body using the Zod schema
 			const result = CreateOrderSchema.safeParse(req.body);
@@ -79,7 +79,6 @@ const AdminOrderController = {
 					.status(400)
 					.json({ message: "Validation error", errors: errorMessages });
 				return;
-
 			}
 
 			// Destructure validated data
@@ -126,6 +125,8 @@ const AdminOrderController = {
 			res.status(500).json({ message: "Server error", error });
 		}
 	},
+
+
 };
 
 export default AdminOrderController;

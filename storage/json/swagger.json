@@ -2740,38 +2740,100 @@
 			}
 		}
 	},
-	"/api/v1/packages/create": {
-		"get": {
-			"summary": "Create a new package",
-			"tags": [
-				"packages-routes"
-			],
-			"responses": {
-				"200": {
-					"description": "New Package Created",
+		"/api/v1/packages/": {
+			"post": {
+				"summary": "Create a new package",
+				"tags": ["packages-routes"],
+				"requestBody": {
+					"required": true,
 					"content": {
 						"application/json": {
 							"schema": {
 								"type": "object",
 								"properties": {
-									"message": {
+									"description": {
 										"type": "string",
-										"example": "New Package created"
+										"example": "a large box"
 									},
-									"success": {
-										"type": "boolean",
-										"example": true
+
+									"charge": {
+										"type": "number",
+										"example": 1000,
+										"description": "Total charge for the order"
 									},
-									"timestamp": {
+									"pickupDate": {
 										"type": "string",
-										"example": "2024-05-02T14:45:52.556Z"
+										"format": "date-time",
+										"example": "2024-11-11T20:13:47.101Z"
 									},
-									"data": {
+									"package_image": {
+										"type": "string",
+										"description": "Base64 encoded image",
+										"example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA..."
+									},
+									"pickupDetails": {
 										"type": "object",
 										"properties": {
-											"packageId": {
-												"type": "string",
-												"example": "9FqF3NT"
+											"address": {
+												"type": "object",
+												"properties": {
+													"address": {
+														"type": "string",
+														"example": "Chika’s healthy delights, temco water close, Asaba, Nigeria"
+													},
+													"additionalDetails": {
+														"type": "string",
+														"example": "room 456 fl0or 4"
+													},
+													"location": {
+														"type": "object",
+														"properties": {
+															"lat": {
+																"type": "number",
+																"format": "float",
+																"example": 6.2013394
+															},
+															"lng": {
+																"type": "number",
+																"format": "float",
+																"example": 6.6878885
+															}
+														}
+													}
+												}
+											}
+										}
+									},
+									"dropOffDetails": {
+										"type": "object",
+										"properties": {
+											"address": {
+												"type": "object",
+												"properties": {
+													"address": {
+														"type": "string",
+														"example": "Kilimanjaro Restaurant, Nnebisi Road, Asaba, Nigeria"
+													},
+													"additionalDetails": {
+														"type": "string",
+														"example": "behind yellow gate floor 4"
+													},
+													"location": {
+														"type": "object",
+														"properties": {
+															"lat": {
+																"type": "number",
+																"format": "float",
+																"example": 6.2064696
+															},
+															"lng": {
+																"type": "number",
+																"format": "float",
+																"example": 6.7184962
+															}
+														}
+													}
+												}
 											}
 										}
 									}
@@ -2780,31 +2842,68 @@
 						}
 					}
 				},
-				"400": {
-					"description": "Invalid package details",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"message": {
-										"type": "string",
-										"example": "Invalid package details"
-									},
-									"success": {
-										"type": "boolean",
-										"example": false
-									},
-									"timestamp": {
-										"type": "string",
-										"example": "2024-05-02T14:45:52.556Z"
-									},
-									"error": {
-										"type": "object",
-										"properties": {
-											"packageDetails": {
-												"type": "string",
-												"example": "Invalid package details"
+				"responses": {
+					"200": {
+						"description": "New Package Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "New Package created"
+										},
+										"success": {
+											"type": "boolean",
+											"example": true
+										},
+										"timestamp": {
+											"type": "string",
+											"format": "date-time",
+											"example": "2024-05-02T14:45:52.556Z"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"packageId": {
+													"type": "string",
+													"example": "9FqF3NT"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid package details",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "Invalid package details"
+										},
+										"success": {
+											"type": "boolean",
+											"example": false
+										},
+										"timestamp": {
+											"type": "string",
+											"format": "date-time",
+											"example": "2024-05-02T14:45:52.556Z"
+										},
+										"error": {
+											"type": "object",
+											"properties": {
+												"packageDetails": {
+													"type": "string",
+													"example": "Invalid package details"
+												}
 											}
 										}
 									}
@@ -2814,9 +2913,9 @@
 					}
 				}
 			}
-		}
-	},
-	"/api/v1/restaurants": {
+		},
+
+"/api/v1/restaurants": {
 		"get": {
 			"summary": "all restaurants",
 			"tags": [

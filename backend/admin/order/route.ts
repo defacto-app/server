@@ -13,5 +13,6 @@ router.use(authMiddleware.validateAdmin);
 
 router.get("/", AdminOrderController.all);
 router.post("/", AdminOrderController.create)
+router.post("/", AdminOrderController.create)
 
 export default router;

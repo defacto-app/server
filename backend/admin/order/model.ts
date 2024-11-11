@@ -6,30 +6,35 @@ import mongoose, { type Document, Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import type { AddressType } from "../../../types";
 
+// Generate a simple orderId for users (e.g., "ORD-123456")
+const generateOrderId = (): string => {
+	const randomNumber = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit number
+	return `DFT-${randomNumber}`;
+};
 // Define the structure of the Order document
 export interface OrderDataType extends Document {
 	publicId: string;
+
 	createdAt: Date;
 	updatedAt: Date;
 	type: "food" | "package";
 	userId: string;
 	typeId: string;
+	orderId: string;
+	package_image: string;
 	dropOffDetails: {
 		name: string;
 		phone: string;
 		email: string;
 		address: AddressType;
 	};
-	/*	pickupDetails: {
+	pickupDetails: {
 		name: string;
 		phone: string;
 		email: string;
 		address: AddressType;
 	};
-	deliveryMode?: "Motorcycle" | "Tricycle" | "Bicycle" | "Foot";
-	cashPaymentLocation: "Pick-up" | "Delivery";
-	cashAvailable: { available: boolean; amount: number };
-	*/
+
 	charge: number;
 	status: "pending" | "completed" | "cancelled";
 	pickupTime: Date | null;
@@ -52,6 +57,16 @@ const orderSchemaDefinitions = {
 		minLength: 1,
 		maxLength: 255,
 	},
+	package_image: {
+		type: String,
+		required: false,
+	},
+	orderId: {
+		type: String,
+		required: true,
+		unique: true, // Ensuring the orderId is also unique
+		default: generateOrderId, // Custom function to generate a user-friendly orderId
+	},
 	createdAt: {
 		type: Date,
 		required: true,
@@ -67,37 +82,19 @@ const orderSchemaDefinitions = {
 		required: true,
 		enum: ["food", "package"],
 	},
-	dropOffDetails: {
+	pickupDetails: {
 		name: { type: String, required: true },
-		phoneNumber: { type: String, required: true },
+		phone: { type: String, required: true },
 		email: { type: String, required: false },
 		address: { type: Object, required: true }, // Using AddressType
 	},
-	/*
-
-
-pickupDetails: {
+	dropOffDetails: {
 		name: { type: String, required: true },
 		phone: { type: String, required: true },
-		email: { type: String, required: true },
-		address: { type: Object, required: true },
-	},
-	deliveryMode: {
-		type: String,
-		enum: ["Motorcycle", "Tricycle", "Bicycle", "Foot"],
-		required: true,
+		email: { type: String, required: false },
+		address: { type: Object, required: true }, // Using AddressType
 	},
 
-	cashPaymentLocation: {
-		type: String,
-		enum: ["Pick-up", "Delivery"],
-		required: true,
-	},
-	cashAvailable: {
-		available: { type: Boolean, default: false },
-		amount: { type: Number, default: 0 },
-	},
-	*/
 	charge: {
 		type: Number,
 		required: true,
@@ -134,3 +131,29 @@ export const OrderSchema: Schema = new Schema(orderSchemaDefinitions, {
 const OrderModel = mongoose.model<OrderDataType>("orders", OrderSchema);
 
 export default OrderModel;
+
+/*
+
+
+pickupDetails: {
+   name: { type: String, required: true },
+   phone: { type: String, required: true },
+   email: { type: String, required: true },
+   address: { type: Object, required: true },
+},
+deliveryMode: {
+   type: String,
+   enum: ["Motorcycle", "Tricycle", "Bicycle", "Foot"],
+   required: true,
+},
+
+cashPaymentLocation: {
+   type: String,
+   enum: ["Pick-up", "Delivery"],
+   required: true,
+},
+cashAvailable: {
+   available: { type: Boolean, default: false },
+   amount: { type: Number, default: 0 },
+},
+*/

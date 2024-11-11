@@ -36,10 +36,10 @@ export interface pickupDetailsType {
 
 export interface AddressType {
 	label: string;
-	address: string;
 	location: string;
 	coordinates: {
 		lat: number;
 		lng: number;
 	};
+	additionalDetails: string;
 }

@@ -14,3 +14,26 @@
 2024-10-15T14:06:20.985Z [undefined] [31merror[39m: Error creating order
 2024-10-15T14:06:36.168Z [undefined] [31merror[39m: Error creating order
 2024-10-15T14:07:38.049Z [undefined] [31merror[39m: Error creating order
+2024-11-03T19:11:14.191Z [undefined] [31merror[39m: Error in pagination: connection <monitor> to 34.234.48.175:27017 closed
+2024-11-03T19:11:24.414Z [undefined] [31merror[39m: Error in pagination: connection <monitor> to 34.234.48.175:27017 closed
+2024-11-03T19:11:29.519Z [undefined] [31merror[39m: Error in pagination: connection <monitor> to 34.234.48.175:27017 closed
+2024-11-03T19:11:29.525Z [undefined] [31merror[39m: Error in pagination: connection <monitor> to 34.234.48.175:27017 closed
+2024-11-03T19:11:30.756Z [undefined] [31merror[39m: Error in pagination: connection <monitor> to 34.234.48.175:27017 closed
+2024-11-03T19:11:32.306Z [undefined] [31merror[39m: Error in pagination: connection <monitor> to 34.234.48.175:27017 closed
+2024-11-03T19:11:44.201Z [undefined] [31merror[39m: Error in pagination: connection <monitor> to 34.234.48.175:27017 closed
+2024-11-03T19:11:54.430Z [undefined] [31merror[39m: Error in pagination: connection <monitor> to 34.234.48.175:27017 closed
+2024-11-03T19:11:59.534Z [undefined] [31merror[39m: Error in pagination: connection <monitor> to 34.234.48.175:27017 closed
+2024-11-03T19:34:48.151Z [undefined] [31merror[39m: Error in pagination: connection <monitor> to 34.234.48.175:27017 closed
+2024-11-03T19:35:08.157Z [undefined] [31merror[39m: Error in pagination: connection <monitor> to 34.234.48.175:27017 closed
+2024-11-11T17:26:16.484Z [undefined] [31merror[39m: Error creating order
+2024-11-11T17:27:06.067Z [undefined] [31merror[39m: Error creating order
+2024-11-11T17:27:36.677Z [undefined] [31merror[39m: Error creating order
+2024-11-11T17:27:57.876Z [undefined] [31merror[39m: Error creating order
+2024-11-11T21:25:40.583Z [undefined] [31merror[39m: orders validation failed: charge: Path `charge` is required., dropOffDetails.address: Path `dropOffDetails.address` is required., dropOffDetails.phoneNumber: Path `dropOffDetails.phoneNumber` is required., dropOffDetails.name: Path `dropOffDetails.name` is required., type: Path `type` is required.
+2024-11-11T21:28:14.668Z [undefined] [31merror[39m: orders validation failed: charge: Path `charge` is required., dropOffDetails.address: Path `dropOffDetails.address` is required., dropOffDetails.phoneNumber: Path `dropOffDetails.phoneNumber` is required., dropOffDetails.name: Path `dropOffDetails.name` is required., type: Path `type` is required.
+2024-11-11T21:28:23.164Z [undefined] [31merror[39m: orders validation failed: charge: Path `charge` is required., dropOffDetails.address: Path `dropOffDetails.address` is required., dropOffDetails.phoneNumber: Path `dropOffDetails.phoneNumber` is required., dropOffDetails.name: Path `dropOffDetails.name` is required., type: Path `type` is required.
+2024-11-11T21:28:40.892Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.address: Path `dropOffDetails.address` is required., dropOffDetails.phoneNumber: Path `dropOffDetails.phoneNumber` is required., dropOffDetails.name: Path `dropOffDetails.name` is required., type: Path `type` is required.
+2024-11-11T21:34:20.118Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.phoneNumber: Path `dropOffDetails.phoneNumber` is required., dropOffDetails.name: Path `dropOffDetails.name` is required., type: Path `type` is required.
+2024-11-11T21:39:39.871Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.address: Path `dropOffDetails.address` is required., dropOffDetails.phoneNumber: Path `dropOffDetails.phoneNumber` is required., type: Path `type` is required.
+2024-11-11T21:39:58.600Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.phoneNumber: Path `dropOffDetails.phoneNumber` is required., type: Path `type` is required.
+2024-11-11T21:42:04.413Z [undefined] [31merror[39m: orders validation failed: type: Path `type` is required.
