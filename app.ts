@@ -18,25 +18,25 @@ import swaggerDocument from "./storage/json/swagger.json";
 //  routes
 import DashboardRoutes from "./backend/admin/dashboard.routes";
 import AuthRoutes from "./backend/auth/routes";
-import UserRoutes from "./backend/routes/user/user.routes";
-import AdminAuthRoutes from "./backend/admin/auth/routes";
-import PackageRoutes from "./backend/user/packages/route";
+
 import RestaurantRoutes from "./backend/restaurant/route";
+import OrderRoutes from "./backend/orders/route";
 import PaymentRoutes from "./backend/payment/route";
 //
 //
 //
 //
-//
+//Admin Routes
 import AdminMenuRoutes from "./backend/admin/restaurant/menu/route";
 import AdminUsersRoutes from "./backend/admin/users/route";
 import AdminOrderRoutes from "./backend/admin/order/route";
+import AdminAuthRoutes from "./backend/admin/auth/routes";
+import AdminRestaurantRoutes from "./backend/admin/restaurant/route";
 
 //
 //
 //
 //
-import AdminRestaurantRoutes from "./backend/admin/restaurant/route";
 
 import UploadRoutes from "./backend/upload/route";
 
@@ -63,7 +63,11 @@ app.use(cors());
 
 
 
-app.use(express.json());
+app.use(express.json(
+	{
+		limit: "1mb",
+	},
+));
 
 app.use(
 	session({
@@ -135,7 +139,7 @@ app.use((req, res, next) => {
 // Use the custom logging middleware
 // app.use("/api", PublicRoutes);
 app.use("/api/v1/address", AddressRoutes);
-app.use("/api/v1/packages", PackageRoutes);
+app.use("/api/v1/orders", OrderRoutes);
 app.use("/api/v1/restaurants", RestaurantRoutes);
 app.use("/api/v1/payments", PaymentRoutes);
 app.use("/api/v1/g", PublicRoutes);
@@ -148,7 +152,6 @@ app.use("/api/v1/auth", AuthRoutes);
 //
 //
 //
-app.use("/api/v1/user", UserRoutes);
 // admin routes
 //
 //

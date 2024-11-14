@@ -6,6 +6,7 @@ export interface UserDataType extends Document {
 	email: string;
 	lastSeenAt: Date;
 	firstName: string;
+	lastName?: string;
 	role: string;
 	phoneNumber: string;
 	address?: AddressType[];
@@ -36,6 +37,14 @@ const userSchemaDefinitions = {
 	},
 
 	firstName: {
+		type: String,
+		required: false,
+		default: "",
+		minLength: 0,
+		maxLength: 255,
+	},
+
+	lastName: {
 		type: String,
 		required: false,
 		default: "",
