@@ -19,6 +19,114 @@
 		}
 	],
 	"components": {
+		"schemas": {
+			"Order": {
+				"type": "object",
+				"properties": {
+					"orderId": {
+						"type": "string",
+						"example": "ORD-123456"
+					},
+					"userId": {
+						"type": "string",
+						"example": "USR-789123"
+					},
+					"description": {
+						"type": "string",
+						"example": "This is a test order."
+					},
+					"status": {
+						"type": "string",
+						"enum": ["pending", "completed", "canceled"],
+						"example": "pending"
+					},
+					"charge": {
+						"type": "number",
+						"example": 49.99
+					},
+					"pickupDate": {
+						"type": "string",
+						"format": "date-time",
+						"example": "2024-11-14T03:09:00.471Z"
+					},
+					"pickupDetails": {
+						"type": "object",
+						"properties": {
+							"location": {
+								"type": "object",
+								"properties": {
+									"lat": {
+										"type": "number",
+										"example": 6.21065699999999
+									},
+									"lng": {
+										"type": "number",
+										"example": 6.6886268
+									}
+								}
+							},
+							"address": {
+								"type": "string",
+								"example": "DBS Road, Asaba, Nigeria"
+							},
+							"name": {
+								"type": "string",
+								"example": "John Doe"
+							},
+							"phone": {
+								"type": "string",
+								"example": "08012345678"
+							}
+						}
+					},
+					"dropOffDetails": {
+						"type": "object",
+						"properties": {
+							"location": {
+								"type": "object",
+								"properties": {
+									"lat": {
+										"type": "number",
+										"example": 6.2055257
+									},
+									"lng": {
+										"type": "number",
+										"example": 6.7218543
+									}
+								}
+							},
+							"address": {
+								"type": "string",
+								"example": "Nnebisi Road, Asaba, Nigeria"
+							},
+							"name": {
+								"type": "string",
+								"example": "Jane Doe"
+							},
+							"phone": {
+								"type": "string",
+								"example": "07842697906"
+							}
+						}
+					},
+					"package_image": {
+						"type": "string",
+						"example": "https://example.com/image.jpg"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time",
+						"example": "2024-11-14T03:09:00.471Z"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time",
+						"example": "2024-11-14T04:00:00.471Z"
+					}
+				},
+				"required": ["orderId", "userId", "description", "status", "pickupDate", "pickupDetails", "dropOffDetails"]
+			}
+		},
 		"securitySchemes": {
 			"bearerAuth": {
 				"type": "http",
@@ -29,7 +137,9 @@
 				"description": "Bearer token"
 			}
 		}
-	},
+
+
+},
 	"paths": {
 		"/api/v1/g/google-places": {
 			"get": {
@@ -2113,7 +2223,96 @@
 		},
 
 
-		"/api/v1/auth/phone-login": {
+	"/api/v1/admin/orders/{orderId}": {
+		"get": {
+			"tags": [
+				"admin-orders"
+			],
+			"summary": "Get order by ID",
+			"description": "Retrieve a specific order by its ID.",
+			"operationId": "getOrderById",
+			"parameters": [
+				{
+					"name": "orderId",
+					"in": "path",
+					"required": true,
+					"schema": {
+						"type": "string"
+					},
+					"description": "The ID of the order to retrieve."
+				}
+			],
+			"responses": {
+				"200": {
+					"description": "Order retrieved successfully",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"status": {
+										"type": "string",
+										"example": "success"
+									},
+									"message": {
+										"type": "string",
+										"example": "Order retrieved"
+									},
+									"data": {
+										"$ref": "#/components/schemas/Order"
+									}
+								}
+							}
+						}
+					}
+				},
+				"404": {
+					"description": "Order not found",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"status": {
+										"type": "string",
+										"example": "error"
+									},
+									"message": {
+										"type": "string",
+										"example": "Order not found"
+									}
+								}
+							}
+						}
+					}
+				},
+				"500": {
+					"description": "Server error",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"status": {
+										"type": "string",
+										"example": "error"
+									},
+									"message": {
+										"type": "string",
+										"example": "Internal server error"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+
+
+
+"/api/v1/auth/phone-login": {
 		"post": {
 			"tags": [
 				"auth-phone"
@@ -2740,10 +2939,327 @@
 			}
 		}
 	},
-		"/api/v1/packages/": {
+
+	"/api/v1/orders": {
+		"get": {
+			"summary": "Retrieve all orders",
+			"description": "Fetches a list of all orders with optional pagination, search, and filtering.",
+			"tags": ["orders-routes"],
+			"parameters": [
+				{
+					"in": "query",
+					"name": "page",
+					"schema": {
+						"type": "integer",
+						"default": 1
+					},
+					"required": false,
+					"description": "The page number for pagination."
+				},
+				{
+					"in": "query",
+					"name": "perPage",
+					"schema": {
+						"type": "integer",
+						"default": 20
+					},
+					"required": false,
+					"description": "The number of items per page."
+				},
+				{
+					"in": "query",
+					"name": "search",
+					"schema": {
+						"type": "string"
+					},
+					"required": false,
+					"description": "Search term to filter orders by attributes like name or email."
+				},
+				{
+					"in": "query",
+					"name": "type",
+					"schema": {
+						"type": "string",
+						"enum": ["food", "package"]
+					},
+					"required": false,
+					"description": "Filter orders by type (e.g., 'food' or 'package')."
+				}
+			],
+			"responses": {
+				"200": {
+					"description": "A list of orders.",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"message": {
+										"type": "string",
+										"example": "Orders retrieved successfully"
+									},
+									"data": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"_id": {
+													"type": "string",
+													"example": "63a5ef97e6e4bc1f10b12345"
+												},
+												"orderId": {
+													"type": "string",
+													"example": "ORD-123456"
+												},
+												"type": {
+													"type": "string",
+													"example": "food"
+												},
+												"charge": {
+													"type": "number",
+													"example": 12.5
+												},
+												"status": {
+													"type": "string",
+													"example": "completed"
+												},
+												"createdAt": {
+													"type": "string",
+													"format": "date-time",
+													"example": "2023-11-12T08:56:48.000Z"
+												},
+												"updatedAt": {
+													"type": "string",
+													"format": "date-time",
+													"example": "2023-11-12T09:56:48.000Z"
+												},
+												"pickupTime": {
+													"type": "string",
+													"format": "date-time",
+													"example": "2023-11-12T10:00:00.000Z"
+												},
+												"assignedTo": {
+													"type": "string",
+													"example": "John Doe"
+												},
+												"description": {
+													"type": "string",
+													"example": "A large box of food items"
+												},
+												"cashPaymentLocation": {
+													"type": "string",
+													"example": "Delivery"
+												}
+											}
+										}
+									},
+									"meta": {
+										"type": "object",
+										"properties": {
+											"totalPages": {
+												"type": "integer",
+												"example": 5
+											},
+											"page": {
+												"type": "integer",
+												"example": 1
+											},
+											"perPage": {
+												"type": "integer",
+												"example": 20
+											},
+											"total": {
+												"type": "integer",
+												"example": 100
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"400": {
+					"description": "Invalid request parameters",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"message": {
+										"type": "string",
+										"example": "Invalid parameters"
+									}
+								}
+							}
+						}
+					}
+				},
+				"500": {
+					"description": "Server error",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"message": {
+										"type": "string",
+										"example": "Internal server error"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+		"/api/v1/orders/restaurant": {
+			"post": {
+				"summary": "Create a new restaurant order",
+
+				"tags": ["orders-routes"],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"required": [
+									"userId",
+									"dropOffDetails",
+									"pickupDetails",
+									"menuItems",
+									"charge"
+								],
+								"properties": {
+									"userId": {
+										"type": "string",
+										"description": "ID of the user placing the order"
+									},
+									"dropOffDetails": {
+										"type": "object",
+										"description": "Details about the drop-off location"
+									},
+									"pickupDetails": {
+										"type": "object",
+										"description": "Details about the pickup location"
+									},
+									"menuItems": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"name": {
+													"type": "string"
+												},
+												"quantity": {
+													"type": "integer"
+												},
+												"price": {
+													"type": "number"
+												}
+											}
+										}
+									},
+									"charge": {
+										"type": "number",
+										"description": "Total charge for the order"
+									},
+									"description": {
+										"type": "string",
+										"description": "Optional description for the order"
+									},
+									"cashPaymentLocation": {
+										"type": "string",
+										"description": "Optional location for cash payment"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Order created successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "Order created successfully"
+										},
+										"data": {
+											"type": "object",
+											"properties": {
+												"_id": {
+													"type": "string"
+												},
+												"type": {
+													"type": "string",
+													"example": "food"
+												},
+												"userId": {
+													"type": "string"
+												},
+												"dropOffDetails": {
+													"type": "object"
+												},
+												"pickupDetails": {
+													"type": "object"
+												},
+												"charge": {
+													"type": "number"
+												},
+												"status": {
+													"type": "string",
+													"example": "pending"
+												},
+												"description": {
+													"type": "string"
+												},
+												"cashPaymentLocation": {
+													"type": "string"
+												},
+												"menuItems": {
+													"type": "array",
+													"items": {
+														"type": "object",
+														"properties": {
+															"name": {
+																"type": "string"
+															},
+															"quantity": {
+																"type": "integer"
+															},
+															"price": {
+																"type": "number"
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Invalid request payload"
+					},
+					"500": {
+						"description": "Server error"
+					}
+				}
+			}
+		},
+		"/api/v1/orders/package-delivery": {
 			"post": {
 				"summary": "Create a new package",
-				"tags": ["packages-routes"],
+				"tags": ["orders-routes"],
 				"requestBody": {
 					"required": true,
 					"content": {
@@ -2915,6 +3431,7 @@
 			}
 		},
 
+
 "/api/v1/restaurants": {
 		"get": {
 			"summary": "all restaurants",
@@ -3005,149 +3522,7 @@
 			}
 		}
 	},
-	"/api/v1/restaurants/order": {
-		"post": {
-			"summary": "Create a new restaurant order",
-			"tags": [
-				"restaurant-routes"
-			],
-			"requestBody": {
-				"required": true,
-				"content": {
-					"application/json": {
-						"schema": {
-							"type": "object",
-							"required": [
-								"userId",
-								"dropOffDetails",
-								"pickupDetails",
-								"menuItems",
-								"charge"
-							],
-							"properties": {
-								"userId": {
-									"type": "string",
-									"description": "ID of the user placing the order"
-								},
-								"dropOffDetails": {
-									"type": "object",
-									"description": "Details about the drop-off location"
-								},
-								"pickupDetails": {
-									"type": "object",
-									"description": "Details about the pickup location"
-								},
-								"menuItems": {
-									"type": "array",
-									"items": {
-										"type": "object",
-										"properties": {
-											"name": {
-												"type": "string"
-											},
-											"quantity": {
-												"type": "integer"
-											},
-											"price": {
-												"type": "number"
-											}
-										}
-									}
-								},
-								"charge": {
-									"type": "number",
-									"description": "Total charge for the order"
-								},
-								"description": {
-									"type": "string",
-									"description": "Optional description for the order"
-								},
-								"cashPaymentLocation": {
-									"type": "string",
-									"description": "Optional location for cash payment"
-								}
-							}
-						}
-					}
-				}
-			},
-			"responses": {
-				"201": {
-					"description": "Order created successfully",
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"message": {
-										"type": "string",
-										"example": "Order created successfully"
-									},
-									"data": {
-										"type": "object",
-										"properties": {
-											"_id": {
-												"type": "string"
-											},
-											"type": {
-												"type": "string",
-												"example": "food"
-											},
-											"userId": {
-												"type": "string"
-											},
-											"dropOffDetails": {
-												"type": "object"
-											},
-											"pickupDetails": {
-												"type": "object"
-											},
-											"charge": {
-												"type": "number"
-											},
-											"status": {
-												"type": "string",
-												"example": "pending"
-											},
-											"description": {
-												"type": "string"
-											},
-											"cashPaymentLocation": {
-												"type": "string"
-											},
-											"menuItems": {
-												"type": "array",
-												"items": {
-													"type": "object",
-													"properties": {
-														"name": {
-															"type": "string"
-														},
-														"quantity": {
-															"type": "integer"
-														},
-														"price": {
-															"type": "number"
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				},
-				"400": {
-					"description": "Invalid request payload"
-				},
-				"500": {
-					"description": "Server error"
-				}
-			}
-		}
-	},
+
 
 
 		"/api/v1/restaurants/{slug}": {

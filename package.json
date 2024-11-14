@@ -13,7 +13,6 @@
     "lint": "eslint . --ext .ts,",
     "copyusers": "tsx --watch backend/jobs/seeders/copyusers.ts",
     "seed-users": "bun --watch backend/auth/seeder.ts",
-    "seed-packages": "bun --watch backend/user/packages/seeder.ts",
     "seed-addresses": "bun --watch backend/address/seeder.ts",
     "seed-restaurants": "bun --watch backend/restaurant/seeder.ts",
     "seed-category": "bun --watch backend/category/seeder.ts",

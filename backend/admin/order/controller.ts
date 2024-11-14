@@ -7,20 +7,23 @@ import OrderModel from "./model";
 
 const AdminOrderController = {
 	async all(req: Request, res: Response): Promise<void> {
+		console.log(req.query, "Query params");
 		const page: number = Number.parseInt(req.query.page as string) || 1;
 		const perPage: number = Number.parseInt(req.query.perPage as string) || 20;
 		const search: string = (req.query.search as string) || "";
+		const type: string = (req.query.type as string) || ""; // Type of order, either "food" or "package"
 
 		try {
-			const searchQuery = search
-				? {
-						$or: [
-							{ firstName: { $regex: search, $options: "i" } },
-							{ email: { $regex: search, $options: "i" } },
-							{ phoneNumber: { $regex: search, $options: "i" } },
-						],
-					}
-				: {};
+			const searchQuery: any = {
+				...(search && {
+					$or: [
+						{ firstName: { $regex: search, $options: "i" } },
+						{ email: { $regex: search, $options: "i" } },
+						{ phoneNumber: { $regex: search, $options: "i" } },
+					],
+				}),
+				...(type && { type }), // Add type filter if provided
+			};
 
 			const sort: { [key: string]: SortOrder } = { createdAt: -1 };
 
@@ -126,7 +129,17 @@ const AdminOrderController = {
 		}
 	},
 
+		async one(req: Request, res: Response): Promise<void> {
+		const order = res.locals.orderItem as any;
 
+		try {
+			/*const order = res.locals.orderItem as any;
+			const order = await OrderModel.findById(order);*/
+			SendResponse.success(res, "Order retrieved", order);
+		} catch (e: any) {
+			SendResponse.serverError(res, e.message);
+		}
+	},
 };
 
 export default AdminOrderController;

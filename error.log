@@ -37,3 +37,21 @@
 2024-11-11T21:39:39.871Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.address: Path `dropOffDetails.address` is required., dropOffDetails.phoneNumber: Path `dropOffDetails.phoneNumber` is required., type: Path `type` is required.
 2024-11-11T21:39:58.600Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.phoneNumber: Path `dropOffDetails.phoneNumber` is required., type: Path `type` is required.
 2024-11-11T21:42:04.413Z [undefined] [31merror[39m: orders validation failed: type: Path `type` is required.
+2024-11-11T21:56:09.098Z [undefined] [31merror[39m: orders validation failed: charge: Path `charge` is required.
+2024-11-11T21:56:14.637Z [undefined] [31merror[39m: orders validation failed: charge: Path `charge` is required.
+2024-11-11T21:57:18.546Z [undefined] [31merror[39m: orders validation failed: charge: Path `charge` is required.
+2024-11-11T21:57:48.998Z [undefined] [31merror[39m: orders validation failed: charge: Path `charge` is required.
+2024-11-11T21:58:28.164Z [undefined] [31merror[39m: orders validation failed: charge: Path `charge` is required.
+2024-11-11T21:59:59.411Z [undefined] [31merror[39m: orders validation failed: charge: Path `charge` is required.
+2024-11-11T22:01:45.222Z [undefined] [31merror[39m: orders validation failed: charge: Path `charge` is required.
+2024-11-12T10:36:03.073Z [undefined] [31merror[39m: Error creating order
+2024-11-12T10:41:51.810Z [undefined] [31merror[39m: Invalid api_key "279469149149423"o
+2024-11-14T03:44:57.315Z [undefined] [31merror[39m: No such file or directory
+2024-11-14T03:57:22.834Z [undefined] [31merror[39m: No such file or directory
+2024-11-14T03:57:33.915Z [undefined] [31merror[39m: No such file or directory
+2024-11-14T04:00:08.162Z [undefined] [31merror[39m: Invalid api_key "279469149149423"o
+2024-11-14T04:01:28.733Z [undefined] [31merror[39m: Invalid api_key "279469149149423"o
+2024-11-14T04:04:35.242Z [undefined] [31merror[39m: Invalid api_key "279469149149423"o
+2024-11-14T04:04:51.886Z [undefined] [31merror[39m: Invalid api_key "279469149149423"o
+2024-11-14T04:09:49.514Z [undefined] [31merror[39m: Invalid api_key "279469149149423"o
+2024-11-14T04:10:06.471Z [undefined] [31merror[39m: Invalid api_key "279469149149423"o

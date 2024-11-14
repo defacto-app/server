@@ -19,8 +19,8 @@ import swaggerDocument from "./storage/json/swagger.json";
 import DashboardRoutes from "./backend/admin/dashboard.routes";
 import AuthRoutes from "./backend/auth/routes";
 
-import PackageRoutes from "./backend/user/packages/route";
 import RestaurantRoutes from "./backend/restaurant/route";
+import OrderRoutes from "./backend/orders/route";
 import PaymentRoutes from "./backend/payment/route";
 //
 //
@@ -63,7 +63,11 @@ app.use(cors());
 
 
 
-app.use(express.json());
+app.use(express.json(
+	{
+		limit: "1mb",
+	},
+));
 
 app.use(
 	session({
@@ -135,7 +139,7 @@ app.use((req, res, next) => {
 // Use the custom logging middleware
 // app.use("/api", PublicRoutes);
 app.use("/api/v1/address", AddressRoutes);
-app.use("/api/v1/packages", PackageRoutes);
+app.use("/api/v1/orders", OrderRoutes);
 app.use("/api/v1/restaurants", RestaurantRoutes);
 app.use("/api/v1/payments", PaymentRoutes);
 app.use("/api/v1/g", PublicRoutes);

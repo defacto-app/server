@@ -1,7 +1,6 @@
 import { Router } from "express";
 import AuthController from "./controller";
 import authMiddleware from "../user/middleware";
-import packageMiddleware from "../user/packages/middleware";
 
 const router = Router();
 
@@ -20,7 +19,6 @@ router.get("/logout", AuthController.logout);
 router.get(
 	"/ping",
 	authMiddleware.validateUser,
-	packageMiddleware.userPackages,
 	AuthController.ping,
 );
 

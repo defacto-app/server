@@ -1,10 +1,5 @@
 import type { Request, Response } from "express";
-/*import paginate from "../../utils/pagination";
-import RestaurantModel from "../../restaurant/model";
-import type { SortOrder } from "mongoose";
-import { uploadToCloudinary } from "../../helper/cloudinary";
-import { v2 as cloudinary } from "cloudinary";
-import fs from "node:fs";*/
+
 import SendResponse from "../../../libs/response-helper";
 import MenuModel from "../../../menu/model";
 import paginate from "../../../utils/pagination";
