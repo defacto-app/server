@@ -10,6 +10,6 @@ router.use(authMiddleware.validateAdmin);
 
 // Define a middleware for the 'slug' parameter
 
-router.get("/", Dashboard.all_users);
+router.get("/", Dashboard.summary);
 
 export default router;

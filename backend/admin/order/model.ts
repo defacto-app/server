@@ -132,28 +132,3 @@ const OrderModel = mongoose.model<OrderDataType>("orders", OrderSchema);
 
 export default OrderModel;
 
-/*
-
-
-pickupDetails: {
-   name: { type: String, required: true },
-   phone: { type: String, required: true },
-   email: { type: String, required: true },
-   address: { type: Object, required: true },
-},
-deliveryMode: {
-   type: String,
-   enum: ["Motorcycle", "Tricycle", "Bicycle", "Foot"],
-   required: true,
-},
-
-cashPaymentLocation: {
-   type: String,
-   enum: ["Pick-up", "Delivery"],
-   required: true,
-},
-cashAvailable: {
-   available: { type: Boolean, default: false },
-   amount: { type: Number, default: 0 },
-},
-*/
