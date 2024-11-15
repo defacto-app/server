@@ -27,6 +27,10 @@ const restaurantSchemaDefinitions = {
 		minLength: 1,
 		maxLength: 255,
 	},
+	isOpen: {
+		type: Boolean,
+		default: true
+	},
 	slug: {
 		type: String,
 		required: false,
@@ -34,6 +38,14 @@ const restaurantSchemaDefinitions = {
 		minLength: 1,
 		maxLength: 255,
 	},
+
+// Add business hours validation
+businessHours: [{
+  day: { type: String, enum: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] },
+  open: String,
+  close: String,
+  isClosed: { type: Boolean, default: false }
+}],
 	name: {
 		type: String,
 		required: true,
