@@ -49,13 +49,15 @@ const RestaurantController = {
 		try {
 			// Fetch active menu categories first
 			const categories = await CategoryModel.find({
-				categoryType: 'menu',
-				active: true
-			}).select('_id name slug').sort('name');
+				categoryType: "menu",
+				active: true,
+			})
+				.select("_id name slug")
+				.sort("name");
 
 			// Build search conditions
 			const searchConditions: any = {
-				parent: data.publicId
+				parent: data.publicId,
 			};
 
 			// Add search query if provided
@@ -70,29 +72,32 @@ const RestaurantController = {
 
 			// Fetch menu items with populated category
 			const menuItems = await MenuModel.find(searchConditions)
-				.populate('categoryId', 'name slug')
+				.populate("categoryId", "name slug")
 				.sort({ name: 1 });
 
-			// Filter out categories with no items
+			// Filter menu items to only include those with a valid categoryId
+			const validMenuItems = menuItems.filter((item: any) => item.categoryId);
+
+			// Collect category IDs from valid menu items
 			const categoryIdsWithItems = new Set(
-				menuItems.map((item: any) => String(item.categoryId._id))
+				validMenuItems.map((item: any) => String(item.categoryId._id)),
 			);
-			const filteredCategories = categories.filter(category =>
-				categoryIdsWithItems.has(String(category._id))
+
+			// Filter categories to include only those with associated menu items
+			const filteredCategories = categories.filter((category) =>
+				categoryIdsWithItems.has(String(category._id)),
 			);
 
 			SendResponse.success(res, "Restaurant and menu retrieved", {
 				restaurant: data,
-				menu: menuItems,
-				categories: filteredCategories // Only include categories with items
+				menu: validMenuItems, // Only include valid menu items
+				categories: filteredCategories, // Only include categories with items
 			});
-
 		} catch (error: any) {
 			console.error("Restaurant controller error:", error);
 			SendResponse.serverError(res, error.message);
 		}
-	}
-,
+	},
 
 	async categories(req: Request, res: Response): Promise<void> {
 		try {

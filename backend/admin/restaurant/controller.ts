@@ -208,70 +208,75 @@ const AdminRestaurantController = {
 		}
 	},
 
-	async categories(req: Request, res: Response): Promise<void> {
-		try {
-			const search = (req.query.search as string) || "";
-			const page = Number.parseInt(req.query.page as string) || 1;
-			const perPage = Number.parseInt(req.query.perPage as string) || 10;
+   async categories(req: Request, res: Response): Promise<void> {
+      try {
+         const search = (req.query.search as string) || "";
+         const page = Number.parseInt(req.query.page as string) || 1;
+         const perPage = Number.parseInt(req.query.perPage as string) || 10;
 
-			const query: any = {};
-			if (search) {
-				query.name = { $regex: search, $options: "i" };
-			}
+         // Build the search query
+         const matchStage: any = {};
+         if (search) {
+            matchStage.name = { $regex: search, $options: "i" }; // Case-insensitive search
+         }
 
-			const categories = await CategoryModel.aggregate([
-				{
-					$lookup: {
-						from: "menus", // Collection name for MenuModel
-						localField: "_id", // Match CategoryModel._id
-						foreignField: "categoryId", // With MenuModel.categoryId
-						as: "menuItems", // Alias for joined data
-					},
-				},
-				{
-					$lookup: {
-						from: "restaurants", // Collection name for RestaurantModel
-						localField: "_id", // Match CategoryModel._id
-						foreignField: "categoryId", // With RestaurantModel.categoryId
-						as: "restaurants", // Alias for joined data
-					},
-				},
-				{
-					$addFields: {
-						menuCount: { $size: "$menuItems" }, // Count number of menu items
-						restaurantCount: { $size: "$restaurants" }, // Count number of restaurants
-					},
-				},
-				{
-					$project: {
-						name: 1,
-						slug: 1,
-						publicId: 1,
-						menuCount: 1,
-						restaurantCount: 1,
-						createdAt: 1,
-						updatedAt: 1,
-					},
-				},
-				{ $skip: (page - 1) * perPage }, // Pagination
-				{ $limit: perPage },
-			]);
+         // Aggregation pipeline
+         const categories = await CategoryModel.aggregate([
+            { $match: matchStage }, // Apply the search filter here
+            {
+               $lookup: {
+                  from: "menus",
+                  localField: "_id",
+                  foreignField: "categoryId",
+                  as: "menuItems",
+               },
+            },
+            {
+               $lookup: {
+                  from: "restaurants",
+                  localField: "_id",
+                  foreignField: "categoryId",
+                  as: "restaurants",
+               },
+            },
+            {
+               $addFields: {
+                  menuCount: { $size: "$menuItems" },
+                  restaurantCount: { $size: "$restaurants" },
+               },
+            },
+            {
+               $project: {
+                  name: 1,
+                  slug: 1,
+                  publicId: 1,
+                  menuCount: 1,
+                  restaurantCount: 1,
+                  createdAt: 1,
+                  updatedAt: 1,
+               },
+            },
+            { $skip: (page - 1) * perPage },
+            { $limit: perPage },
+         ]);
 
-			const totalCategories = await CategoryModel.countDocuments(query);
+         // Count total categories matching the query
+         const totalCategories = await CategoryModel.countDocuments(matchStage);
 
-			SendResponse.success(res, "Categories retrieved", {
-				data: categories,
-				meta: {
-					page,
-					perPage,
-					totalCategories,
-					totalPages: Math.ceil(totalCategories / perPage),
-				},
-			});
-		} catch (error: any) {
-			SendResponse.serverError(res, error.message);
-		}
-	},
+         SendResponse.success(res, "Categories retrieved", {
+            data: categories,
+            meta: {
+               page,
+               perPage,
+               totalCategories,
+               totalPages: Math.ceil(totalCategories / perPage),
+            },
+         });
+      } catch (error: any) {
+         SendResponse.serverError(res, error.message);
+      }
+   },
+
 
    async deleteCategory(req: Request, res: Response): Promise<void> {
       try {

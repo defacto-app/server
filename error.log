@@ -59,3 +59,15 @@
 2024-11-15T05:31:34.133Z [undefined] [31merror[39m: Can't find variable: MenuModel
 2024-11-15T05:31:38.155Z [undefined] [31merror[39m: Can't find variable: MenuModel
 2024-11-18T09:28:37.415Z [undefined] [31merror[39m: restaurants validation failed: openingHours: Cast to Object failed for value "9:45 PM - 8:14 AM" (type string) at path "openingHours", openingHours.sunday.close: Path `openingHours.sunday.close` is required., openingHours.sunday.open: Path `openingHours.sunday.open` is required., openingHours.saturday.close: Path `openingHours.saturday.close` is required., openingHours.saturday.open: Path `openingHours.saturday.open` is required., openingHours.friday.close: Path `openingHours.friday.close` is required., openingHours.friday.open: Path `openingHours.friday.open` is required., openingHours.thursday.close: Path `openingHours.thursday.close` is required., openingHours.thursday.open: Path `openingHours.thursday.open` is required., openingHours.wednesday.close: Path `openingHours.wednesday.close` is required., openingHours.wednesday.open: Path `openingHours.wednesday.open` is required., openingHours.tuesday.close: Path `openingHours.tuesday.close` is required., openingHours.tuesday.open: Path `openingHours.tuesday.open` is required., openingHours.monday.close: Path `openingHours.monday.close` is required., openingHours.monday.open: Path `openingHours.monday.open` is required.
+2024-11-20T06:37:28.613Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
+2024-11-20T06:37:29.050Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
+2024-11-20T06:37:29.484Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
+2024-11-20T06:37:29.914Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
+2024-11-20T06:37:41.452Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
+2024-11-20T06:37:41.881Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
+2024-11-20T06:37:42.312Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
+2024-11-20T06:37:42.743Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
+2024-11-20T06:38:12.427Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
+2024-11-20T06:38:12.860Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
+2024-11-20T06:38:13.288Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
+2024-11-20T06:38:13.717Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
