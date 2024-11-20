@@ -6,14 +6,13 @@ export interface MenuDataType extends Document {
    publicId: string;
    name: string;
    slug: string;
-   category: string;
+   categoryId: mongoose.Types.ObjectId;
    image: string;
    price: number;
    createdAt: Date;
    available: boolean;
    updatedAt: Date;
    parent: string;
-   menuType: string;
 }
 
 const menuSchemaDefinitions = {
@@ -44,30 +43,32 @@ const menuSchemaDefinitions = {
       minLength: 1,
       maxLength: 255,
    },
-
-   category: {
-      type: String,
+   categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
       required: true,
-      minLength: 1,
-      maxLength: 255,
+      validate: {
+         validator: async (value: mongoose.Types.ObjectId) => {
+            const category = await mongoose.model('Category').findOne({
+               _id: value,
+               categoryType: 'menu',
+               active: true
+            });
+            return !!category;
+         },
+         message: 'Category must exist and be an active menu category'
+      }
    },
    image: {
       type: String,
       required: false,
       default: "https://placehold.co/600x400.png",
    },
-
    available: {
       type: Boolean,
       required: true,
       default: true,
    },
-   menuType: {
-      type: String,
-      required: true,
-      enum: ["appetizer", "main", "dessert", "beverage"], // Add valid types
-   },
-
    price: {
       type: Number,
       required: true,
@@ -109,23 +110,16 @@ MenuSchema.pre("save", async function (next) {
 
    next();
 });
-MenuSchema.methods.calculateDiscountedPrice = function (
-   discountPercent: number
-) {
-   return this.price * (1 - discountPercent / 100);
-};
-
-const MenuModel = mongoose.model<MenuDataType>("Menu", MenuSchema);
 
 // Add method to calculate discounted price
-
-MenuSchema.methods.calculateDiscountedPrice = function (
-   discountPercent: number
-) {
+MenuSchema.methods.calculateDiscountedPrice = function (discountPercent: number) {
    return this.price * (1 - discountPercent / 100);
 };
+
 // Add indexes for frequently queried fields
 MenuSchema.index({ slug: 1, parent: 1 });
-MenuSchema.index({ category: 1 });
+MenuSchema.index({ categoryId: 1 }); // Updated to use categoryId instead of category
+
+const MenuModel = mongoose.model<MenuDataType>("Menu", MenuSchema);
 
 export default MenuModel;

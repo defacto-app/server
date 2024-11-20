@@ -43,32 +43,56 @@ const RestaurantController = {
 
 	async one(req: Request, res: Response): Promise<void> {
 		const data = res.locals.restaurantItem as any;
-		const searchQuery = req.query.search as string; // Get search query from request query
-		console.log(searchQuery,"restaurantSlug");
+		const searchQuery = req.query.search as string;
+		const categoryId = req.query.categoryId as string;
 
 		try {
-			// Create a search condition to check if a search query exists
-			const searchCondition = searchQuery
-				? {
-						parent: data.publicId,
-						name: { $regex: searchQuery, $options: "i" },
-					} // Case-insensitive search by name
-				: { parent: data.publicId }; // If no search query, fetch all items
+			// Fetch active menu categories first
+			const categories = await CategoryModel.find({
+				categoryType: 'menu',
+				active: true
+			}).select('_id name slug').sort('name');
 
-			// Fetch menu items for the restaurant based on search
-			const menuItems = await MenuModel.find(searchCondition);
+			// Build search conditions
+			const searchConditions: any = {
+				parent: data.publicId
+			};
 
-			// Return both the restaurant data and the filtered menu items
+			// Add search query if provided
+			if (searchQuery) {
+				searchConditions.name = { $regex: searchQuery, $options: "i" };
+			}
+
+			// Add category filter if provided
+			if (categoryId) {
+				searchConditions.categoryId = categoryId;
+			}
+
+			// Fetch menu items with populated category
+			const menuItems = await MenuModel.find(searchConditions)
+				.populate('categoryId', 'name slug')
+				.sort({ name: 1 });
+
+			// Filter out categories with no items
+			const categoryIdsWithItems = new Set(
+				menuItems.map((item: any) => String(item.categoryId._id))
+			);
+			const filteredCategories = categories.filter(category =>
+				categoryIdsWithItems.has(String(category._id))
+			);
+
 			SendResponse.success(res, "Restaurant and menu retrieved", {
 				restaurant: data,
 				menu: menuItems,
+				categories: filteredCategories // Only include categories with items
 			});
 
-
 		} catch (error: any) {
+			console.error("Restaurant controller error:", error);
 			SendResponse.serverError(res, error.message);
 		}
-	},
+	}
+,
 
 	async categories(req: Request, res: Response): Promise<void> {
 		try {

@@ -12,7 +12,12 @@ class RestaurantMiddleware {
 
 		try {
 			if (!restaurantSlug) {
-				return res.status(400).json({ error: "restaurant name  is required" });
+
+				SendResponse.notFound(
+					res,
+					`Sorry, restaurant  ${restaurantSlug} is deleted or doesnt exist `,
+				)
+
 			}
 
 			const rst = await RestaurantModel.findOne({
@@ -38,7 +43,6 @@ class RestaurantMiddleware {
 	public async restaurantPublicId(req: Request, res: Response, next: NextFunction) {
 		const publicId = req.params.publicId;
 
-		console.log(publicId,"restaurantPublicId");
 		try {
 			if (!publicId) {
 				return res.status(400).json({ error: "restaurant name  is required" });
