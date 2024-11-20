@@ -13,6 +13,9 @@ const router = Router();
 
 // Apply the middleware to all routes
 router.use(authMiddleware.validateAdmin);
+
+router.delete("/categories/:categoryId",RestaurantMiddleware.categoryPublicId, RestaurantController.deleteCategory);
+
 router.param("publicId", RestaurantMiddleware.restaurantPublicId);
 
 // middleware to validate user

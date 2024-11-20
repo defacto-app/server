@@ -3,21 +3,18 @@ import type { NextFunction, Request, Response } from "express";
 import SendResponse from "../libs/response-helper";
 import RestaurantModel from "../restaurant/model";
 import MenuModel from "../menu/model";
+import CategoryModel from "../category/model";
 
 class RestaurantMiddleware {
-
-
 	public async restaurantSlug(req: Request, res: Response, next: NextFunction) {
 		const restaurantSlug = req.params.slug;
 
 		try {
 			if (!restaurantSlug) {
-
 				SendResponse.notFound(
 					res,
 					`Sorry, restaurant  ${restaurantSlug} is deleted or doesnt exist `,
-				)
-
+				);
 			}
 
 			const rst = await RestaurantModel.findOne({
@@ -34,13 +31,16 @@ class RestaurantMiddleware {
 			res.locals.restaurantItem = rst;
 
 			next();
-		
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
 	}
 
-	public async restaurantPublicId(req: Request, res: Response, next: NextFunction) {
+	public async restaurantPublicId(
+		req: Request,
+		res: Response,
+		next: NextFunction,
+	) {
 		const publicId = req.params.publicId;
 
 		try {
@@ -62,7 +62,6 @@ class RestaurantMiddleware {
 			res.locals.restaurantItem = rst;
 
 			next();
-
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
@@ -90,11 +89,46 @@ class RestaurantMiddleware {
 			res.locals.menuItem = menu;
 
 			next();
-
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
 	}
+
+	public async categoryPublicId(
+		req: Request,
+		res: Response,
+		next: NextFunction,
+	) {
+		const publicId = req.params.categoryId; // Correct parameter name
+
+		console.log(publicId, "category id");
+		try {
+			if (!publicId) {
+				return res
+					.status(400)
+					.json({ error: "Category public ID is required" });
+			}
+
+			// Use CategoryModel instead of MenuModel
+			const category = await CategoryModel.findOne({
+				publicId: publicId,
+			});
+
+			if (!category) {
+				return SendResponse.notFound(
+					res,
+					`Category with public ID ${publicId} does not exist.`,
+				);
+			}
+
+			res.locals.categoryItem = category;
+
+			next();
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	}
+
 }
 
 export default new RestaurantMiddleware();
