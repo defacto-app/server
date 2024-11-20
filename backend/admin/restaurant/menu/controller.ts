@@ -11,7 +11,7 @@ import { uploadToCloudinary } from "../../../helper/cloudinary";
 const AdminRestaurantMenuController = {
 	async create(req: Request, res: Response): Promise<void> {
 		const restaurant = res.locals.restaurantItem as any;
-		const { name, category, price, available, image,menuType } = req.body;
+		const { name, category, price, available, image, menuType } = req.body;
 
 		console.log(req.body, "create menu !!");
 		try {
@@ -38,31 +38,33 @@ const AdminRestaurantMenuController = {
 
 	async all(req: Request, res: Response): Promise<void> {
 		const restaurant = res.locals.restaurantItem as any;
-
+		const search: string = (req.query.search as string) || "";
 		const page: number = Number.parseInt(req.query.page as string) || 1;
 		const perPage: number = Number.parseInt(req.query.perPage as string) || 10;
-		const query = { parent: restaurant.publicId }
+
+		// Base query with parent filter
+		const query: any = { parent: restaurant.publicId };
+
+		// Add search criteria if search term exists
+		if (search) {
+			query.$or = [
+				{ slug: { $regex: search, $options: "i" } },
+				{ name: { $regex: search, $options: "i" } },
+				{ category: { $regex: search, $options: "i" } },
+				{ menuType: { $regex: search, $options: "i" } },
+			];
+		}
 
 		try {
-
-			const paginationResult = await paginate(
-				MenuModel,
-				page,
-				perPage,
-				query,
-			);
-
+			const paginationResult = await paginate(MenuModel, page, perPage, query);
 
 			SendResponse.success(res, "Menu items retrieved", paginationResult);
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
 	},
-
 	async one(req: Request, res: Response): Promise<void> {
 		const data = res.locals.menuItem as any;
-
-
 
 		try {
 			SendResponse.success(res, "Menu item retrieved", data);
@@ -94,7 +96,6 @@ const AdminRestaurantMenuController = {
 	async upload(req: Request, res: Response): Promise<void> {
 		const menu = res.locals.menuItem as any;
 
-
 		try {
 			if (!req.file) {
 				SendResponse.badRequest(res, "No image file uploaded");
@@ -102,10 +103,7 @@ const AdminRestaurantMenuController = {
 			}
 
 			// Upload the file to Cloudinary
-			const result = await uploadToCloudinary(
-				req.file.path,
-				"defacto/menu",
-			);
+			const result = await uploadToCloudinary(req.file.path, "defacto/menu");
 
 			// Remove file from server after upload
 			fs.unlinkSync(req.file.path);
@@ -117,8 +115,6 @@ const AdminRestaurantMenuController = {
 					{ fetch_format: "auto", quality: "auto" },
 				],
 			});
-
-
 
 			menu.image = optimizedUrl;
 
@@ -135,6 +131,37 @@ const AdminRestaurantMenuController = {
 		}
 	},
 
+	async allMenu(req: Request, res: Response): Promise<void> {
+		const page: number = Number.parseInt(req.query.page as string) || 1;
+		const perPage: number = Number.parseInt(req.query.perPage as string) || 20;
+		const search: string = (req.query.search as string) || ""; // Get search term
+
+		try {
+			// Create a search query using regex to match the search term (case-insensitive)
+			const searchQuery = search
+				? { name: { $regex: search, $options: "i" } } // Search by menu item name (case-insensitive)
+				: {}; // If no search term, return all menu items
+
+			// Define the sort order
+			const sort: { [key: string]: any } = { name: 1 }; // Sort by name in ascending order
+
+			// Use the searchQuery in the pagination function
+			const paginationResult = await paginate(
+				MenuModel,
+				page,
+				perPage,
+				searchQuery,
+				undefined,
+				sort, // Pass the sort parameter
+			);
+
+			// Send a successful response with the retrieved data
+			SendResponse.success(res, "Menu items retrieved", paginationResult);
+		} catch (error: any) {
+			// Send a server error response in case of failure
+			SendResponse.serverError(res, error.message);
+		}
+	},
 
 	/* async all(req: Request, res: Response): Promise<void> {
       // Extract page, perPage, and search term from request query. Set default values if not provided.
@@ -253,4 +280,3 @@ const AdminRestaurantMenuController = {
 };
 
 export default AdminRestaurantMenuController;
-

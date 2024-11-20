@@ -15,7 +15,7 @@
   "markdown.preview.fontFamily": "Monaspace Krypton",
   "editor.inlayHints.fontFamily": "Monaspace Krypton",
   // Font size
-  "editor.fontSize": 13,
+  "editor.fontSize": 11,
   "terminal.integrated.fontSize": 12,
   // ui
   "editor.minimap.enabled": true,

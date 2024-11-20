@@ -125,7 +125,52 @@
 					}
 				},
 				"required": ["orderId", "userId", "description", "status", "pickupDate", "pickupDetails", "dropOffDetails"]
-			}
+			},
+			"DayHours": {
+        "type": "object",
+        "properties": {
+          "open": {
+            "type": "string",
+            "example": "09:00",
+            "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "close": {
+            "type": "string",
+            "example": "22:00",
+            "pattern": "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"
+          },
+          "isClosed": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "OpeningHours": {
+        "type": "object",
+        "properties": {
+          "monday": {
+            "$ref": "#/components/schemas/DayHours"
+          },
+          "tuesday": {
+            "$ref": "#/components/schemas/DayHours"
+          },
+          "wednesday": {
+            "$ref": "#/components/schemas/DayHours"
+          },
+          "thursday": {
+            "$ref": "#/components/schemas/DayHours"
+          },
+          "friday": {
+            "$ref": "#/components/schemas/DayHours"
+          },
+          "saturday": {
+            "$ref": "#/components/schemas/DayHours"
+          },
+          "sunday": {
+            "$ref": "#/components/schemas/DayHours"
+          }
+        }
+      }
 		},
 		"securitySchemes": {
 			"bearerAuth": {
@@ -858,103 +903,178 @@
 					}
 				}
 			},
-			"put": {
-				"summary": "Update details of a specific restaurant by its publicId",
-				"tags": [
-					"admin-restaurant"
-				],
-				"parameters": [
-					{
-						"name": "publicId",
-						"in": "path",
-						"required": true,
-						"description": "The publicId of the restaurant to update",
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"requestBody": {
-					"required": true,
-					"content": {
-						"application/json": {
+
+				"put": {
+					"summary": "Update details of a specific restaurant by its publicId",
+					"tags": ["admin-restaurant"],
+					"parameters": [
+						{
+							"name": "publicId",
+							"in": "path",
+							"required": true,
+							"description": "The publicId of the restaurant to update",
 							"schema": {
-								"type": "object",
-								"properties": {
-									"name": {
-										"type": "string",
-										"example": "Updated Restaurant Name"
-									},
-									"description": {
-										"type": "string",
-										"example": "Updated description for the restaurant"
-									},
-									"location": {
-										"type": "string",
-										"example": "Updated restaurant location"
-									}
-								}
+								"type": "string"
 							}
 						}
-					}
-				},
-				"responses": {
-					"200": {
-						"description": "Restaurant updated successfully",
+					],
+				  "requestBody": {
+						"required": true,
 						"content": {
 							"application/json": {
 								"schema": {
 									"type": "object",
 									"properties": {
-										"success": {
-											"type": "boolean",
-											"example": true
-										},
-										"message": {
+										"name": {
 											"type": "string",
-											"example": "Restaurant updated"
+											"example": "Updated Restaurant Name"
 										},
-										"data": {
+										"category": {
+											"type": "string",
+											"example": "Italian"
+										},
+										"address": {
+											"type": "string",
+											"example": "123 Main St"
+										},
+										"phone": {
+											"type": "string",
+											"example": "+1234567890"
+										},
+										"email": {
+											"type": "string",
+											"example": "contact@restaurant.com"
+										},
+										"openingHours": {
 											"type": "object",
-											"properties": {
-												"_id": {
-													"type": "string",
-													"example": "66dc75eee60cbd565a48c82f"
+											"example": {
+												"monday": {
+													"open": "09:00",
+													"close": "22:00",
+													"isClosed": false
 												},
-												"name": {
-													"type": "string",
-													"example": "Updated Restaurant Name"
+												"tuesday": {
+													"open": "09:00",
+													"close": "22:00",
+													"isClosed": false
 												},
-												"slug": {
-													"type": "string",
-													"example": "updated-restaurant"
+												"wednesday": {
+													"open": "09:00",
+													"close": "22:00",
+													"isClosed": false
 												},
-												"description": {
-													"type": "string",
-													"example": "Updated description for the restaurant"
+												"thursday": {
+													"open": "09:00",
+													"close": "22:00",
+													"isClosed": false
 												},
-												"location": {
-													"type": "string",
-													"example": "Updated restaurant location"
+												"friday": {
+													"open": "09:00",
+													"close": "23:00",
+													"isClosed": false
+												},
+												"saturday": {
+													"open": "10:00",
+													"close": "23:00",
+													"isClosed": false
+												},
+												"sunday": {
+													"open": "10:00",
+													"close": "21:00",
+													"isClosed": true
 												}
 											}
+										}
+									},
+									"example": {
+										"name": "Pizza Express",
+										"category": "Italian",
+										"address": "123 Main Street, New York, NY 10001",
+										"phone": "+1234567890",
+										"email": "contact@pizzaexpress.com",
+										"openingHours": {
+											"monday": { "open": "09:00", "close": "22:00", "isClosed": false },
+											"tuesday": { "open": "09:00", "close": "22:00", "isClosed": false },
+											"wednesday": { "open": "09:00", "close": "22:00", "isClosed": false },
+											"thursday": { "open": "09:00", "close": "22:00", "isClosed": false },
+											"friday": { "open": "09:00", "close": "23:00", "isClosed": false },
+											"saturday": { "open": "10:00", "close": "23:00", "isClosed": false },
+											"sunday": { "open": "10:00", "close": "21:00", "isClosed": true }
 										}
 									}
 								}
 							}
 						}
 					},
-					"400": {
-						"description": "Invalid request body"
-					},
-					"404": {
-						"description": "Restaurant not found"
-					},
-					"500": {
-						"description": "Server error"
+					"responses": {
+						"200": {
+							"description": "Restaurant updated successfully",
+							"content": {
+								"application/json": {
+									"schema": {
+										"type": "object",
+										"properties": {
+											"success": {
+												"type": "boolean",
+												"example": true
+											},
+											"message": {
+												"type": "string",
+												"example": "Restaurant updated"
+											},
+											"data": {
+												"type": "object",
+												"properties": {
+													"_id": {
+														"type": "string",
+														"example": "66dc75eee60cbd565a48c82f"
+													},
+													"name": {
+														"type": "string",
+														"example": "Updated Restaurant Name"
+													},
+													"slug": {
+														"type": "string",
+														"example": "updated-restaurant"
+													},
+													"category": {
+														"type": "string",
+														"example": "Italian"
+													},
+													"address": {
+														"type": "string",
+														"example": "123 Main St"
+													},
+													"phone": {
+														"type": "string",
+														"example": "+1234567890"
+													},
+													"email": {
+														"type": "string",
+														"example": "contact@restaurant.com"
+													},
+													"openingHours": {
+														"$ref": "#/components/schemas/OpeningHours"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+						"400": {
+							"description": "Invalid request body"
+						},
+						"404": {
+							"description": "Restaurant not found"
+						},
+						"500": {
+							"description": "Server error"
+						}
 					}
-				}
-			},
+				},
+
 			"delete": {
 				"summary": "Delete a restaurant by its publicId",
 				"tags": [
@@ -1235,87 +1355,145 @@
 					}
 				}
 			},
-			"get": {
-				"summary": "Get menu items for a specific restaurant",
-				"tags": [
-					"admin-restaurant-menu"
-				],
-				"parameters": [
-					{
-						"name": "publicId",
-						"in": "path",
-						"required": true,
-						"description": "The public ID of the restaurant for which to retrieve menu items",
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Menu items retrieved successfully",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"success": {
-											"type": "boolean",
-											"example": true
-										},
-										"message": {
-											"type": "string",
-											"example": "Menu items retrieved successfully"
-										},
-										"data": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"properties": {
-													"_id": {
-														"type": "string",
-														"example": "66dc75eee60cbd565a48c82f"
-													},
-													"name": {
-														"type": "string",
-														"example": "Grilled Chicken Burger"
-													},
-													"category": {
-														"type": "string",
-														"example": "Main Course"
-													},
-													"price": {
-														"type": "number",
-														"example": 10.99
-													},
-													"available": {
-														"type": "boolean",
-														"example": true
-													},
-													"image": {
-														"type": "string",
-														"example": "https://example.com/menu-item-image.jpg"
-													},
-													"parent": {
-														"type": "string",
-														"example": "609b8b5b8f1d2c3bcd098765"
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Invalid request parameters"
-					},
-					"500": {
-						"description": "Server error"
-					}
-				}
-			}
+		"get": {
+    "summary": "Get menu items for a specific restaurant",
+    "tags": ["admin-restaurant-menu"],
+    "parameters": [
+        {
+            "name": "publicId",
+            "in": "path",
+            "required": true,
+            "description": "The public ID of the restaurant for which to retrieve menu items",
+            "schema": {
+                "type": "string"
+            }
+        },
+        {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Search term to filter menu items by name, slug, category, or menuType",
+            "schema": {
+                "type": "string"
+            }
+        },
+        {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "description": "Page number for pagination",
+            "schema": {
+                "type": "integer",
+                "default": 1,
+                "minimum": 1
+            }
+        },
+        {
+            "name": "perPage",
+            "in": "query",
+            "required": false,
+            "description": "Number of items per page",
+            "schema": {
+                "type": "integer",
+                "default": 10,
+                "minimum": 1
+            }
+        }
+    ],
+    "responses": {
+        "200": {
+            "description": "Menu items retrieved successfully",
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "success": {
+                                "type": "boolean",
+                                "example": true
+                            },
+                            "message": {
+                                "type": "string",
+                                "example": "Menu items retrieved successfully"
+                            },
+                            "data": {
+                                "type": "object",
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "_id": {
+                                                    "type": "string",
+                                                    "example": "66dc75eee60cbd565a48c82f"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Grilled Chicken Burger"
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "example": "grilled-chicken-burger"
+                                                },
+                                                "category": {
+                                                    "type": "string",
+                                                    "example": "Main Course"
+                                                },
+                                                "menuType": {
+                                                    "type": "string",
+                                                    "example": "main"
+                                                },
+                                                "price": {
+                                                    "type": "number",
+                                                    "example": 10.99
+                                                },
+                                                "available": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "https://example.com/menu-item-image.jpg"
+                                                },
+                                                "parent": {
+                                                    "type": "string",
+                                                    "example": "609b8b5b8f1d2c3bcd098765"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "totalItems": {
+                                        "type": "integer",
+                                        "example": 50
+                                    },
+                                    "currentPage": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "totalPages": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "perPage": {
+                                        "type": "integer",
+                                        "example": 10
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "400": {
+            "description": "Invalid request parameters"
+        },
+        "500": {
+            "description": "Server error"
+        }
+    }
+}
 		},
 		"/api/v1/admin/menu/{menuId}": {
 			"get": {
@@ -1669,6 +1847,133 @@
 				}
 			}
 		},
+
+		"/api/v1/admin/menu": {
+    "get": {
+        "summary": "Get all menu items across restaurants",
+        "tags": ["admin-menu"],
+        "parameters": [
+            {
+                "name": "search",
+                "in": "query",
+                "required": false,
+                "description": "Search term to filter menu items by name",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            {
+                "name": "page",
+                "in": "query",
+                "required": false,
+                "description": "Page number for pagination",
+                "schema": {
+                    "type": "integer",
+                    "default": 1,
+                    "minimum": 1
+                }
+            },
+            {
+                "name": "perPage",
+                "in": "query",
+                "required": false,
+                "description": "Number of items per page",
+                "schema": {
+                    "type": "integer",
+                    "default": 20,
+                    "minimum": 1
+                }
+            }
+        ],
+        "responses": {
+            "200": {
+                "description": "Menu items retrieved successfully",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Menu items retrieved"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "_id": {
+                                                        "type": "string",
+                                                        "example": "66dc75eee60cbd565a48c82f"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Grilled Chicken Burger"
+                                                    },
+                                                    "slug": {
+                                                        "type": "string",
+                                                        "example": "grilled-chicken-burger"
+                                                    },
+                                                    "category": {
+                                                        "type": "string",
+                                                        "example": "Main Course"
+                                                    },
+                                                    "menuType": {
+                                                        "type": "string",
+                                                        "example": "main"
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "example": 10.99
+                                                    },
+                                                    "available": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "parent": {
+                                                        "type": "string",
+                                                        "example": "609b8b5b8f1d2c3bcd098765"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "totalItems": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "currentPage": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "totalPages": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "perPage": {
+                                            "type": "integer",
+                                            "example": 20
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "Server error"
+            }
+        }
+    }
+},
+
 		"/api/v1/admin/orders": {
 			"post": {
 				"summary": "Create a new order",

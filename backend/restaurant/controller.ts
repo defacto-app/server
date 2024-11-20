@@ -44,6 +44,7 @@ const RestaurantController = {
 	async one(req: Request, res: Response): Promise<void> {
 		const data = res.locals.restaurantItem as any;
 		const searchQuery = req.query.search as string; // Get search query from request query
+		console.log(searchQuery,"restaurantSlug");
 
 		try {
 			// Create a search condition to check if a search query exists
@@ -63,7 +64,7 @@ const RestaurantController = {
 				menu: menuItems,
 			});
 
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
