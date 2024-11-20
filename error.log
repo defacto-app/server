@@ -71,3 +71,4 @@
 2024-11-20T06:38:12.860Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
 2024-11-20T06:38:13.288Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
 2024-11-20T06:38:13.717Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
+2024-11-20T12:52:00.392Z [undefined] [31merror[39m: Error creating order

@@ -219,7 +219,8 @@ const AdminRestaurantController = {
          if (search) {
             matchStage.name = { $regex: search, $options: "i" }; // Case-insensitive search
          }
-
+			const sortField = req.query.sortBy as string;
+			const sortOrder = req.query.sortOrder as 'asc' | 'desc';
          // Aggregation pipeline
          const categories = await CategoryModel.aggregate([
             { $match: matchStage }, // Apply the search filter here
@@ -259,6 +260,15 @@ const AdminRestaurantController = {
             { $skip: (page - 1) * perPage },
             { $limit: perPage },
          ]);
+
+
+			if (sortField) {
+				categories.push({
+					$sort: {
+						[sortField]: sortOrder === 'desc' ? -1 : 1
+					}
+				});
+			}
 
          // Count total categories matching the query
          const totalCategories = await CategoryModel.countDocuments(matchStage);
