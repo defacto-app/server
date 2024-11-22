@@ -1,23 +1,7 @@
 import { z } from "zod";
 
-const CoordinatesSchema = z.object({
-	lat: z.number(),
-	lng: z.number(),
-});
 
-const ContactDetailsSchema = z.object({
-	name: z.string(),
-	phone: z.string(),
-	email: z.string().email(),
-	address: z.string(),
-	location: z.string(),
-	cordinates: CoordinatesSchema,
-});
 
-const CashAvailableSchema = z.object({
-	available: z.boolean(),
-	amount: z.number(),
-});
 
 const PackageContentSchema = z.array(z.string());
 export default {
@@ -33,10 +17,10 @@ export default {
 		const result = bodySchema.safeParse(body);
 		if (!result.success) {
 			const formattedErrors: any = {};
-			result.error.errors.forEach((error) => {
+			for (const error of result.error.errors) {
 				const fieldName = error.path[0];
 				formattedErrors[fieldName] = error.message;
-			});
+			}
 
 			return { data: null, error: formattedErrors };
 		}

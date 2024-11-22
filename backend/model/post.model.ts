@@ -1,7 +1,5 @@
 import mongoose, { type Document, Schema } from "mongoose";
 import { nanoid } from "nanoid";
-import { generateSlug } from "../utils/utils";
-import moment from "moment";
 
 export interface BasePostDataType extends Document {
 	publicId: string;

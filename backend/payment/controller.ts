@@ -13,7 +13,7 @@ import axios from "axios";
 const PaymentController = {
 	async cardPayment(req: Request, res: Response): Promise<void> {
 		try {
-			const { amount, email, phone_number, fullname } = req.body;
+			const { email, phone_number, fullname } = req.body;
 
 			// Card charge payload based on provided data and a test card
 			const payload = {

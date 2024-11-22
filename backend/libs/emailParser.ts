@@ -20,7 +20,7 @@ export function getEmailData() {
 	};
 }
 
-export function getEmailTemplates(title: EmailTitleType, data?: any) {
+export function getEmailTemplates(title: EmailTitleType) {
 	const styleSource = fs.readFileSync(
 		`${emailFolder}/commons/styles.hbs`,
 		"utf8",

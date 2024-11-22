@@ -146,6 +146,7 @@ const OrderController = {
 			});
 		} catch (error: any) {
 			// Handle possible errors
+			console.log(error);
 			SendResponse.serverError(res, error.message);
 		}
 	}

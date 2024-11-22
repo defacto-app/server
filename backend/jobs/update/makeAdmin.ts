@@ -22,7 +22,7 @@ async function makeAdmin(email: string) {
 
 const emailArg = process.argv[2];
 
-const undo = process.argv[3];
+// const undo = process.argv[3];
 
 if (
 	!emailArg ||

@@ -12,10 +12,7 @@ export function formatPathForStorage(fullPath: string) {
 	return parts[1] ? `uploads/${parts[1]}` : "";
 }
 
-// Usage example
-const fullPath =
-	"/Users/centurion-pc/hroot/job-seeker/server/storage/uploads/logos/2024-02-22/1708615105064-BTC.png";
-// const storagePath = formatPathForStorage(fullPath);
+
 
 export function getShortName(str: string) {
 	const words = str.split(" ");

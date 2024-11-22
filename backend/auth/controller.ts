@@ -177,13 +177,13 @@ const AuthController = {
 			const user = await AuthModel.findOne({
 				phoneNumber: data?.phoneNumber,
 			});
-			if (!user) {
+			if (!user || !user.phone_management?.login) {
 				SendResponse.notFound(res, "User not found");
 
 				return;
 			}
 
-			if (user.phone_management.login.otp !== data?.otp) {
+			if (user?.phone_management?.login.otp !== data?.otp) {
 				SendResponse.badRequest(res, "Invalid OTP", {
 					otp: "Invalid OTP",
 				});
@@ -191,7 +191,7 @@ const AuthController = {
 			}
 
 			const currentTime = new Date();
-			const otpExpiryTime = new Date(user.phone_management.login.expires_at);
+			const otpExpiryTime = new Date(user.phone_management?.login?.expires_at || Date.now());
 			if (currentTime > otpExpiryTime) {
 				SendResponse.badRequest(res, "OTP has expired", {
 					otp: "OTP has expired",
@@ -324,7 +324,7 @@ const AuthController = {
 				"email_management.login.expires_at": { $gt: new Date() }, // Ensure token is not expired
 			});
 
-			if (!user) {
+			if (!user || !user.email_management.login) {
 				SendResponse.badRequest(res, "Invalid or expired token");
 				return;
 			}
@@ -391,7 +391,7 @@ const AuthController = {
 		try {
 			const user = await AuthModel.findOne({ email: data?.email });
 
-			if (!user) {
+			if (!user || !user.email_management.reset) {
 				SendResponse.notFound(res, "User not found");
 				return;
 			}
@@ -407,7 +407,7 @@ const AuthController = {
 			await user.save();
 
 			await EmailEvent.sendPasswordResetMail({
-				email: user.email,
+				email: user.email as string,
 				link: `${env.FRONTEND_URL}/reset-password?token=${resetToken}`,
 			});
 
@@ -430,7 +430,7 @@ const AuthController = {
 				},
 			});
 
-			if (!user) {
+			if (!user || !user.email_management.reset) {
 				SendResponse.badRequest(res, "Invalid or expired token");
 				return;
 			}

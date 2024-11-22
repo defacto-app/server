@@ -2,10 +2,8 @@ import mongoose from "mongoose";
 import { connectDB } from "../../config/mongodb";
 import AuthModel from "./model";
 import moment from "moment";
-import Chance from "chance";
 import UserModel from "../user/model";
 
-const chance = new Chance();
 
 // Define special users
 const specialUsers = [

@@ -72,3 +72,5 @@
 2024-11-20T06:38:13.288Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
 2024-11-20T06:38:13.717Z [undefined] [31merror[39m: null is not an object (evaluating 'item.categoryId._id')
 2024-11-20T12:52:00.392Z [undefined] [31merror[39m: Error creating order
+2024-11-22T10:22:18.167Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.phone: Path `dropOffDetails.phone` is required., dropOffDetails.name: Path `dropOffDetails.name` is required.
+2024-11-22T10:23:06.727Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.phone: Path `dropOffDetails.phone` is required., dropOffDetails.name: Path `dropOffDetails.name` is required.

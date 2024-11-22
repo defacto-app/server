@@ -2,6 +2,12 @@ import mongoose, { type Document, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 
+interface IAuthModel extends mongoose.Model<AuthDataType> {
+   comparePassword(password: string, userPassword: string): Promise<boolean>;
+   hashPassword(password: string): Promise<string>;
+ }
+
+
 // Interface for the document
 export interface AuthDataType extends Document {
    publicId: string;
@@ -14,7 +20,7 @@ export interface AuthDataType extends Document {
       reason: string | null;
       at: Date | null;
    };
-   password?: string;
+   password: string;
    email?: string;
    email_management: {
       login?: {
@@ -52,6 +58,7 @@ export interface AuthDataType extends Document {
       lastAttempt: Date | null;
       lockedUntil: Date | null;
    };
+   handleFailedLogin: () => Promise<void>;
 }
 
 // Schema definitions
@@ -167,6 +174,6 @@ AuthSchema.pre("save", function (next) {
 });
 
 // Model creation
-const AuthModel = mongoose.model<AuthDataType>("auth", AuthSchema);
+const AuthModel = mongoose.model<AuthDataType, IAuthModel>("auth", AuthSchema);
 
 export default AuthModel;

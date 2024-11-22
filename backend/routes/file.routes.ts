@@ -1,6 +1,5 @@
 import { Router } from "express";
-import multer from "multer";
-import { $file } from "../../config/config";
+
 
 import FileMiddleware from "../middleware/file.middleware";
 import FileController from "../controllers/file.controller";
