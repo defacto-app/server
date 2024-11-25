@@ -7,7 +7,7 @@ export interface UserDataType extends Document {
 	lastSeenAt: Date;
 	firstName: string;
 	lastName?: string;
-	role: string;
+	role: "customer" | "admin" | "driver" | "manager" | "staff";
 	phoneNumber: string;
 	address?: AddressType[];
 	userId: string;
@@ -26,8 +26,8 @@ const userSchemaDefinitions = {
 	role: {
 		type: String,
 		required: true,
-		default: "user",
-		enum: ["user", "admin"],
+		default: "customer", // Changed from "user"
+		enum: ["customer", "admin", "driver", "manager", "staff"],
 	},
 
 	address: {

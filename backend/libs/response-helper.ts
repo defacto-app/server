@@ -6,7 +6,6 @@ function formattedTimeStamp(date: Date): string {
 	return moment().format("MMMM Do YYYY, h:mm:ss A");
 }
 
-// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 class SendResponse {
 	/**
 	 * Send a success response.
@@ -41,6 +40,18 @@ class SendResponse {
 	 */
 	static badRequest(res: Response, message: string, error?: any) {
 		return res.status(400).json({
+			success: false,
+			message,
+			error,
+			timestamp: formattedTimeStamp(new Date()),
+		});
+	}
+
+	/**
+	 * Send a conflict error response with status 409.
+	 */
+	static conflict(res: Response, message: string, error?: any) {
+		return res.status(409).json({
 			success: false,
 			message,
 			error,

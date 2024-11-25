@@ -79,3 +79,17 @@
 2024-11-22T11:03:54.319Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.phone: Path `dropOffDetails.phone` is required., dropOffDetails.name: Path `dropOffDetails.name` is required.
 2024-11-22T11:04:03.229Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.phone: Path `dropOffDetails.phone` is required., dropOffDetails.name: Path `dropOffDetails.name` is required.
 2024-11-23T07:21:34.786Z [undefined] [31merror[39m: Server selection timed out after 30000 ms
+2024-11-25T07:15:32.671Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'email')
+2024-11-25T07:15:39.807Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'email')
+2024-11-25T07:15:55.477Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'data')
+2024-11-25T07:16:19.282Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'data')
+2024-11-25T07:18:19.310Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-11-25T07:19:42.808Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-11-25T07:21:06.994Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-11-25T07:21:39.723Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-11-25T07:22:20.289Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'email')
+2024-11-25T07:22:24.524Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'email')
+2024-11-25T07:22:40.697Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'email')
+2024-11-25T13:11:02.266Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'email')
+2024-11-25T13:11:43.326Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'email')
+2024-11-25T13:41:24.910Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client

@@ -1,6 +1,5 @@
 import { Router } from "express";
-// import authMiddleware from "../user/middleware";
-// import SlugMiddleware from "../middleware/slug.middleware";
+
 import authMiddleware from "../auth/middleware";
 import AdminUserController from "./controller";
 
@@ -13,6 +12,7 @@ router.use(authMiddleware.validateAdmin);
 // middleware to validate packageId
 
 router.get("/", AdminUserController.all);
+router.post("/", AdminUserController.create);
 router.delete("/:userId", AdminUserController.delete);
 
 export default router;

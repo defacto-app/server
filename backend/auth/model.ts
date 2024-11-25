@@ -12,7 +12,24 @@ interface IAuthModel extends mongoose.Model<AuthDataType> {
 export interface AuthDataType extends Document {
    publicId: string;
    provider: "email" | "phone" | "google" | string;
-   role: "user" | "admin";
+   role: "customer" | "admin" | "driver" | "manager" | "staff";
+   staffInfo?: {
+      employeeId?: string;
+      department?: string;
+      status: 'active' | 'inactive' | 'suspended';
+      joinedAt: Date;
+      // Driver specific
+      driverDetails?: {
+         vehicleType?: string;
+         licenseNumber?: string;
+         availabilityStatus: 'available' | 'busy' | 'offline';
+      };
+      // Manager specific
+      managerDetails?: {
+         managedRegion?: string;
+         departmentType?: 'operations' | 'customer_service' | 'logistics';
+      };
+   };
    is_super_admin?: boolean | null;
    banned_until?: Date | null;
    banned?: {
@@ -74,8 +91,37 @@ const authSchemaDefinitions = {
    role: {
       type: String,
       required: true,
-      default: "user",
-      enum: ["user", "admin"],
+      default: "customer",  // Changed from "user"
+      enum: ["customer", "admin", "driver", "manager", "staff"],
+   },
+   staffInfo: {
+      employeeId: String,
+      department: String,
+      status: {
+         type: String,
+         enum: ['active', 'inactive', 'suspended'],
+         default: 'active'
+      },
+      joinedAt: {
+         type: Date,
+         default: Date.now
+      },
+      driverDetails: {
+         vehicleType: String,
+         licenseNumber: String,
+         availabilityStatus: {
+            type: String,
+            enum: ['available', 'busy', 'offline'],
+            default: 'offline'
+         }
+      },
+      managerDetails: {
+         managedRegion: String,
+         departmentType: {
+            type: String,
+            enum: ['operations', 'customer_service', 'logistics']
+         }
+      }
    },
    phoneNumber: {
       type: String,
