@@ -2,10 +2,10 @@ import { z } from "zod";
 
 export function formatErrors(errors: any[]) {
 	const formattedErrors: Record<string, string> = {};
-	errors.forEach((error) => {
+	for (const error of errors) {
 		const fieldName = error.path.join(".");
 		formattedErrors[fieldName] = error.message;
-	});
+	}
 	return formattedErrors;
 }
 

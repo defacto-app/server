@@ -12,7 +12,7 @@ const EmailEvent = {
 	},
 
 	async sendWelcomeMail(data: { email: string; link: string }) {
-		const compileEmail = getEmailTemplates("verify-email", data);
+		const compileEmail = getEmailTemplates("verify-email");
 		const html = compileEmail({ link: data.link });
 		try {
 			eventEmitter.emit("sendWelcomeMail", {
@@ -26,7 +26,7 @@ const EmailEvent = {
 	},
 
 	async sendPasswordResetMail(data: { email: string; link: string }) {
-		const compileEmail = getEmailTemplates("verify-email", data);
+		const compileEmail = getEmailTemplates("verify-email");
 		const html = compileEmail({ link: data.link });
 		try {
 			eventEmitter.emit("sendWelcomeMail", {
@@ -40,7 +40,7 @@ const EmailEvent = {
 	},
 
 	async sendOtpMail(data: { email: string; otp: string;  }) {
-		const compileEmail = getEmailTemplates("otp", data);
+		const compileEmail = getEmailTemplates("otp");
 		const html = compileEmail({ otp: data.otp });
 		try {
 			eventEmitter.emit("sendOtpMail",{

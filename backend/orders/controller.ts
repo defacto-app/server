@@ -7,7 +7,7 @@ import { v2 as cloudinary } from "cloudinary";
 import { uploadToCloudinary } from "../helper/cloudinary";
 import path from "node:path";
 import { v4 as uuidv4 } from "uuid";
-
+import { OrderValidator } from "./validator";
 
 const OrderController = {
 	async all(req: Request, res: Response): Promise<void> {
@@ -75,38 +75,40 @@ const OrderController = {
 
 	async package_delivery(req: Request, res: Response): Promise<void> {
 		try {
-			console.log(req.body, "Package data");
+			// Validate the request body
+			const validation = await OrderValidator.validateDelivery(req.body);
 
+			if (!validation.success) {
+				SendResponse.badRequest(res, "Validation failed", validation.errors);
+				return; // Early return after validation failure
+			}
+
+			const validatedData = validation.data;
 			const user = res.locals.user as AuthDataType;
 
-			console.log(user, "User data");
-
 			// Handle the base64 image upload
-			const base64Image = req.body.package_image;
 			let optimizedUrl = "";
-
-			if (base64Image) {
-				// Ensure the uploads directory exists
-				const uploadsDir = path.join(__dirname, 'uploads');
+			if (validatedData?.package_image) {
+				const uploadsDir = path.join(__dirname, "uploads");
 				if (!fs.existsSync(uploadsDir)) {
 					fs.mkdirSync(uploadsDir);
 				}
 
-				// Generate a unique filename
 				const filename = `temp_image_${uuidv4()}.jpg`;
 				const tempFilePath = path.join(uploadsDir, filename);
 
-				// Decode the base64 string and save it as a temporary file
-				const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
-				fs.writeFileSync(tempFilePath, Buffer.from(base64Data, 'base64'));
+				const base64Data = validatedData.package_image.replace(
+					/^data:image\/\w+;base64,/,
+					"",
+				);
+				fs.writeFileSync(tempFilePath, Buffer.from(base64Data, "base64"));
 
-				// Upload the temporary file to Cloudinary
-				const result = await uploadToCloudinary(tempFilePath, "defacto/packages");
-
-				// Remove the temporary file from the server after upload
+				const result = await uploadToCloudinary(
+					tempFilePath,
+					"defacto/packages",
+				);
 				fs.unlinkSync(tempFilePath);
 
-				// Generate an optimized URL
 				optimizedUrl = cloudinary.url(result.public_id, {
 					transformation: [
 						{ width: 800, crop: "scale" },
@@ -115,42 +117,23 @@ const OrderController = {
 				});
 			}
 
-			// Create the package record with the Cloudinary URL
+			// Create the package with validated data
 			const newPackage = new OrderModel({
 				userId: user.publicId,
-				description: req.body.description,
-				pickupDate: req.body.pickupDate,
-				package_image: optimizedUrl, // Store Cloudinary URL instead of base64 data
-				type: "package",
-				pickupDetails: {
-					location: req.body.pickupDetails.location,
-					address: req.body.pickupDetails.address,
-					name: "katalyst",
-					phone: "08012345678"
-				},
-				dropOffDetails: {
-					location: req.body.dropOffDetails.location,
-					address: req.body.dropOffDetails.address,
-					name: req.body.dropOffDetails.name,
-					phone: req.body.dropOffDetails.phone
-				},
-				charge: req.body.charge,
+				...validatedData,
+				package_image: optimizedUrl,
 			});
 
-			// Save the new package to the database
 			await newPackage.save();
 
-			// Send a successful response back to the client
 			SendResponse.success(res, "Created New Package Delivery.", {
 				orderId: newPackage.publicId,
 			});
 		} catch (error: any) {
-			// Handle possible errors
 			console.log(error);
 			SendResponse.serverError(res, error.message);
 		}
-	}
-
+	},
 };
 
 export default OrderController;

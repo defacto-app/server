@@ -1,10 +1,10 @@
 import type { Request, Response } from "express";
 import SendResponse from "../libs/response-helper";
-import paginate from "../utils/pagination";
 import RestaurantModel from "./model";
 import MenuModel from "../menu/model";
 import CategoryModel from "../category/model";
 import OrderModel from "../admin/order/model";
+import { paginate } from "../utils/pagination";
 
 const RestaurantController = {
 	async all(req: Request, res: Response): Promise<void> {

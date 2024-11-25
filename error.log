@@ -74,3 +74,8 @@
 2024-11-20T12:52:00.392Z [undefined] [31merror[39m: Error creating order
 2024-11-22T10:22:18.167Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.phone: Path `dropOffDetails.phone` is required., dropOffDetails.name: Path `dropOffDetails.name` is required.
 2024-11-22T10:23:06.727Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.phone: Path `dropOffDetails.phone` is required., dropOffDetails.name: Path `dropOffDetails.name` is required.
+2024-11-22T10:56:46.417Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.phone: Path `dropOffDetails.phone` is required., dropOffDetails.name: Path `dropOffDetails.name` is required.
+2024-11-22T11:03:52.909Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.phone: Path `dropOffDetails.phone` is required., dropOffDetails.name: Path `dropOffDetails.name` is required.
+2024-11-22T11:03:54.319Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.phone: Path `dropOffDetails.phone` is required., dropOffDetails.name: Path `dropOffDetails.name` is required.
+2024-11-22T11:04:03.229Z [undefined] [31merror[39m: orders validation failed: dropOffDetails.phone: Path `dropOffDetails.phone` is required., dropOffDetails.name: Path `dropOffDetails.name` is required.
+2024-11-23T07:21:34.786Z [undefined] [31merror[39m: Server selection timed out after 30000 ms

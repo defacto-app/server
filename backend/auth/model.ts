@@ -84,6 +84,11 @@ const authSchemaDefinitions = {
       sparse: true,
       unique: true,
    },
+   email: {
+      type: String,
+      unique: true,
+      sparse: true,
+   },
    phone_management: {
       login: {
          otp: { type: String, minLength: 6, maxLength: 6 },
@@ -107,11 +112,7 @@ const authSchemaDefinitions = {
          sent_at: { type: Date },
       },
    },
-   email: {
-      type: String,
-      unique: true,
-      sparse: true,
-   },
+
    password: {
       type: String,
       minLength: 1,

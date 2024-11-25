@@ -2,10 +2,10 @@ import type { Request, Response } from "express";
 
 import SendResponse from "../../../libs/response-helper";
 import MenuModel from "../../../menu/model";
-import paginate from "../../../utils/pagination";
 import fs from "node:fs";
 import { v2 as cloudinary } from "cloudinary";
 import { uploadToCloudinary } from "../../../helper/cloudinary";
+import { paginate } from "../../../utils/pagination";
 // Set up Cloudinary configuration
 
 const AdminRestaurantMenuController = {
@@ -51,19 +51,44 @@ const AdminRestaurantMenuController = {
 				{ slug: { $regex: search, $options: "i" } },
 				{ name: { $regex: search, $options: "i" } },
 				{ category: { $regex: search, $options: "i" } },
-				{ menuType: { $regex: search, $options: "i" } },
 			];
 		}
 
 		try {
-			const paginationResult = await paginate(MenuModel, page, perPage, query);
+			const paginationResult = await paginate(
+				MenuModel,
+				page,
+				perPage,
+				query,
+				undefined, // projection
+				{ createdAt: -1 }, // sort
+				{ path: "categoryId", select: "name" }, // populate
+			);
 
-			SendResponse.success(res, "Menu items retrieved", paginationResult);
+			// Transform the response to convert categoryId into category and remove the original categoryId
+			const transformedData = {
+				meta: paginationResult.meta,
+				data: paginationResult.data.map((item: { toObject: () => any }) => {
+					const itemObj = item.toObject();
+					const { categoryId, ...rest } = itemObj; // Destructure to separate categoryId from rest of the data
+
+					return {
+						...rest,
+						category: {
+							_id: categoryId?._id,
+							name: categoryId?.name || "Unknown Category",
+						},
+					};
+				}),
+			};
+
+			SendResponse.success(res, "Menu items retrieved", transformedData);
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
 	},
 	async one(req: Request, res: Response): Promise<void> {
+		console.log("res.locals  ???---");
 		const data = res.locals.menuItem as any;
 
 		try {
@@ -137,12 +162,17 @@ const AdminRestaurantMenuController = {
 		const search: string = (req.query.search as string) || ""; // Get search term
 
 		try {
+			// Search by both name and category (case-insensitive)
 			const searchQuery = search
-				? { name: { $regex: search, $options: "i" } } // Search by menu item name (case-insensitive)
+				? {
+						$or: [
+							{ name: { $regex: search, $options: "i" } }, // Search by name
+							{ "category.name": { $regex: search, $options: "i" } }, // Search by category name
+						],
+					}
 				: {}; // If no search term, return all menu items
 
 			const pipeline = [
-				{ $match: searchQuery },
 				{
 					$lookup: {
 						from: "restaurants",
@@ -161,18 +191,17 @@ const AdminRestaurantMenuController = {
 				},
 				{ $unwind: "$restaurant" },
 				{ $unwind: "$category" },
+				{ $match: searchQuery }, // Apply search filter here
 				{
 					$project: {
 						name: 1,
 						price: 1,
 						available: 1,
 						image: 1,
-
 						createdAt: 1,
 						updatedAt: 1,
 						"restaurant.name": 1,
 						"restaurant.publicId": 1,
-
 						"category.name": 1,
 						"category._id": 1,
 					},
@@ -183,15 +212,29 @@ const AdminRestaurantMenuController = {
 			] as any;
 
 			const menuItems = await MenuModel.aggregate(pipeline);
-			const totalItems = await MenuModel.countDocuments(searchQuery);
+			const totalItems = await MenuModel.aggregate([
+				{
+					$lookup: {
+						from: "categories",
+						localField: "categoryId",
+						foreignField: "_id",
+						as: "category",
+					},
+				},
+				{ $unwind: "$category" },
+				{ $match: searchQuery },
+				{ $count: "count" },
+			]);
+
+			const totalItemsCount = totalItems[0]?.count || 0;
 
 			const paginationResult = {
 				data: menuItems,
 				meta: {
 					page,
 					perPage,
-					totalPages: Math.ceil(totalItems / perPage),
-					totalItems,
+					totalPages: Math.ceil(totalItemsCount / perPage),
+					totalItems: totalItemsCount,
 				},
 			};
 

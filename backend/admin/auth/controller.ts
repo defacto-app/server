@@ -25,7 +25,7 @@ const AdminAuthController = {
 				role: "admin",
 			});
 
-			if (!user) {
+			if (!user || !user.email_management?.login) {
 				SendResponse.notFound(res, "Admin not found");
 				return;
 			}

@@ -208,116 +208,113 @@ const AdminRestaurantController = {
 		}
 	},
 
-   async categories(req: Request, res: Response): Promise<void> {
-      try {
-         const search = (req.query.search as string) || "";
-         const page = Number.parseInt(req.query.page as string) || 1;
-         const perPage = Number.parseInt(req.query.perPage as string) || 10;
+	async categories(req: Request, res: Response): Promise<void> {
+		try {
+			const search = (req.query.search as string) || "";
+			const page = Number.parseInt(req.query.page as string) || 1;
+			const perPage = Number.parseInt(req.query.perPage as string) || 10;
 
-         // Build the search query
-         const matchStage: any = {};
-         if (search) {
-            matchStage.name = { $regex: search, $options: "i" }; // Case-insensitive search
-         }
+			// Build the search query
+			const matchStage: any = {};
+			if (search) {
+				matchStage.name = { $regex: search, $options: "i" }; // Case-insensitive search
+			}
 			const sortField = req.query.sortBy as string;
-			const sortOrder = req.query.sortOrder as 'asc' | 'desc';
-         // Aggregation pipeline
-         const categories = await CategoryModel.aggregate([
-            { $match: matchStage }, // Apply the search filter here
-            {
-               $lookup: {
-                  from: "menus",
-                  localField: "_id",
-                  foreignField: "categoryId",
-                  as: "menuItems",
-               },
-            },
-            {
-               $lookup: {
-                  from: "restaurants",
-                  localField: "_id",
-                  foreignField: "categoryId",
-                  as: "restaurants",
-               },
-            },
-            {
-               $addFields: {
-                  menuCount: { $size: "$menuItems" },
-                  restaurantCount: { $size: "$restaurants" },
-               },
-            },
-            {
-               $project: {
-                  name: 1,
-                  slug: 1,
-                  publicId: 1,
-                  menuCount: 1,
-                  restaurantCount: 1,
-                  createdAt: 1,
-                  updatedAt: 1,
-               },
-            },
-            { $skip: (page - 1) * perPage },
-            { $limit: perPage },
-         ]);
-
+			const sortOrder = req.query.sortOrder as "asc" | "desc";
+			// Aggregation pipeline
+			const categories = await CategoryModel.aggregate([
+				{ $match: matchStage }, // Apply the search filter here
+				{
+					$lookup: {
+						from: "menus",
+						localField: "_id",
+						foreignField: "categoryId",
+						as: "menuItems",
+					},
+				},
+				{
+					$lookup: {
+						from: "restaurants",
+						localField: "_id",
+						foreignField: "categoryId",
+						as: "restaurants",
+					},
+				},
+				{
+					$addFields: {
+						menuCount: { $size: "$menuItems" },
+						restaurantCount: { $size: "$restaurants" },
+					},
+				},
+				{
+					$project: {
+						name: 1,
+						slug: 1,
+						publicId: 1,
+						menuCount: 1,
+						restaurantCount: 1,
+						createdAt: 1,
+						updatedAt: 1,
+					},
+				},
+				{ $skip: (page - 1) * perPage },
+				{ $limit: perPage },
+			]);
 
 			if (sortField) {
 				categories.push({
 					$sort: {
-						[sortField]: sortOrder === 'desc' ? -1 : 1
-					}
+						[sortField]: sortOrder === "desc" ? -1 : 1,
+					},
 				});
 			}
 
-         // Count total categories matching the query
-         const totalCategories = await CategoryModel.countDocuments(matchStage);
+			// Count total categories matching the query
+			const total = await CategoryModel.countDocuments(matchStage);
 
-         SendResponse.success(res, "Categories retrieved", {
-            data: categories,
-            meta: {
-               page,
-               perPage,
-               totalCategories,
-               totalPages: Math.ceil(totalCategories / perPage),
-            },
-         });
-      } catch (error: any) {
-         SendResponse.serverError(res, error.message);
-      }
-   },
+			SendResponse.success(res, "Categories retrieved", {
+				data: categories,
+				meta: {
+					page,
+					perPage,
+					total,
+					totalPages: Math.ceil(total / perPage),
+				},
+			});
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	},
 
+	async deleteCategory(req: Request, res: Response): Promise<void> {
+		try {
+			const category = res.locals.categoryItem as any;
 
-   async deleteCategory(req: Request, res: Response): Promise<void> {
-      try {
-         const category = res.locals.categoryItem as any;
+			if (!category) {
+				SendResponse.notFound(res, "Category not found");
+				return;
+			}
 
-         if (!category) {
-            SendResponse.notFound(res, "Category not found");
-            return;
-         }
+			// Check for existing menus or relationships
+			const associatedMenus = await MenuModel.countDocuments({
+				categoryId: category._id,
+			});
 
-         // Check for existing menus or relationships
-         const associatedMenus = await MenuModel.countDocuments({
-            categoryId: category._id,
-         });
+			if (associatedMenus > 0) {
+				SendResponse.badRequest(
+					res,
+					"Cannot delete category. It has associated menu items.",
+				);
+			}
+			console.log(associatedMenus, "associatedMenus");
+			// If no associations, delete the category
+			await category.deleteOne();
 
-         if (associatedMenus > 0) {
-            SendResponse.badRequest(
-               res,
-               "Cannot delete category. It has associated menu items.",
-            );
-         }
-
-         // If no associations, delete the category
-         await category.deleteOne();
-
-         SendResponse.success(res, "Category deleted successfully");
-      } catch (error: any) {
-         SendResponse.serverError(res, error.message);
-      }
-   }
-
+			SendResponse.success(res, "Category deleted successfully");
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	},
 };
 
 export default AdminRestaurantController;

@@ -20,6 +20,7 @@ const AuthController = {
 		try {
 			const { data, error } = await AuthValidator.email_register(req.body);
 
+
 			if (error) {
 				SendResponse.badRequest(res, "Failed to register", error);
 			}
