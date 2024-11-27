@@ -283,25 +283,22 @@ const AuthController = {
 
 			if (error) {
 				SendResponse.badRequest(res, "Invalid email address", error);
-
-				return;
+				return; // Exit function after sending the response
 			}
 
-			// check if user exists
+			// Check if user exists
 			const userExists = await AuthModel.findOne({ email: data?.email });
-			if (userExists) {
 
+			if (userExists) {
 				SendResponse.success(res, "", {
 					exists: true,
-				})
-			} else {
-				SendResponse.success(res, "User not found", { exists: false });
-				return;
+				});
+				return; // Exit function after sending the response
 			}
 
-			SendResponse.success(res, "", {
-				exists: true,
-			});
+			// If user does not exist
+			SendResponse.success(res, "User not found", { exists: false });
+			return; // Exit function after sending the response
 		} catch (e: any) {
 			SendResponse.serverError(res, e.message);
 		}

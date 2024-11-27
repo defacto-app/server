@@ -47,6 +47,8 @@ const AdminOrderController = {
 						publicId: 1,
 						orderId: 1,
 						"dropOffDetails.name": 1,
+						"dropOffDetails.phoneNumber": 1,
+						"pickupDetails.name": 1,
 					},
 				},
 			] as any;
@@ -133,8 +135,7 @@ const AdminOrderController = {
 		const order = res.locals.orderItem as any;
 
 		try {
-			/*const order = res.locals.orderItem as any;
-			const order = await OrderModel.findById(order);*/
+
 			SendResponse.success(res, "Order retrieved", order);
 		} catch (e: any) {
 			SendResponse.serverError(res, e.message);

@@ -93,3 +93,18 @@
 2024-11-25T13:11:02.266Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'email')
 2024-11-25T13:11:43.326Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'email')
 2024-11-25T13:41:24.910Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-11-26T14:26:37.061Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-11-26T14:28:20.713Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-11-26T14:29:37.874Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-11-26T15:32:33.261Z [undefined] [31merror[39m: orders validation failed: pickupDetails.phone: Path `pickupDetails.phone` is required., pickupDetails.name: Path `pickupDetails.name` is required., type: Path `type` is required.
+2024-11-26T15:50:48.480Z [undefined] [31merror[39m: Invalid image file
+2024-11-26T15:51:19.005Z [undefined] [31merror[39m: Invalid image file
+2024-11-26T15:52:42.743Z [undefined] [31merror[39m: Invalid image file
+2024-11-26T15:53:28.846Z [undefined] [31merror[39m: orders validation failed: charge: Path `charge` is required., pickupDetails.phone: Path `pickupDetails.phone` is required., type: Path `type` is required.
+2024-11-26T15:54:55.555Z [undefined] [31merror[39m: orders validation failed: charge: Path `charge` is required., pickupDetails.phone: Path `pickupDetails.phone` is required., type: Path `type` is required.
+2024-11-26T15:55:11.233Z [undefined] [31merror[39m: orders validation failed: charge: Path `charge` is required., pickupDetails.phone: Path `pickupDetails.phone` is required., type: Path `type` is required.
+2024-11-26T15:55:53.877Z [undefined] [31merror[39m: orders validation failed: pickupDetails.phone: Path `pickupDetails.phone` is required., type: Path `type` is required.
+2024-11-26T15:58:15.650Z [undefined] [31merror[39m: orders validation failed: type: Path `type` is required.
+2024-11-26T15:58:26.618Z [undefined] [31merror[39m: orders validation failed: type: Path `type` is required.
+2024-11-27T04:41:44.343Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "DFT-657578" (type string) at path "_id" for model "orders"
+2024-11-27T04:41:53.157Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "DFT-151814" (type string) at path "_id" for model "orders"

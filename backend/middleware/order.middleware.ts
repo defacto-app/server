@@ -19,7 +19,7 @@ class OrderMiddleware {
 				publicId: orderId,
 			});
 
-			console.log(order,"middleware --orderId");
+
 
 
 			if (!order) {

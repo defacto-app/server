@@ -4017,9 +4017,20 @@
 														}
 													}
 												}
+											},
+											"name": {
+												"type": "string",
+												"example": "John Doe"
+											},
+											"phone": {
+												"type": "string",
+												"pattern": "^[0-9]+$",
+												"example": "1234567890"
 											}
-										}
+										},
+										"required": ["name", "phone", "address"]
 									}
+
 								}
 							}
 						}
