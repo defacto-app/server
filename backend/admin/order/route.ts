@@ -18,5 +18,8 @@ router.param('orderId', OrderMiddleware.orderId);
 router.get("/", AdminOrderController.all);
 router.post("/", AdminOrderController.create)
 router.get("/:orderId", AdminOrderController.one)
+router.put("/:orderId", AdminOrderController.update)
+
+
 
 export default router;

@@ -3,11 +3,7 @@ import AuthModel from "../../auth/model";
 import { v4 as uuidv4 } from "uuid";
 
 
-export interface UserQueryParams {
-	page: number;
-	perPage: number;
-	search: string;
-}
+
 
 interface CreateUserInput {
 	email: string;
@@ -25,41 +21,58 @@ interface CreateUserInput {
 	}[];
 }
 
+interface UserQueryParams {
+	page: number;
+	perPage: number;
+	search: string;
+	role?: string;
+}
+
+
 export class UserService {
-	static async getAllUsers({ page, perPage, search }: UserQueryParams) {
-		const searchQuery = search
-			? {
-				$or: [
-					{ firstName: { $regex: search, $options: "i" } },
-					{ email: { $regex: search, $options: "i" } },
-					{ phoneNumber: { $regex: search, $options: "i" } },
-				].filter((query) => query), // Exclude null fields
-			}
-			: {};
 
-		const sort = { createdAt: -1 }; // Changed from lastSeenAt to createdAt
+static async getAllUsers({ page, perPage, search, role }: UserQueryParams) {
+	// Build the search query
+	const searchQuery: Record<string, any> = {};
 
-		const aggregationPipeline = [
-			{ $match: searchQuery },
-			{ $sort: sort },
-			{ $skip: (page - 1) * perPage },
-			{ $limit: perPage },
-		] as any;
-
-		const data = await UserModel.aggregate(aggregationPipeline);
-		const total = await UserModel.countDocuments(searchQuery);
-
-		return {
-			data,
-			meta: {
-				totalPages: Math.ceil(total / perPage),
-				page,
-				perPage,
-				total,
-			},
-		};
+	if (search) {
+		searchQuery.$or = [
+			{ firstName: { $regex: search, $options: "i" } },
+			{ email: { $regex: search, $options: "i" } },
+			{ phoneNumber: { $regex: search, $options: "i" } },
+		];
 	}
-	static async deleteUser(userId: string) {
+
+	if (role) {
+		searchQuery.role = role; // Add role filter if provided
+	}
+
+	const sort = { createdAt: -1 }; // Default sorting by createdAt
+
+	// Build the aggregation pipeline
+	const aggregationPipeline = [
+		{ $match: searchQuery },
+		{ $sort: sort },
+		{ $skip: (page - 1) * perPage },
+		{ $limit: perPage },
+	] as any;
+
+	// Fetch the data and count the total documents
+	const data = await UserModel.aggregate(aggregationPipeline);
+	const total = await UserModel.countDocuments(searchQuery);
+
+	return {
+		data,
+		meta: {
+			totalPages: Math.ceil(total / perPage),
+			page,
+			perPage,
+			total,
+		},
+	};
+}
+
+static async deleteUser(userId: string) {
 		// Find and delete the user
 		const user = await UserModel.findOneAndDelete({ userId });
 

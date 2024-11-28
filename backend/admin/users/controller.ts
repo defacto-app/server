@@ -10,10 +10,16 @@ const AdminUserController = {
 		const page: number = Number.parseInt(req.query.page as string) || 1;
 		const perPage: number = Number.parseInt(req.query.perPage as string) || 20;
 		const search: string = (req.query.search as string) || "";
+		const role: string = (req.query.role as string) || ""; // Extract role filter
 
 		try {
-			// Delegate logic to the service
-			const result = await UserService.getAllUsers({ page, perPage, search });
+			// Delegate logic to the service with role filter
+			const result = await UserService.getAllUsers({
+				page,
+				perPage,
+				search,
+				role,
+			});
 			SendResponse.success(res, "Users retrieved", result);
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);

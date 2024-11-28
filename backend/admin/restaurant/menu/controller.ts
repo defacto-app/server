@@ -41,6 +41,7 @@ const AdminRestaurantMenuController = {
 		const search: string = (req.query.search as string) || "";
 		const page: number = Number.parseInt(req.query.page as string) || 1;
 		const perPage: number = Number.parseInt(req.query.perPage as string) || 10;
+		const includeDeleted = req.query.includeDeleted === "true"; // Query parameter for filtering deleted items
 
 		// Base query with parent filter
 		const query: any = { parent: restaurant.publicId };
@@ -52,6 +53,11 @@ const AdminRestaurantMenuController = {
 				{ name: { $regex: search, $options: "i" } },
 				{ category: { $regex: search, $options: "i" } },
 			];
+		}
+
+		// Include or exclude soft-deleted items based on `includeDeleted` parameter
+		if (!includeDeleted) {
+			query.isDeleted = { $ne: true }; // Exclude deleted items if `includeDeleted` is not true
 		}
 
 		try {
@@ -88,7 +94,6 @@ const AdminRestaurantMenuController = {
 		}
 	},
 	async one(req: Request, res: Response): Promise<void> {
-		console.log("res.locals  ???---");
 		const data = res.locals.menuItem as any;
 
 		try {
@@ -200,6 +205,7 @@ const AdminRestaurantMenuController = {
 						image: 1,
 						createdAt: 1,
 						updatedAt: 1,
+						publicId: 1,
 						"restaurant.name": 1,
 						"restaurant.publicId": 1,
 						"category.name": 1,
@@ -240,6 +246,148 @@ const AdminRestaurantMenuController = {
 
 			SendResponse.success(res, "Menu items retrieved", paginationResult);
 		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	},
+
+	async delete(req: Request, res: Response): Promise<void> {
+		const menu = res.locals.menuItem as any;
+
+		try {
+			// Use the softDelete method on the model
+			const updatedMenu = await MenuModel.softDelete(menu.publicId);
+
+			if (!updatedMenu) {
+				SendResponse.notFound(res, "Menu item not found or already deleted");
+				return;
+			}
+
+			SendResponse.success(
+				res,
+				"Menu item soft deleted successfully",
+				updatedMenu,
+			);
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	},
+
+	async restore(req: Request, res: Response): Promise<void> {
+		const menu = res.locals.menuItem as any;
+
+		try {
+			const restoredMenu = await MenuModel.restore(menu.publicId);
+
+			if (!restoredMenu) {
+				SendResponse.notFound(res, "Menu item not found or already active");
+				return;
+			}
+
+			SendResponse.success(
+				res,
+				"Menu item restored successfully",
+				restoredMenu,
+			);
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	},
+
+	async getDeleted(req: Request, res: Response): Promise<void> {
+		const restaurant = res.locals.restaurantItem as any;
+		const page: number = Number.parseInt(req.query.page as string) || 1;
+		const perPage: number = Number.parseInt(req.query.perPage as string) || 10;
+
+		try {
+			const query = { parent: restaurant.publicId };
+
+			const paginationResult = await paginate(
+				MenuModel,
+				page,
+				perPage,
+				{ ...query, isDeleted: true }, // Only fetch soft-deleted items
+				undefined, // projection
+				{ deletedAt: -1 }, // sort
+			);
+
+			SendResponse.success(
+				res,
+				"Soft-deleted menu items retrieved",
+				paginationResult,
+			);
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	},
+
+	async bulkDelete(req: Request, res: Response): Promise<void> {
+		const { ids } = req.body; // Expect an array of menu `publicId`s
+
+		if (!Array.isArray(ids) || ids.length === 0) {
+			SendResponse.badRequest(res, "No menu item IDs provided");
+			return;
+		}
+
+		try {
+			const updatedMenus = await MenuModel.updateMany(
+				{ publicId: { $in: ids } },
+				{
+					isDeleted: true,
+					deletedAt: new Date(),
+					available: false,
+				},
+			);
+
+			SendResponse.success(
+				res,
+				`${updatedMenus.modifiedCount} menu items soft deleted`,
+			);
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	},
+
+	async bulkRestore(req: Request, res: Response): Promise<void> {
+		const { ids } = req.body; // Expect an array of menu `publicId`s
+
+		if (!Array.isArray(ids) || ids.length === 0) {
+			SendResponse.badRequest(res, "No menu item IDs provided");
+			return;
+		}
+
+		try {
+			const updatedMenus = await MenuModel.updateMany(
+				{ publicId: { $in: ids } },
+				{
+					isDeleted: false,
+					deletedAt: null,
+					available: true,
+				},
+			);
+
+			SendResponse.success(
+				res,
+				`${updatedMenus.modifiedCount} menu items restored`,
+			);
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
+		}
+	},
+
+	async toggleAvailability(req: Request, res: Response): Promise<void> {
+		const menu = res.locals.menuItem as any;
+
+		try {
+			menu.available = !menu.available;
+			await menu.save();
+
+			SendResponse.success(
+				res,
+				`Menu item is now ${menu.available ? "available" : "unavailable"}`,
+				menu,
+			);
+		} catch (error: any) {
+			console.log(error);
 			SendResponse.serverError(res, error.message);
 		}
 	},

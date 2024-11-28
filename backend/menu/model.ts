@@ -1,6 +1,13 @@
-import mongoose, { type Document, Schema } from "mongoose";
+import mongoose, { type Document, type Model, type Query, Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
+
+// Define the static methods interface
+interface MenuModelStatics extends Model<MenuDataType> {
+   softDelete(id: string): Promise<MenuDataType | null>;
+   restore(id: string): Promise<MenuDataType | null>;
+   findDeleted(query?: Record<string, any>): Promise<MenuDataType[]>;
+}
 
 export interface MenuDataType extends Document {
    publicId: string;
@@ -13,6 +20,7 @@ export interface MenuDataType extends Document {
    available: boolean;
    updatedAt: Date;
    parent: string;
+   isDeleted: boolean;
 }
 
 const menuSchemaDefinitions = {
@@ -74,6 +82,17 @@ const menuSchemaDefinitions = {
       required: true,
       min: 0,
    },
+   isDeleted: {
+      type: Boolean,
+      required: true,
+      default: false,
+      select: false // Hide by default in queries
+   },
+   deletedAt: {
+      type: Date,
+      required: false,
+      select: false // Hide by default in queries
+   },
    createdAt: {
       type: Date,
       required: true,
@@ -84,6 +103,7 @@ const menuSchemaDefinitions = {
       required: true,
       default: new Date(),
    },
+
 };
 
 export const MenuSchema: Schema = new Schema(menuSchemaDefinitions, {
@@ -93,6 +113,40 @@ export const MenuSchema: Schema = new Schema(menuSchemaDefinitions, {
 });
 
 // Pre-save middleware to auto-generate and ensure unique slug
+
+
+
+MenuSchema.statics.softDelete = async function(id: string) {
+   const updatedMenu = await this.findOneAndUpdate(
+      { publicId: id },
+      {
+         isDeleted: true,
+         deletedAt: new Date(),
+         available: false // Automatically make unavailable when deleted
+      },
+      { new: true }
+   );
+   return updatedMenu;
+};
+
+// Add method to restore deleted items
+MenuSchema.statics.restore = async function(id: string) {
+   const restoredMenu = await this.findOneAndUpdate(
+      { publicId: id },
+      {
+         isDeleted: false,
+         deletedAt: null,
+         available: true // Optionally restore availability
+      },
+      { new: true }
+   );
+   return restoredMenu;
+};
+
+// Add method to find deleted items
+MenuSchema.statics.findDeleted = async function(query = {}) {
+   return this.find({ ...query, isDeleted: true });
+};
 MenuSchema.pre("save", async function (next) {
    const menu = this as unknown as MenuDataType;
 
@@ -120,6 +174,7 @@ MenuSchema.methods.calculateDiscountedPrice = function (discountPercent: number)
 MenuSchema.index({ slug: 1, parent: 1 });
 MenuSchema.index({ categoryId: 1 }); // Updated to use categoryId instead of category
 
-const MenuModel = mongoose.model<MenuDataType>("Menu", MenuSchema);
+
+const MenuModel = mongoose.model<MenuDataType, MenuModelStatics>("Menu", MenuSchema);
 
 export default MenuModel;

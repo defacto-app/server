@@ -131,14 +131,27 @@ const AdminOrderController = {
 		}
 	},
 
-		async one(req: Request, res: Response): Promise<void> {
+	async one(req: Request, res: Response): Promise<void> {
 		const order = res.locals.orderItem as any;
 
 		try {
-
 			SendResponse.success(res, "Order retrieved", order);
 		} catch (e: any) {
 			SendResponse.serverError(res, e.message);
+		}
+	},
+
+	async update(req: Request, res: Response): Promise<void> {
+		try {
+			const order = res.locals.orderItem;
+
+			const body = req.body;
+
+			console.log(body, "Body",order);
+
+			SendResponse.success(res, "Order updated successfully", order);
+		} catch (error: any) {
+			SendResponse.badRequest(res, "", error);
 		}
 	},
 };

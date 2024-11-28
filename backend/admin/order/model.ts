@@ -2,6 +2,9 @@ import mongoose, { type Document, Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import type { AddressType } from "../../../types";
 
+
+export const STATUS_VALUES = ["pending", "completed", "cancelled", "in-progress"] as const;
+export type StatusType = typeof STATUS_VALUES[number];
 // Generate a simple orderId for users (e.g., "DFT-123456")
 const generateOrderId = (): string => {
 	const randomNumber = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit number
@@ -32,7 +35,7 @@ export interface OrderDataType extends Document {
 	};
 	paymentStatus: "pending" | "paid" | "failed" | "refunded";
 	charge: number;
-	status: "pending" | "completed" | "cancelled";
+	status: StatusType;
 	pickupTime: Date | null;
 	assignedTo: string;
 	isInstant: boolean | null;
@@ -98,8 +101,8 @@ const orderSchemaDefinitions = {
 	},
 	status: {
 		type: String,
-		enum: ["pending", "completed", "cancelled"],
-		default: "pending",
+		enum: STATUS_VALUES,
+		default: "pending" as StatusType
 	},
 	pickupTime: { type: Date, default: null },
 	assignedTo: { type: String },

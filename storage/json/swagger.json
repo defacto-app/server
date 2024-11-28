@@ -574,126 +574,134 @@
 			}
 		},
 		"/api/v1/admin/users": {
-			"get": {
-				"tags": [
-					"admin-users"
-				],
-				"summary": "Get all users for admin dashboard with optional pagination, search, and sorting",
-				"parameters": [
-					{
-						"name": "page",
-						"in": "query",
-						"required": false,
-						"description": "Page number for pagination (defaults to 1)",
+	"get": {
+		"tags": [
+			"admin-users"
+		],
+		"summary": "Get all users for admin dashboard with optional pagination, search, role filter, and sorting",
+		"parameters": [
+			{
+				"name": "page",
+				"in": "query",
+				"required": false,
+				"description": "Page number for pagination (defaults to 1)",
+				"schema": {
+					"type": "integer",
+					"default": 1
+				}
+			},
+			{
+				"name": "perPage",
+				"in": "query",
+				"required": false,
+				"description": "Number of items per page (defaults to 20)",
+				"schema": {
+					"type": "integer",
+					"default": 20
+				}
+			},
+			{
+				"name": "search",
+				"in": "query",
+				"required": false,
+				"description": "Search term to filter users by first name, email, or phone number (case-insensitive)",
+				"schema": {
+					"type": "string"
+				}
+			},
+			{
+				"name": "role",
+				"in": "query",
+				"required": false,
+				"description": "Role filter to retrieve users by role (e.g., 'admin', 'customer', 'driver')",
+				"schema": {
+					"type": "string",
+					"example": "customer"
+				}
+			},
+			{
+				"name": "sort",
+				"in": "query",
+				"required": false,
+				"description": "Sorting order (e.g., firstName=1 for ascending, firstName=-1 for descending)",
+				"schema": {
+					"type": "string",
+					"example": "firstName=1"
+				}
+			}
+		],
+		"responses": {
+			"200": {
+				"description": "A list of users with pagination info",
+				"content": {
+					"application/json": {
 						"schema": {
-							"type": "integer",
-							"default": 1
-						}
-					},
-					{
-						"name": "perPage",
-						"in": "query",
-						"required": false,
-						"description": "Number of items per page (defaults to 20)",
-						"schema": {
-							"type": "integer",
-							"default": 20
-						}
-					},
-					{
-						"name": "search",
-						"in": "query",
-						"required": false,
-						"description": "Search term to filter users by first name, email, or phone number (case-insensitive)",
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "sort",
-						"in": "query",
-						"required": false,
-						"description": "Sorting order (e.g., firstName=1 for ascending, firstName=-1 for descending)",
-						"schema": {
-							"type": "string",
-							"example": "firstName=1"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "A list of users with pagination info",
-						"content": {
-							"application/json": {
-								"schema": {
+							"type": "object",
+							"properties": {
+								"success": {
+									"type": "boolean",
+									"example": true
+								},
+								"message": {
+									"type": "string",
+									"example": "Users retrieved"
+								},
+								"data": {
 									"type": "object",
 									"properties": {
-										"success": {
-											"type": "boolean",
-											"example": true
-										},
-										"message": {
-											"type": "string",
-											"example": "Users retrieved"
-										},
-										"data": {
+										"meta": {
 											"type": "object",
 											"properties": {
-												"meta": {
-													"type": "object",
-													"properties": {
-														"page": {
-															"type": "integer",
-															"example": 1
-														},
-														"perPage": {
-															"type": "integer",
-															"example": 20
-														},
-														"total": {
-															"type": "integer",
-															"example": 50
-														},
-														"totalPages": {
-															"type": "integer",
-															"example": 3
-														}
-													}
+												"page": {
+													"type": "integer",
+													"example": 1
 												},
-												"data": {
-													"type": "array",
-													"items": {
-														"type": "object",
-														"properties": {
-															"_id": {
-																"type": "string",
-																"example": "6650ebcd038aa7828a92234f"
-															},
-															"firstName": {
-																"type": "string",
-																"example": "Janet"
-															},
-															"email": {
-																"type": "string",
-																"example": "jaynette101@gmail.com"
-															},
-															"phoneNumber": {
-																"type": "string",
-																"example": "08123456789"
-															},
-															"role": {
-																"type": "string",
-																"example": "admin"
-															},
-															"createdAt": {
-																"type": "string",
-																"example": "2024-05-24T19:34:37.258Z"
-															},
-															"updatedAt": {
-																"type": "string",
-																"example": "2024-05-24T19:34:37.258Z"
-															}
-														}
+												"perPage": {
+													"type": "integer",
+													"example": 20
+												},
+												"total": {
+													"type": "integer",
+													"example": 50
+												},
+												"totalPages": {
+													"type": "integer",
+													"example": 3
+												}
+											}
+										},
+										"data": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"_id": {
+														"type": "string",
+														"example": "6650ebcd038aa7828a92234f"
+													},
+													"firstName": {
+														"type": "string",
+														"example": "Janet"
+													},
+													"email": {
+														"type": "string",
+														"example": "jaynette101@gmail.com"
+													},
+													"phoneNumber": {
+														"type": "string",
+														"example": "08123456789"
+													},
+													"role": {
+														"type": "string",
+														"example": "admin"
+													},
+													"createdAt": {
+														"type": "string",
+														"example": "2024-05-24T19:34:37.258Z"
+													},
+													"updatedAt": {
+														"type": "string",
+														"example": "2024-05-24T19:34:37.258Z"
 													}
 												}
 											}
@@ -702,17 +710,19 @@
 								}
 							}
 						}
-					},
-					"400": {
-						"description": "Invalid query parameter"
-					},
-					"500": {
-						"description": "Server error"
 					}
 				}
 			},
+			"400": {
+				"description": "Invalid query parameter"
+			},
+			"500": {
+				"description": "Server error"
+			}
+		}
+	},
 
-			"post": {
+"post": {
 				"tags": [
 					"admin-users"
 				],
