@@ -6,6 +6,7 @@ import fs from "node:fs";
 import { v2 as cloudinary } from "cloudinary";
 import { uploadToCloudinary } from "../../../helper/cloudinary";
 import { paginate } from "../../../utils/pagination";
+import MenuService from "./service";
 // Set up Cloudinary configuration
 
 const AdminRestaurantMenuController = {
@@ -13,21 +14,11 @@ const AdminRestaurantMenuController = {
 		const restaurant = res.locals.restaurantItem as any;
 		const { name, category, price, available, image, menuType } = req.body;
 
-		console.log(req.body, "create menu !!");
 		try {
-			// Create a new menu instance
-			const newMenu = new MenuModel({
-				name,
-				category,
-				price,
-				available,
-				image,
-				menuType,
-				parent: restaurant.publicId,
-			});
-
-			// Save the new menu item to the database
-			await newMenu.save();
+			const newMenu = await MenuService.createMenu(
+				{ name, category, price, available, image, menuType },
+				restaurant.publicId,
+			);
 
 			// Return success response
 			SendResponse.success(res, "Menu item created successfully", newMenu);
@@ -43,52 +34,16 @@ const AdminRestaurantMenuController = {
 		const perPage: number = Number.parseInt(req.query.perPage as string) || 10;
 		const includeDeleted = req.query.includeDeleted === "true"; // Query parameter for filtering deleted items
 
-		// Base query with parent filter
-		const query: any = { parent: restaurant.publicId };
-
-		// Add search criteria if search term exists
-		if (search) {
-			query.$or = [
-				{ slug: { $regex: search, $options: "i" } },
-				{ name: { $regex: search, $options: "i" } },
-				{ category: { $regex: search, $options: "i" } },
-			];
-		}
-
-		// Include or exclude soft-deleted items based on `includeDeleted` parameter
-		if (!includeDeleted) {
-			query.isDeleted = { $ne: true }; // Exclude deleted items if `includeDeleted` is not true
-		}
-
 		try {
-			const paginationResult = await paginate(
-				MenuModel,
+			const result = await MenuService.getAllMenus(
+				restaurant.publicId,
+				search,
 				page,
 				perPage,
-				query,
-				undefined, // projection
-				{ createdAt: -1 }, // sort
-				{ path: "categoryId", select: "name" }, // populate
+				includeDeleted,
 			);
 
-			// Transform the response to convert categoryId into category and remove the original categoryId
-			const transformedData = {
-				meta: paginationResult.meta,
-				data: paginationResult.data.map((item: { toObject: () => any }) => {
-					const itemObj = item.toObject();
-					const { categoryId, ...rest } = itemObj; // Destructure to separate categoryId from rest of the data
-
-					return {
-						...rest,
-						category: {
-							_id: categoryId?._id,
-							name: categoryId?.name || "Unknown Category",
-						},
-					};
-				}),
-			};
-
-			SendResponse.success(res, "Menu items retrieved", transformedData);
+			SendResponse.success(res, "Menu items retrieved", result);
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
@@ -156,7 +111,6 @@ const AdminRestaurantMenuController = {
 				optimizedUrl,
 			);
 		} catch (error: any) {
-			console.error(error);
 			SendResponse.serverError(res, error.message);
 		}
 	},
@@ -167,84 +121,8 @@ const AdminRestaurantMenuController = {
 		const search: string = (req.query.search as string) || ""; // Get search term
 
 		try {
-			// Search by both name and category (case-insensitive)
-			const searchQuery = search
-				? {
-						$or: [
-							{ name: { $regex: search, $options: "i" } }, // Search by name
-							{ "category.name": { $regex: search, $options: "i" } }, // Search by category name
-						],
-					}
-				: {}; // If no search term, return all menu items
-
-			const pipeline = [
-				{
-					$lookup: {
-						from: "restaurants",
-						localField: "parent",
-						foreignField: "publicId",
-						as: "restaurant",
-					},
-				},
-				{
-					$lookup: {
-						from: "categories",
-						localField: "categoryId",
-						foreignField: "_id",
-						as: "category",
-					},
-				},
-				{ $unwind: "$restaurant" },
-				{ $unwind: "$category" },
-				{ $match: searchQuery }, // Apply search filter here
-				{
-					$project: {
-						name: 1,
-						price: 1,
-						available: 1,
-						image: 1,
-						createdAt: 1,
-						updatedAt: 1,
-						publicId: 1,
-						"restaurant.name": 1,
-						"restaurant.publicId": 1,
-						"category.name": 1,
-						"category._id": 1,
-					},
-				},
-				{ $sort: { name: 1 } },
-				{ $skip: (page - 1) * perPage },
-				{ $limit: perPage },
-			] as any;
-
-			const menuItems = await MenuModel.aggregate(pipeline);
-			const totalItems = await MenuModel.aggregate([
-				{
-					$lookup: {
-						from: "categories",
-						localField: "categoryId",
-						foreignField: "_id",
-						as: "category",
-					},
-				},
-				{ $unwind: "$category" },
-				{ $match: searchQuery },
-				{ $count: "count" },
-			]);
-
-			const totalItemsCount = totalItems[0]?.count || 0;
-
-			const paginationResult = {
-				data: menuItems,
-				meta: {
-					page,
-					perPage,
-					totalPages: Math.ceil(totalItemsCount / perPage),
-					totalItems: totalItemsCount,
-				},
-			};
-
-			SendResponse.success(res, "Menu items retrieved", paginationResult);
+			const result = await MenuService.getAllMenusWithPipeline(search, page, perPage);
+			SendResponse.success(res, "Menu items retrieved", result);
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
