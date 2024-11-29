@@ -1,72 +1,23 @@
 import type { Request, Response } from "express";
-import type { SortOrder } from "mongoose";
 
 import SendResponse from "../../libs/response-helper";
 import { CreateOrderSchema } from "./validation";
 import OrderModel from "./model";
+import { OrderService } from "./service";
 
 const AdminOrderController = {
 	async all(req: Request, res: Response): Promise<void> {
-		console.log(req.query, "Query params");
-		const page: number = Number.parseInt(req.query.page as string) || 1;
-		const perPage: number = Number.parseInt(req.query.perPage as string) || 20;
-		const search: string = (req.query.search as string) || "";
-		const type: string = (req.query.type as string) || ""; // Type of order, either "food" or "package"
-
 		try {
-			const searchQuery: any = {
-				...(search && {
-					$or: [
-						{ firstName: { $regex: search, $options: "i" } },
-						{ email: { $regex: search, $options: "i" } },
-						{ phoneNumber: { $regex: search, $options: "i" } },
-					],
-				}),
-				...(type && { type }), // Add type filter if provided
-			};
+			const page = Number.parseInt(req.query.page as string) || 1;
+			const perPage = Number.parseInt(req.query.perPage as string) || 20;
+			const search = (req.query.search as string) || "";
+			const type = (req.query.type as string) || "";
 
-			const sort: { [key: string]: SortOrder } = { createdAt: -1 };
+			const options = { page, perPage, search, type };
 
-			const aggregationPipeline = [
-				{ $match: searchQuery },
-				{ $sort: sort },
-				{ $skip: (page - 1) * perPage },
-				{ $limit: perPage },
-				{
-					$project: {
-						_id: 1,
-						createdAt: 1,
-						updatedAt: 1,
-						type: 1,
-						charge: 1,
-						status: 1,
-						pickupTime: 1,
-						assignedTo: 1,
-						description: 1,
-						cashPaymentLocation: 1,
-						publicId: 1,
-						orderId: 1,
-						"dropOffDetails.name": 1,
-						"dropOffDetails.phoneNumber": 1,
-						"pickupDetails.name": 1,
-					},
-				},
-			] as any;
+			const result = await OrderService.all(options);
 
-			const data = await OrderModel.aggregate(aggregationPipeline);
-			const total = await OrderModel.countDocuments(searchQuery);
-
-			const paginationResult = {
-				data,
-				meta: {
-					totalPages: Math.ceil(total / perPage),
-					page,
-					perPage,
-					total,
-				},
-			};
-
-			SendResponse.success(res, "Orders retrieved", paginationResult);
+			SendResponse.success(res, "Orders retrieved", result);
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
@@ -141,13 +92,26 @@ const AdminOrderController = {
 		}
 	},
 
-	async update(req: Request, res: Response): Promise<void> {
+	async assignDriver(req: Request, res: Response): Promise<void> {
 		try {
 			const order = res.locals.orderItem;
 
 			const body = req.body;
 
-			console.log(body, "Body",order);
+			console.log(body, "Body", order);
+
+			SendResponse.success(res, "Order updated successfully", order);
+		} catch (error: any) {
+			SendResponse.badRequest(res, "", error);
+		}
+	},
+	async updateStatus(req: Request, res: Response): Promise<void> {
+		try {
+			const order = res.locals.orderItem;
+
+			const body = req.body;
+
+			console.log(body, "Body", order);
 
 			SendResponse.success(res, "Order updated successfully", order);
 		} catch (error: any) {

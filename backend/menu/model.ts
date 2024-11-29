@@ -1,4 +1,4 @@
-import mongoose, { type Document, type Model, type Query, Schema } from "mongoose";
+import mongoose, { type Document, type Model,  Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
 

@@ -126,3 +126,5 @@
 2024-11-27T23:06:54.609Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
 2024-11-28T06:06:14.267Z [undefined] [31merror[39m: Cannot read properties of null (reading 'available')
 2024-11-28T06:06:54.987Z [undefined] [31merror[39m: Cannot read properties of null (reading 'available')
+2024-11-28T06:22:28.207Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-11-28T06:22:44.362Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category

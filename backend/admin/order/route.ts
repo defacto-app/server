@@ -8,18 +8,16 @@ const router = Router();
 
 router.use(authMiddleware.validateAdmin);
 
-router.param('orderId', OrderMiddleware.orderId);
-
+router.param("orderId", OrderMiddleware.orderId);
 
 // middleware to validate user
 
 // middleware to validate packageId
 
 router.get("/", AdminOrderController.all);
-router.post("/", AdminOrderController.create)
-router.get("/:orderId", AdminOrderController.one)
-router.put("/:orderId", AdminOrderController.update)
-
-
+router.post("/", AdminOrderController.create);
+router.get("/:orderId", AdminOrderController.one);
+router.patch("/:orderId/assign-driver", AdminOrderController.assignDriver);
+router.patch("/:orderId/status", AdminOrderController.updateStatus);
 
 export default router;
