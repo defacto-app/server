@@ -12,6 +12,7 @@ export interface RestaurantDataType extends Document {
    address: string;
    phone: string;
    email: string;
+   discount?: number;
    openingHours: {
       monday: { open: string; close: string; isClosed: boolean };
       tuesday: { open: string; close: string; isClosed: boolean };
@@ -21,7 +22,6 @@ export interface RestaurantDataType extends Document {
       saturday: { open: string; close: string; isClosed: boolean };
       sunday: { open: string; close: string; isClosed: boolean };
    };
-   menuItems: { name: string; price: number }[];
    createdAt: Date;
    updatedAt: Date;
    isCurrentlyOpen(): boolean;
@@ -111,18 +111,7 @@ const restaurantSchemaDefinitions = {
       type: String,
       required: true,
    },
-   menuItems: [
-      {
-         name: {
-            type: String,
-            required: true,
-         },
-         price: {
-            type: Number,
-            required: true,
-         },
-      },
-   ],
+
    createdAt: {
       type: Date,
       required: true,

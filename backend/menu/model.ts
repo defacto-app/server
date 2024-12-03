@@ -13,7 +13,7 @@ export interface MenuDataType extends Document {
    publicId: string;
    name: string;
    slug: string;
-   categoryId: mongoose.Types.ObjectId;
+   categoryId: string;
    image: string;
    price: number;
    createdAt: Date;
@@ -52,15 +52,14 @@ const menuSchemaDefinitions = {
       maxLength: 255,
    },
    categoryId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: 'Category',
       required: true,
       validate: {
-         validator: async (value: mongoose.Types.ObjectId) => {
+         validator: async (value: string) => {
+            console.log(value,"Category value");
             const category = await mongoose.model('Category').findOne({
-               _id: value,
-               categoryType: 'menu',
-               active: true
+               publicId: value,
             });
             return !!category;
          },

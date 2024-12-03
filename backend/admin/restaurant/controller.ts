@@ -5,7 +5,7 @@ import type { SortOrder } from "mongoose";
 import { uploadToCloudinary } from "../../helper/cloudinary";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "node:fs";
-import CategoryModel from "../../category/model";
+import CategoryModel from "./category/model";
 import { updateRestaurantSchema } from "./validator";
 import MenuModel from "../../menu/model";
 // Set up Cloudinary configuration
@@ -75,6 +75,7 @@ const AdminRestaurantController = {
 	},
 
 	async one(req: Request, res: Response): Promise<void> {
+		console.log( "res.locals.restaurantItem");
 		const data = res.locals.restaurantItem as any;
 
 		try {

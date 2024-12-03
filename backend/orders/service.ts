@@ -48,6 +48,7 @@ interface CreateRestaurantOrderParams {
 	charge: number;
 	description?: string;
 	cashPaymentLocation?: any;
+	parentId: string;
 }
 
 interface PackageDeliveryData {
@@ -93,6 +94,7 @@ class OrderService {
 	static async createRestaurantOrder(
 		orderData: CreateRestaurantOrderParams,
 		user: any,
+		restaurantData:any,
 	): Promise<void> {
 		const {
 			userId,
@@ -119,10 +121,12 @@ class OrderService {
 			cashPaymentLocation,
 			deliveryCharge,
 			isInstant: true,
+			restaurantId: restaurantData.restaurantId,
 			restaurantOrder: restaurantOrder.map((item) => ({
 				name: item.name,
 				quantity: item.quantity,
 				price: item.price,
+				restaurantId: user.parent,
 			})),
 		});
 

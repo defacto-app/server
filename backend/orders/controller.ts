@@ -30,15 +30,21 @@ const OrderController = {
 	async restaurant(req: Request, res: Response): Promise<void> {
 		const user = res.locals.user as any;
 
+		const restaurantItem = res.locals.restaurantItem;
+
+
+
 		try {
 			// Extract data from the request body
 			const orderData = req.body;
 
+			console.log({ user, orderData,  restaurantItem });
+
 			// Call the service to create the restaurant order
-			await OrderService.createRestaurantOrder(orderData, user);
+			// await OrderService.createRestaurantOrder(orderData, user, restaurantItem.publicId);
 
 			// Send success response
-			SendResponse.created(res, "Order created successfully");
+			SendResponse.created(res, "Order created successfully", restaurantItem.publicId);
 		} catch (error) {
 			console.error("Error creating order:", error);
 			SendResponse.serverError(res, "Error creating order");

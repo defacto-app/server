@@ -32,6 +32,7 @@ import AdminUsersRoutes from "./backend/admin/users/route";
 import AdminOrderRoutes from "./backend/admin/order/route";
 import AdminAuthRoutes from "./backend/admin/auth/routes";
 import AdminRestaurantRoutes from "./backend/admin/restaurant/route";
+import AdminCategoryRoutes from "./backend/admin/restaurant/category/route";
 
 //
 //
@@ -144,7 +145,6 @@ app.use("/api/v1/restaurants", RestaurantRoutes);
 app.use("/api/v1/payments", PaymentRoutes);
 app.use("/api/v1/g", PublicRoutes);
 
-// app.use("/api/v1/restaurant", RestaurantRoutes);
 //
 //
 //
@@ -162,6 +162,7 @@ app.use("/api/v1/admin/dashboard", DashboardRoutes);
 app.use("/api/v1/admin/restaurants", AdminRestaurantRoutes);
 app.use("/api/v1/admin/menu", AdminMenuRoutes);
 app.use("/api/v1/admin/orders", AdminOrderRoutes);
+app.use("/api/v1/admin/categories", AdminCategoryRoutes);
 // admin routes
 
 // image upload

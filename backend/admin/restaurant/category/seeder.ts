@@ -1,5 +1,5 @@
 import CategoryModel from "./model";
-import { connectDB } from "../../config/mongodb";
+import { connectDB } from "../../../../config/mongodb";
 import mongoose from "mongoose";
 
 const categories = [

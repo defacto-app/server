@@ -54,6 +54,7 @@ const AdminRestaurantMenuController = {
 		try {
 			SendResponse.success(res, "Menu item retrieved", data);
 		} catch (error: any) {
+			console.log(error);
 			SendResponse.serverError(res, error.message);
 		}
 	},
@@ -61,19 +62,18 @@ const AdminRestaurantMenuController = {
 
 	async update(req: Request, res: Response): Promise<void> {
 		const menu = res.locals.menuItem as any;
-		const { name, category, price, available, image } = req.body;
+		const { name, price, available, image, categoryId } = req.body;
 
 		try {
-			menu.name = name;
-			menu.category = category;
-			menu.price = price;
-			menu.available = available;
-			menu.image = image;
+			const updatedMenu = await MenuModel.findOneAndUpdate(
+				{ publicId: menu.publicId },
+				{ name, price, available, image, categoryId },
+				{ new: true },
+			);
 
-			await menu.save();
-
-			SendResponse.success(res, "Menu item updated", menu);
+			SendResponse.success(res, "Menu item updated", updatedMenu);
 		} catch (error: any) {
+			console.log(error);
 			SendResponse.serverError(res, error.message);
 		}
 	},
@@ -121,7 +121,11 @@ const AdminRestaurantMenuController = {
 		const search: string = (req.query.search as string) || ""; // Get search term
 
 		try {
-			const result = await MenuService.getAllMenusWithPipeline(search, page, perPage);
+			const result = await MenuService.getAllMenusWithPipeline(
+				search,
+				page,
+				perPage,
+			);
 			SendResponse.success(res, "Menu items retrieved", result);
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
@@ -252,20 +256,27 @@ const AdminRestaurantMenuController = {
 		}
 	},
 
-	async toggleAvailability(req: Request, res: Response): Promise<void> {
+	async toggleAvailability(req: Request, res: Response) {
 		const menu = res.locals.menuItem as any;
 
 		try {
-			menu.available = !menu.available;
-			await menu.save();
+			const updatedMenu = await MenuModel.findOneAndUpdate(
+				{ publicId: menu.publicId },
+				{ available: !menu.available },
+				{ new: true }, // Return the updated document
+			) as any;
 
-			SendResponse.success(
-				res,
-				`Menu item is now ${menu.available ? "available" : "unavailable"}`,
-				menu,
-			);
+			if (!updatedMenu) {
+				return SendResponse.notFound(
+					res,
+					"Menu not found for updating availability",
+				);
+			}
+
+			console.log(updatedMenu, "updatedMenu");
+
+			SendResponse.success(res, updatedMenu, "Menu availability updated");
 		} catch (error: any) {
-			console.log(error);
 			SendResponse.serverError(res, error.message);
 		}
 	},

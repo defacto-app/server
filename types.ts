@@ -43,3 +43,22 @@ export interface AddressType {
 	};
 	additionalDetails: string;
 }
+
+
+export interface CategorySearchParams {
+	search?: string;
+	page?: number;
+	perPage?: number;
+	sortField?: string;
+	sortOrder?: "asc" | "desc";
+}
+
+export interface CategorySearchResult {
+	data: any[];
+	meta: {
+		page: number;
+		perPage: number;
+		total: number;
+		totalPages: number;
+	};
+}

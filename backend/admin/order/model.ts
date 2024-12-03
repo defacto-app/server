@@ -20,6 +20,8 @@ export interface OrderDataType extends Document {
 	userId: string;
 	typeId: string;
 	orderId: string;
+	note?: string;
+	restaurantId?: string;
 	package_image?: string;
 	dropOffDetails: {
 		name: string;
@@ -99,6 +101,10 @@ const orderSchemaDefinitions = {
 		type: Number,
 		required: true,
 	},
+	restaurantId: {
+		type: String,
+		required: false,
+	},
 	status: {
 		type: String,
 		enum: STATUS_VALUES,
@@ -126,6 +132,10 @@ const orderSchemaDefinitions = {
 		required: true,
 		default: new Date(),
 	},
+	note: {
+		type: String,
+		required: false,
+	}
 };
 
 // Define the schema and apply timestamps for automatic tracking of createdAt and updatedAt

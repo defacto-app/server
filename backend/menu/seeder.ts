@@ -3,7 +3,7 @@ import { connectDB } from "../../config/mongodb";
 import { v4 as uuidv4 } from "uuid";
 import Chance from "chance";
 import RestaurantModel from "../restaurant/model";
-import CategoryModel from "../category/model";
+import CategoryModel from "../admin/restaurant/category/model";
 import MenuModel from "./model";
 import slugify from "slugify";
 

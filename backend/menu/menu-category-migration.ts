@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { connectDB } from "../../config/mongodb";
 import MenuModel from "../menu/model";
-import CategoryModel from "../category/model";
+import CategoryModel from "../admin/restaurant/category/model";
 
 async function migrateMenuCategories() {
    console.time("Migration time");

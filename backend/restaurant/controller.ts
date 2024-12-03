@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import SendResponse from "../libs/response-helper";
 import RestaurantModel from "./model";
 import MenuModel from "../menu/model";
-import CategoryModel from "../category/model";
+import CategoryModel from "../admin/restaurant/category/model";
 import OrderModel from "../admin/order/model";
 import { paginate } from "../utils/pagination";
 
@@ -52,7 +52,7 @@ const RestaurantController = {
 				categoryType: "menu",
 				active: true,
 			})
-				.select("_id name slug")
+				.select("_id publicId name slug")  // Add publicId to selection
 				.sort("name");
 
 			// Build search conditions
@@ -70,28 +70,55 @@ const RestaurantController = {
 				searchConditions.categoryId = categoryId;
 			}
 
-			// Fetch menu items with populated category
-			const menuItems = await MenuModel.find(searchConditions)
-				.populate("categoryId", "name slug")
-				.sort({ name: 1 });
+			// Fetch menu items
+			const menuItems = await MenuModel.aggregate([
+				{ $match: searchConditions },
+				{
+					$lookup: {
+						from: 'categories',
+						localField: 'categoryId',
+						foreignField: 'publicId',  // Use publicId for lookup
+						as: 'category'
+					}
+				},
+				{ $unwind: { path: '$category', preserveNullAndEmptyArrays: true } },
+				{
+					$project: {
+						_id: 1,
+						name: 1,
+						slug: 1,
+						price: 1,
+						available: 1,
+						image: 1,
+						publicId: 1,
+						parent: 1,
+						categoryId: 1,
+						'category._id': 1,
+						'category.publicId': 1,
+						'category.name': 1,
+						'category.slug': 1
+					}
+				},
+				{ $sort: { name: 1 } }
+			]);
 
-			// Filter menu items to only include those with a valid categoryId
-			const validMenuItems = menuItems.filter((item: any) => item.categoryId);
+			// Filter menu items to only include those with a valid category
+			const validMenuItems = menuItems.filter((item: any) => item.category);
 
 			// Collect category IDs from valid menu items
 			const categoryIdsWithItems = new Set(
-				validMenuItems.map((item: any) => String(item.categoryId._id)),
+				validMenuItems.map((item: any) => item.category.publicId)
 			);
 
 			// Filter categories to include only those with associated menu items
 			const filteredCategories = categories.filter((category) =>
-				categoryIdsWithItems.has(String(category._id)),
+				categoryIdsWithItems.has(category.publicId)
 			);
 
 			SendResponse.success(res, "Restaurant and menu retrieved", {
 				restaurant: data,
-				menu: validMenuItems, // Only include valid menu items
-				categories: filteredCategories, // Only include categories with items
+				menu: validMenuItems,
+				categories: filteredCategories,
 			});
 		} catch (error: any) {
 			console.error("Restaurant controller error:", error);
@@ -146,7 +173,7 @@ const RestaurantController = {
 
 			// Step 3: Create a new order document for a restaurant order
 			const newOrder = new OrderModel({
-				type: "food", // This is a restaurant order
+				type: "food",
 				userId,
 				dropOffDetails,
 				pickupDetails,

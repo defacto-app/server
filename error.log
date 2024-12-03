@@ -128,3 +128,171 @@
 2024-11-28T06:06:54.987Z [undefined] [31merror[39m: Cannot read properties of null (reading 'available')
 2024-11-28T06:22:28.207Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
 2024-11-28T06:22:44.362Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-11-29T20:56:23.660Z [undefined] [31merror[39m: Error creating order
+2024-11-29T20:56:31.555Z [undefined] [31merror[39m: Error creating order
+2024-11-29T20:56:48.589Z [undefined] [31merror[39m: Error creating order
+2024-11-29T20:57:57.609Z [undefined] [31merror[39m: Error creating order
+2024-11-29T20:58:53.984Z [undefined] [31merror[39m: Error creating order
+2024-11-29T21:05:51.579Z [undefined] [31merror[39m: Error creating order
+2024-11-29T21:07:49.792Z [undefined] [31merror[39m: Error creating order
+2024-11-29T21:45:35.749Z [undefined] [31merror[39m: Error creating order
+2024-11-29T23:25:29.576Z [undefined] [31merror[39m: Error creating order
+2024-12-02T03:11:55.082Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:12:34.592Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:17:57.396Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:19:14.794Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:19:27.055Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:21:50.631Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:22:17.613Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:24:41.457Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:25:40.604Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:26:41.552Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:32:05.527Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:32:17.713Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:34:19.393Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:36:28.406Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:38:29.660Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T03:38:59.674Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-02T04:22:27.946Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T04:22:56.694Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T04:23:05.680Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T04:24:42.574Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T04:24:54.201Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T05:47:12.612Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T05:47:38.525Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T05:48:08.208Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T05:50:16.546Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T05:51:39.870Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T06:04:23.841Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T06:04:33.053Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T06:07:13.759Z [undefined] [31merror[39m: Menu validation failed: categoryId: Cast to ObjectId failed for value "30a0913e-c8f6-4d14-bc29-3732eb6be100" (type string) at path "categoryId" because of "BSONError"
+2024-12-02T06:07:20.995Z [undefined] [31merror[39m: Menu validation failed: categoryId: Cast to ObjectId failed for value "30a0913e-c8f6-4d14-bc29-3732eb6be100" (type string) at path "categoryId" because of "BSONError"
+2024-12-02T06:07:30.580Z [undefined] [31merror[39m: Menu validation failed: categoryId: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "categoryId" because of "BSONError"
+2024-12-02T06:07:34.410Z [undefined] [31merror[39m: Menu validation failed: categoryId: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "categoryId" because of "BSONError"
+2024-12-02T06:07:44.955Z [undefined] [31merror[39m: Menu validation failed: categoryId: Cast to ObjectId failed for value "e48c9d2f-da1a-456d-b732-0445a507a3b6" (type string) at path "categoryId" because of "BSONError"
+2024-12-02T06:10:18.764Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T06:10:53.289Z [undefined] [31merror[39m: Menu validation failed: categoryId: Category must exist and be an active menu category
+2024-12-02T06:11:35.306Z [undefined] [31merror[39m: Menu validation failed: undefined: Cannot read properties of undefined (reading 'options'), categoryId: Category must exist and be an active menu category
+2024-12-02T06:12:34.011Z [undefined] [31merror[39m: Menu validation failed: undefined: Cannot read properties of undefined (reading 'options'), categoryId: Category must exist and be an active menu category
+2024-12-02T06:12:48.680Z [undefined] [31merror[39m: Menu validation failed: undefined: Cannot read properties of undefined (reading 'options'), categoryId: Category must exist and be an active menu category
+2024-12-02T06:14:01.159Z [undefined] [31merror[39m: category is not defined
+2024-12-02T19:42:23.124Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "089603bb-1727-4909-bca8-26a32ecdcc2e" (type string) at path "_id" for model "Category"
+2024-12-02T19:42:24.637Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "089603bb-1727-4909-bca8-26a32ecdcc2e" (type string) at path "_id" for model "Category"
+2024-12-02T19:42:27.121Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "089603bb-1727-4909-bca8-26a32ecdcc2e" (type string) at path "_id" for model "Category"
+2024-12-02T19:42:31.628Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "089603bb-1727-4909-bca8-26a32ecdcc2e" (type string) at path "_id" for model "Category"
+2024-12-02T19:43:13.577Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "089603bb-1727-4909-bca8-26a32ecdcc2e" (type string) at path "_id" for model "Category"
+2024-12-03T06:54:32.380Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:54:33.870Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:54:36.358Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:54:40.844Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:54:43.311Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:54:44.794Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:54:47.905Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:54:52.387Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:54:52.977Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:54:55.567Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:54:57.046Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:54:59.518Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:55:04.012Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:55:22.599Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:55:25.006Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:55:26.493Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:55:28.983Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:55:33.472Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:55:45.097Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:55:46.574Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:55:49.076Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:55:53.564Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "c2550a02-b223-42a9-81b0-a9f3b9ec2970" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:03.825Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:05.312Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:07.800Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:12.282Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:18.862Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:20.339Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:22.824Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:27.313Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:33.313Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:34.407Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:35.897Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:38.386Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:42.872Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:45.213Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:46.286Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:47.775Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:50.259Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T06:57:54.743Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:04:30.337Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:04:31.475Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:04:32.954Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:04:35.441Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:04:46.313Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:04:46.957Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:04:47.958Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:04:49.473Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:04:51.969Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:04:56.459Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:04:57.553Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:04:59.042Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:05:01.533Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:05:06.013Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:07:02.201Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:07:18.781Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:07:20.475Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:07:21.958Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:07:24.449Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:07:28.938Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:07:53.755Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:07:54.759Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:07:56.239Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:07:58.720Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:08:03.206Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:08:05.750Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:08:06.764Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:08:08.259Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:08:10.739Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:08:15.218Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:08:40.199Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:08:41.225Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:08:42.709Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:08:45.198Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:08:49.690Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:09:05.297Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:09:06.304Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:09:07.796Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:09:10.320Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:09:14.806Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:09:21.079Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:47:54.248Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:47:58.238Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:47:59.714Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:48:02.194Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:48:06.684Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:48:47.841Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:48:49.124Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:48:50.604Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:48:53.100Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:48:57.585Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T07:49:07.206Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "3d24625c-c69b-49a7-83f7-e335f9ac7cde" (type string) at path "_id" for model "Category"
+2024-12-03T10:24:20.070Z [undefined] [31merror[39m: menu.save is not a function
+2024-12-03T10:24:25.585Z [undefined] [31merror[39m: menu.save is not a function
+2024-12-03T10:24:39.004Z [undefined] [31merror[39m: menu.save is not a function
+2024-12-03T10:28:30.299Z [undefined] [31merror[39m: Cast to ObjectId failed for value "089603bb-1727-4909-bca8-26a32ecdcc2e" (type string) at path "_id" for model "Category"
+2024-12-03T10:28:44.348Z [undefined] [31merror[39m: menu.save is not a function
+2024-12-03T10:28:44.805Z [undefined] [31merror[39m: menu.save is not a function
+2024-12-03T10:50:16.462Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "1cffc799-02ab-40c9-b409-0c4e20187bdd" (type string) at path "_id" for model "Category"
+2024-12-03T10:50:17.949Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "1cffc799-02ab-40c9-b409-0c4e20187bdd" (type string) at path "_id" for model "Category"
+2024-12-03T10:50:20.437Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "1cffc799-02ab-40c9-b409-0c4e20187bdd" (type string) at path "_id" for model "Category"
+2024-12-03T10:50:24.926Z [undefined] [31merror[39m: Error in pagination: Cast to ObjectId failed for value "1cffc799-02ab-40c9-b409-0c4e20187bdd" (type string) at path "_id" for model "Category"
+2024-12-03T11:20:18.059Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
+2024-12-03T11:20:19.428Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
+2024-12-03T11:20:21.801Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
+2024-12-03T11:20:26.178Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
+2024-12-03T11:23:02.459Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
+2024-12-03T11:23:03.832Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
+2024-12-03T11:23:06.204Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
+2024-12-03T11:23:10.572Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
+2024-12-03T11:23:11.053Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
+2024-12-03T11:23:11.824Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
+2024-12-03T11:23:13.185Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
+2024-12-03T11:23:15.552Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
+2024-12-03T11:23:19.915Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"

@@ -3,7 +3,7 @@ import type { NextFunction, Request, Response } from "express";
 import SendResponse from "../libs/response-helper";
 import RestaurantModel from "../restaurant/model";
 import MenuModel from "../menu/model";
-import CategoryModel from "../category/model";
+import CategoryModel from "../admin/restaurant/category/model";
 
 class RestaurantMiddleware {
 	public async restaurantSlug(req: Request, res: Response, next: NextFunction) {
@@ -72,28 +72,64 @@ class RestaurantMiddleware {
 
 		try {
 			if (!menuId) {
-				return res.status(400).json({ error: "Menu  Public id  is required" });
+				return SendResponse.badRequest(res, "Menu public ID is required");
 			}
 
-			const menu = await MenuModel.findOne({
-				publicId: menuId,
-			});
+			const result = await MenuModel.aggregate([
+				{
+					$match: {
+						publicId: menuId,
+					},
+				},
+				{
+					$lookup: {
+						from: "categories",  // Changed from "Category" to "categories"
+						localField: "categoryId",
+						foreignField: "publicId", // Changed from "publicId" to "_id"
+						as: "categoryData",
+					},
+				},
+				{
+					$unwind: {
+						path: "$categoryData",
+						preserveNullAndEmptyArrays: true  // Keep menu even if category not found
+					}
+				},
+				{
+					$project: {
+						_id: 1,
+						publicId: 1,
+						parent: 1,
+						slug: 1,
+						name: 1,
+						image: 1,
+						available: 1,
+						price: 1,
+						createdAt: 1,
+						updatedAt: 1,
+						categoryId: 1,
+						category: {
+							name: "$categoryData.name",
+							slug: "$categoryData.slug",
+							publicId: "$categoryData.publicId",
+						},
+					},
+				},
+			]);
 
-			if (!menu) {
-				SendResponse.notFound(
+			if (!result.length) {
+				return SendResponse.notFound(
 					res,
-					`Sorry, Menu  ${menuId} is deleted or doesnt exist `,
+					`Sorry, Menu ${menuId} is deleted or doesn't exist`,
 				);
 			}
 
-			res.locals.menuItem = menu;
-
+			res.locals.menuItem = result[0]
 			next();
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}
 	}
-
 	public async categoryPublicId(
 		req: Request,
 		res: Response,
@@ -104,9 +140,7 @@ class RestaurantMiddleware {
 		console.log(publicId, "category id");
 		try {
 			if (!publicId) {
-				return res
-					.status(400)
-					.json({ error: "Category public ID is required" });
+				return SendResponse.badRequest(res, "Category public ID is required");
 			}
 
 			// Use CategoryModel instead of MenuModel
@@ -128,7 +162,6 @@ class RestaurantMiddleware {
 			SendResponse.serverError(res, error.message);
 		}
 	}
-
 }
 
 export default new RestaurantMiddleware();
