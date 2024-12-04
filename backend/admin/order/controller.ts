@@ -75,14 +75,20 @@ const AdminOrderController = {
 			await newOrder.save();
 
 			SendResponse.created(res, "Order created successfully", newOrder);
-
-
-		} catch (error:any) {
-
-		SendResponse.serverError(res, error.message);
+		} catch (error: any) {
+			SendResponse.serverError(res, error.message);
 		}
 	},
 
+	async restaurant(req: Request, res: Response): Promise<void> {
+		const order = res.locals.orderItem as any;
+
+		try {
+			SendResponse.success(res, "Order retrieved", order);
+		} catch (e: any) {
+			SendResponse.serverError(res, e.message);
+		}
+	},
 	async one(req: Request, res: Response): Promise<void> {
 		const order = res.locals.orderItem as any;
 
@@ -104,8 +110,6 @@ const AdminOrderController = {
 			order.assignedTo = body.driverId;
 
 			await order.save();
-
-
 
 			SendResponse.success(res, "Order updated successfully", order);
 		} catch (error: any) {
