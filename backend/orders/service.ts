@@ -94,12 +94,11 @@ class OrderService {
 	static async createRestaurantOrder(
 		orderData: CreateRestaurantOrderParams,
 		user: any,
-		restaurantData:any,
+		restaurantData: any,
 	): Promise<void> {
 		const {
 			userId,
-			dropOffDetails,
-			pickupDetails,
+
 			deliveryCharge,
 			restaurantOrder,
 			charge,
@@ -107,20 +106,19 @@ class OrderService {
 			cashPaymentLocation,
 		} = orderData;
 
-		console.log({ user, orderData });
+		console.log(JSON.stringify({ user, orderData, restaurantData }, null, 2));
 
 		// Create a new order document for a restaurant order
 		const newOrder = new OrderModel({
 			type: "food", // This is a restaurant order
 			userId,
-			dropOffDetails,
-			pickupDetails,
 			charge,
-			status: "pending", // Initial status of the order
 			description,
 			cashPaymentLocation,
 			deliveryCharge,
 			isInstant: true,
+			restaurant_name: restaurantData.name,
+			restaurant_image: restaurantData.image,
 			restaurantId: restaurantData.restaurantId,
 			restaurantOrder: restaurantOrder.map((item) => ({
 				name: item.name,
@@ -128,6 +126,34 @@ class OrderService {
 				price: item.price,
 				restaurantId: user.parent,
 			})),
+
+			dropOffDetails: {
+				name: orderData.dropOffDetails.name,
+				email: orderData.dropOffDetails.email,
+				phone: orderData.dropOffDetails.phoneNumber,
+
+				address: {
+					location: orderData.dropOffDetails.address.address,
+					coordinates: {
+						lat: orderData.dropOffDetails.address.location.lat,
+						lng: orderData.dropOffDetails.address.location.lng,
+					},
+				},
+			},
+
+
+			pickupDetails: {
+				name: user.firstName,
+				email: user.email,
+				phone: user.phoneNumber,
+				address: {
+					location: restaurantData.address.location,
+					coordinates: {
+						lat: restaurantData.address.coordinates.lat,
+						lng: restaurantData.address.coordinates.lng,
+					},
+				},
+			},
 		});
 
 		// Save the order to the database

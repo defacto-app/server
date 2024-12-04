@@ -2,9 +2,13 @@ import mongoose, { type Document, Schema } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import type { AddressType } from "../../../types";
 
-
-export const STATUS_VALUES = ["pending", "completed", "cancelled", "in-progress"] as const;
-export type StatusType = typeof STATUS_VALUES[number];
+export const STATUS_VALUES = [
+	"pending",
+	"completed",
+	"cancelled",
+	"in-progress",
+] as const;
+export type StatusType = (typeof STATUS_VALUES)[number];
 // Generate a simple orderId for users (e.g., "DFT-123456")
 const generateOrderId = (): string => {
 	const randomNumber = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit number
@@ -23,6 +27,8 @@ export interface OrderDataType extends Document {
 	note?: string;
 	restaurantId?: string;
 	package_image?: string;
+	restaurant_image?: string;
+	restaurant_name:string;
 	dropOffDetails: {
 		name: string;
 		phone: string;
@@ -60,6 +66,17 @@ const orderSchemaDefinitions = {
 		type: String,
 		required: false,
 	},
+
+restaurant_name:{
+		type: String,
+		required: false,
+},
+
+	restaurant_image: {
+		type: String,
+		required: false,
+	},
+
 	orderId: {
 		type: String,
 		required: true,
@@ -108,7 +125,7 @@ const orderSchemaDefinitions = {
 	status: {
 		type: String,
 		enum: STATUS_VALUES,
-		default: "pending" as StatusType
+		default: "pending" as StatusType,
 	},
 	pickupTime: { type: Date, default: null },
 	assignedTo: { type: String },
@@ -121,7 +138,7 @@ const orderSchemaDefinitions = {
 			price: { type: Number, required: true },
 		},
 	],
-	packageContent: [{ type: String , required: false}],
+	packageContent: [{ type: String, required: false }],
 	createdAt: {
 		type: Date,
 		required: true,
@@ -135,7 +152,7 @@ const orderSchemaDefinitions = {
 	note: {
 		type: String,
 		required: false,
-	}
+	},
 };
 
 // Define the schema and apply timestamps for automatic tracking of createdAt and updatedAt

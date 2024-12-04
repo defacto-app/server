@@ -74,11 +74,12 @@ const AdminOrderController = {
 			// Save to database
 			await newOrder.save();
 
-			res
-				.status(201)
-				.json({ message: "Order created successfully", order: newOrder });
-		} catch (error) {
-			res.status(500).json({ message: "Server error", error });
+			SendResponse.created(res, "Order created successfully", newOrder);
+
+
+		} catch (error:any) {
+
+		SendResponse.serverError(res, error.message);
 		}
 	},
 
@@ -98,7 +99,13 @@ const AdminOrderController = {
 
 			const body = req.body;
 
-			console.log(body, "Body", order);
+			// update order with driver details
+
+			order.assignedTo = body.driverId;
+
+			await order.save();
+
+
 
 			SendResponse.success(res, "Order updated successfully", order);
 		} catch (error: any) {
@@ -108,6 +115,8 @@ const AdminOrderController = {
 	async updateStatus(req: Request, res: Response): Promise<void> {
 		try {
 			const order = res.locals.orderItem;
+
+			console.log(order, "Order");
 
 			const body = req.body;
 

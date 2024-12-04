@@ -34,13 +34,13 @@ class MenuService {
 			{ $match: query },
 			{
 				$lookup: {
-					from: 'categories',
-					localField: 'categoryId',
-					foreignField: 'publicId',
-					as: 'category'
-				}
+					from: "categories",
+					localField: "categoryId",
+					foreignField: "publicId",
+					as: "category",
+				},
 			},
-			{ $unwind: { path: '$category', preserveNullAndEmptyArrays: true } },
+			{ $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
 			{
 				$project: {
 					_id: 1,
@@ -56,25 +56,22 @@ class MenuService {
 					isDeleted: 1,
 					deletedAt: 1,
 					category: {
-						id: '$category.publicId',
-						name: { $ifNull: ['$category.name', 'Unknown Category'] }
-					}
-				}
+						id: "$category.publicId",
+						name: { $ifNull: ["$category.name", "Unknown Category"] },
+					},
+				},
 			},
 			{ $sort: { createdAt: -1 } },
 			{ $skip: skip },
-			{ $limit: perPage }
-		];
+			{ $limit: perPage },
+		] as any;
 
 		// First get total count using aggregation to ensure we count after the match
-		const countAggregation = [
-			{ $match: query },
-			{ $count: 'total' }
-		];
+		const countAggregation = [{ $match: query }, { $count: "total" }];
 
 		const [results, countResult] = await Promise.all([
 			MenuModel.aggregate(aggregation),
-			MenuModel.aggregate(countAggregation)
+			MenuModel.aggregate(countAggregation),
 		]);
 
 		const total = countResult[0]?.total || 0;
@@ -86,30 +83,33 @@ class MenuService {
 				page,
 				perPage,
 				totalPages,
-				totalItems: total
-			}
+				totalItems: total,
+			},
 		};
 	}
 
-
-	static async getAllMenusWithPipeline(search: string, page: number, perPage: number) {
+	static async getAllMenusWithPipeline(
+		search: string,
+		page: number,
+		perPage: number,
+	) {
 		// Search query
 		const searchQuery = search
 			? {
-				$or: [
-					{ name: { $regex: search, $options: "i" } },
-					{ "category.name": { $regex: search, $options: "i" } },
-				],
-			}
+					$or: [
+						{ name: { $regex: search, $options: "i" } },
+						{ "category.name": { $regex: search, $options: "i" } },
+					],
+				}
 			: {};
 
 		const lookupStage = {
 			$lookup: {
 				from: "categories",
 				localField: "categoryId",
-				foreignField: "publicId",  // Main pipeline uses publicId
+				foreignField: "publicId", // Main pipeline uses publicId
 				as: "category",
-			}
+			},
 		};
 
 		// Aggregation pipeline
@@ -144,7 +144,7 @@ class MenuService {
 			{ $sort: { name: 1 } },
 			{ $skip: (page - 1) * perPage },
 			{ $limit: perPage },
-		];
+		] as any;
 
 		// Count pipeline should match main pipeline exactly (before pagination)
 		const countPipeline = [
@@ -166,7 +166,7 @@ class MenuService {
 		// Run both pipelines concurrently
 		const [menuItems, totalItems] = await Promise.all([
 			MenuModel.aggregate(pipeline),
-			MenuModel.aggregate(countPipeline)
+			MenuModel.aggregate(countPipeline),
 		]);
 
 		const totalItemsCount = totalItems[0]?.count || 0;
@@ -184,4 +184,3 @@ class MenuService {
 }
 
 export default MenuService;
-

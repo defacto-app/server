@@ -16,17 +16,18 @@ import { emailEvents } from "./config/eventEmitter";
 import { HandlePayload } from "./config/utils/api-routes";
 import swaggerDocument from "./storage/json/swagger.json";
 //  routes
-import DashboardRoutes from "./backend/admin/dashboard.routes";
 import AuthRoutes from "./backend/auth/routes";
 
 import RestaurantRoutes from "./backend/restaurant/route";
 import OrderRoutes from "./backend/orders/route";
 import PaymentRoutes from "./backend/payment/route";
+import AccountRoutes from "./backend/user/account/routes";
 //
 //
 //
 //
 //Admin Routes
+import DashboardRoutes from "./backend/admin/dashboard.routes";
 import AdminMenuRoutes from "./backend/admin/restaurant/menu/route";
 import AdminUsersRoutes from "./backend/admin/users/route";
 import AdminOrderRoutes from "./backend/admin/order/route";
@@ -143,6 +144,7 @@ app.use("/api/v1/address", AddressRoutes);
 app.use("/api/v1/orders", OrderRoutes);
 app.use("/api/v1/restaurants", RestaurantRoutes);
 app.use("/api/v1/payments", PaymentRoutes);
+app.use("/api/v1/account", AccountRoutes);
 app.use("/api/v1/g", PublicRoutes);
 
 //

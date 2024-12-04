@@ -296,3 +296,24 @@
 2024-12-03T11:23:13.185Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
 2024-12-03T11:23:15.552Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
 2024-12-03T11:23:19.915Z [undefined] [31merror[39m: Cast to ObjectId failed for value "511eb57b-8836-4cb1-8a65-3635caf84b67" (type string) at path "_id" for model "Category"
+2024-12-04T03:02:45.036Z [undefined] [31merror[39m: Error creating order
+2024-12-04T04:17:23.098Z [undefined] [31merror[39m: Error creating order
+2024-12-04T04:19:04.959Z [undefined] [31merror[39m: Error creating order
+2024-12-04T04:59:33.180Z [undefined] [31merror[39m: Error creating order
+2024-12-04T04:59:34.836Z [undefined] [31merror[39m: Error creating order
+2024-12-04T04:59:39.245Z [undefined] [31merror[39m: Error creating order
+2024-12-04T05:01:22.974Z [undefined] [31merror[39m: Error creating order
+2024-12-04T05:04:47.297Z [undefined] [31merror[39m: Error creating order
+2024-12-04T05:05:01.724Z [undefined] [31merror[39m: Error creating order
+2024-12-04T05:34:29.687Z [undefined] [31merror[39m: Error creating order
+2024-12-04T05:36:02.687Z [undefined] [31merror[39m: Error creating order
+2024-12-04T05:36:32.442Z [undefined] [31merror[39m: Error creating order
+2024-12-04T05:39:10.232Z [undefined] [31merror[39m: Error creating order
+2024-12-04T05:39:15.988Z [undefined] [31merror[39m: Error creating order
+2024-12-04T05:43:24.627Z [undefined] [31merror[39m: Error creating order
+2024-12-04T05:44:30.184Z [undefined] [31merror[39m: Error creating order
+2024-12-04T05:53:33.932Z [undefined] [31merror[39m: Error creating order
+2024-12-04T05:55:43.505Z [undefined] [31merror[39m: Error creating order
+2024-12-04T06:08:35.909Z [undefined] [31merror[39m: Error creating order
+2024-12-04T06:09:11.884Z [undefined] [31merror[39m: Error creating order
+2024-12-04T06:10:08.088Z [undefined] [31merror[39m: Error creating order

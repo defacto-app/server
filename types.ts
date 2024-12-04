@@ -35,7 +35,7 @@ export interface pickupDetailsType {
 }
 
 export interface AddressType {
-	label: string;
+	label?: string;
 	location: string;
 	coordinates: {
 		lat: number;

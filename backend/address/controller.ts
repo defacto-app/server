@@ -10,9 +10,11 @@ const AddressController = {
 		try {
 			const address = await AddressModel.find({
 				userId: user.publicId,
-			}).select('-_id -updatedAt').sort({
-				createdAt: -1,
-			}); // Exclude these fields
+			})
+				.select("-_id -updatedAt")
+				.sort({
+					createdAt: -1,
+				}); // Exclude these fields
 
 			SendResponse.success(res, "Address retrieved successfully", address);
 		} catch (error: any) {
@@ -33,7 +35,6 @@ const AddressController = {
 
 		try {
 			SendResponse.success(res, "New address added", newAddress);
-
 		} catch (error: any) {
 			SendResponse.serverError(res, error.message);
 		}

@@ -15,6 +15,7 @@
     "seed-users": "bun --watch backend/auth/seeder.ts",
     "seed-addresses": "bun --watch backend/address/seeder.ts",
     "seed-restaurants": "bun --watch backend/restaurant/seeder.ts",
+    "update-address-migration": "bun backend/restaurant/update-address-migration.ts",
     "seed-category": "bun --watch backend/admin/restaurant/category/seeder.ts",
     "menu-migration": "bun --watch backend/menu/menu-category-migration.ts",
     "category-menu-fix": "bun backend/menu/category-menu-fix.ts",
