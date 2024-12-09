@@ -14,5 +14,6 @@ router.use(authMiddleware.validateAdmin);
 router.get("/", AdminUserController.all);
 router.post("/", AdminUserController.create);
 router.delete("/:userId", AdminUserController.delete);
+router.get("/:userId", AdminUserController.one);
 
 export default router;

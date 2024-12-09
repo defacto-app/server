@@ -25,6 +25,23 @@ const AdminUserController = {
 			SendResponse.serverError(res, error.message);
 		}
 	},
+	async one(req: Request, res: Response): Promise<void> {
+		const { userId } = req.params;
+
+		try {
+			const user = await UserService.getUser(userId);
+
+			if (!user) {
+				SendResponse.notFound(res, "User not found");
+				return;
+			}
+
+			SendResponse.success(res, "User retrieved", user);
+		} catch (error: any) {
+			console.error("Error in user controller:", error);
+			SendResponse.serverError(res, error.message);
+		}
+	},
 	async create(req: Request, res: Response): Promise<void> {
 		try {
 			// Use the validator

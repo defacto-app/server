@@ -1,9 +1,7 @@
 import UserModel from "../../user/model";
 import AuthModel from "../../auth/model";
 import { v4 as uuidv4 } from "uuid";
-
-
-
+import OrderModel, { type OrderDataType } from "../order/model";
 
 interface CreateUserInput {
 	email: string;
@@ -27,52 +25,108 @@ interface UserQueryParams {
 	search: string;
 	role?: string;
 }
-
-
-export class UserService {
-
-static async getAllUsers({ page, perPage, search, role }: UserQueryParams) {
-	// Build the search query
-	const searchQuery: Record<string, any> = {};
-
-	if (search) {
-		searchQuery.$or = [
-			{ firstName: { $regex: search, $options: "i" } },
-			{ email: { $regex: search, $options: "i" } },
-			{ phoneNumber: { $regex: search, $options: "i" } },
-		];
-	}
-
-	if (role) {
-		searchQuery.role = role; // Add role filter if provided
-	}
-
-	const sort = { createdAt: -1 }; // Default sorting by createdAt
-
-	// Build the aggregation pipeline
-	const aggregationPipeline = [
-		{ $match: searchQuery },
-		{ $sort: sort },
-		{ $skip: (page - 1) * perPage },
-		{ $limit: perPage },
-	] as any;
-
-	// Fetch the data and count the total documents
-	const data = await UserModel.aggregate(aggregationPipeline);
-	const total = await UserModel.countDocuments(searchQuery);
-
-	return {
-		data,
-		meta: {
-			totalPages: Math.ceil(total / perPage),
-			page,
-			perPage,
-			total,
-		},
-	};
+// Define interfaces for better type safety
+interface OrderSummary {
+	orderId: string;
+	createdAt: Date;
+	status: string;
+	type: string;
+	description?: string;
+	paymentStatus: string;
+	totalAmount?: number;
 }
 
-static async deleteUser(userId: string) {
+interface DetailedUserResponse {
+	// Basic user info
+	userId: string;
+	publicId: string;
+	email: string;
+	phoneNumber?: string;
+	firstName: string;
+	lastName?: string;
+	role: "customer" | "admin" | "driver" | "manager" | "staff";
+
+	// Account status
+	accountStatus: {
+		emailVerified: boolean;
+		phoneVerified: boolean;
+		lastSeen?: Date;
+		isLocked: boolean;
+		lockExpiresAt?: Date;
+		// joinedAt: Date;
+	};
+
+	// Optional fields based on role
+	address?: any[];
+	staffInfo?: {
+		employeeId?: string;
+		department?: string;
+		status: "active" | "inactive" | "suspended";
+		// joinedAt: Date;
+		driverDetails?: {
+			vehicleType?: string;
+			licenseNumber?: string;
+			availabilityStatus: "available" | "busy" | "offline";
+		};
+		managerDetails?: {
+			managedRegion?: string;
+			departmentType?: "operations" | "customer_service" | "logistics";
+		};
+	};
+
+	// Order summary
+	ordersSummary: {
+		total: number;
+		completed: number;
+		pending: number;
+		cancelled: number;
+		lastOrder?: OrderSummary;
+	};
+	recentOrders: OrderSummary[];
+}
+export class UserService {
+	static async getAllUsers({ page, perPage, search, role }: UserQueryParams) {
+		// Build the search query
+		const searchQuery: Record<string, any> = {};
+
+		if (search) {
+			searchQuery.$or = [
+				{ firstName: { $regex: search, $options: "i" } },
+				{ email: { $regex: search, $options: "i" } },
+				{ phoneNumber: { $regex: search, $options: "i" } },
+			];
+		}
+
+		if (role) {
+			searchQuery.role = role; // Add role filter if provided
+		}
+
+		const sort = { createdAt: -1 }; // Default sorting by createdAt
+
+		// Build the aggregation pipeline
+		const aggregationPipeline = [
+			{ $match: searchQuery },
+			{ $sort: sort },
+			{ $skip: (page - 1) * perPage },
+			{ $limit: perPage },
+		] as any;
+
+		// Fetch the data and count the total documents
+		const data = await UserModel.aggregate(aggregationPipeline);
+		const total = await UserModel.countDocuments(searchQuery);
+
+		return {
+			data,
+			meta: {
+				totalPages: Math.ceil(total / perPage),
+				page,
+				perPage,
+				total,
+			},
+		};
+	}
+
+	static async deleteUser(userId: string) {
 		// Find and delete the user
 		const user = await UserModel.findOneAndDelete({ userId });
 
@@ -104,11 +158,11 @@ static async deleteUser(userId: string) {
 			password: await AuthModel.hashPassword(userData.password),
 			role: userData.role,
 			email_management: {
-				verified: false // Requires email verification
+				verified: false, // Requires email verification
 			},
 			phone_management: {
-				verified: false // Requires phone verification
-			}
+				verified: false, // Requires phone verification
+			},
 		});
 
 		// Then create the user record
@@ -120,12 +174,123 @@ static async deleteUser(userId: string) {
 			lastName: userData.lastName,
 			role: userData.role,
 			address: userData.address,
-			joinedAt: new Date()
+			// joinedAt: new Date(),
 		});
 
 		return { user, auth: authRecord };
 	}
 
+	private static formatOrder(order: OrderDataType): OrderSummary {
+		return {
+			orderId: order.orderId,
+			createdAt: order.createdAt,
+			status: order.status,
+			type: order.type,
+			description: order.description,
+			paymentStatus: order.paymentStatus,
+			totalAmount: order.totalAmount,
+		};
+	}
 
+	private static calculateOrderStats(orders: OrderDataType[]) {
+		const stats = {
+			total: orders.length,
+			completed: 0,
+			pending: 0,
+			cancelled: 0,
+			lastOrder: orders[0] ? UserService.formatOrder(orders[0]) : undefined,
+		};
 
+		for (const order of orders) {
+			if (order.status === "completed") stats.completed++;
+			else if (order.status === "pending") stats.pending++;
+			else if (order.status === "cancelled") stats.cancelled++;
+		}
+
+		return stats;
+	}
+
+	static async getUser(userId: string): Promise<DetailedUserResponse | null> {
+		try {
+			// Validate userId
+			if (!userId) {
+				throw new Error("Invalid userId provided");
+			}
+
+			// Find user, auth details, and recent orders in parallel
+			const [user, auth, orders] = await Promise.all([
+				UserModel.findOne({ userId }).lean(),
+				AuthModel.findOne({ publicId: userId }).lean(),
+				OrderModel.find({ userId })
+					.sort({ createdAt: -1 })
+					.limit(10) // Get only recent orders
+					.lean(),
+			]);
+
+			if (!user || !auth) {
+				return null;
+			}
+
+			const orderStats = UserService.calculateOrderStats(orders);
+
+			const detailedUser: DetailedUserResponse = {
+				// Basic user info
+				userId: user.userId,
+				publicId: auth.publicId,
+				email: user.email,
+				phoneNumber: user.phoneNumber,
+				firstName: user.firstName,
+				lastName: user.lastName,
+				role: user.role,
+
+				// Account status
+				accountStatus: {
+					emailVerified: auth.email_management.verified,
+					phoneVerified: auth.phone_management.verified || false,
+					lastSeen: auth.lastSeenAt,
+					isLocked: auth.loginAttempts?.lockedUntil
+						? auth.loginAttempts.lockedUntil > new Date()
+						: false,
+					// lockExpiresAt: auth.loginAttempts?.lockedUntil,
+					// joinedAt: user.joinedAt || auth.joinedAt
+				},
+
+				// Address if exists
+				...(user.address ? { address: user.address } : {}),
+
+				// Staff info for non-customer roles
+				...(user.role !== "customer" && auth.staffInfo
+					? {
+							staffInfo: {
+								employeeId: auth.staffInfo.employeeId,
+								department: auth.staffInfo.department,
+								status: auth.staffInfo.status,
+								// joinedAt: auth.staffInfo.joinedAt,
+								...(auth.staffInfo.driverDetails
+									? {
+											driverDetails: auth.staffInfo.driverDetails,
+										}
+									: {}),
+								...(auth.staffInfo.managerDetails
+									? {
+											managerDetails: auth.staffInfo.managerDetails,
+										}
+									: {}),
+							},
+						}
+					: {}),
+
+				// Order information
+				ordersSummary: orderStats,
+				recentOrders: orders.map((order) => UserService.formatOrder(order)),
+			};
+
+			return detailedUser;
+		} catch (error) {
+			console.error("Error fetching user details:", error);
+			throw error;
+		}
+	}
 }
+
+export default UserService;

@@ -49,6 +49,7 @@ export interface OrderDataType extends Document {
 	assignedTo: string;
 	isInstant: boolean | null;
 	description: string;
+	totalAmount: number;
 	packageContent?: string[];
 	menuItems?: { name: string; quantity: number; price: number }[];
 	deliveredAt?: Date;

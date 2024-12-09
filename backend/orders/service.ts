@@ -97,8 +97,6 @@ class OrderService {
 		restaurantData: any,
 	): Promise<void> {
 		const {
-			userId,
-
 			deliveryCharge,
 			restaurantOrder,
 			charge,
@@ -106,16 +104,10 @@ class OrderService {
 			cashPaymentLocation,
 		} = orderData;
 
-		// console.log(JSON.stringify({ user, orderData, restaurantData }, null, 2));
-		console.log(
-			"Restaurant ID in restaurantData:",
-			restaurantData.publicId,
-		);
-
 		// Create a new order document for a restaurant order
 		const newOrder = new OrderModel({
 			type: "food", // This is a restaurant order
-			userId,
+			userId: user.userId,
 			charge,
 			description,
 			cashPaymentLocation,
