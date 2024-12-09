@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 
 import SendResponse from "../libs/response-helper";
 import OrderModel from "../admin/order/model";
+import RestaurantModel from "../restaurant/model";
 
 class OrderMiddleware {
 	public async orderId(req: Request, res: Response, next: NextFunction) {
@@ -24,12 +25,26 @@ class OrderMiddleware {
 				);
 			}
 
+			// Check if restaurantId is present in the order
+			if (order.restaurantId) {
+				const restaurant = await RestaurantModel.findOne({
+					publicId: order.restaurantId,
+				});
+
+				if (restaurant) {
+					// Add restaurant details to the order object
+					res.locals.restaurant = restaurant;
+				}
+			}
+
+
 			res.locals.orderItem = order;
 			next();
 		} catch (error: any) {
 			return SendResponse.serverError(res, error.message);
 		}
 	}
+
 }
 
 export default new OrderMiddleware();

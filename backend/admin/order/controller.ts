@@ -83,8 +83,15 @@ const AdminOrderController = {
 	async restaurant(req: Request, res: Response): Promise<void> {
 		const order = res.locals.orderItem as any;
 
+		const restaurant = res.locals.restaurant as any; // Retrieve the restaurant data added in the middleware
+
 		try {
-			SendResponse.success(res, "Order retrieved", order);
+			const response = {
+				order,
+				...(restaurant && { restaurant }), // Include restaurant only if it exists
+			};
+
+			SendResponse.success(res, "Order retrieved", response);
 		} catch (e: any) {
 			SendResponse.serverError(res, e.message);
 		}
@@ -119,16 +126,38 @@ const AdminOrderController = {
 	async updateStatus(req: Request, res: Response): Promise<void> {
 		try {
 			const order = res.locals.orderItem;
+			const newStatus = req.body.status;
+			const currentStatus = order.status;
 
-			console.log(order, "Order");
+			// Define valid transitions
+			const validTransitions: Record<string, string[]> = {
+				pending: ["in-progress", "completed", "cancelled"],
+				"in-progress": ["completed", "cancelled"],
+				completed: [], // No further transitions allowed
+				cancelled: [], // No further transitions allowed
+			};
 
-			const body = req.body;
+			// Get allowed transitions for current status
+			const allowedTransitions = validTransitions[currentStatus] || [];
 
-			console.log(body, "Body", order);
+			// Validate the transition
+			if (!allowedTransitions.includes(newStatus)) {
+				SendResponse.badRequest(
+					res,
+					`Cannot change order status from ${currentStatus} to ${newStatus}`,
+				);
+			}
 
-			SendResponse.success(res, "Order updated successfully", order);
-		} catch (error: any) {
-			SendResponse.badRequest(res, "", error);
+			// If validation passes, update the order
+			order.status = newStatus;
+			if (newStatus === "completed") {
+				order.deliveredAt = new Date();
+			}
+
+			// await order.save();
+			SendResponse.success(res, `Order status updated to ${newStatus}`, order);
+		} catch (error) {
+			SendResponse.serverError(res, error);
 		}
 	},
 };

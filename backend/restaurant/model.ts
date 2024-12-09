@@ -11,7 +11,7 @@ export interface RestaurantDataType extends Document {
 	category: string;
 	image: string;
 	logo: string;
-
+	restaurantPublicId: string;
 	address: AddressType;
 
 	phone: string;
@@ -71,6 +71,10 @@ const restaurantSchemaDefinitions = {
 		unique: true,
 		minLength: 1,
 		maxLength: 255,
+	},
+	restaurantPublicId: {
+		type: String,
+		required: true,
 	},
 	openingHours: {
 		monday: openingHoursSchema,

@@ -28,7 +28,7 @@ export interface OrderDataType extends Document {
 	restaurantId?: string;
 	package_image?: string;
 	restaurant_image?: string;
-	restaurant_name:string;
+	restaurant_name: string;
 	dropOffDetails: {
 		name: string;
 		phone: string;
@@ -41,6 +41,7 @@ export interface OrderDataType extends Document {
 		email: string;
 		address: AddressType;
 	};
+
 	paymentStatus: "pending" | "paid" | "failed" | "refunded";
 	charge: number;
 	status: StatusType;
@@ -50,6 +51,7 @@ export interface OrderDataType extends Document {
 	description: string;
 	packageContent?: string[];
 	menuItems?: { name: string; quantity: number; price: number }[];
+	deliveredAt?: Date;
 }
 
 // Define the schema fields for the unified order model
@@ -67,10 +69,10 @@ const orderSchemaDefinitions = {
 		required: false,
 	},
 
-restaurant_name:{
+	restaurant_name: {
 		type: String,
 		required: false,
-},
+	},
 
 	restaurant_image: {
 		type: String,
@@ -138,7 +140,7 @@ restaurant_name:{
 			price: { type: Number, required: true },
 		},
 	],
-	packageContent: [{ type: String, required: false }],
+	packageContent: [{ type: String, required: false, default: undefined }],
 	createdAt: {
 		type: Date,
 		required: true,
@@ -148,6 +150,10 @@ restaurant_name:{
 		type: Date,
 		required: true,
 		default: new Date(),
+	},
+	deliveredAt: {
+		type: Date,
+		required: false,
 	},
 	note: {
 		type: String,
@@ -169,24 +175,6 @@ OrderSchema.virtual("totalAmount").get(function (this: OrderDataType) {
 		0,
 	);
 	return itemsTotal + this.charge;
-});
-
-// Add status transition validation
-OrderSchema.pre<OrderDataType>("save", function (next) {
-	const validTransitions: Record<string, string[]> = {
-		pending: ["completed", "cancelled"],
-		completed: ["cancelled"],
-		cancelled: [],
-	};
-
-	if (this.isModified("status")) {
-		const validNextStatuses =
-			validTransitions[this.status as keyof typeof validTransitions];
-		if (!validNextStatuses.includes(this.status)) {
-			return next(new Error(`Invalid status transition to ${this.status}`));
-		}
-	}
-	next();
 });
 
 // Create a Mongoose model for the Order based on the schema

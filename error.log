@@ -317,3 +317,4 @@
 2024-12-04T06:08:35.909Z [undefined] [31merror[39m: Error creating order
 2024-12-04T06:09:11.884Z [undefined] [31merror[39m: Error creating order
 2024-12-04T06:10:08.088Z [undefined] [31merror[39m: Error creating order
+2024-12-07T10:15:57.134Z [undefined] [31merror[39m: Invalid status transition to completed

@@ -106,7 +106,11 @@ class OrderService {
 			cashPaymentLocation,
 		} = orderData;
 
-		console.log(JSON.stringify({ user, orderData, restaurantData }, null, 2));
+		// console.log(JSON.stringify({ user, orderData, restaurantData }, null, 2));
+		console.log(
+			"Restaurant ID in restaurantData:",
+			restaurantData.publicId,
+		);
 
 		// Create a new order document for a restaurant order
 		const newOrder = new OrderModel({
@@ -117,9 +121,7 @@ class OrderService {
 			cashPaymentLocation,
 			deliveryCharge,
 			isInstant: true,
-			restaurant_name: restaurantData.name,
-			restaurant_image: restaurantData.image,
-			restaurantId: restaurantData.restaurantId,
+			restaurantId: restaurantData.publicId,
 			restaurantOrder: restaurantOrder.map((item) => ({
 				name: item.name,
 				quantity: item.quantity,
@@ -140,7 +142,6 @@ class OrderService {
 					},
 				},
 			},
-
 
 			pickupDetails: {
 				name: user.firstName,
