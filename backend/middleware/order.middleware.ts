@@ -3,6 +3,7 @@ import type { NextFunction, Request, Response } from "express";
 import SendResponse from "../libs/response-helper";
 import OrderModel from "../admin/order/model";
 import RestaurantModel from "../restaurant/model";
+import UserModel from "../user/model";
 
 class OrderMiddleware {
 	public async orderId(req: Request, res: Response, next: NextFunction) {
@@ -21,7 +22,7 @@ class OrderMiddleware {
 				// Without 'return', the function continues executing
 				return SendResponse.notFound(
 					res,
-					`Sorry, order ${orderId} is deleted or doesn't exist`
+					`Sorry, order ${orderId} is deleted or doesn't exist`,
 				);
 			}
 
@@ -37,7 +38,6 @@ class OrderMiddleware {
 				}
 			}
 
-
 			res.locals.orderItem = order;
 			next();
 		} catch (error: any) {
@@ -45,6 +45,53 @@ class OrderMiddleware {
 		}
 	}
 
+	public async getRestaurantDetails(
+		req: Request,
+		res: Response,
+		next: NextFunction,
+	) {
+		const order = res.locals.orderItem;
+
+		try {
+			if (order.restaurantId) {
+				const restaurant = await RestaurantModel.findOne({
+					publicId: order.restaurantId,
+				});
+
+				if (restaurant) {
+					res.locals.restaurant = restaurant;
+				}
+			}
+			next();
+		} catch (error: any) {
+			return SendResponse.serverError(res, error.message);
+		}
+	}
+
+	// Fetches assigned driver
+	public async getDriverDetails(
+		req: Request,
+		res: Response,
+		next: NextFunction,
+	) {
+		const order = res.locals.orderItem;
+
+		try {
+			if (order.assignedTo) {
+				const driver = await UserModel.findOne({
+					publicId: order.assignedTo,
+					role: "driver",
+				});
+
+				if (driver) {
+					res.locals.driver = driver;
+				}
+			}
+			next();
+		} catch (error: any) {
+			return SendResponse.serverError(res, error.message);
+		}
+	}
 }
 
 export default new OrderMiddleware();

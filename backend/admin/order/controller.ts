@@ -84,11 +84,14 @@ const AdminOrderController = {
 		const order = res.locals.orderItem as any;
 
 		const restaurant = res.locals.restaurant as any; // Retrieve the restaurant data added in the middleware
-
+		const driver = res.locals.driver;
 		try {
+
+
 			const response = {
 				order,
-				...(restaurant && { restaurant }), // Include restaurant only if it exists
+				...(restaurant && { restaurant }),  // Include restaurant only if it exists
+				...(driver && { driver })  // Include driver only if it exists
 			};
 
 			SendResponse.success(res, "Order retrieved", response);
@@ -118,7 +121,7 @@ const AdminOrderController = {
 
 			await order.save();
 
-			SendResponse.success(res, "Order updated successfully", order);
+			SendResponse.success(res, "Order assigned to a driver", order);
 		} catch (error: any) {
 			SendResponse.badRequest(res, "", error);
 		}

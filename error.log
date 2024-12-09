@@ -318,3 +318,8 @@
 2024-12-04T06:09:11.884Z [undefined] [31merror[39m: Error creating order
 2024-12-04T06:10:08.088Z [undefined] [31merror[39m: Error creating order
 2024-12-07T10:15:57.134Z [undefined] [31merror[39m: Invalid status transition to completed
+2024-12-09T06:30:50.052Z [undefined] [31merror[39m: UserModel is not defined
+2024-12-09T06:30:51.646Z [undefined] [31merror[39m: UserModel is not defined
+2024-12-09T06:30:53.122Z [undefined] [31merror[39m: UserModel is not defined
+2024-12-09T06:30:55.666Z [undefined] [31merror[39m: UserModel is not defined
+2024-12-09T06:31:00.402Z [undefined] [31merror[39m: UserModel is not defined

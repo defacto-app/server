@@ -17,7 +17,12 @@ router.param("orderId", OrderMiddleware.orderId);
 router.get("/", AdminOrderController.all);
 router.post("/", AdminOrderController.create);
 router.get("/:orderId", AdminOrderController.one);
-router.get("/:orderId/restaurant", AdminOrderController.restaurant);
+router.get(
+	"/:orderId/restaurant",
+	OrderMiddleware.getRestaurantDetails,
+	OrderMiddleware.getDriverDetails,
+	AdminOrderController.restaurant,
+);
 router.patch("/:orderId/assign-driver", AdminOrderController.assignDriver);
 router.patch("/:orderId/status", AdminOrderController.updateStatus);
 

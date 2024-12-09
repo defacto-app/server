@@ -20,7 +20,6 @@ const AuthController = {
 		try {
 			const { data, error } = await AuthValidator.email_register(req.body);
 
-
 			if (error) {
 				SendResponse.badRequest(res, "Failed to register", error);
 			}
@@ -53,7 +52,7 @@ const AuthController = {
 						token: undefined,
 						expires_at: undefined,
 						sent_at: undefined,
-					}
+					},
 				},
 				phoneNumber: undefined,
 				phone_management: {
@@ -82,12 +81,8 @@ const AuthController = {
 				link: `${env.API_URL}/auth/verify/email/${email_token}?email=${encodeURIComponent(newUser.email)}`,
 			});
 
-			console.log(email_token,"email_token senderer")
-
-
 			SendResponse.success(res, "User created", { token });
 		} catch (error: any) {
-
 			console.log(error);
 			SendResponse.serverError(res, error.message);
 		}
@@ -106,8 +101,6 @@ const AuthController = {
 			/// send otp
 
 			const otp = generateOTP();
-
-
 
 			const user = await AuthModel.findOne({
 				phoneNumber: data?.phoneNumber,
@@ -192,7 +185,9 @@ const AuthController = {
 			}
 
 			const currentTime = new Date();
-			const otpExpiryTime = new Date(user.phone_management?.login?.expires_at || Date.now());
+			const otpExpiryTime = new Date(
+				user.phone_management?.login?.expires_at || Date.now(),
+			);
 			if (currentTime > otpExpiryTime) {
 				SendResponse.badRequest(res, "OTP has expired", {
 					otp: "OTP has expired",
@@ -307,45 +302,73 @@ const AuthController = {
 
 	async email_confirm(req: Request, res: Response): Promise<void> {
 		const { token } = req.params;
-		const { email } = req.query; // Retrieve email from query parameters
+		const { email } = req.query;
 
 		try {
+			// 1. Input validation
 			if (!email) {
 				SendResponse.badRequest(res, "Email query parameter is required");
 				return;
 			}
 
-			// Find user by the email token and email
-			const user = await AuthModel.findOne({
-				email: email as string, // Cast to string as query parameters are always strings
-				"email_management.login.token": token,
-				"email_management.login.expires_at": { $gt: new Date() }, // Ensure token is not expired
-			});
+			if (!token) {
+				SendResponse.badRequest(res, "Token is required");
+				return;
+			}
 
-			if (!user || !user.email_management.login) {
+			// 2. Find user and log search criteria
+			const searchCriteria = {
+				email: email as string,
+				"email_management.login.token": token,
+				"email_management.login.expires_at": { $gt: new Date() },
+			};
+
+			const user = await AuthModel.findOne(searchCriteria);
+
+			// 3. Detailed user check
+			if (!user) {
 				SendResponse.badRequest(res, "Invalid or expired token");
 				return;
 			}
 
-			// Mark email as verified
+			// 4. Check email management structure
+			if (!user.email_management?.login) {
+				SendResponse.badRequest(res, "Invalid email verification state");
+				return;
+			}
 
-			// Mark email as verified
+			// 5. Check token expiration explicitly
+			const now = new Date();
+			const expiryDate = user.email_management.login.expires_at;
+
+			if (expiryDate && expiryDate < now) {
+				SendResponse.badRequest(res, "Token has expired");
+				return;
+			}
+
+			// 6. Update user verification status
+
 			user.email_management.verified = true;
 			user.email_management.login.confirmed_at = new Date();
 			user.email_management.login.token = "";
+
 			await user.save();
 
-			// redirect to the frontend
-			return res.redirect(
-				`${env.FRONTEND_URL}/user/account?email=${encodeURIComponent(email as string)}`,
-			);
+			// 7. Redirect with logging
+			const redirectUrl = `${env.FRONTEND_URL}/user/account?email=${encodeURIComponent(email as string)}`;
+
+			return res.redirect(redirectUrl);
 		} catch (e: any) {
+			console.error("Email confirmation error:", {
+				error: e.message,
+				stack: e.stack,
+				timestamp: new Date().toISOString(),
+			});
 			SendResponse.serverError(res, e.message);
 		}
 	},
+
 	//
-
-
 
 	//
 
