@@ -101,7 +101,17 @@ class AuthMiddleware {
 
 		SendResponse.unauthorized(res, "You are not authenticated !!");
 	}
+
+	public async updateLastSeenMiddleware(req: Request, res: Response, next: NextFunction) {
+		if (res.locals.user) {
+			const userId = res.locals.user.publicId;
+			await AuthModel.updateOne({ publicId: userId }, { lastSeenAt: new Date() });
+		}
+		next();
+	}
 }
+
+
 
 // Additional methods for loading user, checking admin rights, etc., can be added here
 

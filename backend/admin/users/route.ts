@@ -15,5 +15,6 @@ router.get("/", AdminUserController.all);
 router.post("/", AdminUserController.create);
 router.delete("/:userId", AdminUserController.delete);
 router.get("/:userId", AdminUserController.one);
+router.patch("/:userId", AdminUserController.update);
 
 export default router;

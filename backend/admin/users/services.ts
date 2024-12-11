@@ -1,7 +1,7 @@
 import UserModel from "../../user/model";
 import AuthModel from "../../auth/model";
 import { v4 as uuidv4 } from "uuid";
-import OrderModel, { type OrderDataType } from "../order/model";
+import type { OrderDataType } from "../order/model";
 
 interface CreateUserInput {
 	email: string;
@@ -45,14 +45,16 @@ interface DetailedUserResponse {
 	firstName: string;
 	lastName?: string;
 	role: "customer" | "admin" | "driver" | "manager" | "staff";
+	lastSeenAt: Date | null;
+	joinedAt: Date | null;
 
 	// Account status
 	accountStatus: {
 		emailVerified: boolean;
 		phoneVerified: boolean;
 		lastSeen?: Date;
-		isLocked: boolean;
-		lockExpiresAt?: Date;
+		isBanned: boolean;
+
 		// joinedAt: Date;
 	};
 
@@ -73,16 +75,6 @@ interface DetailedUserResponse {
 			departmentType?: "operations" | "customer_service" | "logistics";
 		};
 	};
-
-	// Order summary
-	ordersSummary: {
-		total: number;
-		completed: number;
-		pending: number;
-		cancelled: number;
-		lastOrder?: OrderSummary;
-	};
-	recentOrders: OrderSummary[];
 }
 export class UserService {
 	static async getAllUsers({ page, perPage, search, role }: UserQueryParams) {
@@ -174,7 +166,6 @@ export class UserService {
 			lastName: userData.lastName,
 			role: userData.role,
 			address: userData.address,
-			// joinedAt: new Date(),
 		});
 
 		return { user, auth: authRecord };
@@ -218,20 +209,14 @@ export class UserService {
 			}
 
 			// Find user, auth details, and recent orders in parallel
-			const [user, auth, orders] = await Promise.all([
+			const [user, auth] = await Promise.all([
 				UserModel.findOne({ userId }).lean(),
 				AuthModel.findOne({ publicId: userId }).lean(),
-				OrderModel.find({ userId })
-					.sort({ createdAt: -1 })
-					.limit(10) // Get only recent orders
-					.lean(),
 			]);
 
 			if (!user || !auth) {
 				return null;
 			}
-
-			const orderStats = UserService.calculateOrderStats(orders);
 
 			const detailedUser: DetailedUserResponse = {
 				// Basic user info
@@ -242,17 +227,15 @@ export class UserService {
 				firstName: user.firstName,
 				lastName: user.lastName,
 				role: user.role,
+				lastSeenAt: user.lastSeenAt,
+				joinedAt: user.joinedAt,
+				// createdAt: user.createdAt,
 
 				// Account status
 				accountStatus: {
 					emailVerified: auth.email_management.verified,
 					phoneVerified: auth.phone_management.verified || false,
-					lastSeen: auth.lastSeenAt,
-					isLocked: auth.loginAttempts?.lockedUntil
-						? auth.loginAttempts.lockedUntil > new Date()
-						: false,
-					// lockExpiresAt: auth.loginAttempts?.lockedUntil,
-					// joinedAt: user.joinedAt || auth.joinedAt
+					isBanned: auth.isBanned,
 				},
 
 				// Address if exists
@@ -279,10 +262,6 @@ export class UserService {
 							},
 						}
 					: {}),
-
-				// Order information
-				ordersSummary: orderStats,
-				recentOrders: orders.map((order) => UserService.formatOrder(order)),
 			};
 
 			return detailedUser;

@@ -226,6 +226,10 @@ const AuthController = {
 				);
 			}
 
+			// Update lastSeenAt
+			user.lastSeenAt = new Date();
+			await user.save();
+
 			// dont change yet
 			SendResponse.success(res, "Logged in successfully", {
 				firstTime: user.phone_management.login.firstTime ? true : undefined,
@@ -264,6 +268,11 @@ const AuthController = {
 			}
 
 			const token = generateToken(user);
+
+
+			// Update lastSeenAt
+			user.lastSeenAt = new Date();
+			await user.save();
 
 			SendResponse.success(res, "Login Successful", { token });
 		} catch (e: any) {
@@ -376,6 +385,9 @@ const AuthController = {
 		const currentUser = res.locals.user;
 
 		const packages = res.locals.packages;
+
+		await UserModel.updateOne({ userId: currentUser.userId }, { lastSeenAt: new Date() });
+		await AuthModel.updateOne({ publicId: currentUser.userId }, { lastSeenAt: new Date() });
 
 		try {
 			SendResponse.success(res, "", {

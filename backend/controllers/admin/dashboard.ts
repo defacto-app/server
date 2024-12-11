@@ -20,6 +20,7 @@ const Dashboard = {
 	},
 
 	async summary(req: Request, res: Response): Promise<void> {
+		console.time('DataFetchTime'); // Start timing before fetching starts
 		try {
 			// USERS
 			const users = await AuthModel.countDocuments({});
@@ -163,6 +164,7 @@ const Dashboard = {
 				timestamp,
 			};
 
+			console.timeEnd('DataFetchTime');
 			SendResponse.success(res, "Dashboard Summary", summary);
 		} catch (e: any) {
 			SendResponse.serverError(res, e.message);

@@ -5,13 +5,13 @@ import type { AddressType } from "../../types";
 export interface UserDataType extends Document {
 	email: string;
 	lastSeenAt: Date;
+	joinedAt: Date;
 	firstName: string;
 	lastName?: string;
 	role: "customer" | "admin" | "driver" | "manager" | "staff";
 	phoneNumber: string;
 	address?: AddressType[];
 	userId: string;
-	joinedAt: Date | null;
 }
 
 const userSchemaDefinitions = {
@@ -23,6 +23,7 @@ const userSchemaDefinitions = {
 		minLength: 1,
 		maxLength: 255,
 	},
+
 	role: {
 		type: String,
 		required: true,
@@ -70,10 +71,11 @@ const userSchemaDefinitions = {
 		minLength: 1,
 		maxLength: 255,
 	},
-	joinedAt: {
+
+	joinedAt:{
 		type: Date,
 		default: Date.now,
-	},
+	}
 };
 
 export const UserSchema: Schema = new Schema(userSchemaDefinitions, {

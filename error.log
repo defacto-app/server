@@ -329,3 +329,15 @@
 2024-12-09T09:34:45.990Z [undefined] [31merror[39m: OrderModel is not defined
 2024-12-09T09:34:47.114Z [undefined] [31merror[39m: OrderModel is not defined
 2024-12-09T09:34:49.247Z [undefined] [31merror[39m: OrderModel is not defined
+2024-12-09T13:25:17.438Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'verified')
+2024-12-09T13:25:18.694Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'verified')
+2024-12-09T13:25:20.949Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'verified')
+2024-12-09T13:25:25.424Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'verified')
+2024-12-09T13:25:27.796Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'verified')
+2024-12-09T13:25:29.057Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'verified')
+2024-12-09T13:25:31.317Z [undefined] [31merror[39m: Cannot read properties of undefined (reading 'verified')
+2024-12-09T19:08:39.025Z [undefined] [31merror[39m: orders validation failed: pickupDetails.name: Path `pickupDetails.name` is required.
+2024-12-11T11:11:16.726Z [undefined] [31merror[39m: Cast to ObjectId failed for value "49194064-71a9-419e-b044-dffeea97f74b" (type string) at path "_id" for model "auth"
+2024-12-11T11:11:33.378Z [undefined] [31merror[39m: Cast to ObjectId failed for value "49194064-71a9-419e-b044-dffeea97f74b" (type string) at path "_id" for model "auth"
+2024-12-11T11:11:49.967Z [undefined] [31merror[39m: Cast to ObjectId failed for value "49194064-71a9-419e-b044-dffeea97f74b" (type string) at path "_id" for model "auth"
+2024-12-11T11:11:56.441Z [undefined] [31merror[39m: Cast to ObjectId failed for value "49194064-71a9-419e-b044-dffeea97f74b" (type string) at path "_id" for model "auth"

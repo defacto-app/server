@@ -86,12 +86,10 @@ const AdminOrderController = {
 		const restaurant = res.locals.restaurant as any; // Retrieve the restaurant data added in the middleware
 		const driver = res.locals.driver;
 		try {
-
-
 			const response = {
 				order,
-				...(restaurant && { restaurant }),  // Include restaurant only if it exists
-				...(driver && { driver })  // Include driver only if it exists
+				...(restaurant && { restaurant }), // Include restaurant only if it exists
+				...(driver && { driver }), // Include driver only if it exists
 			};
 
 			SendResponse.success(res, "Order retrieved", response);
@@ -100,6 +98,20 @@ const AdminOrderController = {
 		}
 	},
 	async one(req: Request, res: Response): Promise<void> {
+		const order = res.locals.orderItem as any;
+		const driver = res.locals.driver;
+
+		try {
+			const response = {
+				order,
+				...(driver && { driver }), // Include driver only if it exists
+			};
+			SendResponse.success(res, "Order retrieved", response);
+		} catch (e: any) {
+			SendResponse.serverError(res, e.message);
+		}
+	},
+	async packageDeliveries(req: Request, res: Response): Promise<void> {
 		const order = res.locals.orderItem as any;
 
 		try {
@@ -117,6 +129,7 @@ const AdminOrderController = {
 
 			// update order with driver details
 
+			order.status = "in-progress";
 			order.assignedTo = body.driverId;
 
 			await order.save();

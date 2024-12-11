@@ -183,6 +183,7 @@ class OrderService {
 			dropOffDetails: {
 				...validatedData?.dropOffDetails,
 			},
+			createdAt: new Date(),
 			charge: validatedData?.charge,
 			package_image: optimizedUrl, // Will be empty if no image is provided
 		});

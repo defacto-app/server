@@ -22,6 +22,7 @@ import RestaurantRoutes from "./backend/restaurant/route";
 import OrderRoutes from "./backend/orders/route";
 import PaymentRoutes from "./backend/payment/route";
 import AccountRoutes from "./backend/user/account/routes";
+import AuthMiddleware from "./backend/user/middleware";
 //
 //
 //
@@ -138,6 +139,7 @@ app.use((req, res, next) => {
 	next();
 });
 
+app.use(AuthMiddleware.updateLastSeenMiddleware);
 // Use the custom logging middleware
 // app.use("/api", PublicRoutes);
 app.use("/api/v1/address", AddressRoutes);

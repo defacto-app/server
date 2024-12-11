@@ -980,7 +980,7 @@
 		}
 	},
 
-"post": {
+	"post": {
 				"tags": [
 					"admin-users"
 				],
@@ -1317,7 +1317,135 @@
 						}
 					}
 				}
-			}
+			},
+				"patch": {
+					"summary": "Update a user by their userId",
+					"tags": [
+						"admin-users"
+					],
+					"parameters": [
+						{
+							"name": "userId",
+							"in": "path",
+							"required": true,
+							"description": "The userId of the user to update",
+							"schema": {
+								"type": "string",
+								"example": "ba8c9a1b-26e3-45dc-969e-f166b53d8552"
+							}
+						}
+					],
+					"requestBody": {
+						"description": "User data to update",
+						"required": true,
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"name": {
+											"type": "string",
+											"example": "John Doe"
+										},
+										"email": {
+											"type": "string",
+											"format": "email",
+											"example": "john.doe@example.com"
+										},
+										"role": {
+											"type": "string",
+											"example": "admin"
+										}
+
+									}
+								}
+							}
+						}
+					},
+					"responses": {
+						"200": {
+							"description": "User updated successfully",
+							"content": {
+								"application/json": {
+									"schema": {
+										"type": "object",
+										"properties": {
+											"success": {
+												"type": "boolean",
+												"example": true
+											},
+											"message": {
+												"type": "string",
+												"example": "User updated successfully"
+											}
+										}
+									}
+								}
+							}
+						},
+						"400": {
+							"description": "Bad request",
+							"content": {
+								"application/json": {
+									"schema": {
+										"type": "object",
+										"properties": {
+											"success": {
+												"type": "boolean",
+												"example": false
+											},
+											"message": {
+												"type": "string",
+												"example": "Invalid input data"
+											}
+										}
+									}
+								}
+							}
+						},
+						"404": {
+							"description": "User not found",
+							"content": {
+								"application/json": {
+									"schema": {
+										"type": "object",
+										"properties": {
+											"success": {
+												"type": "boolean",
+												"example": false
+											},
+											"message": {
+												"type": "string",
+												"example": "User not found"
+											}
+										}
+									}
+								}
+							}
+						},
+						"500": {
+							"description": "Server error",
+							"content": {
+								"application/json": {
+									"schema": {
+										"type": "object",
+										"properties": {
+											"success": {
+												"type": "boolean",
+												"example": false
+											},
+											"message": {
+												"type": "string",
+												"example": "An error occurred while updating the user"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+
 		},
 
 

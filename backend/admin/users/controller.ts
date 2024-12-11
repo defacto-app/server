@@ -42,6 +42,31 @@ const AdminUserController = {
 			SendResponse.serverError(res, error.message);
 		}
 	},
+	async update(req: Request, res: Response): Promise<void> {
+		const { userId } = req.params;
+		const { isBanned } = req.body;
+		try {
+			const user = await AuthModel.findOne({
+				publicId: userId,
+			});
+
+			if (!user) {
+				SendResponse.notFound(res, "User not found");
+				return;
+			}
+
+			if (typeof isBanned !== "undefined") {
+				user.isBanned = isBanned;
+			}
+
+			await user.save();
+
+			SendResponse.success(res, "User updated successfully", { user });
+		} catch (error: any) {
+			console.log("Error in user controller:", error);
+			SendResponse.serverError(res, error.message);
+		}
+	},
 	async create(req: Request, res: Response): Promise<void> {
 		try {
 			// Use the validator

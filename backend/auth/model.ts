@@ -13,6 +13,7 @@ export interface AuthDataType extends Document {
    publicId: string;
    provider: "email" | "phone" | "google" | string;
    role: "customer" | "admin" | "driver" | "manager" | "staff";
+   isBanned: boolean;
    staffInfo?: {
       employeeId?: string;
       department?: string;
@@ -31,12 +32,6 @@ export interface AuthDataType extends Document {
       };
    };
    is_super_admin?: boolean | null;
-   banned_until?: Date | null;
-   banned?: {
-      until: Date | null;
-      reason: string | null;
-      at: Date | null;
-   };
    password: string;
    email?: string;
    email_management: {
@@ -93,6 +88,10 @@ const authSchemaDefinitions = {
       required: true,
       default: "customer",  // Changed from "user"
       enum: ["customer", "admin", "driver", "manager", "staff"],
+   },
+   isBanned:{
+      type: Boolean,
+      default: false,
    },
    staffInfo: {
       employeeId: String,
