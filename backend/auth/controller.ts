@@ -247,6 +247,7 @@ const AuthController = {
 
 			if (error) {
 				SendResponse.badRequest(res, "Invalid email or password", error);
+				return;
 			}
 
 			const user = await AuthModel.findOne<AuthDataType>({
@@ -258,6 +259,11 @@ const AuthController = {
 				return;
 			}
 
+			if (user.isBanned) {
+				SendResponse.unauthorized(res, "You are banned from the platform");
+				return;
+			}
+
 			const isMatch = await AuthModel.comparePassword(
 				req.body.password,
 				user?.password,
@@ -265,10 +271,10 @@ const AuthController = {
 
 			if (!isMatch) {
 				SendResponse.unauthorized(res, "Invalid email or password");
+				return;
 			}
 
 			const token = generateToken(user);
-
 
 			// Update lastSeenAt
 			user.lastSeenAt = new Date();
@@ -384,10 +390,23 @@ const AuthController = {
 	async ping(req: Request, res: Response): Promise<void> {
 		const currentUser = res.locals.user;
 
+		// Check if the user is banned
+		const user = await AuthModel.findOne({ publicId: currentUser.userId });
+		if (user?.isBanned) {
+			SendResponse.unauthorized(res, "User is banned");
+			return;
+		}
+
 		const packages = res.locals.packages;
 
-		await UserModel.updateOne({ userId: currentUser.userId }, { lastSeenAt: new Date() });
-		await AuthModel.updateOne({ publicId: currentUser.userId }, { lastSeenAt: new Date() });
+		await UserModel.updateOne(
+			{ userId: currentUser.userId },
+			{ lastSeenAt: new Date() },
+		);
+		await AuthModel.updateOne(
+			{ publicId: currentUser.userId },
+			{ lastSeenAt: new Date() },
+		);
 
 		try {
 			SendResponse.success(res, "", {
