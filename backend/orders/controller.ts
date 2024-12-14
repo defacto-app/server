@@ -33,13 +33,24 @@ const OrderController = {
 		const restaurantItem = res.locals.restaurantItem;
 
 		try {
+
+			console.log({ user, restaurantItem });
 			// Extract data from the request body
-			const orderData = req.body;
+
+			const validation = await OrderValidator.restaurant(req.body);
+
+			if (!validation.success) {
+				SendResponse.badRequest(res, "Validation failed", validation.errors);
+				return;
+			}
+
+			const validatedData = validation.data as any;
+
 
 			// console.log({ user, orderData, restaurantItem });
 
 			// Call the service to create the restaurant order
-			await OrderService.createRestaurantOrder(orderData, user, restaurantItem);
+			await OrderService.createRestaurantOrder(validatedData, user, restaurantItem);
 
 			// Send success response
 			SendResponse.created(

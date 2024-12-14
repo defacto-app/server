@@ -122,9 +122,11 @@ class OrderService {
 			})),
 
 			dropOffDetails: {
-				name: orderData.dropOffDetails.name,
-				email: orderData.dropOffDetails.email,
-				phone: orderData.dropOffDetails.phoneNumber,
+
+
+				name: user.firstName,
+				email: user.email,
+				phone: user.phoneNumber,
 
 				address: {
 					location: orderData.dropOffDetails.address.address,
@@ -136,9 +138,9 @@ class OrderService {
 			},
 
 			pickupDetails: {
-				name: user.firstName,
-				email: user.email,
-				phone: user.phoneNumber,
+				name: restaurantData.name,
+				email: restaurantData.email,
+				phone: restaurantData.phoneNumber,
 				address: {
 					location: restaurantData.address.location,
 					coordinates: {

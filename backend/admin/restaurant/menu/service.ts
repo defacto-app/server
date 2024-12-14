@@ -1,5 +1,4 @@
 import MenuModel from "../../../menu/model";
-import { paginate } from "../../../utils/pagination";
 
 class MenuService {
 	static async createMenu(data: any, parentId: string) {

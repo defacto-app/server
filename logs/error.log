@@ -341,3 +341,5 @@
 2024-12-11T11:11:33.378Z [undefined] [31merror[39m: Cast to ObjectId failed for value "49194064-71a9-419e-b044-dffeea97f74b" (type string) at path "_id" for model "auth"
 2024-12-11T11:11:49.967Z [undefined] [31merror[39m: Cast to ObjectId failed for value "49194064-71a9-419e-b044-dffeea97f74b" (type string) at path "_id" for model "auth"
 2024-12-11T11:11:56.441Z [undefined] [31merror[39m: Cast to ObjectId failed for value "49194064-71a9-419e-b044-dffeea97f74b" (type string) at path "_id" for model "auth"
+2024-12-11T11:38:09.344Z [undefined] [31merror[39m: Error creating order
+2024-12-12T08:50:10.666Z [undefined] [31merror[39m: Error creating order

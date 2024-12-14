@@ -12,11 +12,11 @@ import MenuService from "./service";
 const AdminRestaurantMenuController = {
 	async create(req: Request, res: Response): Promise<void> {
 		const restaurant = res.locals.restaurantItem as any;
-		const { name, category, price, available, image, menuType } = req.body;
+		const { name, category, price, available, image, menuType ,categoryId} = req.body;
 
 		try {
 			const newMenu = await MenuService.createMenu(
-				{ name, category, price, available, image, menuType },
+				{ name, category, price, available, image, menuType,categoryId },
 				restaurant.publicId,
 			);
 
