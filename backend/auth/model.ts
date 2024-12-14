@@ -2,6 +2,12 @@ import mongoose, { type Document, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 
+interface VerificationStatus {
+   isEmailVerified: boolean;
+   isPhoneVerified: boolean;
+ }
+
+
 interface IAuthModel extends mongoose.Model<AuthDataType> {
    comparePassword(password: string, userPassword: string): Promise<boolean>;
    hashPassword(password: string): Promise<string>;
@@ -70,6 +76,7 @@ export interface AuthDataType extends Document {
       lastAttempt: Date | null;
       lockedUntil: Date | null;
    };
+   getVerificationStatus: () => VerificationStatus;
    handleFailedLogin: () => Promise<void>;
 }
 
@@ -200,6 +207,14 @@ AuthSchema.methods.handleFailedLogin = async function () {
 
    await this.save();
 };
+
+// Add this method to the schema
+AuthSchema.methods.getVerificationStatus = function(): VerificationStatus {
+   return {
+     isEmailVerified: Boolean(this.email && this.email_management?.verified),
+     isPhoneVerified: Boolean(this.phoneNumber && this.phone_management?.verified)
+   };
+ };
 
 // Middleware for cleaning expired tokens
 AuthSchema.pre("save", function (next) {

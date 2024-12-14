@@ -392,6 +392,9 @@ const AuthController = {
 
 		// Check if the user is banned
 		const user = await AuthModel.findOne({ publicId: currentUser.userId });
+		const verificationStatus = user?.getVerificationStatus();
+
+		console.log(verificationStatus,"verifiedContacts");
 		if (user?.isBanned) {
 			SendResponse.unauthorized(res, "User is banned");
 			return;
@@ -410,7 +413,10 @@ const AuthController = {
 
 		try {
 			SendResponse.success(res, "", {
-				user: currentUser,
+				user: {
+					...currentUser,
+					verificationStatus
+				},
 				packages,
 			});
 		} catch (e: any) {
