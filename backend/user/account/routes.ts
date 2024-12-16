@@ -12,6 +12,8 @@ router.use(authMiddleware.validateUser);
 // middleware to validate packageId
 
 router.patch("/", AccountController.updateAccountDetails);
+
+router.patch("/update-email", AccountController.updateEmail);
 /*router.get("/", AccountController.getAccountDetails);
 
 router.get("/address", AccountController.all);

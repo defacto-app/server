@@ -54,6 +54,12 @@ export interface AuthDataType extends Document {
          reset_at?: Date;
          sent_at?: Date;
       };
+      change: {
+         newEmail: string;
+         token: string;
+         expires_at: Date;
+         sent_at: Date;
+      }
    };
    phoneNumber?: string | null;
    phone_management: {
@@ -163,6 +169,12 @@ const authSchemaDefinitions = {
          expires_at: { type: Date },
          sent_at: { type: Date },
       },
+      change: {
+         newEmail: { type: String },
+         token: { type: String },
+         expires_at: { type: Date },
+         sent_at: { type: Date }
+      }
    },
 
    password: {
