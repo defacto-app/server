@@ -1,4 +1,4 @@
-export type EmailTitleType = "contact" | "reset-password" | "verify-email" | "otp";
+export type EmailTitleType = "contact" | "reset-password" | "verify-email" | "otp" | "email-change";
 
 export interface authBodyType {
 	email?: string;

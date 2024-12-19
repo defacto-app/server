@@ -4,6 +4,8 @@ import UserModel from "../model";
 import { z } from "zod";
 
 import type { AuthDataType } from "../../auth/model";
+import AuthModel from "../../auth/model";
+import EmailEvent from "../../events/email.event";
 const updateEmailSchema = z.object({
    name: z.string().min(2, "Name must be at least 2 characters"),
    email: z.string().email("Invalid email format"),
@@ -65,74 +67,89 @@ const AccountController = {
       }
    },
 
-   async updateEmail(req: Request, res: Response): Promise<void | Response> {
+   async update_name_email(req: Request, res: Response): Promise<Response> {
       try {
-         const AuthUser = res.locals.user as AuthDataType;
+         const AuthUser = res.locals.user as any;
 
          // Validate request body
          const validatedData = updateEmailSchema.parse(req.body);
          const { email, name } = validatedData;
 
-         // Check if email is different from current email
-         if (email === AuthUser.email) {
-            return SendResponse.badRequest(
+         // Check if any changes were actually made
+         if (name === AuthUser.firstName && email === AuthUser.email) {
+            return SendResponse.badRequest(res, "No changes detected");
+         }
+
+         // Update name if provided
+         if (name && name !== AuthUser.firstName) {
+            await UserModel.findOneAndUpdate(
+               { userId: AuthUser.userId },
+               { $set: { firstName: name } },
+               { new: true }
+            );
+            return SendResponse.success(res, "Name updated successfully", {
+               isEmailChange: false,
+            });
+         }
+
+         // Handle email update with OTP if email is different
+         if (email && email !== AuthUser.email) {
+            // Check if email already exists
+            const existingUser = await AuthModel.findOne({
+               email: email.toLowerCase(),
+               publicId: { $ne: AuthUser.userId },
+            });
+
+            if (existingUser) {
+               return SendResponse.badRequest(res, "Email is already in use");
+            }
+
+            // Generate verification token
+            const verificationToken = Math.floor(
+               100000 + Math.random() * 900000
+            ).toString();
+            const expiresIn = 30 * 60 * 1000; // 30 minutes
+
+            const update = {
+               $set: {
+                  "email_management.change": {
+                     newEmail: email.toLowerCase(),
+                     token: verificationToken,
+                     expires_at: new Date(Date.now() + expiresIn),
+                     sent_at: new Date(),
+                  },
+               },
+            };
+
+            // Save email change request
+            const updatedUser = await AuthModel.findOneAndUpdate(
+               { publicId: AuthUser.userId },
+               update,
+               { new: true }
+            );
+
+            if (!updatedUser) {
+               return SendResponse.notFound(res, "User not found");
+            }
+
+            // Send OTP to the new email
+            /*      await EmailEvent.sendOtpChnageMail({
+               email: email.toLowerCase(),
+               otp: verificationToken,
+            });
+ */
+            return SendResponse.success(
                res,
-               "New email must be different from current email"
+               "Verification code sent to your new email address",
+               { isEmailChange: true }
             );
          }
 
-         // Check if email already exists for another user
-         const existingUser = await UserModel.findOne({
-            email: email.toLowerCase(),
-            userId: { $ne: AuthUser.publicId },
-         });
-
-         if (existingUser) {
-            return SendResponse.badRequest(res, "Email is already in use");
-         }
-
-         // Generate verification token (6 digit code)
-         const verificationToken = Math.floor(
-            100000 + Math.random() * 900000
-         ).toString();
-         const expiresIn = 30 * 60 * 1000; // 30 minutes
-
-         // Update user with pending change
-         const updatedUser = await UserModel.findOneAndUpdate(
-            { userId: AuthUser.publicId },
-            {
-               $set: {
-                  email_management: {
-                     change: {
-                        newEmail: email.toLowerCase(),
-                        token: verificationToken,
-                        expires_at: new Date(Date.now() + expiresIn),
-                        sent_at: new Date(),
-                     },
-                  },
-               },
-            },
-            { new: true }
-         );
-
-         if (!updatedUser) {
-            return SendResponse.notFound(res, "User not found");
-         }
-
-         // TODO: Send verification email with token
-         // await sendVerificationEmail(email, verificationToken);
-
-         // Return success response
-         return SendResponse.success(
-            res,
-            "Verification code sent to your new email address",
-            {
-               firstName: updatedUser.firstName,
-               // Don't send back the token in response
-            }
-         );
+         // Success response if only the name was updated
+         return SendResponse.success(res, "Profile updated successfully");
       } catch (error) {
-         // ... error handling remains the same ...
+         console.error("Update failed:", error);
+         return SendResponse.badRequest(res, "Something went wrong", error);
       }
    },
 

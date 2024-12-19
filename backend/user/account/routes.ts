@@ -13,7 +13,7 @@ router.use(authMiddleware.validateUser);
 
 router.patch("/", AccountController.updateAccountDetails);
 
-router.patch("/update-email", AccountController.updateEmail);
+router.patch("/update-email", AccountController.update_name_email);
 /*router.get("/", AccountController.getAccountDetails);
 
 router.get("/address", AccountController.all);

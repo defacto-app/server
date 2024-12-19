@@ -6,7 +6,7 @@ import { ObjectId } from "mongodb";
 import SendResponse from "../libs/response-helper";
 
 class AuthMiddleware {
-	public async validateUser(req: Request, res: Response, next: NextFunction) {
+	public async 	validateUser(req: Request, res: Response, next: NextFunction) {
 		const authorization = req.headers.authorization as string;
 
 		if (!authorization) {
