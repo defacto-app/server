@@ -1,1 +1,2 @@
 2024-12-12T09:08:58.199Z [undefined] [31merror[39m: Error creating order
+2024-12-20T09:45:59.592Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.users index: email_1 dup key: { email: "barehands642@gmail.com" }

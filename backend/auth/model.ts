@@ -59,7 +59,8 @@ export interface AuthDataType extends Document {
          token: string;
          expires_at: Date;
          sent_at: Date;
-      }
+      },
+      previousEmails?: string[];
    };
    phoneNumber?: string | null;
    phone_management: {
@@ -155,6 +156,7 @@ const authSchemaDefinitions = {
          firstTime: { type: Boolean },
       },
       verified: { type: Boolean, default: false },
+      previousEmails: { type: [String] },
    },
    email_management: {
       login: {

@@ -4,12 +4,8 @@ import UserModel from "../model";
 import { z } from "zod";
 
 import AuthModel from "../../auth/model";
-import EmailEvent from "../../events/email.event";
 import AccountService from "./services";
-const updateEmailSchema = z.object({
-   name: z.string().min(2, "Name must be at least 2 characters"),
-   email: z.string().email("Invalid email format"),
-});
+
 
 const AccountController = {
    async updateAccountDetails(req: Request, res: Response): Promise<void> {
@@ -119,107 +115,11 @@ const AccountController = {
    async verify_email_change(req: Request, res: Response): Promise<Response> {
       try {
          const user = res.locals.user as any;
-
-         console.log("User from res.locals:", user);
-
          const AuthUser = await AuthModel.findOne({ publicId: user.userId });
-         console.log("AuthUser fetched:", AuthUser);
-
          const { code } = req.body;
-         console.log("Code from request body:", code);
 
-         // Validate the code exists
-         if (!code) {
-            console.log("No verification code provided.");
-            return SendResponse.badRequest(
-               res,
-               "Verification code is required"
-            );
-         }
+         const updatedUser = await AccountService.verifyEmailChange(code, AuthUser);
 
-         // Get the pending change
-         const pendingChange = AuthUser?.email_management?.change;
-         console.log("Pending email change request:", pendingChange);
-
-         if (!pendingChange) {
-            console.log("No email change request found.");
-            return SendResponse.badRequest(
-               res,
-               "No email change request found"
-            );
-         }
-
-         // Check if code has expired
-         if (pendingChange.expires_at < new Date()) {
-            console.log(
-               "Verification code has expired:",
-               pendingChange.expires_at
-            );
-            return SendResponse.badRequest(
-               res,
-               "Verification code has expired"
-            );
-         }
-
-         // Verify the code
-         if (pendingChange.token !== code) {
-            console.log(
-               "Invalid verification code. Provided:",
-               code,
-               "Expected:",
-               pendingChange.token
-            );
-            return SendResponse.badRequest(res, "Invalid verification code");
-         }
-
-         // Check if the new email already exists
-         const emailExists = await UserModel.findOne({
-            email: pendingChange.newEmail,
-         });
-         if (emailExists) {
-            console.log(
-               "Duplicate email error. Email already exists:",
-               pendingChange.newEmail
-            );
-            return SendResponse.badRequest(
-               res,
-               "The email is already in use by another account."
-            );
-         }
-
-         // Update the email
-         console.log(
-            "Updating user email. User ID:",
-            user.userId,
-            "New Email:",
-            pendingChange.newEmail
-         );
-
-         const updatedUser = await UserModel.findOneAndUpdate(
-            { userId: user.userId },
-            {
-               $set: {
-                  email: pendingChange.newEmail,
-                  "email_management.verified": true,
-               },
-               $unset: {
-                  "email_management.change": 1,
-               },
-            },
-            { new: true }
-         );
-
-         console.log("Updated user:", updatedUser);
-
-         if (!updatedUser) {
-            console.log("User not found during email update.");
-            return SendResponse.notFound(res, "User not found");
-         }
-
-         console.log("Email updated successfully. Response data:", {
-            email: updatedUser.email,
-            firstName: updatedUser.firstName,
-         });
          return SendResponse.success(res, "Email updated successfully", {
             email: updatedUser.email,
             firstName: updatedUser.firstName,
@@ -227,9 +127,7 @@ const AccountController = {
       } catch (error: any) {
          console.error("Verify email change error:", error);
 
-         // Gracefully handle the duplicate key error
          if (error.code === 11000 && error.keyPattern?.email) {
-            console.log("Duplicate key error:", error.keyValue.email);
             return SendResponse.badRequest(
                res,
                "The email address is already associated with another account."
@@ -238,13 +136,12 @@ const AccountController = {
 
          return SendResponse.badRequest(
             res,
-            error instanceof Error
-               ? error.message
-               : "Failed to verify email change",
+            error instanceof Error ? error.message : "Failed to verify email change",
             error
          );
       }
    },
+
    /*	async allAddress(req: Request, res: Response): Promise<void> {
 		const user = res.locals.user as any;
 

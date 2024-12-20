@@ -32,9 +32,9 @@ const userSchemaDefinitions = {
 	},
 
 	address: {
-		type: Object,
+		type: [Object],
 		required: false,
-		default: {},
+		default: [],
 	},
 
 	firstName: {
