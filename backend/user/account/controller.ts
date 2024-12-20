@@ -3,9 +3,9 @@ import type { Request, Response } from "express";
 import UserModel from "../model";
 import { z } from "zod";
 
-import type { AuthDataType } from "../../auth/model";
 import AuthModel from "../../auth/model";
 import EmailEvent from "../../events/email.event";
+import AccountService from "./services";
 const updateEmailSchema = z.object({
    name: z.string().min(2, "Name must be at least 2 characters"),
    email: z.string().email("Invalid email format"),
@@ -75,86 +75,43 @@ const AccountController = {
          const AuthUser = res.locals.user as any;
 
          // Validate request body
-         const validatedData = updateEmailSchema.parse(req.body);
+         const validatedData = AccountService.validateUpdateEmailData(req.body);
          const { email, name } = validatedData;
 
          // Check if any changes were actually made
-         if (name === AuthUser.firstName && email === AuthUser.email) {
-            return SendResponse.badRequest(res, "No changes detected");
-         }
+         await AccountService.checkNoChangesMade(name, email, AuthUser);
 
          // Update name if provided
+         let responseMessage = "";
          if (name && name !== AuthUser.firstName) {
-            await UserModel.findOneAndUpdate(
-               { userId: AuthUser.userId },
-               { $set: { firstName: name } },
-               { new: true }
-            );
-            // Only return here if email is not changing
-            if (email === AuthUser.email) {
-               return SendResponse.success(res, "Name updated successfully", {
-                  isEmailChange: false,
-               });
-            }
+            await AccountService.updateUserName(name, AuthUser);
+            responseMessage = "Name updated successfully";
          }
 
          // Handle email update with OTP if email is different
          if (email && email !== AuthUser.email) {
-            // Check if email already exists
-            const existingUser = await AuthModel.findOne({
-               email: email.toLowerCase(),
-               publicId: { $ne: AuthUser.userId },
-            });
-
-            if (existingUser) {
-               return SendResponse.badRequest(res, "Email is already in use");
-            }
-
-            // Generate verification token
-            const verificationToken = Math.floor(
-               100000 + Math.random() * 900000
-            ).toString();
-            const expiresIn = 30 * 60 * 1000; // 30 minutes
-
-            const update = {
-               $set: {
-                  "email_management.change": {
-                     newEmail: email.toLowerCase(),
-                     token: verificationToken,
-                     expires_at: new Date(Date.now() + expiresIn),
-                     sent_at: new Date(),
-                  },
-               },
-            };
-
-            // Save email change request
-            const updatedUser = await AuthModel.findOneAndUpdate(
-               { publicId: AuthUser.userId },
-               update,
-               { new: true }
+            const isEmailChange = await AccountService.handleEmailUpdate(
+               email,
+               AuthUser
             );
-
-            if (!updatedUser) {
-               return SendResponse.notFound(res, "User not found");
-            }
-
-            // Send OTP to the new email
-            await EmailEvent.sendOtpChnageMail({
-               email: email.toLowerCase(),
-               otp: verificationToken,
+            responseMessage = responseMessage
+               ? "Name updated and verification code sent to your new email address"
+               : "Verification code sent to your new email address";
+            return SendResponse.success(res, responseMessage, {
+               isEmailChange,
             });
-
-            return SendResponse.success(
-               res,
-               name !== AuthUser.firstName
-                  ? "Name updated and verification code sent to your new email address"
-                  : "Verification code sent to your new email address",
-               { isEmailChange: true }
-            );
          }
+
+         return SendResponse.success(res, responseMessage, {
+            isEmailChange: false,
+         });
       } catch (error) {
          console.error("Update failed:", error);
-         return SendResponse.badRequest(res, "Something went wrong", error);
+         return SendResponse.badRequest(
+            res,
+            error instanceof Error ? error.message : "Something went wrong",
+            error
+         );
       }
    },
 
@@ -163,11 +120,17 @@ const AccountController = {
       try {
          const user = res.locals.user as any;
 
-         const AuthUser = await AuthModel.findOne({publicId: user.userId});
+         console.log("User from res.locals:", user);
+
+         const AuthUser = await AuthModel.findOne({ publicId: user.userId });
+         console.log("AuthUser fetched:", AuthUser);
+
          const { code } = req.body;
+         console.log("Code from request body:", code);
 
          // Validate the code exists
          if (!code) {
+            console.log("No verification code provided.");
             return SendResponse.badRequest(
                res,
                "Verification code is required"
@@ -176,7 +139,10 @@ const AccountController = {
 
          // Get the pending change
          const pendingChange = AuthUser?.email_management?.change;
+         console.log("Pending email change request:", pendingChange);
+
          if (!pendingChange) {
+            console.log("No email change request found.");
             return SendResponse.badRequest(
                res,
                "No email change request found"
@@ -185,6 +151,10 @@ const AccountController = {
 
          // Check if code has expired
          if (pendingChange.expires_at < new Date()) {
+            console.log(
+               "Verification code has expired:",
+               pendingChange.expires_at
+            );
             return SendResponse.badRequest(
                res,
                "Verification code has expired"
@@ -193,14 +163,40 @@ const AccountController = {
 
          // Verify the code
          if (pendingChange.token !== code) {
+            console.log(
+               "Invalid verification code. Provided:",
+               code,
+               "Expected:",
+               pendingChange.token
+            );
             return SendResponse.badRequest(res, "Invalid verification code");
          }
 
-
+         // Check if the new email already exists
+         const emailExists = await UserModel.findOne({
+            email: pendingChange.newEmail,
+         });
+         if (emailExists) {
+            console.log(
+               "Duplicate email error. Email already exists:",
+               pendingChange.newEmail
+            );
+            return SendResponse.badRequest(
+               res,
+               "The email is already in use by another account."
+            );
+         }
 
          // Update the email
-         const updatedUser = await UserModel.findOneAndUpdate(
+         console.log(
+            "Updating user email. User ID:",
             user.userId,
+            "New Email:",
+            pendingChange.newEmail
+         );
+
+         const updatedUser = await UserModel.findOneAndUpdate(
+            { userId: user.userId },
             {
                $set: {
                   email: pendingChange.newEmail,
@@ -213,16 +209,33 @@ const AccountController = {
             { new: true }
          );
 
+         console.log("Updated user:", updatedUser);
+
          if (!updatedUser) {
+            console.log("User not found during email update.");
             return SendResponse.notFound(res, "User not found");
          }
 
+         console.log("Email updated successfully. Response data:", {
+            email: updatedUser.email,
+            firstName: updatedUser.firstName,
+         });
          return SendResponse.success(res, "Email updated successfully", {
             email: updatedUser.email,
             firstName: updatedUser.firstName,
          });
-      } catch (error) {
+      } catch (error: any) {
          console.error("Verify email change error:", error);
+
+         // Gracefully handle the duplicate key error
+         if (error.code === 11000 && error.keyPattern?.email) {
+            console.log("Duplicate key error:", error.keyValue.email);
+            return SendResponse.badRequest(
+               res,
+               "The email address is already associated with another account."
+            );
+         }
+
          return SendResponse.badRequest(
             res,
             error instanceof Error
@@ -232,7 +245,6 @@ const AccountController = {
          );
       }
    },
-
    /*	async allAddress(req: Request, res: Response): Promise<void> {
 		const user = res.locals.user as any;
 
