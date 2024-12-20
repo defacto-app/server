@@ -67,7 +67,10 @@ const AccountController = {
       }
    },
 
-   async update_name_email(req: Request, res: Response): Promise<Response> {
+   async update_name_email(
+      req: Request,
+      res: Response
+   ): Promise<Response | undefined> {
       try {
          const AuthUser = res.locals.user as any;
 
@@ -87,9 +90,12 @@ const AccountController = {
                { $set: { firstName: name } },
                { new: true }
             );
-            return SendResponse.success(res, "Name updated successfully", {
-               isEmailChange: false,
-            });
+            // Only return here if email is not changing
+            if (email === AuthUser.email) {
+               return SendResponse.success(res, "Name updated successfully", {
+                  isEmailChange: false,
+               });
+            }
          }
 
          // Handle email update with OTP if email is different
@@ -133,20 +139,19 @@ const AccountController = {
             }
 
             // Send OTP to the new email
-            /*      await EmailEvent.sendOtpChnageMail({
+            await EmailEvent.sendOtpChnageMail({
                email: email.toLowerCase(),
                otp: verificationToken,
             });
- */
+
             return SendResponse.success(
                res,
-               "Verification code sent to your new email address",
+               name !== AuthUser.firstName
+                  ? "Name updated and verification code sent to your new email address"
+                  : "Verification code sent to your new email address",
                { isEmailChange: true }
             );
          }
-
-         // Success response if only the name was updated
-         return SendResponse.success(res, "Profile updated successfully");
       } catch (error) {
          console.error("Update failed:", error);
          return SendResponse.badRequest(res, "Something went wrong", error);
@@ -154,9 +159,11 @@ const AccountController = {
    },
 
    // Second controller - handles verification
-   async verifyEmailChange(req: Request, res: Response): Promise<Response> {
+   async verify_email_change(req: Request, res: Response): Promise<Response> {
       try {
-         const user = res.locals.user as AuthDataType;
+         const user = res.locals.user as any;
+
+         const AuthUser = await AuthModel.findOne({publicId: user.userId});
          const { code } = req.body;
 
          // Validate the code exists
@@ -168,7 +175,7 @@ const AccountController = {
          }
 
          // Get the pending change
-         const pendingChange = user.email_management?.change;
+         const pendingChange = AuthUser?.email_management?.change;
          if (!pendingChange) {
             return SendResponse.badRequest(
                res,
@@ -189,9 +196,11 @@ const AccountController = {
             return SendResponse.badRequest(res, "Invalid verification code");
          }
 
+
+
          // Update the email
-         const updatedUser = await UserModel.findByIdAndUpdate(
-            user._id,
+         const updatedUser = await UserModel.findOneAndUpdate(
+            user.userId,
             {
                $set: {
                   email: pendingChange.newEmail,

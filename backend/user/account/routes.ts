@@ -14,6 +14,7 @@ router.use(authMiddleware.validateUser);
 router.patch("/", AccountController.updateAccountDetails);
 
 router.patch("/update-email", AccountController.update_name_email);
+router.patch("/verify-email-change", AccountController.verify_email_change);
 /*router.get("/", AccountController.getAccountDetails);
 
 router.get("/address", AccountController.all);
