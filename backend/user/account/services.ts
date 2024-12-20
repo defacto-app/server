@@ -123,8 +123,10 @@ class AccountService {
 
       // Update the user's email in the auth model
 
+
+
       await AuthModel.findOneAndUpdate(
-         { publicId: AuthUser.userId },
+         { publicId: AuthUser.publicId },
          {
             $set: {
                email: pendingChange.newEmail,
@@ -138,9 +140,6 @@ class AccountService {
       );
 
       return updatedUser;
-
-
-
    }
 }
 
