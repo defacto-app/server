@@ -136,84 +136,27 @@ const AccountController = {
    // TypeScript
    async verify_phone_number(req: Request, res: Response): Promise<void> {
       try {
-          const user = res.locals.user as any;
-          const { otp } = req.body;
+         const user = res.locals.user as any;
+         const { otp } = req.body;
 
-          if (!otp) {
-              throw new Error("OTP is required");
-          }
+         const authUser = await AuthModel.findOne({ publicId: user.userId });
 
-          // Find the user in the AuthModel
-          const authUser = await AuthModel.findOne({ publicId: user.userId });
+         if (!authUser) {
+            throw new Error("User not found");
+         }
 
-          if (!authUser) {
-              throw new Error("User not found");
-          }
+         const updatedUser = await AccountService.verifyPhoneNumber(otp, authUser);
 
-          if (!authUser.phone_management?.change) {
-              throw new Error("No phone number change request found");
-          }
-
-          const changeRequest = authUser.phone_management.change as any;
-
-          // Check if OTP is expired
-          if (new Date(changeRequest.expires_at) < new Date()) {
-              throw new Error("OTP has expired");
-          }
-
-          // Check if OTP matches
-          if (changeRequest.otp !== otp) {
-              throw new Error("Invalid OTP");
-          }
-
-          // Initialize previousPhoneNumbers array if it doesn't exist
-          if (!authUser.phone_management.previousPhoneNumbers) {
-              authUser.phone_management.previousPhoneNumbers = [];
-          }
-
-          // Always add the current phone number to previousPhoneNumbers before updating
-          if (authUser.phoneNumber) {
-              authUser.phone_management.previousPhoneNumbers.push(authUser.phoneNumber);
-          }
-
-          // Update with new phone number
-          authUser.phoneNumber = changeRequest.newPhoneNumber;
-          authUser.phone_management.verified = true;
-
-          // Properly remove the change object
-         //  authUser.set("phone_management.change", undefined);
-
-          // Save the updated document
-          await authUser.save();
-
-          // Update user model with proper query field
-          const updatedUser = await UserModel.findOneAndUpdate(
-              { userId: authUser.publicId },  // Changed from userId to publicId and using user.userId
-              {
-                  $set: {
-                      phoneNumber: changeRequest.newPhoneNumber,
-                  }
-              },
-              {
-                  new: true,
-                  runValidators: true
-              }
-          );
-
-          if (!updatedUser) {
-              throw new Error("Failed to update user model phone number");
-          }
-
-          SendResponse.success(res, "Phone number updated successfully");
+         SendResponse.success(res, "Phone number updated successfully", updatedUser);
       } catch (error: any) {
-          console.error("Error in verify_phone_number:", error);
-          SendResponse.badRequest(
-              res,
-              error.message || "Failed to verify phone number",
-              error
-          );
+         console.error("Error in verify_phone_number:", error);
+         SendResponse.badRequest(
+            res,
+            error.message || "Failed to verify phone number",
+            error
+         );
       }
-  },
+   },
    async update_name_email(
       req: Request,
       res: Response

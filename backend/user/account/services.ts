@@ -142,6 +142,58 @@ class AccountService {
 
       return updatedUser;
    }
+
+   static async verifyPhoneNumber(otp: string, AuthUser: any) {
+      if (!otp) {
+         throw new Error("OTP is required");
+      }
+
+      if (!AuthUser.phone_management?.change) {
+         throw new Error("No phone number change request found");
+      }
+
+      const changeRequest = AuthUser.phone_management.change;
+
+      if (new Date(changeRequest.expires_at) < new Date()) {
+         throw new Error("OTP has expired");
+      }
+
+      if (changeRequest.otp !== otp) {
+         throw new Error("Invalid OTP");
+      }
+
+      if (!AuthUser.phone_management.previousPhoneNumbers) {
+         AuthUser.phone_management.previousPhoneNumbers = [];
+      }
+
+      if (AuthUser.phoneNumber) {
+         AuthUser.phone_management.previousPhoneNumbers.push(AuthUser.phoneNumber);
+      }
+
+      AuthUser.phoneNumber = changeRequest.newPhoneNumber;
+      AuthUser.phone_management.verified = true;
+
+      await AuthUser.save();
+
+      const updatedUser = await UserModel.findOneAndUpdate(
+         { userId: AuthUser.publicId },
+         {
+            $set: {
+               phoneNumber: changeRequest.newPhoneNumber,
+            }
+         },
+         {
+            new: true,
+            runValidators: true
+         }
+      );
+
+      if (!updatedUser) {
+         throw new Error("Failed to update user model phone number");
+      }
+
+      return updatedUser;
+   }
 }
 
 export default AccountService;
