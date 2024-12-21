@@ -1,11 +1,12 @@
 import SendResponse from "../../libs/response-helper";
 import type { Request, Response } from "express";
 import UserModel from "../model";
-import { z } from "zod";
 
 import AuthModel from "../../auth/model";
 import AccountService from "./services";
-
+import { sendTokenSms } from "../../services/sms.service";
+import { generateOTP } from "../../utils/utils";
+import AuthValidator from "../../auth/validator";
 
 const AccountController = {
    async updateAccountDetails(req: Request, res: Response): Promise<void> {
@@ -63,6 +64,156 @@ const AccountController = {
       }
    },
 
+   // TypeScript
+   async update_phone_number(req: Request, res: Response): Promise<void> {
+      try {
+         const user = res.locals.user as any;
+
+         const { data, error } = await AuthValidator.phone_number(req.body);
+
+         if (error) {
+            SendResponse.badRequest(res, "Invalid phone number", error);
+         }
+
+         // Check if phone number is already in use
+         const existingUser = await AuthModel.findOne({
+            phoneNumber: data?.phoneNumber,
+            publicId: { $ne: user.publicId },
+         });
+
+         if (existingUser) {
+            throw new Error("Phone number is already in use by another user");
+         }
+
+         // Generate OTP
+         const otp = generateOTP();
+
+         const expiresIn = 30 * 60 * 1000; // 30 minutes
+         if (data?.phoneNumber) {
+            // Save OTP and new phone number
+            await AuthModel.findOneAndUpdate(
+               { publicId: user.userId },
+               {
+                  $set: {
+                     "phone_management.change": {
+                        newPhoneNumber: data?.phoneNumber,
+                        otp: otp,
+                        expires_at: new Date(Date.now() + expiresIn),
+                        sent_at: new Date(),
+                     },
+                  },
+               },
+               { new: true }
+            );
+
+            // Send OTP to the new phone number
+            const { error: smsError } = await sendTokenSms(
+               otp,
+               data?.phoneNumber
+            );
+            if (smsError) {
+               SendResponse.serviceUnavailable(
+                  res,
+                  "Failed to send OTP",
+                  smsError
+               );
+               return;
+            }
+         }
+
+         SendResponse.success(
+            res,
+            "Verification code sent to your new phone number"
+         );
+      } catch (error: any) {
+         SendResponse.badRequest(
+            res,
+            error.message || "Failed to process phone number",
+            error
+         );
+      }
+   },
+   // TypeScript
+   async verify_phone_number(req: Request, res: Response): Promise<void> {
+      try {
+          const user = res.locals.user as any;
+          const { otp } = req.body;
+
+          if (!otp) {
+              throw new Error("OTP is required");
+          }
+
+          // Find the user in the AuthModel
+          const authUser = await AuthModel.findOne({ publicId: user.userId });
+
+          if (!authUser) {
+              throw new Error("User not found");
+          }
+
+          if (!authUser.phone_management?.change) {
+              throw new Error("No phone number change request found");
+          }
+
+          const changeRequest = authUser.phone_management.change as any;
+
+          // Check if OTP is expired
+          if (new Date(changeRequest.expires_at) < new Date()) {
+              throw new Error("OTP has expired");
+          }
+
+          // Check if OTP matches
+          if (changeRequest.otp !== otp) {
+              throw new Error("Invalid OTP");
+          }
+
+          // Initialize previousPhoneNumbers array if it doesn't exist
+          if (!authUser.phone_management.previousPhoneNumbers) {
+              authUser.phone_management.previousPhoneNumbers = [];
+          }
+
+          // Always add the current phone number to previousPhoneNumbers before updating
+          if (authUser.phoneNumber) {
+              authUser.phone_management.previousPhoneNumbers.push(authUser.phoneNumber);
+          }
+
+          // Update with new phone number
+          authUser.phoneNumber = changeRequest.newPhoneNumber;
+          authUser.phone_management.verified = true;
+
+          // Properly remove the change object
+         //  authUser.set("phone_management.change", undefined);
+
+          // Save the updated document
+          await authUser.save();
+
+          // Update user model with proper query field
+          const updatedUser = await UserModel.findOneAndUpdate(
+              { userId: authUser.publicId },  // Changed from userId to publicId and using user.userId
+              {
+                  $set: {
+                      phoneNumber: changeRequest.newPhoneNumber,
+                  }
+              },
+              {
+                  new: true,
+                  runValidators: true
+              }
+          );
+
+          if (!updatedUser) {
+              throw new Error("Failed to update user model phone number");
+          }
+
+          SendResponse.success(res, "Phone number updated successfully");
+      } catch (error: any) {
+          console.error("Error in verify_phone_number:", error);
+          SendResponse.badRequest(
+              res,
+              error.message || "Failed to verify phone number",
+              error
+          );
+      }
+  },
    async update_name_email(
       req: Request,
       res: Response
@@ -118,7 +269,10 @@ const AccountController = {
          const AuthUser = await AuthModel.findOne({ publicId: user.userId });
          const { code } = req.body;
 
-         const updatedUser = await AccountService.verifyEmailChange(code, AuthUser);
+         const updatedUser = await AccountService.verifyEmailChange(
+            code,
+            AuthUser
+         );
 
          return SendResponse.success(res, "Email updated successfully", {
             email: updatedUser.email,
@@ -136,7 +290,9 @@ const AccountController = {
 
          return SendResponse.badRequest(
             res,
-            error instanceof Error ? error.message : "Failed to verify email change",
+            error instanceof Error
+               ? error.message
+               : "Failed to verify email change",
             error
          );
       }

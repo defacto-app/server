@@ -2,6 +2,7 @@ import UserModel from "../model";
 import AuthModel from "../../auth/model";
 import EmailEvent from "../../events/email.event";
 import { z } from "zod";
+import { generateOTP } from "../../utils/utils";
 
 const updateEmailSchema = z.object({
    name: z.string().min(2, "Name must be at least 2 characters"),
@@ -40,16 +41,16 @@ class AccountService {
             throw new Error("Email is already in use");
          }
 
-         const verificationToken = Math.floor(
-            100000 + Math.random() * 900000
-         ).toString();
+
          const expiresIn = 30 * 60 * 1000; // 30 minutes
+
+         const otp = generateOTP();
 
          const update = {
             $set: {
                "email_management.change": {
                   newEmail: email.toLowerCase(),
-                  token: verificationToken,
+                  token: otp,
                   expires_at: new Date(Date.now() + expiresIn),
                   sent_at: new Date(),
                },
@@ -68,7 +69,7 @@ class AccountService {
 
          await EmailEvent.sendOtpChnageMail({
             email: email.toLowerCase(),
-            otp: verificationToken,
+            otp: otp,
          });
 
          return true;
@@ -123,14 +124,14 @@ class AccountService {
 
       // Update the user's email in the auth model
 
-
-
       await AuthModel.findOneAndUpdate(
          { publicId: AuthUser.publicId },
          {
             $set: {
                email: pendingChange.newEmail,
                "email_management.verified": true,
+               "email_management.previousEmails":
+                  AuthUser.email_management.previousEmails || [],
             },
             $push: {
                "email_management.previousEmails": AuthUser.email,

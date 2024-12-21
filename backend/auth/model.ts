@@ -70,11 +70,16 @@ export interface AuthDataType extends Document {
          expires_at?: Date;
          sent_at?: Date;
       };
+      change?: {
+         newPhoneNumber?: string;
+         otp?: string;
+         expires_at?: Date;
+         sent_at?: Date;
+      };
       verified?: boolean;
       phone_confirmed_at?: Date | null;
-      phone_change?: string;
-      phone_change_token?: string;
-      phone_change_sent_at?: Date | null;
+      previousPhoneNumbers?: string[];
+
    };
    joinedAt: Date | null;
    lastSeenAt?: Date;
@@ -156,7 +161,13 @@ const authSchemaDefinitions = {
          firstTime: { type: Boolean },
       },
       verified: { type: Boolean, default: false },
-      previousEmails: { type: [String] },
+      change: {
+        newPhoneNumber: String,
+        otp: String,
+        expires_at: Date,
+        sent_at: Date,
+      },
+      previousPhoneNumbers: [String],
    },
    email_management: {
       login: {
@@ -176,7 +187,9 @@ const authSchemaDefinitions = {
          token: { type: String },
          expires_at: { type: Date },
          sent_at: { type: Date }
-      }
+      },
+      previousEmails: { type: [String] },
+
    },
 
    password: {
