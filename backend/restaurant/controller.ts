@@ -5,26 +5,74 @@ import MenuModel from "../menu/model";
 import CategoryModel from "../admin/restaurant/category/model";
 import OrderModel from "../admin/order/model";
 
+
+
+
 const RestaurantController = {
    async all(req: Request, res: Response): Promise<void> {
-      // Extract query parameters with defaults
-      const page: number = Number.parseInt(req.query.page as string) || 1;
-      const perPage: number = Number.parseInt(req.query.perPage as string) || 9;
-      const search: string = (req.query.search as string) || "";
-      const category: string = (req.query.category as string) || "";
-
       try {
+         const page: number = Number.parseInt(req.query.page as string) || 1;
+         const perPage: number = Number.parseInt(req.query.perPage as string) || 9;
+         const search: string = (req.query.search as string) || "";
+         const category: string = (req.query.category as string) || "";
+         const dietary: string[] = (req.query.dietary as string || "").split(",").filter(Boolean);
+         const quickFilter: string = (req.query.quickFilter as string) || "";
+         const sortBy: string = (req.query.sort as string) || "recommended";
+         const priceRange: string = (req.query.priceRange as any) || "";
+
          // Base match conditions for restaurants
          const matchStage: any = {};
+
+         // Category filter
          if (category) {
             matchStage.category = { $regex: category, $options: "i" };
+         }
+
+         // Dietary filters
+         if (dietary.length > 0) {
+            matchStage.dietaryOptions = { $all: dietary };
+         }
+
+         // Quick filters
+         if (quickFilter === "under-30") {
+            matchStage["deliveryTime.max"] = { $lte: 30 };
+         } else if (quickFilter === "top-rated") {
+            matchStage.rating = { $gte: 4.5 };
+         }
+
+         // Price range filter
+         if (priceRange) {
+            const priceRanges = {
+               budget: { $lte: 3000 },
+               moderate: { $gt: 3000, $lte: 7000 },
+               premium: { $gt: 7000 }
+            } as any;
+            if (priceRanges[priceRange]) {
+               matchStage["menuItems.price"] = priceRanges[priceRange];
+            }
+         }
+
+         // Sort configuration
+         let sortStage = {};
+         switch (sortBy) {
+            case "rating-high":
+               sortStage = { rating: -1 };
+               break;
+            case "rating-low":
+               sortStage = { rating: 1 };
+               break;
+            case "delivery-time":
+               sortStage = { "deliveryTime.min": 1 };
+               break;
+            default:
+               sortStage = { rating: -1, "deliveryTime.min": 1 }; // Default recommended sort
          }
 
          const pipeline = [
             // Initial match on restaurants
             { $match: matchStage },
 
-            // Lookup menu items for each restaurant
+            // Lookup menu items
             {
                $lookup: {
                   from: "menus",
@@ -41,26 +89,24 @@ const RestaurantController = {
                },
             },
 
-            // If search is provided, filter restaurants or menu items
+            // Search filter
             ...(search
                ? [
                     {
                        $match: {
                           $or: [
                              { name: { $regex: search, $options: "i" } },
-                             {
-                                "menuItems.name": {
-                                   $regex: search,
-                                   $options: "i",
-                                },
-                             },
+                             { "menuItems.name": { $regex: search, $options: "i" } },
                           ],
                        },
                     },
                  ]
                : []),
 
-            // Count total documents for pagination
+            // Apply sorting
+            { $sort: sortStage },
+
+            // Pagination facet
             {
                $facet: {
                   metadata: [{ $count: "total" }],
@@ -71,7 +117,6 @@ const RestaurantController = {
 
          const result = await RestaurantModel.aggregate(pipeline);
 
-         // Format the response
          const total = result[0]?.metadata[0]?.total || 0;
          const restaurants = result[0]?.data || [];
 
@@ -90,6 +135,105 @@ const RestaurantController = {
          SendResponse.serverError(res, error.message);
       }
    },
+
+
+   async  filters(req: Request, res: Response) {
+      try {
+         // 1. Get distinct category publicIds from the Restaurant model
+
+
+
+         // 3. Build your categories array (id = publicId, name = actual category name)
+
+         // 4. Fetch active menu categories separately (assuming these are "menu" type)
+         const menuCategoriesDocs = await CategoryModel.find(
+            { active: true, categoryType: "menu" },
+            { name: 1, slug: 1, publicId: 1, _id: 0 }
+         ).lean();
+
+         const menuCategories = menuCategoriesDocs.map((cat) => ({
+            id: cat.publicId,
+            name: cat.name,
+         }));
+
+         // 5. Get min and max prices from menu items for the price range
+         const menuStats = await MenuModel.aggregate([
+            { $match: { isDeleted: false, available: true } },
+            {
+               $group: {
+                  _id: null,
+                  minPrice: { $min: "$price" },
+                  maxPrice: { $max: "$price" },
+               },
+            },
+         ]);
+
+         // 6. Define any static filter options
+         const dietaryOptions = [
+            { id: "vegetarian", name: "Vegetarian" },
+            { id: "vegan", name: "Vegan" },
+            { id: "gluten-free", name: "Gluten-free" },
+            { id: "halal", name: "Halal" },
+         ];
+
+         const sortOptions = [
+            { id: "recommended", name: "Recommended" },
+            { id: "rating-high", name: "Rating: High to Low" },
+            { id: "rating-low", name: "Rating: Low to High" },
+            { id: "price-low", name: "Price: Low to High" },
+            { id: "price-high", name: "Price: High to Low" },
+            { id: "delivery-time", name: "Delivery Time" },
+         ];
+
+         const quickFilters = [
+            { id: "under-30", name: "Under 30 mins" },
+            { id: "top-rated", name: "Top Rated" },
+         ];
+
+         // 7. Construct price ranges from minPrice/maxPrice
+         const { minPrice = 0, maxPrice = 100 } = menuStats[0] || {};
+         const priceRanges = [
+            {
+               id: "budget",
+               name: "Budget",
+               min: minPrice,
+               max: minPrice + (maxPrice - minPrice) * 0.33,
+            },
+            {
+               id: "moderate",
+               name: "Moderate",
+               min: minPrice + (maxPrice - minPrice) * 0.33,
+               max: minPrice + (maxPrice - minPrice) * 0.66,
+            },
+            {
+               id: "premium",
+               name: "Premium",
+               min: minPrice + (maxPrice - minPrice) * 0.66,
+               max: maxPrice,
+            },
+         ];
+
+         // 8. Final response data
+         const filtersData = {
+            menuCategories,
+            dietary: dietaryOptions,
+            priceRanges,
+            sort: sortOptions,
+            quickFilters,
+         };
+
+         // 9. Send the response
+         SendResponse.success(res, "Filters generated successfully", filtersData);
+      } catch (error) {
+         const errorMessage =
+            error instanceof Error
+               ? error.message
+               : "An error occurred while generating filters";
+         SendResponse.serverError(res, errorMessage);
+      }
+   },
+
+
    async one(req: Request, res: Response): Promise<void> {
       const data = res.locals.restaurantItem as any;
       const searchQuery = req.query.search as string;

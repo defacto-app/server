@@ -14,6 +14,7 @@ const router = Router();
 // middleware to validate packageId
 
 router.get("/", RestaurantController.all);
+router.get("/filters", RestaurantController.filters);
 router.get("/categories", RestaurantController.categories);
 router.get(
 	"/:slug",

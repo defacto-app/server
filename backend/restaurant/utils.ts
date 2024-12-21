@@ -1,120 +1,72 @@
-import Chance from "chance";
 import slugify from "slugify";
-
-const chance = new Chance();
-
-type MenuItem = {
-	name: string;
-	price: number;
-	description: string;
-};
-
-type Restaurant = {
-	_id: string;
-	category: keyof typeof menuItemsByCategory;
-};
-
-const menuItemsByCategory: { [key: string]: MenuItem[] } = {
-	Pasta: [
-		{
-			name: "Spaghetti Carbonara",
-			price: 12.99,
-			description:
-				"Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-		},
-		{
-			name: "Fettuccine Alfredo",
-			price: 13.99,
-			description:
-				"Rich and creamy Alfredo sauce served over fettuccine pasta.",
-		},
-	],
-	Sushi: [
-		{
-			name: "California Roll",
-			price: 8.99,
-			description: "Sushi roll with crab, avocado, and cucumber.",
-		},
-		{
-			name: "Spicy Tuna Roll",
-			price: 9.99,
-			description: "Sushi roll with spicy tuna and cucumber.",
-		},
-	],
-	Pizza: [
-		{
-			name: "Margherita Pizza",
-			price: 10.99,
-			description: "Classic pizza with tomato sauce, mozzarella, and basil.",
-		},
-		{
-			name: "Pepperoni Pizza",
-			price: 11.99,
-			description: "Pizza topped with pepperoni and mozzarella cheese.",
-		},
-	],
-	Burgers: [
-		{
-			name: "Cheeseburger",
-			price: 9.99,
-			description:
-				"Grilled beef patty with cheese, lettuce, tomato, and pickles.",
-		},
-		{
-			name: "Veggie Burger",
-			price: 8.99,
-			description: "Grilled veggie patty with lettuce, tomato, and avocado.",
-		},
-	],
-	Salads: [
-		{
-			name: "Caesar Salad",
-			price: 7.99,
-			description:
-				"Classic Caesar salad with romaine lettuce, croutons, and Caesar dressing.",
-		},
-		{
-			name: "Greek Salad",
-			price: 8.99,
-			description:
-				"Salad with tomatoes, cucumbers, olives, feta cheese, and olive oil.",
-		},
-	],
-};
-export function generateOpeningHours() {
-	const openingHour = chance.hour({ twentyfour: false });
-	const closingHour = chance.hour({ twentyfour: false });
-
-	const openingMinute = chance.minute();
-	const closingMinute = chance.minute();
-
-	const openingPeriod = chance.ampm();
-	const closingPeriod = chance.ampm();
-
-	const formattedOpeningHour = `${openingHour}:${openingMinute < 10 ? "0" : ""}${openingMinute} ${openingPeriod.toUpperCase()}`;
-	const formattedClosingHour = `${closingHour}:${closingMinute < 10 ? "0" : ""}${closingMinute} ${closingPeriod.toUpperCase()}`;
-
-	return `${formattedOpeningHour} - ${formattedClosingHour}`;
-}
+import { v4 as uuidv4 } from "uuid";
+// biome-ignore lint/style/useImportType: <explanation>
+import { RestaurantDataType } from "./model";
+import type { CategoryDataType } from "../admin/restaurant/category/model";
 
 export function generateRestaurantNames(n: number) {
 	const foodAdjectives = [
-		"Appetizing", "Blazing", "Charming", "Delightful", "Exquisite", "Flavorful", "Gourmet", "Hearty",
-		"Inviting", "Juicy", "Kitschy", "Luxurious", "Mouthwatering", "Nostalgic", "Organic", "Piquant",
-		"Quaint", "Rustic", "Savory", "Tantalizing", "Upscale", "Vibrant", "Wholesome", "Xotic",
-		"Yummy", "Zesty"
+		"Appetizing",
+		"Blazing",
+		"Charming",
+		"Delightful",
+		"Exquisite",
+		"Flavorful",
+		"Gourmet",
+		"Hearty",
+		"Inviting",
+		"Juicy",
+		"Kitschy",
+		"Luxurious",
+		"Mouthwatering",
+		"Nostalgic",
+		"Organic",
+		"Piquant",
+		"Quaint",
+		"Rustic",
+		"Savory",
+		"Tantalizing",
+		"Upscale",
+		"Vibrant",
+		"Wholesome",
+		"Xotic",
+		"Yummy",
+		"Zesty",
 	];
 	const foodNouns = [
-		"Alcove", "Bistro", "Café", "Diner", "Eatery", "Farmhouse", "Grill", "Hub",
-		"Inn", "Joint", "Kitchen", "Lounge", "Mess", "Nook", "Oasis", "Pub",
-		"Quarters", "Restaurant", "Steakhouse", "Tavern", "Umbrella", "Venue", "Watering Hole", "Xpress",
-		"Yard", "Zone"
+		"Alcove",
+		"Bistro",
+		"Café",
+		"Diner",
+		"Eatery",
+		"Farmhouse",
+		"Grill",
+		"Hub",
+		"Inn",
+		"Joint",
+		"Kitchen",
+		"Lounge",
+		"Mess",
+		"Nook",
+		"Oasis",
+		"Pub",
+		"Quarters",
+		"Restaurant",
+		"Steakhouse",
+		"Tavern",
+		"Umbrella",
+		"Venue",
+		"Watering Hole",
+		"Xpress",
+		"Yard",
+		"Zone",
 	];
 
 	const restaurantNames = new Set<string>(); // Use a Set to ensure unique names
 
 	while (restaurantNames.size < n) {
-		const adjective = foodAdjectives[Math.floor(Math.random() * foodAdjectives.length)];
+		const adjective =
+			foodAdjectives[Math.floor(Math.random() * foodAdjectives.length)];
 		const noun = foodNouns[Math.floor(Math.random() * foodNouns.length)];
 		const name = `${adjective} ${noun}`;
 
@@ -124,55 +76,210 @@ export function generateRestaurantNames(n: number) {
 	return Array.from(restaurantNames); // Convert back to array
 }
 
+//
+//
+//
+//
+//
 
-export function generateRestaurants(n: number) {
-	const restaurantNames = generateRestaurantNames(n);
-	const restaurants = [];
-	const slugs = new Set<string>(); // Track unique slugs
+// Restaurant Categories (make them distinct from menu categories)
+const RESTAURANT_CATEGORIES = [
+	"Fast Food Burgers",
+	"Gourmet Pizza",
+	"Classic Italian",
+	"Fresh Pasta",
+	"Healthy Salads",
+	"Premium Sushi",
+	"Fresh Seafood",
+	"Health Food",
+	"Sweet Desserts",
+	"Specialty Drinks",
+] as const;
 
-	for (let i = 0; i < n; i++) {
-		const restaurant = generateRestaurant(restaurantNames[i]);
+// Menu Categories (distinct from restaurant categories)
+const MENU_CATEGORIES = [
+	"Main Dishes",
+	"Starters",
+	"Sweet Treats",
+	"Refreshments",
+	"Chef Specials",
+	"Side Orders",
+	"Morning Menu",
+	"Lunch Specials",
+	"Evening Menu",
+] as const;
 
-		// Ensure slug is unique by modifying it if necessary
-		let uniqueSlug = restaurant.slug;
-		let counter = 1;
-		while (slugs.has(uniqueSlug)) {
-			uniqueSlug = `${restaurant.slug}-${counter}`;
-			counter++;
-		}
-
-		restaurant.slug = uniqueSlug;
-		slugs.add(uniqueSlug);
-		restaurants.push(restaurant);
-	}
-
-	return restaurants;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function generateUniqueSlug(name: string, index: number): string {
+	const baseSlug = slugify(name, { lower: true });
+	const uniqueSuffix = uuidv4().slice(0, 6);
+	return `${baseSlug}-${uniqueSuffix}`;
 }
 
+export function generateCategories() {
+	const restaurantCategories = RESTAURANT_CATEGORIES.map((name, index) => ({
+		publicId: uuidv4(),
+		name,
+		slug: generateUniqueSlug(name, index),
+		description: `${name} category for restaurants`,
+		active: true,
+		categoryType: "restaurant" as const,
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	}));
 
+	const menuCategories = MENU_CATEGORIES.map((name, index) => ({
+		publicId: uuidv4(),
+		name,
+		slug: generateUniqueSlug(name, index),
+		description: `${name} category for menu items`,
+		active: true,
+		categoryType: "menu" as const,
+		createdAt: new Date(),
+		updatedAt: new Date(),
+	}));
 
-function generateRestaurant(name: string) {
-	const category = chance.pickone(Object.keys(menuItemsByCategory));
+	return [...restaurantCategories, ...menuCategories];
+}
+
+function generateRandomName(): string {
+	const prefixes = [
+		"Little",
+		"Big",
+		"Golden",
+		"Silver",
+		"Blue",
+		"Red",
+		"Green",
+		"Royal",
+	];
+	const nouns = [
+		"Kitchen",
+		"Bistro",
+		"Cafe",
+		"Restaurant",
+		"Diner",
+		"Grill",
+		"Place",
+		"Eatery",
+	];
+	const suffixes = [
+		"Express",
+		"House",
+		"Hub",
+		"Spot",
+		"Junction",
+		"Corner",
+		"Garden",
+	];
+
+	const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+	const noun = nouns[Math.floor(Math.random() * nouns.length)];
+	const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+
+	return `${prefix} ${noun} ${suffix}`;
+}
+
+function generateOpeningHours() {
 	return {
-		name: name,
-		slug: slugify(name, { lower: true, strict: true }),
-		deliveryTime: `${chance.integer({ min: 10, max: 20 })}-${chance.integer({ min: 21, max: 45 })} mins`,
-		category: category,
-		image: "https://placehold.co/600x400.png",
-		address: chance.address(),
-		phone: chance.phone(),
-		email: chance.email(),
-		openingHours: generateOpeningHours(),
+		monday: { open: "08:00", close: "22:00", isClosed: false },
+		tuesday: { open: "08:00", close: "22:00", isClosed: false },
+		wednesday: { open: "08:00", close: "22:00", isClosed: false },
+		thursday: { open: "08:00", close: "22:00", isClosed: false },
+		friday: { open: "08:00", close: "23:00", isClosed: false },
+		saturday: { open: "09:00", close: "23:00", isClosed: false },
+		sunday: { open: "09:00", close: "21:00", isClosed: false },
 	};
 }
 
+export function generateRestaurants(
+	count: number,
+	restaurantCategories: any
+) {
+	return Array.from({ length: count }).map(() => {
+		const publicId = uuidv4();
+		const name = generateRandomName();
+		const uniqueSlug = `${slugify(name, { lower: true })}-${uuidv4().slice(0, 6)}`;
+		const randomCategory =
+			restaurantCategories[
+				Math.floor(Math.random() * restaurantCategories.length)
+			];
 
-export function generateMenuItemsForRestaurant(restaurant: Restaurant) {
-	const items = menuItemsByCategory[restaurant.category];
+		return {
+			name,
+			slug: uniqueSlug,
+			publicId,
+			restaurantPublicId: publicId,
+			deliveryTime: {
+				min: 20 + Math.floor(Math.random() * 20),
+				max: 40 + Math.floor(Math.random() * 20),
+			},
+			category: randomCategory.name,
+			image: "https://placehold.co/600x400.png",
+			logo: "https://placehold.co/150x150.png",
+			address: {
+				street: "123 Main St",
+				city: "Sample City",
+				state: "Sample State",
+				zip: "12345",
+			},
+			phone: `(${Math.floor(Math.random() * 900) + 100}) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`,
+			email: `contact@${uniqueSlug.replace(/-/g, "")}.com`,
+			rating: Number((Math.random() * 2 + 3).toFixed(1)),
+			openingHours: generateOpeningHours(),
+			discount:
+				Math.random() > 0.7 ? Math.floor(Math.random() * 30) + 10 : undefined,
+		};
+	});
+}
 
-	return items.map((item) => ({
-		...item,
-		restaurantId: restaurant._id,
-		image: `https://example.com/images/${item.name.toLowerCase().replace(/ /g, "_")}.jpg`,
-	}));
+const menuItemTemplates = {
+	"Main Dishes": [
+		{ name: "Grilled Chicken", price: 1899 },
+		{ name: "Steak", price: 2499 },
+		{ name: "Fish Fillet", price: 1799 },
+	],
+	Starters: [
+		{ name: "Spring Rolls", price: 899 },
+		{ name: "Soup", price: 699 },
+		{ name: "Salad", price: 799 },
+	],
+	"Sweet Treats": [
+		{ name: "Chocolate Cake", price: 899 },
+		{ name: "Ice Cream", price: 599 },
+		{ name: "Apple Pie", price: 799 },
+	],
+	Refreshments: [
+		{ name: "Fresh Juice", price: 499 },
+		{ name: "Iced Tea", price: 399 },
+		{ name: "Soda", price: 299 },
+	],
+} as any;
+
+export function generateMenuItemsForRestaurant(
+	restaurant: RestaurantDataType,
+	menuCategories: CategoryDataType[],
+) {
+	const menuItems = [] as any;
+
+	for (const category of menuCategories) {
+		const templates = menuItemTemplates[category.name] || [];
+		const items = templates.map((template: { name: string; price: any }) => ({
+			publicId: uuidv4(),
+			name: template.name,
+			slug: `${slugify(template.name, { lower: true })}-${uuidv4().slice(0, 6)}`,
+			price: template.price,
+			available: true,
+			parent: restaurant.publicId,
+			categoryId: category.publicId,
+			image: "https://placehold.co/600x400.png",
+			createdAt: new Date(),
+			updatedAt: new Date(),
+			isDeleted: false,
+		}));
+
+		menuItems.push(...items);
+	}
+
+	return menuItems;
 }

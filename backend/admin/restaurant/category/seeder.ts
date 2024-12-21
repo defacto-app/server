@@ -1,63 +1,64 @@
-import CategoryModel from "./model";
+import { v4 as uuidv4 } from "uuid";
+import slugify from "slugify";
 import { connectDB } from "../../../../config/mongodb";
-import mongoose from "mongoose";
+import CategoryModel from "./model";
 
-const categories = [
-   "Bakery and Pastry",
-   "Breakfast",
-   "Burgers",
-   "Chinese",
-   "Desserts",
-   "rice",
-   "Grill",
-   "Healthy",
-   "international",
-   "juices",
-   "Local food",
-   "Nigerian",
-   "Pizza",
-   "Seafood",
-   "Shawarma",
-   "Snacks",
-   "Traditional",
-];
+const MENU_CATEGORIES = [
+  "Alcohol",
+  "Bakery and Pastry",
+  "Beer",
+  "Breakfast",
+  "Burgers",
+  "Chinese",
+  "Desserts",
+  "Fried Rice",
+  "Grill",
+  "Indian",
+  "International",
+  "Italian",
+  "Jollof",
+  "Juices",
+  "Local food",
+  "Nigerian",
+  "Pasta",
+  "Shawarma",
+  "Snacks",
+  "Traditional",
+  "Vegetarian",
+  "Chicken",
+] as const;
 
-async function seedCategories() {
-   console.time("Seeding time");
-   try {
-      // Connect to the database
-      await connectDB();
-
-      // Clear out existing categories if necessary
-      await CategoryModel.deleteMany();
-
-      // Prepare the categories for insertion
-      const categoryData = categories.map((categoryName) => ({
-         name: categoryName,
-         slug: categoryName.toLowerCase().replace(/\s+/g, "-"), // Create a slug from the name
-         description: `Category for ${categoryName}`, // Optional description for each category
-         active: true, // Set active to true for all
-         createdAt: new Date(),
-         updatedAt: new Date(),
-         categoryType: "food",
-      }));
-
-      // Insert the new categories
-      await CategoryModel.insertMany(categoryData);
-
-      console.log("Categories seeded successfully.");
-   } catch (error) {
-      console.error("Error seeding data:", error);
-   } finally {
-      await mongoose.disconnect();
-      console.log("Database connection closed.");
-      console.timeEnd("Seeding time");
-   }
+function generateUniqueSlug(name: string): string {
+  const baseSlug = slugify(name, { lower: true, strict: true });
+  const uniqueSuffix = uuidv4().slice(0, 6);
+  return `${baseSlug}-${uniqueSuffix}`;
 }
 
-seedCategories().catch((error) => {
-   console.error("Unhandled Error:", error);
-   process.exit(1);
-});
+export async function seedCategories() {
+  console.log("Seeding categories...");
+  try {
+    await connectDB();
 
-console.log("Seeding categories...");
+    // Clear existing categories
+    await CategoryModel.deleteMany({});
+    console.log("Cleared existing categories");
+
+    // Generate categories
+    const categories = MENU_CATEGORIES.map((name) => ({
+      publicId: uuidv4(),
+      name,
+      slug: generateUniqueSlug(name),
+      description: `${name} category`,
+      active: true,
+      categoryType: "menu",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }));
+
+    const savedCategories = await CategoryModel.insertMany(categories);
+    console.log(`Seeded ${savedCategories.length} categories`);
+  } catch (error) {
+    console.error("Error during category seeding:", error);
+    throw error;
+  }
+}
