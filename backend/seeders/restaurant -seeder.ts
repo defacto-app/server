@@ -1,13 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
-import RestaurantModel from "../../../restaurant/model";
-import { connectDB } from "../../../../config/mongodb";
-import { generateAddress } from "./update-address-migration";
+import RestaurantModel from "../restaurant/model";
+import { connectDB } from "../../config/mongodb";
+import { generateAddress } from "../admin/restaurant/seeder/update-address-migration";
 
 const RESTAURANT_DATA = [
-  { name: "Bleisure Chinese & Nigerian Cuisine", category: "Chinese", rating: 92, reviews: 70, discount: "-50% some items" },
+  { name: "Bleisure Chinese & Nigerian Cuisine", category: "Chinese", rating: 92, reviews: 70, promotion: "-50% some items" },
   { name: "Cold Stone Creamery", category: "Desserts", rating: 79, reviews: 55 },
-  // ... other restaurant data
 ];
 
 function generateUniqueSlug(name: string): string {
@@ -74,7 +73,7 @@ export async function seedRestaurants() {
         reviews: data.reviews,
         discount: data.discount || null,
         deliveryTime: {
-          min: 20 + Math.floor(Math.random() * 10),
+          min: 5 + Math.floor(Math.random() * 10),
           max: 40 + Math.floor(Math.random() * 20),
         },
         image: "https://placehold.co/600x400.png",
