@@ -1,0 +1,242 @@
+[
+  {
+    "id": "b887dadc-ab76-474c-b174-a22781bbf6af",
+    "name": "Bleisure Chinese & Nigerian Cuisine",
+    "rating": 4.3,
+    "promotion": "-10% on some items",
+    "deliveryTime": {
+      "min": 22,
+      "max": 48
+    },
+    "logo": "https://placehold.co/600x400.png?text=bleisure-chinese-%26-nigerian-cuisine",
+    "image": "https://placehold.co/600x400.png?text=bleisure-chinese-%26-nigerian-cuisine",
+    "address": {
+      "branchName": "Southern Branch",
+      "fullAddress": "30 Okpanam Road, Asaba, Delta State",
+      "coordinates": {
+        "latitude": 6.15047,
+        "longitude": 6.80165
+      },
+      "additionalDetails": "Near Shopping Mall"
+    },
+    "email": "contact@bleisurechinese&nigeriancuisine.com",
+    "phone": "+234802331653",
+    "openingHours": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      }
+    }
+  },
+  {
+    "id": "4b54f070-a185-477f-a05b-a7edea3493b1",
+    "name": "Cold Stone Creamery",
+    "rating": 4,
+    "promotion": "-50% some items",
+    "deliveryTime": {
+      "min": 14,
+      "max": 23
+    },
+    "logo": "https://placehold.co/600x400.png?text=cold-stone-creamery",
+    "image": "https://placehold.co/600x400.png?text=cold-stone-creamery",
+    "address": {
+      "branchName": "Downtown Branch",
+      "fullAddress": "64 Nnebisi Road, Asaba, Delta State",
+      "coordinates": {
+        "latitude": 6.14702,
+        "longitude": 6.80168
+      },
+      "additionalDetails": "Near Shopping Mall"
+    },
+    "email": "contact@coldstonecreamery.com",
+    "phone": "+234801133459",
+    "openingHours": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      }
+    }
+  },
+  {
+    "id": "dc4c2fb3-ff41-4c59-911e-1b574748f254",
+    "name": "Southern Fried Chicken",
+    "rating": 4.4,
+    "promotion": "-30% on orders over ₦3,000",
+    "deliveryTime": {
+      "min": 15,
+      "max": 21
+    },
+    "logo": "https://placehold.co/600x400.png?text=southern-fried-chicken",
+    "image": "https://placehold.co/600x400.png?text=southern-fried-chicken",
+    "address": {
+      "branchName": "Downtown Branch",
+      "fullAddress": "2 Ibusa Avenue, Asaba, Delta State",
+      "coordinates": {
+        "latitude": 6.14778,
+        "longitude": 6.80073
+      },
+      "additionalDetails": "Near Shopping Mall"
+    },
+    "email": "contact@southernfriedchicken.com",
+    "phone": "+234801418698",
+    "openingHours": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      }
+    }
+  },
+  {
+    "id": "238402bc-49ff-4f35-b4ac-e7e9f28ae6fe",
+    "name": "Mainland Restaurant",
+    "rating": 4.4,
+    "promotion": "-50% some items",
+    "deliveryTime": {
+      "min": 28,
+      "max": 50
+    },
+    "logo": "https://placehold.co/600x400.png?text=mainland-restaurant",
+    "image": "https://placehold.co/600x400.png?text=mainland-restaurant",
+    "address": {
+      "branchName": "Southern Branch",
+      "fullAddress": "69 Ibusa Avenue, Asaba, Delta State",
+      "coordinates": {
+        "latitude": 6.14711,
+        "longitude": 6.79676
+      },
+      "additionalDetails": "Near Shopping Mall"
+    },
+    "email": "contact@mainlandrestaurant.com",
+    "phone": "+234805162996",
+    "openingHours": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "isClosed": false
+      }
+    }
+  }
+]

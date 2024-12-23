@@ -5,9 +5,6 @@ import MenuModel from "../menu/model";
 import CategoryModel from "../admin/restaurant/category/model";
 import OrderModel from "../admin/order/model";
 
-
-
-
 const RestaurantController = {
    async all(req: Request, res: Response): Promise<void> {
       try {
@@ -20,36 +17,19 @@ const RestaurantController = {
          const sortBy: string = (req.query.sort as string) || "recommended";
          const priceRange: string = (req.query.priceRange as any) || "";
 
-         // Base match conditions for restaurants
-         const matchStage: any = {};
-
-         // Category filter
-         if (category) {
-            matchStage.category = { $regex: category, $options: "i" };
-         }
+         // Initial match stage for basic restaurant filters
+         const initialMatchStage: any = {};
 
          // Dietary filters
          if (dietary.length > 0) {
-            matchStage.dietaryOptions = { $all: dietary };
+            initialMatchStage.dietaryOptions = { $all: dietary };
          }
 
          // Quick filters
          if (quickFilter === "under-30") {
-            matchStage["deliveryTime.max"] = { $lte: 30 };
+            initialMatchStage["deliveryTime.max"] = { $lte: 30 };
          } else if (quickFilter === "top-rated") {
-            matchStage.rating = { $gte: 4.5 };
-         }
-
-         // Price range filter
-         if (priceRange) {
-            const priceRanges = {
-               budget: { $lte: 3000 },
-               moderate: { $gt: 3000, $lte: 7000 },
-               premium: { $gt: 7000 }
-            } as any;
-            if (priceRanges[priceRange]) {
-               matchStage["menuItems.price"] = priceRanges[priceRange];
-            }
+            initialMatchStage.rating = { $gte: 4.5 };
          }
 
          // Sort configuration
@@ -69,8 +49,8 @@ const RestaurantController = {
          }
 
          const pipeline = [
-            // Initial match on restaurants
-            { $match: matchStage },
+            // Initial restaurant filters
+            ...(Object.keys(initialMatchStage).length > 0 ? [{ $match: initialMatchStage }] : []),
 
             // Lookup menu items
             {
@@ -81,27 +61,75 @@ const RestaurantController = {
                      {
                         $match: {
                            $expr: { $eq: ["$parent", "$$restaurantId"] },
-                           isDeleted: { $ne: true },
-                        },
-                     },
+                           ...(category ? { categoryId: { $exists: true } } : {})
+                        }
+                     }
                   ],
-                  as: "menuItems",
-               },
+                  as: "menuItems"
+               }
             },
 
+            // Only if category is specified, do category lookups and filtering
+            ...(category ? [
+               // Unwind menu items
+               {
+                  $unwind: {
+                     path: "$menuItems",
+                     preserveNullAndEmptyArrays: false // Remove restaurants with no matching menu items
+                  }
+               },
+               // Lookup categories
+               {
+                  $lookup: {
+                     from: "categories",
+                     let: { categoryId: "$menuItems.categoryId" },
+                     pipeline: [
+                        {
+                           $match: {
+                              $expr: { $eq: ["$publicId", "$$categoryId"] }
+                           }
+                        }
+                     ],
+                     as: "menuItems.category"
+                  }
+               },
+               // Match category name
+               {
+                  $match: {
+                     "menuItems.category.name": {
+                        $regex: `^${category}$`,
+                        $options: "i"  // Case-insensitive match
+                     }
+                  }
+               },
+               // Group back to restaurants
+               {
+                  $group: {
+                     _id: "$_id",
+                     doc: { $first: "$$ROOT" }
+                  }
+               },
+               {
+                  $replaceRoot: { newRoot: "$doc" }
+               }
+            ] : []),
+
+            // Price range filter
+            ...(priceRange ? [{
+               $match: {
+                  "menuItems.price": priceRanges[priceRange] || {}
+               }
+            }] : []),
+
             // Search filter
-            ...(search
-               ? [
-                    {
-                       $match: {
-                          $or: [
-                             { name: { $regex: search, $options: "i" } },
-                             { "menuItems.name": { $regex: search, $options: "i" } },
-                          ],
-                       },
-                    },
-                 ]
-               : []),
+            ...(search ? [{
+               $match: {
+                  $or: [
+                     { name: { $regex: search, $options: "i" } },
+                     { "menuItems.name": { $regex: search, $options: "i" } }
+                  ]
+               }
+            }] : []),
 
             // Apply sorting
             { $sort: sortStage },
@@ -110,13 +138,16 @@ const RestaurantController = {
             {
                $facet: {
                   metadata: [{ $count: "total" }],
-                  data: [{ $skip: (page - 1) * perPage }, { $limit: perPage }],
-               },
-            },
+                  data: [{ $skip: (page - 1) * perPage }, { $limit: perPage }]
+               }
+            }
          ];
 
-         const result = await RestaurantModel.aggregate(pipeline);
+         // For debugging
+         console.log('Category filter:', category);
+         console.log('Pipeline:', JSON.stringify(pipeline, null, 2));
 
+         const result = await RestaurantModel.aggregate(pipeline);
          const total = result[0]?.metadata[0]?.total || 0;
          const restaurants = result[0]?.data || [];
 
@@ -125,23 +156,21 @@ const RestaurantController = {
                page,
                perPage,
                total,
-               totalPages: Math.ceil(total / perPage),
+               totalPages: Math.ceil(total / perPage)
             },
-            data: restaurants,
+            data: restaurants
          };
 
          SendResponse.success(res, "Restaurants retrieved", response);
       } catch (error: any) {
+         console.error('Aggregation error:', error);
          SendResponse.serverError(res, error.message);
       }
-   },
-
-
-   async  filters(req: Request, res: Response) {
+   }
+,
+   async filters(req: Request, res: Response) {
       try {
          // 1. Get distinct category publicIds from the Restaurant model
-
-
 
          // 3. Build your categories array (id = publicId, name = actual category name)
 
@@ -223,7 +252,11 @@ const RestaurantController = {
          };
 
          // 9. Send the response
-         SendResponse.success(res, "Filters generated successfully", filtersData);
+         SendResponse.success(
+            res,
+            "Filters generated successfully",
+            filtersData
+         );
       } catch (error) {
          const errorMessage =
             error instanceof Error
@@ -232,7 +265,6 @@ const RestaurantController = {
          SendResponse.serverError(res, errorMessage);
       }
    },
-
 
    async one(req: Request, res: Response): Promise<void> {
       const data = res.locals.restaurantItem as any;

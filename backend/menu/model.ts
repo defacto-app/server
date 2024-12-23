@@ -14,6 +14,7 @@ export interface MenuDataType extends Document {
    name: string;
    slug: string;
    categoryId: string;
+   description: string;
    image: string;
    price: number;
    createdAt: Date;
@@ -44,6 +45,12 @@ const menuSchemaDefinitions = {
       unique: true,
       minLength: 1,
       maxLength: 255,
+   },
+   description: {
+      type: String,
+      required: false,
+      minLength: 1,
+      maxLength:255
    },
    name: {
       type: String,

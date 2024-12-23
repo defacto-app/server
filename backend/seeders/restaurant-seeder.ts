@@ -1,98 +1,173 @@
+import mongoose from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import slugify from "slugify";
-import RestaurantModel from "../restaurant/model";
 import { connectDB } from "../../config/mongodb";
-import { generateAddress } from "../admin/restaurant/seeder/update-address-migration";
+import CategoryModel from "../admin/restaurant/category/model";
+import RestaurantModel from "../restaurant/model";
+import { RESTAURANT_NAMES } from "./data";
 
-const RESTAURANT_DATA = [
-  { name: "Bleisure Chinese & Nigerian Cuisine", category: "Chinese", rating: 92, reviews: 70, promotion: "-50% some items" },
-  { name: "Cold Stone Creamery", category: "Desserts", rating: 79, reviews: 55 },
-];
 
-function generateUniqueSlug(name: string): string {
-  const baseSlug = slugify(name, { lower: true, strict: true });
-  const uniqueSuffix = uuidv4().slice(0, 6);
-  return `${baseSlug}-${uniqueSuffix}`;
+
+interface SeedRestaurantOptions {
+  count?: number;
+  clearExisting?: boolean;
 }
 
-function generateOpeningHours() {
+// Helper Functions
+function generateRandomRating(): number {
+  return Number((Math.random() * 1.5 + 3.5).toFixed(1)); // Between 3.5 and 5.0
+}
+
+function generateRandomPromotion(): string | null {
+  const promotions = [
+    "-10% on some items",
+    "-20% on selected items",
+    "-30% on orders over ₦3,000",
+    "-50% some items",
+    null,
+  ];
+  return promotions[Math.floor(Math.random() * promotions.length)];
+}
+
+function generateRandomDeliveryTime(): { min: number; max: number } {
+  const isFastDelivery = Math.random() < 0.5;
+
+  if (isFastDelivery) {
+    const min = 10 + Math.floor(Math.random() * 10);
+    const max = min + 5 + Math.floor(Math.random() * 10);
+    return { min, max };
+  }
+
+  const min = 20 + Math.floor(Math.random() * 10);
+  const max = min + 10 + Math.floor(Math.random() * 20);
+  return { min, max };
+}
+
+function generateRandomAddress() {
+  const branchNames = ["Main Branch", "Downtown Branch", "Southern Branch"];
+  const streets = ["Main Street", "Nnebisi Road", "Okpanam Road", "Ibusa Avenue"];
+
   return {
-    monday: { open: "08:00", close: "22:00", isClosed: false },
-    tuesday: { open: "08:00", close: "22:00", isClosed: false },
-    wednesday: { open: "08:00", close: "22:00", isClosed: false },
-    thursday: { open: "08:00", close: "22:00", isClosed: false },
-    friday: { open: "08:00", close: "23:00", isClosed: false },
-    saturday: { open: "09:00", close: "23:00", isClosed: false },
-    sunday: { open: "09:00", close: "21:00", isClosed: false },
+    branchName: branchNames[Math.floor(Math.random() * branchNames.length)],
+    fullAddress: `${Math.floor(Math.random() * 100 + 1)} ${
+      streets[Math.floor(Math.random() * streets.length)]
+    }, Asaba, Delta State`,
+    coordinates: {
+      latitude: Number((6.145 + Math.random() * 0.01).toFixed(5)),
+      longitude: Number((6.795 + Math.random() * 0.01).toFixed(5)),
+    },
+    additionalDetails: "Near Shopping Mall"
   };
 }
 
-function generateAdditionalRestaurants(existingRestaurants: any[], totalNeeded: number) {
-  const additional = [];
-  const existingCount = existingRestaurants.length;
-  const remainingCount = totalNeeded - existingCount;
-  const categories = ["Chinese", "Desserts", "Burgers", "Local food", "Chicken", "Shawarma", "Fried Rice"];
+function generateRandomOpeningHours() {
+  const defaultHours = {
+    open: "09:00",
+    close: "21:00",
+    isClosed: false
+  };
 
-  for (let i = 0; i < remainingCount; i++) {
-    const category = categories[Math.floor(Math.random() * categories.length)];
-    additional.push({
-      name: `Restaurant ${existingCount + i + 1}`,
-      category,
-      rating: Math.floor(Math.random() * 20) + 80, // 80-100 rating
-      reviews: Math.floor(Math.random() * 500) + 10, // 10-510 reviews
-      // biome-ignore lint/style/useTemplate: <explanation>
-      discount: Math.random() > 0.7 ? "-" + (Math.floor(Math.random() * 30) + 10) + "% some items" : null
-    });
-  }
-
-  return [...existingRestaurants, ...additional];
+  return {
+    monday: { ...defaultHours },
+    tuesday: { ...defaultHours },
+    wednesday: { ...defaultHours },
+    thursday: { ...defaultHours },
+    friday: { ...defaultHours },
+    saturday: { ...defaultHours },
+    sunday: { ...defaultHours }
+  };
 }
 
-export async function seedRestaurants() {
-  console.log("Seeding restaurants...");
+async function generateUniqueSlug(name: string): Promise<string> {
+  const baseSlug = slugify(name, { lower: true, strict: true });
+  const existingRestaurant = await RestaurantModel.findOne({ slug: baseSlug });
+
+  if (existingRestaurant) {
+    return `${baseSlug}-${uuidv4().slice(0, 6)}`;
+  }
+
+  return baseSlug;
+}
+
+// Main Seeding Function
+export async function seedRestaurants({
+  count = 10,
+  clearExisting = true
+}: SeedRestaurantOptions = {}) {
+  console.time("Restaurant seeding time");
+
   try {
     await connectDB();
+    console.log("Connected to database");
 
-    // Clear existing restaurants
-    await RestaurantModel.deleteMany({});
-    console.log("Cleared existing restaurants");
+    if (clearExisting) {
+      await RestaurantModel.deleteMany({});
+      console.log("Cleared existing restaurant data");
+    }
 
-    // Generate 100 restaurants
-    const allRestaurants = generateAdditionalRestaurants(RESTAURANT_DATA, 100);
+    // Fetch restaurant categories
+    const categories = await CategoryModel.find({ categoryType: "restaurant" });
+    if (categories.length === 0) {
+      throw new Error("No restaurant categories found. Please seed categories first.");
+    }
 
-    // Generate restaurant documents
-    const restaurantDocs = allRestaurants.map((data) => {
-      const publicId = uuidv4();
-      return {
-        publicId,
-        restaurantPublicId: publicId,
-        name: data.name,
-        slug: generateUniqueSlug(data.name),
-        category: data.category,
-        rating: data.rating,
-        reviews: data.reviews,
-        discount: data.discount || null,
-        deliveryTime: {
-          min: 5 + Math.floor(Math.random() * 10),
-          max: 40 + Math.floor(Math.random() * 20),
-        },
-        image: "https://placehold.co/600x400.png",
-        logo: "https://placehold.co/600x400.png",
-        address: generateAddress(),
-        phone: `+234${Math.floor(Math.random() * 1000000000)}`,
-        email: `${slugify(data.name, { lower: true })}@example.com`,
-        openingHours: generateOpeningHours(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-    });
+    // Generate restaurants
+    const restaurantsToInsert = await Promise.all(
+      RESTAURANT_NAMES.slice(0, count).map(async (name) => {
+        // Assign 1-3 random categories to each restaurant
+        const categoryCount = Math.floor(Math.random() * 3) + 1;
+        const shuffledCategories = categories.sort(() => 0.5 - Math.random());
+        const selectedCategories = shuffledCategories
+          .slice(0, categoryCount)
+          .map(cat => cat.publicId);
 
-    const savedRestaurants = await RestaurantModel.insertMany(restaurantDocs);
-    console.log(`Seeded ${savedRestaurants.length} restaurants`);
+        return {
+          publicId: uuidv4(),
+          name,
+          slug: await generateUniqueSlug(name),
+          categories: selectedCategories,
+          rating: generateRandomRating(),
+          promotion: generateRandomPromotion(),
+          deliveryTime: generateRandomDeliveryTime(),
+          logo: `https://placehold.co/600x400.png?text=${encodeURIComponent(
+            name.toLowerCase().replace(/\s+/g, "-")
+          )}`,
+          image: `https://placehold.co/600x400.png?text=${encodeURIComponent(
+            name.toLowerCase().replace(/\s+/g, "-")
+          )}`,
+          address: generateRandomAddress(),
+          phone: `+23480${Math.floor(Math.random() * 10000000)
+            .toString()
+            .padStart(7, "0")}`,
+          email: `contact@${name.toLowerCase().replace(/\s+/g, "")}.com`,
+          openingHours: generateRandomOpeningHours(),
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+      })
+    );
 
-    return savedRestaurants;
+    // Insert restaurants
+    const result = await RestaurantModel.insertMany(restaurantsToInsert);
+
+    console.log("\nSeeding Summary:");
+    console.log("-----------------");
+    console.log(`Total Restaurants Seeded: ${result.length}`);
+    console.log(`Categories per Restaurant: 1-3`);
+    console.log(`Sample Categories Used: ${categories.slice(0, 3).map(c => c.name).join(", ")}...`);
+
   } catch (error) {
     console.error("Error during restaurant seeding:", error);
     throw error;
+  } finally {
+    await mongoose.disconnect();
+    console.log("\nDatabase connection closed");
+    console.timeEnd("Restaurant seeding time");
   }
 }
+
+seedRestaurants({ count: 6 })
+.catch(error => {
+  console.error("Unhandled Error:", error);
+  process.exit(1);
+});

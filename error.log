@@ -9,3 +9,5 @@
 2024-12-21T17:50:32.666Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
 2024-12-21T17:50:33.952Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
 2024-12-21T18:29:00.002Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
+2024-12-22T18:50:22.320Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-22T18:50:23.611Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing

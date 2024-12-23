@@ -11,10 +11,9 @@ export interface RestaurantDataType extends Document {
       min: number;
       max: number;
    };
-   category: string;
+   categories: string[];
    image: string;
    logo: string;
-   restaurantPublicId: string;
    address: AddressType;
 
    phone: string;
@@ -75,10 +74,7 @@ const restaurantSchemaDefinitions = {
       minLength: 1,
       maxLength: 255,
    },
-   restaurantPublicId: {
-      type: String,
-      required: true,
-   },
+
    openingHours: {
       monday: openingHoursSchema,
       tuesday: openingHoursSchema,
@@ -107,12 +103,24 @@ const restaurantSchemaDefinitions = {
       },
    },
 
-   category: {
-      type: String,
-      required: true,
-      minLength: 1,
-      maxLength: 255,
-   },
+   categories: [
+      {
+         type: String,
+         ref: "Category",
+         required: true,
+         validate: {
+            validator: async (value: string) => {
+               const category = await mongoose.model("Category").findOne({
+                  publicId: value,
+                  categoryType: "restaurant",
+               });
+               return !!category;
+            },
+            message:
+               "Restaurant category must exist and be a restaurant category",
+         },
+      },
+   ],
    logo: {
       type: String,
       required: false,
@@ -123,10 +131,7 @@ const restaurantSchemaDefinitions = {
       required: false,
       default: "https://placehold.co/600x400.png",
    },
-   address: {
-      type: Object,
-      required: true,
-   },
+   address: {},
    phone: {
       type: String,
       required: true,
