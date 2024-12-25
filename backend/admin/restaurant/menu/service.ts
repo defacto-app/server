@@ -4,7 +4,7 @@ class MenuService {
 	static async createMenu(data: any, parentId: string) {
 		const newMenu = new MenuModel({ ...data, parent: parentId });
 		return await newMenu.save();
-	}
+ }
 
 	static async getAllMenus(
 		parentId: string,
@@ -91,95 +91,96 @@ class MenuService {
 		search: string,
 		page: number,
 		perPage: number,
-	) {
+ ) {
 		// Search query
 		const searchQuery = search
-			? {
-					$or: [
-						{ name: { $regex: search, $options: "i" } },
-						{ "category.name": { $regex: search, $options: "i" } },
-					],
-				}
-			: {};
+			 ? {
+						 $or: [
+								{ name: { $regex: search, $options: "i" } },
+								{ "category.name": { $regex: search, $options: "i" } },
+						 ],
+					}
+			 : {};
 
 		const lookupStage = {
-			$lookup: {
-				from: "categories",
-				localField: "categoryId",
-				foreignField: "publicId", // Main pipeline uses publicId
-				as: "category",
-			},
+			 $lookup: {
+					from: "categories",
+					localField: "categoryId",
+					foreignField: "publicId", // Main pipeline uses publicId
+					as: "category",
+			 },
 		};
 
 		// Aggregation pipeline
 		const pipeline = [
-			{
-				$lookup: {
-					from: "restaurants",
-					localField: "parent",
-					foreignField: "publicId",
-					as: "restaurant",
-				},
-			},
-			lookupStage, // Use consistent lookup
-			{ $unwind: "$restaurant" },
-			{ $unwind: { path: "$category", preserveNullAndEmptyArrays: true } }, // Handle missing categories
-			{ $match: searchQuery }, // Apply search filter
-			{
-				$project: {
-					name: 1,
-					price: 1,
-					available: 1,
-					image: 1,
-					createdAt: 1,
-					updatedAt: 1,
-					publicId: 1,
-					"restaurant.name": 1,
-					"restaurant.publicId": 1,
-					"category.name": 1,
-					"category.publicId": 1,
-				},
-			},
-			{ $sort: { name: 1 } },
-			{ $skip: (page - 1) * perPage },
-			{ $limit: perPage },
+			 {
+					$lookup: {
+						 from: "restaurants",
+						 localField: "parent",
+						 foreignField: "publicId",
+						 as: "restaurant",
+					},
+			 },
+			 lookupStage, // Use consistent lookup
+			 { $unwind: "$restaurant" },
+			 { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } }, // Handle missing categories
+			 { $match: { ...searchQuery, isDeleted: { $ne: true } } }, // Exclude deleted items
+			 {
+					$project: {
+						 name: 1,
+						 price: 1,
+						 available: 1,
+						 image: 1,
+						 createdAt: 1,
+						 updatedAt: 1,
+						 publicId: 1,
+						 "restaurant.name": 1,
+						 "restaurant.publicId": 1,
+						 "category.name": 1,
+						 "category.publicId": 1,
+					},
+			 },
+			 { $sort: { createdAt: -1 } },
+			 { $skip: (page - 1) * perPage },
+			 { $limit: perPage },
 		] as any;
 
 		// Count pipeline should match main pipeline exactly (before pagination)
 		const countPipeline = [
-			{
-				$lookup: {
-					from: "restaurants",
-					localField: "parent",
-					foreignField: "publicId",
-					as: "restaurant",
-				},
-			},
-			lookupStage, // Use the same lookup
-			{ $unwind: "$restaurant" },
-			{ $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
-			{ $match: searchQuery },
-			{ $count: "count" },
+			 {
+					$lookup: {
+						 from: "restaurants",
+						 localField: "parent",
+						 foreignField: "publicId",
+						 as: "restaurant",
+					},
+			 },
+			 lookupStage, // Use the same lookup
+			 { $unwind: "$restaurant" },
+			 { $unwind: { path: "$category", preserveNullAndEmptyArrays: true } },
+			 { $match: { ...searchQuery, isDeleted: { $ne: true } } }, // Exclude deleted items
+			 { $count: "count" },
 		];
 
 		// Run both pipelines concurrently
 		const [menuItems, totalItems] = await Promise.all([
-			MenuModel.aggregate(pipeline),
-			MenuModel.aggregate(countPipeline),
+			 MenuModel.aggregate(pipeline),
+			 MenuModel.aggregate(countPipeline),
 		]);
 
 		const totalItemsCount = totalItems[0]?.count || 0;
 
 		return {
-			data: menuItems,
-			meta: {
-				page,
-				perPage,
-				totalPages: Math.ceil(totalItemsCount / perPage),
-				totalItems: totalItemsCount,
-			},
+			 data: menuItems,
+			 meta: {
+					page,
+					perPage,
+					totalPages: Math.ceil(totalItemsCount / perPage),
+					totalItems: totalItemsCount,
+			 },
 		};
-	}
+ }
+
 }
 
 export default MenuService;

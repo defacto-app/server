@@ -7,25 +7,41 @@ import { v2 as cloudinary } from "cloudinary";
 import { uploadToCloudinary } from "../../../helper/cloudinary";
 import { paginate } from "../../../utils/pagination";
 import MenuService from "./service";
+import { createMenuSchema } from "./validator";
 // Set up Cloudinary configuration
 
 const AdminRestaurantMenuController = {
-   async create(req: Request, res: Response): Promise<void> {
-      const restaurant = res.locals.restaurantItem as any;
-      const { name, category, price, available, image, menuType, categoryId } =
-         req.body;
+   async create(req: Request, res: Response): Promise<Response> {
+     // Validate the request body using zod
+   const validationResult = createMenuSchema.safeParse(req.body);
 
-      try {
-         const newMenu = await MenuService.createMenu(
-            { name, category, price, available, image, menuType, categoryId },
-            restaurant.publicId
-         );
-
-         // Return success response
-         SendResponse.success(res, "Menu item created successfully", newMenu);
-      } catch (error: any) {
-         SendResponse.badRequest(res, error.message);
+   if (!validationResult.success) {
+      // Format validation errors
+      const formattedErrors: any = {};
+      for (const error of validationResult.error.errors) {
+         const path = error.path.join(".");
+         formattedErrors[path] = error.message;
       }
+
+      // Send a bad request response with the formatted errors
+      return SendResponse.badRequest(res, formattedErrors);
+   }
+
+   const validatedData = validationResult.data;
+
+   try {
+      // Create a new menu item using the validated data
+      const restaurant = res.locals.restaurantItem as any;
+      const newMenu = await MenuService.createMenu(
+         validatedData,
+         restaurant.publicId
+      );
+
+      // Return success response
+     return SendResponse.success(res, "Menu item created successfully", newMenu);
+   } catch (error: any) {
+     return SendResponse.badRequest(res, error.message);
+   }
    },
 
    async all(req: Request, res: Response): Promise<void> {
