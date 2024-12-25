@@ -274,7 +274,7 @@ const RestaurantController = {
       try {
          // Fetch active menu categories first
          const categories = await CategoryModel.find({
-            categoryType: "menu",
+            // categoryType: "menu",
             active: true,
          })
             .select("_id publicId name slug") // Add publicId to selection

@@ -25,7 +25,8 @@ const AdminRestaurantController = {
             : {}; // If no search term, return all restaurants
 
          // Define the sort order
-         const sort: { [key: string]: SortOrder } = { name: 1 }; // Sort by name in ascending order
+         //  const sort: { [key: string]: SortOrder } = { name: 1 }; // Sort by name in ascending order
+         const sort: { [key: string]: SortOrder } = { createdAt: -1 }; // Sort by createdAt in descending order
 
          // Use aggregation to include menu item count
          const aggregationPipeline = [
@@ -119,11 +120,12 @@ const AdminRestaurantController = {
             updatedRestaurant
          );
       } catch (error: any) {
+         console.log(error.message, "error");
          return SendResponse.serverError(res, error.message);
       }
    },
 
-   async create(req: Request, res: Response): Promise<void | Response> {
+   async create(req: Request, res: Response): Promise<Response> {
       try {
          const {
             name,
@@ -135,10 +137,12 @@ const AdminRestaurantController = {
             deliveryTime,
          } = req.body;
 
+         console.log(req.body, "req.body");
+
          // Create a new restaurant instance with properly structured data
          const newRestaurant = new RestaurantModel({
             name,
-            categories: categories, // Use categoryIds for the categories field since it expects publicIds
+            categories: categories,
             address: {
                branchName: address.branchName || "",
                fullAddress: address.fullAddress,

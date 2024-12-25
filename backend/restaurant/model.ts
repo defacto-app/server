@@ -112,7 +112,6 @@ const restaurantSchemaDefinitions = {
             validator: async (value: string) => {
                const category = await mongoose.model("Category").findOne({
                   publicId: value,
-                  categoryType: "restaurant",
                });
                return !!category;
             },
