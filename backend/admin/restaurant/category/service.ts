@@ -58,12 +58,16 @@ class CategoryService {
       };
    }
 
-   // For quick search suggestions
-   static async searchCategories(search: string) {
-      return CategoryModel.find(
-         { name: { $regex: search, $options: "i" } },
-         { name: 1, slug: 1, publicId: 1 }
-      ).limit(10);
+   static async searchCategories(search: string, categoryType?: string) {
+      const filter: any = {
+         name: { $regex: search, $options: "i" },
+      };
+
+      if (categoryType) {
+         filter.categoryType = categoryType;
+      }
+
+      return CategoryModel.find(filter, { name: 1, slug: 1, publicId: 1 }).limit(10);
    }
 }
 

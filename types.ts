@@ -19,8 +19,8 @@ export interface SuccessResponseType {
 }
 
 export interface AddressType {
-   label?: string;
-   location: string;
+   branchName?: string;
+   fullAddress: string;
    coordinates: {
       latitude: number;
       longitude: number;

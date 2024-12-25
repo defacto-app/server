@@ -7,10 +7,24 @@ const openingHoursSchema = z.object({
   isClosed: z.boolean().default(false)
 });
 
+const addressSchema = z.object({
+  branchName: z.string().optional(),  // Assuming branchName can be optional
+  fullAddress: z.string().min(1),      // Ensure the fullAddress is at least 1 character long
+  coordinates: z.object({
+    latitude: z.number(),
+    longitude: z.number()
+  }).optional(),                      // Coordinates are optional
+  additionalDetails: z.string().optional()  // Additional details are optional
+});
+
+
+
+
 export const updateRestaurantSchema = z.object({
+
   name: z.string().min(1).optional(),
-  category: z.string().min(1).optional(),
-  address: z.string().min(1).optional(),
+  categories: z.array(z.string()).optional(),
+  address: addressSchema.optional(),  // Updated to expect an address object
   phone: z.string().min(1).optional(),
   email: z.string().email().optional(),
   openingHours: z.object({

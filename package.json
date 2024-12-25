@@ -14,6 +14,7 @@
     "copyusers": "tsx --watch backend/jobs/seeders/copyusers.ts",
     "seed-users": "bun --watch backend/auth/seeder.ts",
     "seed-restaurants": "bun --watch backend/seeders/restaurant-seeder.ts",
+    "update-retaurant-menu": "bun backend/seeders/restaurant/update-retaurant-menu.ts",
     "category-seeder": "bun --watch backend/seeders/category-seeder.ts",
     "menu-seeder": "bun --watch backend/seeders/menu-seeder.ts",
     "cat-menu-rest-seeder.ts": "bun --watch backend/seeders/cat-menu-rest-seeder.ts",

@@ -8,94 +8,99 @@ import CategoryModel from "./model";
 import CategoryService from "./service";
 
 const AdminCategoryController = {
-	async create(req: Request, res: Response): Promise<void> {
-		try {
-			SendResponse.success(res, "Category created successfully");
-		} catch (error: any) {
-			SendResponse.serverError(res, error.message);
-		}
-	},
+   async create(req: Request, res: Response): Promise<void> {
+      try {
+         SendResponse.success(res, "Category created successfully");
+      } catch (error: any) {
+         SendResponse.serverError(res, error.message);
+      }
+   },
 
-	async all(req: Request, res: Response): Promise<void> {
-		try {
-			const search = (req.query.search as string) || "";
-			const page = Number.parseInt(req.query.page as string) || 1;
-			const perPage = Number.parseInt(req.query.perPage as string) || 10;
+   async all(req: Request, res: Response): Promise<void> {
+      try {
+         const search = (req.query.search as string) || "";
+         const page = Number.parseInt(req.query.page as string) || 1;
+         const perPage = Number.parseInt(req.query.perPage as string) || 10;
 
-			const result = await CategoryService.getAllCategories(
-				search,
-				page,
-				perPage,
-			);
+         const result = await CategoryService.getAllCategories(
+            search,
+            page,
+            perPage
+         );
 
-			SendResponse.success(res, "Categories retrieved", result);
-		} catch (error: any) {
-			SendResponse.serverError(res, error.message);
-		}
-	},
+         SendResponse.success(res, "Categories retrieved", result);
+      } catch (error: any) {
+         SendResponse.serverError(res, error.message);
+      }
+   },
 
-	async search(req: Request, res: Response): Promise<void> {
-		console.log("Search route triggered. Query:", req.query);
+   async search(req: Request, res: Response): Promise<void> {
+      console.log("Search route triggered. Query:", req.query);
 
-		try {
-			const search = (req.query.search as string) || "";
-			const results = await CategoryService.searchCategories(search);
+      try {
+         const search = (req.query.search as string) || "";
+         const categoryType = (req.query.categoryType as string) || undefined; // Optional
 
-			SendResponse.success(res, "Search suggestions retrieved", results);
-		} catch (error: any) {
-			SendResponse.serverError(res, error.message);
-		}
-	},
+         const results = await CategoryService.searchCategories(
+            search,
+            categoryType
+         );
 
-	async update(req: Request, res: Response): Promise<void> {
-		try {
-			const category = res.locals.categoryItem as any;
+         SendResponse.success(res, "Search suggestions retrieved", results);
+      } catch (error: any) {
+         SendResponse.serverError(res, error.message);
+      }
+   },
 
-			const body = req.body;
+   async update(req: Request, res: Response): Promise<void> {
+      try {
+         const category = res.locals.categoryItem as any;
 
-			// Update the category
+         const body = req.body;
 
-			const updatedCategory = await CategoryModel.findOneAndUpdate(
-				{ publicId: category.publicId },
-				{ ...body },
-				{ new: true },
-			);
+         // Update the category
 
-			SendResponse.success(
-				res,
-				"Category updated successfully",
-				updatedCategory,
-			);
+         const updatedCategory = await CategoryModel.findOneAndUpdate(
+            { publicId: category.publicId },
+            { ...body },
+            { new: true }
+         );
 
-			// const updatedCategory = await category.save();
-		} catch (error: any) {
-			SendResponse.serverError(res, error.message);
-		}
-	},
-	async delete(req: Request, res: Response): Promise<void> {
-		try {
-			const category = res.locals.categoryItem as any;
+         SendResponse.success(
+            res,
+            "Category updated successfully",
+            updatedCategory
+         );
 
-			// Check for existing menus or relationships
-			const associatedMenus = await MenuModel.countDocuments({
-				categoryId: category._id,
-			});
+         // const updatedCategory = await category.save();
+      } catch (error: any) {
+         SendResponse.serverError(res, error.message);
+      }
+   },
+   async delete(req: Request, res: Response): Promise<void> {
+      try {
+         const category = res.locals.categoryItem as any;
 
-			if (associatedMenus > 0) {
-				SendResponse.badRequest(
-					res,
-					"Cannot delete category. It has associated menu items.",
-				);
-			}
-			console.log(associatedMenus, "associatedMenus");
-			// If no associations, delete the category
-			await category.deleteOne();
+         // Check for existing menus or relationships
+         const associatedMenus = await MenuModel.countDocuments({
+            categoryId: category._id,
+         });
 
-			SendResponse.success(res, "Category deleted successfully");
-		} catch (error: any) {
-			SendResponse.serverError(res, error.message);
-		}
-	},
+         if (associatedMenus > 0) {
+            SendResponse.badRequest(
+               res,
+               "Cannot delete category. It has associated menu items."
+            );
+         }
+         console.log(associatedMenus, "associatedMenus");
+         // If no associations, delete the category
+         await category.deleteOne();
+
+         SendResponse.success(res, "Category deleted successfully");
+      } catch (error: any) {
+         SendResponse.serverError(res, error.message);
+      }
+   },
 };
 
 export default AdminCategoryController;

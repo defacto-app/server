@@ -11,3 +11,46 @@
 2024-12-21T18:29:00.002Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
 2024-12-22T18:50:22.320Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
 2024-12-22T18:50:23.611Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T04:09:05.124Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T04:09:06.405Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:00:39.731Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:00:41.015Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:00:48.422Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:00:49.703Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:00:52.642Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:00:53.933Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:00:57.602Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:00:58.896Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:01:47.449Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:01:48.742Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:49:35.543Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:49:36.827Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:52:46.803Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T14:52:48.085Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T18:55:16.269Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T18:55:17.565Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T18:55:48.992Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-23T18:55:50.284Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-24T03:50:09.919Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-24T03:50:11.208Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-24T05:08:17.636Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-24T05:09:16.377Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-24T05:10:05.455Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-24T05:10:22.377Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-24T05:10:40.474Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-24T05:11:25.146Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-24T05:11:26.493Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-24T05:11:41.973Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-24T05:13:19.461Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-24T05:13:37.201Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-24T05:14:08.631Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-24T05:15:40.296Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-25T05:56:46.948Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-25T05:56:48.237Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-25T07:10:06.971Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2024-12-25T07:11:03.242Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-25T07:11:04.522Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-25T09:07:44.576Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-25T09:07:45.879Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-25T09:07:51.095Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-25T09:07:52.385Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
