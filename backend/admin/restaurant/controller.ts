@@ -8,6 +8,9 @@ import fs from "node:fs";
 import CategoryModel from "./category/model";
 import { updateRestaurantSchema } from "./validator";
 import MenuModel from "../../menu/model";
+import slugify from "slugify";
+import { v4 as uuidv4 } from "uuid";
+
 // Set up Cloudinary configuration
 
 const AdminRestaurantController = {
@@ -102,7 +105,23 @@ const AdminRestaurantController = {
             return SendResponse.badRequest(res, formattedErrors);
          }
 
-         const validatedData = validationResult.data;
+         const validatedData = validationResult.data as any;
+
+         // Handle slug regeneration if the name is being updated
+         if (validatedData.name) {
+            let generatedSlug = slugify(validatedData.name, { lower: true, strict: true });
+            const existingRestaurant = await RestaurantModel.findOne({
+               slug: generatedSlug,
+               publicId: { $ne: restaurant.publicId }, // Exclude the current restaurant
+            });
+
+            if (existingRestaurant) {
+               const randomString = uuidv4().slice(0, 6);
+               generatedSlug = `${generatedSlug}-${randomString}`;
+            }
+
+            validatedData.slug = generatedSlug; // Set the new slug
+         }
 
          const updatedRestaurant = await RestaurantModel.findOneAndUpdate(
             { publicId: restaurant.publicId },
@@ -124,6 +143,7 @@ const AdminRestaurantController = {
          return SendResponse.serverError(res, error.message);
       }
    },
+
 
    async create(req: Request, res: Response): Promise<Response> {
       try {

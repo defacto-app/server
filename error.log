@@ -70,3 +70,4 @@
 2024-12-25T20:20:54.084Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
 2024-12-25T21:50:58.408Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
 2024-12-25T21:50:59.715Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-26T00:08:59.027Z [undefined] [31merror[39m: slugify is not defined
