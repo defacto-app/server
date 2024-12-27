@@ -10,6 +10,7 @@ import { updateRestaurantSchema } from "./validator";
 import MenuModel from "../../menu/model";
 import slugify from "slugify";
 import { v4 as uuidv4 } from "uuid";
+import { RestaurantService } from "./service";
 
 // Set up Cloudinary configuration
 
@@ -147,58 +148,27 @@ const AdminRestaurantController = {
 
    async create(req: Request, res: Response): Promise<Response> {
       try {
-         const {
-            name,
-            categories,
-            address,
-            phone,
-            email,
-            openingHours,
-            deliveryTime,
-         } = req.body;
-
-         console.log(req.body, "req.body");
-
-         // Create a new restaurant instance with properly structured data
-         const newRestaurant = new RestaurantModel({
-            name,
-            categories: categories,
-            address: {
-               branchName: address.branchName || "",
-               fullAddress: address.fullAddress,
-               coordinates: address.coordinates,
-               additionalDetails: address.additionalDetails,
-            },
-            phone,
-            email,
-            openingHours: {
-               monday: openingHours.monday,
-               tuesday: openingHours.tuesday,
-               wednesday: openingHours.wednesday,
-               thursday: openingHours.thursday,
-               friday: openingHours.friday,
-               saturday: openingHours.saturday,
-               sunday: openingHours.sunday,
-            },
-            deliveryTime: {
-               min: Number.parseInt(deliveryTime.min),
-               max: Number.parseInt(deliveryTime.max),
-            },
-         });
-
-         // Save the new restaurant to the database
-         await newRestaurant.save();
+         // Pass the request body to the service
+         const newRestaurant = await RestaurantService.createRestaurant(req.body);
 
          // Return success response
-         return SendResponse.success(
-            res,
-            "Restaurant created successfully",
-            newRestaurant
-         );
+         return SendResponse.success(res, "Restaurant created successfully", newRestaurant);
       } catch (error: any) {
+         if (error.name === "ZodError") {
+            // Format validation errors
+            const formattedErrors: any = {};
+            for (const err of error.errors) {
+               const path = err.path.join(".");
+               formattedErrors[path] = err.message;
+            }
+            return SendResponse.badRequest(res, formattedErrors);
+         }
+
+         // Handle other errors
          return SendResponse.badRequest(res, error.message);
       }
-   },
+    },
+
    async delete(req: Request, res: Response): Promise<void> {
       try {
          // The restaurant is already loaded in res.locals by middleware
