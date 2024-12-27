@@ -7,43 +7,10 @@ import { v2 as cloudinary } from "cloudinary";
 import { uploadToCloudinary } from "../../../helper/cloudinary";
 import { paginate } from "../../../utils/pagination";
 import MenuService from "./service";
-import { createMenuSchema } from "./validator";
+import { createMenuSchema, updateMenuSchema } from "./validator";
 // Set up Cloudinary configuration
 
 const AdminRestaurantMenuController = {
-   async create(req: Request, res: Response): Promise<Response> {
-     // Validate the request body using zod
-   const validationResult = createMenuSchema.safeParse(req.body);
-
-   if (!validationResult.success) {
-      // Format validation errors
-      const formattedErrors: any = {};
-      for (const error of validationResult.error.errors) {
-         const path = error.path.join(".");
-         formattedErrors[path] = error.message;
-      }
-
-      // Send a bad request response with the formatted errors
-      return SendResponse.badRequest(res, formattedErrors);
-   }
-
-   const validatedData = validationResult.data;
-
-   try {
-      // Create a new menu item using the validated data
-      const restaurant = res.locals.restaurantItem as any;
-      const newMenu = await MenuService.createMenu(
-         validatedData,
-         restaurant.publicId
-      );
-
-      // Return success response
-     return SendResponse.success(res, "Menu item created successfully", newMenu);
-   } catch (error: any) {
-     return SendResponse.badRequest(res, error.message);
-   }
-   },
-
    async all(req: Request, res: Response): Promise<void> {
       const restaurant = res.locals.restaurantItem as any;
       const search: string = (req.query.search as string) || "";
@@ -76,23 +43,85 @@ const AdminRestaurantMenuController = {
          SendResponse.serverError(res, error.message);
       }
    },
-   //
+   async create(req: Request, res: Response): Promise<Response> {
+      // Validate the request body using zod
+      const validationResult = createMenuSchema.safeParse(req.body);
 
-   async update(req: Request, res: Response): Promise<void> {
-      const menu = res.locals.menuItem as any;
-      const { name, price, available, image, categoryId } = req.body;
+      if (!validationResult.success) {
+         // Format validation errors
+         const formattedErrors: any = {};
+         for (const error of validationResult.error.errors) {
+            const path = error.path.join(".");
+            formattedErrors[path] = error.message;
+         }
+
+         // Send a bad request response with the formatted errors
+         return SendResponse.badRequest(res, formattedErrors);
+      }
+
+      const validatedData = validationResult.data;
 
       try {
+         // Create a new menu item using the validated data
+         const restaurant = res.locals.restaurantItem as any;
+         const newMenu = await MenuService.createMenu(
+            validatedData,
+            restaurant.publicId
+         );
+
+         // Return success response
+         return SendResponse.success(
+            res,
+            "Menu item created successfully",
+            newMenu
+         );
+      } catch (error: any) {
+         return SendResponse.badRequest(res, error.message);
+      }
+   },
+
+   //
+
+   async update(req: Request, res: Response): Promise<Response> {
+      const menu = res.locals.menuItem as any;
+
+      // Validate the request body using zod
+      const validationResult = updateMenuSchema.safeParse(req.body);
+
+      if (!validationResult.success) {
+         // Format validation errors
+         const formattedErrors: any = {};
+         for (const error of validationResult.error.errors) {
+            const path = error.path.join(".");
+            formattedErrors[path] = error.message;
+         }
+
+         // Send a bad request response with the formatted errors
+         return SendResponse.badRequest(res, formattedErrors);
+      }
+
+      const validatedData = validationResult.data;
+
+      try {
+         // Update the menu item using the validated data
          const updatedMenu = await MenuModel.findOneAndUpdate(
             { publicId: menu.publicId },
-            { name, price, available, image, categoryId },
+            validatedData,
             { new: true }
          );
 
-         SendResponse.success(res, "Menu item updated", updatedMenu);
+         // Send success response
+         if (updatedMenu) {
+            return SendResponse.success(
+               res,
+               "Menu item updated successfully",
+               updatedMenu
+            );
+         }
+            return SendResponse.notFound(res, "Menu item not found");
       } catch (error: any) {
          console.log(error);
-         SendResponse.serverError(res, error.message);
+        return SendResponse.serverError(res, error.message);
       }
    },
 

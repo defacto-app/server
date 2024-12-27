@@ -71,3 +71,16 @@
 2024-12-25T21:50:58.408Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
 2024-12-25T21:50:59.715Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
 2024-12-26T00:08:59.027Z [undefined] [31merror[39m: slugify is not defined
+2024-12-26T14:34:33.147Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
+2024-12-27T00:23:41.693Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-27T00:23:42.979Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-27T00:24:03.562Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-27T00:24:04.844Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-27T00:24:42.120Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-27T00:24:43.425Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-27T00:25:58.922Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-27T00:26:00.202Z [undefined] [31merror[39m: PlanExecutor error during aggregation :: caused by :: The argument to $size must be an array, but was of type: missing
+2024-12-27T01:44:22.004Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
+2024-12-27T01:54:27.596Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
+2024-12-27T02:04:47.028Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
+2024-12-27T02:05:40.742Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
