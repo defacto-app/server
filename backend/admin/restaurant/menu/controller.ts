@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+import { v4 as uuidv4 } from "uuid";
 
 import SendResponse from "../../../libs/response-helper";
 import MenuModel from "../../../menu/model";
@@ -8,6 +9,7 @@ import { uploadToCloudinary } from "../../../helper/cloudinary";
 import { paginate } from "../../../utils/pagination";
 import MenuService from "./service";
 import { createMenuSchema, updateMenuSchema } from "./validator";
+import slugify from "slugify";
 // Set up Cloudinary configuration
 
 const AdminRestaurantMenuController = {
@@ -100,14 +102,32 @@ const AdminRestaurantMenuController = {
          return SendResponse.badRequest(res, formattedErrors);
       }
 
-      const validatedData = validationResult.data;
+      const validatedData = validationResult.data as any;
 
       try {
+         // Handle slug regeneration if the name is being updated
+         if (validatedData.name) {
+            let generatedSlug = slugify(validatedData.name, { lower: true, strict: true });
+
+            // Check for existing slugs to avoid duplicates
+            const existingMenu = await MenuModel.findOne({
+               slug: generatedSlug,
+               publicId: { $ne: menu.publicId }, // Exclude the current menu item
+            });
+
+            if (existingMenu) {
+               const randomString = uuidv4().slice(0, 6); // Generate a unique string
+               generatedSlug = `${generatedSlug}-${randomString}`;
+            }
+
+            validatedData.slug = generatedSlug; // Update the slug in validatedData
+         }
+
          // Update the menu item using the validated data
          const updatedMenu = await MenuModel.findOneAndUpdate(
             { publicId: menu.publicId },
             validatedData,
-            { new: true }
+            { new: true, runValidators: true } // Apply validators and return updated document
          );
 
          // Send success response
@@ -118,12 +138,13 @@ const AdminRestaurantMenuController = {
                updatedMenu
             );
          }
-            return SendResponse.notFound(res, "Menu item not found");
+         return SendResponse.notFound(res, "Menu item not found");
       } catch (error: any) {
          console.log(error);
-        return SendResponse.serverError(res, error.message);
+         return SendResponse.serverError(res, error.message);
       }
    },
+
 
    async upload(req: Request, res: Response): Promise<void> {
       const menu = res.locals.menuItem as any;

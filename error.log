@@ -84,3 +84,4 @@
 2024-12-27T01:54:27.596Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
 2024-12-27T02:04:47.028Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
 2024-12-27T02:05:40.742Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
+2024-12-27T03:29:55.673Z [undefined] [31merror[39m: slugify is not defined
