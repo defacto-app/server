@@ -42,18 +42,20 @@ export const updateRestaurantSchema = z.object({
       .min(2, messages.minLength("Name", 2))
       .max(255, messages.maxLength("Name", 255))
       .trim(),
-      categories: z
+   categories: z
       .array(z.string())
       .nonempty("At least one category is required"),
    address: addressSchema.optional(), // Updated to expect an address object
-   phone: z.string()
-   .min(8, messages.minLength("Phone number", 8))
-   .max(20, messages.maxLength("Phone number", 20))
-   .regex(/^[+\d\s-()]+$/, messages.invalid("phone number")),
-   email: z.string()
-   .email(messages.invalid("email address"))
-   .trim()
-   .toLowerCase(),
+   phone: z
+      .string()
+      .min(8, messages.minLength("Phone number", 8))
+      .max(20, messages.maxLength("Phone number", 20))
+      .regex(/^[+\d\s-()]+$/, messages.invalid("phone number")),
+   email: z
+      .string()
+      .email(messages.invalid("email address"))
+      .trim()
+      .toLowerCase(),
 
    openingHours: z
       .object({
@@ -69,11 +71,11 @@ export const updateRestaurantSchema = z.object({
 });
 
 export const createRestaurantSchema = z.object({
-  name: z
-  .string()
-  .min(2, messages.minLength("Name", 2))
-  .max(255, messages.maxLength("Name", 255))
-  .trim(),
+   name: z
+      .string()
+      .min(2, messages.minLength("Name", 2))
+      .max(255, messages.maxLength("Name", 255))
+      .trim(),
    categories: z
       .array(z.string())
       .nonempty("At least one category is required"),
@@ -83,14 +85,16 @@ export const createRestaurantSchema = z.object({
       //  coordinates: z.array(z.number()).length(2, "Coordinates must be a [latitude, longitude] pair"),
       additionalDetails: z.string().optional(),
    }),
-   phone: z.string()
-   .min(8, messages.minLength("Phone number", 8))
-   .max(20, messages.maxLength("Phone number", 20))
-   .regex(/^[+\d\s-()]+$/, messages.invalid("phone number")),
-   email: z.string()
-   .email(messages.invalid("email address"))
-   .trim()
-   .toLowerCase(),
+   phone: z
+      .string()
+      .min(8, messages.minLength("Phone number", 8))
+      .max(20, messages.maxLength("Phone number", 20))
+      .regex(/^[+\d\s-()]+$/, messages.invalid("phone number")),
+   email: z
+      .string()
+      .email(messages.invalid("email address"))
+      .trim()
+      .toLowerCase(),
    openingHours: z.object({
       monday: openingHoursSchema,
       tuesday: openingHoursSchema,
