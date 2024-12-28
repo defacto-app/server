@@ -150,38 +150,51 @@ const AdminRestaurantMenuController = {
       const menu = res.locals.menuItem as any;
 
       try {
-         if (!req.file) {
-            SendResponse.badRequest(res, "No image file uploaded");
-            return;
-         }
+          if (!req.file) {
+              SendResponse.badRequest(res, "No image file uploaded");
+              return;
+          }
 
-         // Upload the file to Cloudinary
-         const result = await uploadToCloudinary(req.file.path, "defacto/menu");
+          // Upload the file to Cloudinary
+          const result = await uploadToCloudinary(req.file.path, "defacto/menu");
 
-         // Remove file from server after upload
-         fs.unlinkSync(req.file.path);
+          // Remove file from server after upload
+          fs.unlinkSync(req.file.path);
 
-         // Generate an optimized URL
-         const optimizedUrl = cloudinary.url(result.public_id, {
-            transformation: [
-               { width: 800, crop: "scale" },
-               { fetch_format: "auto", quality: "auto" },
-            ],
-         });
+          // Generate an optimized URL
+          const optimizedUrl = cloudinary.url(result.public_id, {
+              transformation: [
+                  { width: 800, crop: "scale" },
+                  { fetch_format: "auto", quality: "auto" },
+              ],
+          });
 
-         menu.image = optimizedUrl;
+          // Update the menu document in the database
+          const updatedMenu = await MenuModel.findOneAndUpdate(
+              { publicId: menu.publicId }, // Match menu by publicId
+              { $set: { image: optimizedUrl } }, // Update the image field
+              { new: true } // Return the updated document
+          );
 
-         await menu.save();
+          if (!updatedMenu) {
+              SendResponse.notFound(
+                  res,
+                  `Sorry, Menu ${menu.publicId} not found or cannot be updated`
+              );
+              return;
+          }
 
-         SendResponse.success(
-            res,
-            "Menu image uploaded successfully",
-            optimizedUrl
-         );
+          SendResponse.success(
+              res,
+              "Menu image uploaded successfully",
+              optimizedUrl
+          );
       } catch (error: any) {
-         SendResponse.serverError(res, error.message);
+          console.log(error.message);
+          SendResponse.serverError(res, error.message);
       }
-   },
+  },
+
 
    async allMenu(req: Request, res: Response): Promise<void> {
       const page: number = Number.parseInt(req.query.page as string) || 1;

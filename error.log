@@ -85,3 +85,9 @@
 2024-12-27T02:04:47.028Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
 2024-12-27T02:05:40.742Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
 2024-12-27T03:29:55.673Z [undefined] [31merror[39m: slugify is not defined
+2024-12-27T06:34:33.280Z [undefined] [31merror[39m: priceRanges is not defined
+2024-12-27T06:34:34.295Z [undefined] [31merror[39m: priceRanges is not defined
+2024-12-27T06:34:36.307Z [undefined] [31merror[39m: priceRanges is not defined
+2024-12-28T11:05:38.320Z [undefined] [31merror[39m: menu.save is not a function
+2024-12-28T11:26:20.065Z [undefined] [31merror[39m: menu.save is not a function
+2024-12-28T11:27:05.375Z [undefined] [31merror[39m: menu.save is not a function
