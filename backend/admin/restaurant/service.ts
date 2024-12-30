@@ -7,7 +7,7 @@ export class RestaurantService {
 
       const newRestaurant = new RestaurantModel({
          name: validatedData.name,
-         categories: validatedData.categories,
+         category: validatedData.category,
          address: validatedData.address,
          phone: validatedData.phone,
          email: validatedData.email,

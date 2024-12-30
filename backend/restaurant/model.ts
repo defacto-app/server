@@ -11,6 +11,7 @@ export interface RestaurantDataType extends Document {
       min: number;
       max: number;
    };
+   category: string;
    categories: string[];
    image: string;
    logo: string;
@@ -103,6 +104,20 @@ const restaurantSchemaDefinitions = {
       },
    },
 
+   category: {
+      type: String,
+      ref: "Category",
+      required: true,
+      validate: {
+         validator: async (value: string) => {
+            const category = await mongoose.model("Category").findOne({
+               publicId: value,
+            });
+            return !!category;
+         },
+         message: "Restaurant category must exist and be a restaurant category",
+      },
+   },
    categories: [
       {
          type: String,

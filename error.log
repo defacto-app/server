@@ -91,3 +91,9 @@
 2024-12-28T11:05:38.320Z [undefined] [31merror[39m: menu.save is not a function
 2024-12-28T11:26:20.065Z [undefined] [31merror[39m: menu.save is not a function
 2024-12-28T11:27:05.375Z [undefined] [31merror[39m: menu.save is not a function
+2024-12-29T18:40:15.160Z [undefined] [31merror[39m: Validation failed: category: Restaurant category must exist and be a restaurant category
+2024-12-29T23:44:54.560Z [undefined] [31merror[39m: Validation failed: category: Restaurant category must exist and be a restaurant category
+2024-12-30T00:08:15.495Z [undefined] [31merror[39m: Validation failed: category: Restaurant category must exist and be a restaurant category
+2024-12-30T00:08:53.136Z [undefined] [31merror[39m: Validation failed: category: Restaurant category must exist and be a restaurant category
+2024-12-30T00:10:05.725Z [undefined] [31merror[39m: Validation failed: category: Restaurant category must exist and be a restaurant category
+2024-12-30T00:13:31.376Z [undefined] [31merror[39m: Validation failed: category: Restaurant category must exist and be a restaurant category

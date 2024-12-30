@@ -49,8 +49,22 @@ const AdminRestaurantController = {
                },
             },
             {
+               $lookup: {
+                  from: "categories", // Collection to join (categories)
+                  localField: "category", // Field from the restaurant collection
+                  foreignField: "publicId", // Field from the categories collection
+                  as: "categoryDetails", // Alias for the joined data
+               },
+            },
+            {
+               $addFields: {
+                  category: { $arrayElemAt: ["$categoryDetails.name", 0] }, // Replace category ID with its name
+               },
+            },
+            {
                $project: {
                   menuItems: 0, // Exclude the actual menuItems array if you don't need it
+                  categoryDetails: 0, // Exclude the categoryDetails array after extracting the name
                },
             },
             { $sort: sort }, // Sort results by name

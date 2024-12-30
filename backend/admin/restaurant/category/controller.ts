@@ -21,11 +21,13 @@ const AdminCategoryController = {
          const search = (req.query.search as string) || "";
          const page = Number.parseInt(req.query.page as string) || 1;
          const perPage = Number.parseInt(req.query.perPage as string) || 10;
+         const categoryType = (req.query.categoryType as string) || "all"; // Add this line
 
          const result = await CategoryService.getAllCategories(
             search,
             page,
-            perPage
+            perPage,
+            categoryType // Pass the new parameter
          );
 
          SendResponse.success(res, "Categories retrieved", result);

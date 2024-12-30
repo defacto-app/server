@@ -42,9 +42,8 @@ export const updateRestaurantSchema = z.object({
       .min(2, messages.minLength("Name", 2))
       .max(255, messages.maxLength("Name", 255))
       .trim(),
-   categories: z
-      .array(z.string())
-      .nonempty("At least one category is required"),
+   category: z.string().min(1, "Category is required"),
+
    address: addressSchema.optional(), // Updated to expect an address object
    phone: z
       .string()
@@ -76,9 +75,7 @@ export const createRestaurantSchema = z.object({
       .min(2, messages.minLength("Name", 2))
       .max(255, messages.maxLength("Name", 255))
       .trim(),
-   categories: z
-      .array(z.string())
-      .nonempty("At least one category is required"),
+   category: z.string().min(1, "Category is required"),
    address: z.object({
       branchName: z.string().optional(),
       fullAddress: z.string().min(1, "Full address is required"),
