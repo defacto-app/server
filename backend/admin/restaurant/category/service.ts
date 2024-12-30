@@ -11,7 +11,6 @@ class CategoryService {
       const query: any = {};
 
       // Log the received inputs
-      console.log("Received inputs:", { search, page, perPage, categoryType });
 
       // Apply search filter
       if (search) {
@@ -24,7 +23,6 @@ class CategoryService {
       }
 
       // Log the constructed query
-      console.log("Constructed query:", query);
 
       try {
          // Fetch categories with pagination
@@ -56,19 +54,33 @@ class CategoryService {
       }
    }
 
-
-
    static async searchCategories(search: string, categoryType?: string) {
-      const filter: any = {
-         name: { $regex: search, $options: "i" },
-      };
+      const filter: any = {};
 
+      // Add regex for search if provided
+      if (search) {
+         filter.name = { $regex: `.*${search}.*`, $options: "i" }; // Ensure partial matches
+      }
+
+      // Add categoryType filter if provided
       if (categoryType) {
          filter.categoryType = categoryType;
       }
 
-      return CategoryModel.find(filter, { name: 1, slug: 1, publicId: 1 }).limit(10);
+      // Log the constructed filter for debugging
+      console.log("Constructed Filter:", filter);
+
+      // Fetch categories with the specified filter
+      return CategoryModel.find(filter, {
+         name: 1,
+         slug: 1,
+         publicId: 1,
+         categoryType: 1,
+      })
+         .sort({ name: 1 }) // Sort alphabetically by name (ascending)
+         .limit(10); // Limit the results to 10
    }
+
 }
 
 export default CategoryService;

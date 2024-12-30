@@ -18,8 +18,7 @@ const AdminRestaurantController = {
    async all(req: Request, res: Response): Promise<void> {
       // Extract page, perPage, and search term from request query. Set default values if not provided.
       const page: number = Number.parseInt(req.query.page as string) || 1;
-      const perPage: number =
-         Number.parseInt(req.query.perPage as string) || 20;
+      const perPage: number = Number.parseInt(req.query.perPage as string) || 20;
       const search: string = (req.query.search as string) || ""; // Get search term
 
       try {
@@ -29,25 +28,11 @@ const AdminRestaurantController = {
             : {}; // If no search term, return all restaurants
 
          // Define the sort order
-         //  const sort: { [key: string]: SortOrder } = { name: 1 }; // Sort by name in ascending order
          const sort: { [key: string]: SortOrder } = { createdAt: -1 }; // Sort by createdAt in descending order
 
-         // Use aggregation to include menu item count
+         // Use aggregation to fetch data without menu count
          const aggregationPipeline = [
             { $match: searchQuery }, // Match search query
-            {
-               $lookup: {
-                  from: "menus", // Collection to join (menus)
-                  localField: "publicId", // Field from the restaurant collection
-                  foreignField: "parent", // Field from the menu collection (assuming `parent` is the restaurant's publicId)
-                  as: "menuItems", // Alias for the joined data
-               },
-            },
-            {
-               $addFields: {
-                  menuCount: { $size: "$menuItems" }, // Add field with the count of menu items
-               },
-            },
             {
                $lookup: {
                   from: "categories", // Collection to join (categories)
@@ -63,7 +48,6 @@ const AdminRestaurantController = {
             },
             {
                $project: {
-                  menuItems: 0, // Exclude the actual menuItems array if you don't need it
                   categoryDetails: 0, // Exclude the categoryDetails array after extracting the name
                },
             },
@@ -79,7 +63,6 @@ const AdminRestaurantController = {
 
          const paginationResult = {
             data,
-
             meta: {
                totalPages: Math.ceil(total / perPage),
                page,
@@ -93,6 +76,7 @@ const AdminRestaurantController = {
          SendResponse.serverError(res, error.message);
       }
    },
+
 
    async one(req: Request, res: Response): Promise<Response> {
       console.log("res.locals.restaurantItem");
