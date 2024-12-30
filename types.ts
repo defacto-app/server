@@ -21,7 +21,7 @@ export interface SuccessResponseType {
 export interface AddressType {
    branchName?: string;
    fullAddress: string;
-   coordinates: {
+   coordinates?: {
       latitude: number;
       longitude: number;
    };

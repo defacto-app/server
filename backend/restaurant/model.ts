@@ -145,7 +145,11 @@ const restaurantSchemaDefinitions = {
       required: false,
       default: "https://placehold.co/600x400.png",
    },
-   address: {},
+   address: {
+      type: Object,
+      required: true,
+      default: {},
+   },
    phone: {
       type: String,
       required: true,

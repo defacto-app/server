@@ -29,8 +29,8 @@ const addressSchema = z.object({
       .trim(),
    coordinates: z
       .object({
-         latitude: z.number(),
-         longitude: z.number(),
+         latitude: z.number().optional(),
+         longitude: z.number().optional(),
       })
       .optional(), // Coordinates are optional
    additionalDetails: z.string().optional(), // Additional details are optional
