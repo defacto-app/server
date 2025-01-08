@@ -112,15 +112,15 @@ const AdminRestaurantMenuController = {
             // Check for existing slugs to avoid duplicates
             const existingMenu = await MenuModel.findOne({
                slug: generatedSlug,
-               publicId: { $ne: menu.publicId }, // Exclude the current menu item
+               publicId: { $ne: menu.publicId },
             });
 
             if (existingMenu) {
-               const randomString = uuidv4().slice(0, 6); // Generate a unique string
+               const randomString = uuidv4().slice(0, 6);
                generatedSlug = `${generatedSlug}-${randomString}`;
             }
 
-            validatedData.slug = generatedSlug; // Update the slug in validatedData
+            validatedData.slug = generatedSlug;
          }
 
          // Update the menu item using the validated data

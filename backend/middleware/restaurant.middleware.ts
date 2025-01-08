@@ -83,9 +83,9 @@ class RestaurantMiddleware {
 				},
 				{
 					$lookup: {
-						from: "categories",  // Changed from "Category" to "categories"
+						from: "categories",
 						localField: "categoryId",
-						foreignField: "publicId", // Changed from "publicId" to "_id"
+						foreignField: "publicId",
 						as: "categoryData",
 					},
 				},
@@ -107,6 +107,7 @@ class RestaurantMiddleware {
 						price: 1,
 						createdAt: 1,
 						updatedAt: 1,
+						description: 1,
 						categoryId: 1,
 						category: {
 							name: "$categoryData.name",

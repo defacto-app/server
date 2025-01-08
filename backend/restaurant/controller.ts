@@ -216,7 +216,6 @@ const RestaurantController = {
 
          const quickFilters = [
             { id: "under-30", name: "Under 30 mins" },
-            { id: "top-rated", name: "Top Rated" },
          ];
 
          // 7. Construct price ranges from minPrice/maxPrice
@@ -317,6 +316,7 @@ const RestaurantController = {
                   price: 1,
                   available: 1,
                   image: 1,
+                  description: 1,
                   publicId: 1,
                   parent: 1,
                   categoryId: 1,
