@@ -13,6 +13,7 @@ export interface MenuDataType extends Document {
    publicId: string;
    name: string;
    slug: string;
+   quantity: number;
    categoryId: string;
    description: string;
    image: string;
@@ -32,6 +33,11 @@ const menuSchemaDefinitions = {
       unique: true,
       minLength: 1,
       maxLength: 255,
+   },
+   quantity: {
+      type: Number,
+      required: false,
+      default: 1,
    },
    parent: {
       type: String,

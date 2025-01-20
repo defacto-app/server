@@ -6,13 +6,53 @@ import SendResponse from "../../../libs/response-helper";
 import MenuModel from "../../../menu/model";
 import CategoryModel from "./model";
 import CategoryService from "./service";
+import { categoryValidator } from "./validator";
 
 const AdminCategoryController = {
-   async create(req: Request, res: Response): Promise<void> {
+   async create(req: Request, res: Response): Promise<Response> {
+      // Validate the request body using safeParse
+      const validationResult = categoryValidator.safeParse(req.body);
+
+      console.log("Validation result:", validationResult);
+
+      if (!validationResult.success) {
+         // Format validation errors
+         const formattedErrors: any = {};
+         for (const error of validationResult.error.errors) {
+            const path = error.path.join(".");
+            formattedErrors[path] = error.message;
+         }
+
+         console.log("Validation errors:", formattedErrors);
+
+         return SendResponse.badRequest(res, formattedErrors);
+      }
+
       try {
-         SendResponse.success(res, "Category created successfully");
+         const validatedData = validationResult.data;
+
+         // Check for duplicate categories
+         const existingCategory = await CategoryModel.findOne({
+            name: validatedData.name,
+            categoryType: validatedData.categoryType,
+         });
+
+         if (existingCategory) {
+            const message:any = {
+               name: "Category already exists",
+            }
+            return SendResponse.badRequest(res, message);
+         }
+
+         // Create and save the category
+         const category = new CategoryModel(validatedData);
+         await category.save();
+
+         return SendResponse.success(res, "Category created successfully", {
+            category,
+         });
       } catch (error: any) {
-         SendResponse.serverError(res, error.message);
+         return SendResponse.serverError(res, "Failed to create category");
       }
    },
 

@@ -36,8 +36,7 @@ class CategoryService {
          const totalCount = await CategoryModel.countDocuments(query);
 
          // Log the results
-         console.log("Categories result:", categories);
-         console.log("Total count result:", totalCount);
+
 
          return {
             data: categories,

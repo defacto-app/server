@@ -17,8 +17,8 @@ export interface RestaurantDataType extends Document {
    logo: string;
    address: AddressType;
 
-   phone: string;
-   email: string;
+   phone?: string;
+   email?: string;
    discount?: number;
    openingHours: {
       monday: { open: string; close: string; isClosed: boolean };
@@ -152,11 +152,11 @@ const restaurantSchemaDefinitions = {
    },
    phone: {
       type: String,
-      required: true,
+      required: false,
    },
    email: {
       type: String,
-      required: true,
+      required: false,
    },
 
    createdAt: {

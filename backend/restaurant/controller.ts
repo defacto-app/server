@@ -9,10 +9,13 @@ const RestaurantController = {
    async all(req: Request, res: Response): Promise<void> {
       try {
          const page: number = Number.parseInt(req.query.page as string) || 1;
-         const perPage: number = Number.parseInt(req.query.perPage as string) || 9;
+         const perPage: number =
+            Number.parseInt(req.query.perPage as string) || 9;
          const search: string = (req.query.search as string) || "";
          const category: string = (req.query.category as string) || "";
-         const dietary: string[] = (req.query.dietary as string || "").split(",").filter(Boolean);
+         const dietary: string[] = ((req.query.dietary as string) || "")
+            .split(",")
+            .filter(Boolean);
          const quickFilter: string = (req.query.quickFilter as string) || "";
          const sortBy: string = (req.query.sort as string) || "recommended";
          const priceRange: string = (req.query.priceRange as any) || "";
@@ -50,7 +53,9 @@ const RestaurantController = {
 
          const pipeline = [
             // Initial restaurant filters
-            ...(Object.keys(initialMatchStage).length > 0 ? [{ $match: initialMatchStage }] : []),
+            ...(Object.keys(initialMatchStage).length > 0
+               ? [{ $match: initialMatchStage }]
+               : []),
 
             // Lookup menu items
             {
@@ -61,75 +66,94 @@ const RestaurantController = {
                      {
                         $match: {
                            $expr: { $eq: ["$parent", "$$restaurantId"] },
-                           ...(category ? { categoryId: { $exists: true } } : {})
-                        }
-                     }
+                           ...(category
+                              ? { categoryId: { $exists: true } }
+                              : {}),
+                        },
+                     },
                   ],
-                  as: "menuItems"
-               }
+                  as: "menuItems",
+               },
             },
 
             // Only if category is specified, do category lookups and filtering
-            ...(category ? [
-               // Unwind menu items
-               {
-                  $unwind: {
-                     path: "$menuItems",
-                     preserveNullAndEmptyArrays: false // Remove restaurants with no matching menu items
-                  }
-               },
-               // Lookup categories
-               {
-                  $lookup: {
-                     from: "categories",
-                     let: { categoryId: "$menuItems.categoryId" },
-                     pipeline: [
-                        {
-                           $match: {
-                              $expr: { $eq: ["$publicId", "$$categoryId"] }
-                           }
-                        }
-                     ],
-                     as: "menuItems.category"
-                  }
-               },
-               // Match category name
-               {
-                  $match: {
-                     "menuItems.category.name": {
-                        $regex: `^${category}$`,
-                        $options: "i"  // Case-insensitive match
-                     }
-                  }
-               },
-               // Group back to restaurants
-               {
-                  $group: {
-                     _id: "$_id",
-                     doc: { $first: "$$ROOT" }
-                  }
-               },
-               {
-                  $replaceRoot: { newRoot: "$doc" }
-               }
-            ] : []),
+            ...(category
+               ? [
+                    // Unwind menu items
+                    {
+                       $unwind: {
+                          path: "$menuItems",
+                          preserveNullAndEmptyArrays: false, // Remove restaurants with no matching menu items
+                       },
+                    },
+                    // Lookup categories
+                    {
+                       $lookup: {
+                          from: "categories",
+                          let: { categoryId: "$menuItems.categoryId" },
+                          pipeline: [
+                             {
+                                $match: {
+                                   $expr: {
+                                      $eq: ["$publicId", "$$categoryId"],
+                                   },
+                                },
+                             },
+                          ],
+                          as: "menuItems.category",
+                       },
+                    },
+                    // Match category name
+                    {
+                       $match: {
+                          "menuItems.category.name": {
+                             $regex: `^${category}$`,
+                             $options: "i", // Case-insensitive match
+                          },
+                       },
+                    },
+                    // Group back to restaurants
+                    {
+                       $group: {
+                          _id: "$_id",
+                          doc: { $first: "$$ROOT" },
+                       },
+                    },
+                    {
+                       $replaceRoot: { newRoot: "$doc" },
+                    },
+                 ]
+               : []),
 
             // Price range filter
-            ...(priceRange ? [{
-               $match: {
-                  "menuItems.price": priceRanges[priceRange] || {}
-               }
-            }] : []),
+            ...(priceRange
+               ? [
+                    {
+                       $match: {
+                          "menuItems.price": priceRanges[priceRange] || {},
+                       },
+                    },
+                 ]
+               : []),
 
             // Search filter
-            ...(search ? [{
-               $match: {
-                  $or: [
-                     { name: { $regex: search, $options: "i" } },
-                     { "menuItems.name": { $regex: search, $options: "i" } }
-                  ]
-               }
-            }] : []),
+            ...(search
+               ? [
+                    {
+                       $match: {
+                          $or: [
+                             { name: { $regex: search, $options: "i" } },
+                             {
+                                "menuItems.name": {
+                                   $regex: search,
+                                   $options: "i",
+                                },
+                             },
+                          ],
+                       },
+                    },
+                 ]
+               : []),
 
             // Apply sorting
             { $sort: sortStage },
@@ -138,14 +162,14 @@ const RestaurantController = {
             {
                $facet: {
                   metadata: [{ $count: "total" }],
-                  data: [{ $skip: (page - 1) * perPage }, { $limit: perPage }]
-               }
-            }
+                  data: [{ $skip: (page - 1) * perPage }, { $limit: perPage }],
+               },
+            },
          ];
 
          // For debugging
-         console.log('Category filter:', category);
-         console.log('Pipeline:', JSON.stringify(pipeline, null, 2));
+         console.log("Category filter:", category);
+         console.log("Pipeline:", JSON.stringify(pipeline, null, 2));
 
          const result = await RestaurantModel.aggregate(pipeline);
          const total = result[0]?.metadata[0]?.total || 0;
@@ -156,18 +180,17 @@ const RestaurantController = {
                page,
                perPage,
                total,
-               totalPages: Math.ceil(total / perPage)
+               totalPages: Math.ceil(total / perPage),
             },
-            data: restaurants
+            data: restaurants,
          };
 
          SendResponse.success(res, "Restaurants retrieved", response);
       } catch (error: any) {
-         console.error('Aggregation error:', error);
+         console.error("Aggregation error:", error);
          SendResponse.serverError(res, error.message);
       }
-   }
-,
+   },
    async filters(req: Request, res: Response) {
       try {
          // 1. Get distinct category publicIds from the Restaurant model
@@ -185,26 +208,6 @@ const RestaurantController = {
             name: cat.name,
          }));
 
-         // 5. Get min and max prices from menu items for the price range
-         const menuStats = await MenuModel.aggregate([
-            { $match: { isDeleted: false, available: true } },
-            {
-               $group: {
-                  _id: null,
-                  minPrice: { $min: "$price" },
-                  maxPrice: { $max: "$price" },
-               },
-            },
-         ]);
-
-         // 6. Define any static filter options
-         const dietaryOptions = [
-            { id: "vegetarian", name: "Vegetarian" },
-            { id: "vegan", name: "Vegan" },
-            { id: "gluten-free", name: "Gluten-free" },
-            { id: "halal", name: "Halal" },
-         ];
-
          const sortOptions = [
             { id: "recommended", name: "Recommended" },
             { id: "rating-high", name: "Rating: High to Low" },
@@ -214,38 +217,11 @@ const RestaurantController = {
             { id: "delivery-time", name: "Delivery Time" },
          ];
 
-         const quickFilters = [
-            { id: "under-30", name: "Under 30 mins" },
-         ];
-
-         // 7. Construct price ranges from minPrice/maxPrice
-         const { minPrice = 0, maxPrice = 100 } = menuStats[0] || {};
-         const priceRanges = [
-            {
-               id: "budget",
-               name: "Budget",
-               min: minPrice,
-               max: minPrice + (maxPrice - minPrice) * 0.33,
-            },
-            {
-               id: "moderate",
-               name: "Moderate",
-               min: minPrice + (maxPrice - minPrice) * 0.33,
-               max: minPrice + (maxPrice - minPrice) * 0.66,
-            },
-            {
-               id: "premium",
-               name: "Premium",
-               min: minPrice + (maxPrice - minPrice) * 0.66,
-               max: maxPrice,
-            },
-         ];
+         const quickFilters = [{ id: "under-30", name: "Under 30 mins" }];
 
          // 8. Final response data
          const filtersData = {
             menuCategories,
-            dietary: dietaryOptions,
-            priceRanges,
             sort: sortOptions,
             quickFilters,
          };

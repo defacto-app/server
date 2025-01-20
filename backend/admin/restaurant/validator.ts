@@ -44,17 +44,24 @@ export const updateRestaurantSchema = z.object({
       .trim(),
    category: z.string().min(1, "Category is required"),
 
-   address: addressSchema.optional(), // Updated to expect an address object
+   address: z.object({
+      branchName: z.string().optional().or(z.literal("")), // Allows empty strings
+      fullAddress: z.string().min(1, "Full address is required").optional().or(z.literal("")), // Required field
+      additionalDetails: z.string().optional().or(z.literal("")), // Allows empty strings
+   }),
    phone: z
       .string()
       .min(8, messages.minLength("Phone number", 8))
       .max(20, messages.maxLength("Phone number", 20))
-      .regex(/^[+\d\s-()]+$/, messages.invalid("phone number")),
-   email: z
+      .regex(/^[+\d\s-()]+$/, messages.invalid("phone number"))  .optional()
+      .or(z.literal("")),
+      email: z
       .string()
       .email(messages.invalid("email address"))
       .trim()
-      .toLowerCase(),
+      .toLowerCase()
+      .optional()
+      .or(z.literal("")),
 
    openingHours: z
       .object({
@@ -77,21 +84,23 @@ export const createRestaurantSchema = z.object({
       .trim(),
    category: z.string().min(1, "Category is required"),
    address: z.object({
-      branchName: z.string().optional(),
-      fullAddress: z.string().min(1, "Full address is required"),
-      //  coordinates: z.array(z.number()).length(2, "Coordinates must be a [latitude, longitude] pair"),
-      additionalDetails: z.string().optional(),
+      branchName: z.string().optional().or(z.literal("")), // Allows empty strings
+      fullAddress: z.string().min(1, "Full address is required").optional().or(z.literal("")), // Required field
+      additionalDetails: z.string().optional().or(z.literal("")), // Allows empty strings
    }),
    phone: z
       .string()
       .min(8, messages.minLength("Phone number", 8))
       .max(20, messages.maxLength("Phone number", 20))
-      .regex(/^[+\d\s-()]+$/, messages.invalid("phone number")),
-   email: z
+      .regex(/^[+\d\s-()]+$/, messages.invalid("phone number"))  .optional()
+      .or(z.literal("")),
+      email: z
       .string()
       .email(messages.invalid("email address"))
       .trim()
-      .toLowerCase(),
+      .toLowerCase()
+      .optional()
+      .or(z.literal("")),
    openingHours: z.object({
       monday: openingHoursSchema,
       tuesday: openingHoursSchema,
@@ -110,3 +119,4 @@ export const createRestaurantSchema = z.object({
          .positive("Maximum delivery time must be a positive number"),
    }),
 });
+

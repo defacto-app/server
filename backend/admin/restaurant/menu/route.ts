@@ -18,10 +18,10 @@ router.param("menuId", RestaurantMiddleWare.menuPublicId);
 router.get("/", AdminRestaurantMenuController.allMenu);
 
 // CRUD Operations for Menu Items
-router.get("/:menuId", AdminRestaurantMenuController.one); // Fetch a single menu item
-router.put("/:menuId", AdminRestaurantMenuController.update); // Update a menu item
-router.delete("/:menuId", AdminRestaurantMenuController.delete); // Soft-delete a menu item
-router.patch("/:menuId/restore", AdminRestaurantMenuController.restore); // Restore a soft-deleted item
+router.get("/:menuId", AdminRestaurantMenuController.one);
+router.put("/:menuId", AdminRestaurantMenuController.update);
+router.delete("/:menuId", AdminRestaurantMenuController.delete);
+router.patch("/:menuId/restore", AdminRestaurantMenuController.restore);
 
 // File Upload (Image Upload)
 router.patch(
@@ -29,7 +29,7 @@ router.patch(
 	upload.single("image"),
 	AdminRestaurantMenuController.upload,
 );
-
+//
 // Get Soft-Deleted Items
 router.get("/deleted", AdminRestaurantMenuController.getDeleted);
 
