@@ -168,8 +168,7 @@ const RestaurantController = {
          ];
 
          // For debugging
-         console.log("Category filter:", category);
-         console.log("Pipeline:", JSON.stringify(pipeline, null, 2));
+
 
          const result = await RestaurantModel.aggregate(pipeline);
          const total = result[0]?.metadata[0]?.total || 0;

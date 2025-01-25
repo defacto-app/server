@@ -2,7 +2,7 @@
   // open json editor for settings
   "workbench.settings.editor": "json",
   // Theme
-  "workbench.colorTheme": "Community Material Theme Ocean",
+  "workbench.colorTheme": "Dark",
   "workbench.iconTheme": "moxer-icons",
   // Change font
   "scm.inputFontFamily": "Monaspace Krypton",

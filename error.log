@@ -113,3 +113,13 @@
 2025-01-17T04:22:33.851Z [undefined] [31merror[39m: Failed to create category
 2025-01-17T04:22:35.891Z [undefined] [31merror[39m: Failed to create category
 2025-01-17T04:22:48.952Z [undefined] [31merror[39m: Failed to create category
+2025-01-21T12:32:01.847Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
+2025-01-21T13:20:33.920Z [undefined] [31merror[39m: Failed to create category
+2025-01-21T13:20:57.822Z [undefined] [31merror[39m: Failed to create category
+2025-01-21T13:21:47.550Z [undefined] [31merror[39m: Failed to create category
+2025-01-21T13:22:43.848Z [undefined] [31merror[39m: Failed to create category
+2025-01-22T11:20:05.337Z [undefined] [31merror[39m: Error creating order
+2025-01-22T11:21:54.898Z [undefined] [31merror[39m: Error creating order
+2025-01-22T11:23:52.686Z [undefined] [31merror[39m: Error creating order
+2025-01-22T11:24:00.476Z [undefined] [31merror[39m: Error creating order
+2025-01-22T11:24:17.925Z [undefined] [31merror[39m: Error creating order

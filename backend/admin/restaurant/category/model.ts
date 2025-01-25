@@ -47,7 +47,6 @@ const categorySchemaDefinitions = {
 	description: {
 		type: String,
 		required: false,
-		minLength: 1,
 		maxLength: 1024, // Allows a longer description
 	},
 	active: {

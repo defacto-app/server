@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 import authMiddleware from "../user/middleware";
 import OrderController from "./controller";
-import OrderMiddleware from "../middleware/order.middleware";
+// import OrderMiddleware from "../middleware/order.middleware";
 import RestaurantMiddleware from "../middleware/restaurant.middleware";
 
 const customBodyParser = express.json({ limit: '10mb' });

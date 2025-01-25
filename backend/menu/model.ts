@@ -22,7 +22,7 @@ export interface MenuDataType extends Document {
    available: boolean;
    updatedAt: Date;
    parent: string;
-   isDeleted: boolean;
+   isDeleted: Date;
 }
 
 const menuSchemaDefinitions = {
@@ -95,16 +95,11 @@ const menuSchemaDefinitions = {
       min: 0,
    },
    isDeleted: {
-      type: Boolean,
-      required: true,
-      default: false,
-      select: false // Hide by default in queries
-   },
-   deletedAt: {
       type: Date,
-      required: false,
-      select: false // Hide by default in queries
+      required: true,
+      default: new Date(),
    },
+
    createdAt: {
       type: Date,
       required: true,
@@ -132,8 +127,7 @@ MenuSchema.statics.softDelete = async function(id: string) {
    const updatedMenu = await this.findOneAndUpdate(
       { publicId: id },
       {
-         isDeleted: true,
-         deletedAt: new Date(),
+         isDeleted: new Date(),
          available: false // Automatically make unavailable when deleted
       },
       { new: true }
@@ -146,8 +140,7 @@ MenuSchema.statics.restore = async function(id: string) {
    const restoredMenu = await this.findOneAndUpdate(
       { publicId: id },
       {
-         isDeleted: false,
-         deletedAt: null,
+         isDeleted: null,
          available: true // Optionally restore availability
       },
       { new: true }
@@ -157,7 +150,7 @@ MenuSchema.statics.restore = async function(id: string) {
 
 // Add method to find deleted items
 MenuSchema.statics.findDeleted = async function(query = {}) {
-   return this.find({ ...query, isDeleted: true });
+   return this.find({ ...query, isDeleted: new Date() });
 };
 MenuSchema.pre("save", async function (next) {
    const menu = this as unknown as MenuDataType;

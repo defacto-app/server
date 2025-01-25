@@ -273,9 +273,8 @@ const AdminRestaurantMenuController = {
             MenuModel,
             page,
             perPage,
-            { ...query, isDeleted: true }, // Only fetch soft-deleted items
+            { ...query, isDeleted: new Date()}, // Only fetch soft-deleted items
             undefined, // projection
-            { deletedAt: -1 } // sort
          );
 
          SendResponse.success(
@@ -300,8 +299,7 @@ const AdminRestaurantMenuController = {
          const updatedMenus = await MenuModel.updateMany(
             { publicId: { $in: ids } },
             {
-               isDeleted: true,
-               deletedAt: new Date(),
+               isDeleted: new Date(),
                available: false,
             }
          );

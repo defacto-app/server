@@ -105,6 +105,7 @@ class RestaurantMiddleware {
 						image: 1,
 						available: 1,
 						price: 1,
+						quantity: 1,
 						createdAt: 1,
 						updatedAt: 1,
 						description: 1,
