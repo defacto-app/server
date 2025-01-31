@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
 import axios from "axios";
 import env from "../../config/env";
+import EmailEvent from "../events/email.event";
+import SendResponse from "../libs/response-helper";
 
 const PublicController = {
    async google_api(req: Request, res: Response): Promise<void> {
@@ -41,6 +43,29 @@ const PublicController = {
          res.json(response.data);
       } catch (error) {
          res.status(500).send("Error fetching place details");
+      }
+   },
+
+   async contact(req: Request, res: Response): Promise<void> {
+      const { fullName, phoneNumber, email, message } = req.body;
+      console.log("Contact form submitted:", {
+         fullName,
+         phoneNumber,
+         email,
+         message,
+      });
+
+      try {
+         await EmailEvent.sendContactMail({
+            fullName,
+            phoneNumber,
+            email,
+            message,
+         });
+
+         SendResponse.success(res, "Message sent successfully");
+      } catch (error) {
+         SendResponse.serverError(res, error);
       }
    },
 };

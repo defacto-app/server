@@ -123,3 +123,5 @@
 2025-01-22T11:23:52.686Z [undefined] [31merror[39m: Error creating order
 2025-01-22T11:24:00.476Z [undefined] [31merror[39m: Error creating order
 2025-01-22T11:24:17.925Z [undefined] [31merror[39m: Error creating order
+2025-01-25T14:53:03.920Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "chibuezenmeje@gmail.com" }
+2025-01-31T04:59:44.982Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client

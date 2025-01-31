@@ -3,9 +3,22 @@ import { getEmailTemplates } from "../libs/emailParser";
 import env from "../../config/env";
 
 const EmailEvent = {
-   async sendContactMail(data: { email: string; message: string }) {
+   async sendContactMail(data: { fullName:string; phoneNumber:string; email: string; message: string }) {
+      const compileEmail = getEmailTemplates("contact");
+
+      const html = compileEmail({
+         fullName: data.fullName,
+         phoneNumber: data.phoneNumber,
+         email: data.email,
+         message: data.message,
+      });
+
       try {
-         eventEmitter.emit("sendContactMail", data);
+         eventEmitter.emit("sendContactMail", {
+            email: env.EMAIL_SENDER,
+            html: html,
+            message: `${data.fullName} has sent you a message`,
+         });
       } catch (e) {
          console.error("Error during update:", e);
       }

@@ -53,6 +53,7 @@ const Dashboard = {
             { $sort: { count: -1 } },
             { $limit: 1 },
          ]);
+
          const highestMenuCount = await RestaurantModel.aggregate([
             { $match: { menuItems: { $exists: true, $type: "array" } } }, // Ensure menuItems is an array
             {
