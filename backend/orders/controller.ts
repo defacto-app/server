@@ -6,93 +6,121 @@ import type { UserDataType } from "../user/model";
 import OrderService from "./service";
 
 const OrderController = {
-	async all(req: Request, res: Response): Promise<void> {
-		try {
-			console.log(req.query, "Query params");
+   async all(req: Request, res: Response): Promise<void> {
+      try {
+         console.log(req.query, "Query params");
 
-			const { orderId, sort, page = 1, perPage = 10, type } = req.query as any;
+         const {
+            orderId,
+            sort,
+            page = 1,
+            perPage = 10,
+            type,
+         } = req.query as any;
 
-			// Call the service function to get the orders
-			const result = await OrderService.getOrders({
-				orderId,
-				sort,
-				page: Number.parseInt(page as string, 10),
-				perPage: Number.parseInt(perPage as string, 10),
-				type,
-			});
+         // Call the service function to get the orders
+         const result = await OrderService.getOrders({
+            orderId,
+            sort,
+            page: Number.parseInt(page as string, 10),
+            perPage: Number.parseInt(perPage as string, 10),
+            type,
+         });
 
-			SendResponse.success(res, "Orders retrieved", result);
-		} catch (e: any) {
-			SendResponse.serverError(res, e.message);
-		}
-	},
+         SendResponse.success(res, "Orders retrieved", result);
+      } catch (e: any) {
+         SendResponse.serverError(res, e.message);
+      }
+   },
 
-	async restaurant(req: Request, res: Response): Promise<void> {
-		const user = res.locals.user as any;
+   async one(req: Request, res: Response): Promise<Response<any>> {
+      try {
+         const publicId = req.params.restaurantPublicId as string;
 
-		const restaurantItem = res.locals.restaurantItem;
+         const result = await OrderService.getOrder(publicId);
 
-		try {
+         return SendResponse.success(res, "Order retrieved", result);
+      } catch (e: any) {
+         return SendResponse.serverError(res, e.message);
+      }
+   },
 
-			console.log({ user, restaurantItem });
-			// Extract data from the request body
+   async restaurant(req: Request, res: Response): Promise<void> {
+      const user = res.locals.user as any;
 
-			const validation = await OrderValidator.restaurant(req.body);
+      const restaurantItem = res.locals.restaurantItem;
 
-			if (!validation.success) {
-				SendResponse.badRequest(res, "Validation failed", validation.errors);
-				return;
-			}
+      try {
+         console.log({ user, restaurantItem });
+         // Extract data from the request body
 
-			const validatedData = validation.data as any;
+         const validation = await OrderValidator.restaurant(req.body);
 
+         if (!validation.success) {
+            SendResponse.badRequest(
+               res,
+               "Validation failed",
+               validation.errors
+            );
+            return;
+         }
 
-			// console.log({ user, orderData, restaurantItem });
+         const validatedData = validation.data as any;
 
-			// Call the service to create the restaurant order
-			await OrderService.createRestaurantOrder(validatedData, user, restaurantItem);
+         // console.log({ user, orderData, restaurantItem });
 
-			// Send success response
-			SendResponse.created(
-				res,
-				"Order created successfully",
-				restaurantItem.publicId,
-			);
-		} catch (error) {
-			console.error("Error creating order:", error);
-			SendResponse.serverError(res, "Error creating order");
-		}
-	},
+         // Call the service to create the restaurant order
+         await OrderService.createRestaurantOrder(
+            validatedData,
+            user,
+            restaurantItem
+         );
 
-	async package_delivery(req: Request, res: Response): Promise<void> {
-		try {
-			const user = res.locals.user as UserDataType;
+         // Send success response
+         SendResponse.created(
+            res,
+            "Order created successfully",
+            restaurantItem.publicId
+         );
+      } catch (error) {
+         console.error("Error creating order:", error);
+         SendResponse.serverError(res, "Error creating order");
+      }
+   },
 
-			// Validate the request body
-			const validation = await OrderValidator.validateDelivery(req.body);
+   async package_delivery(req: Request, res: Response): Promise<void> {
+      try {
+         const user = res.locals.user as UserDataType;
 
-			if (!validation.success) {
-				SendResponse.badRequest(res, "Validation failed", validation.errors);
-				return; // Early return after validation failure
-			}
+         // Validate the request body
+         const validation = await OrderValidator.validateDelivery(req.body);
 
-			const validatedData = validation.data as any;
+         if (!validation.success) {
+            SendResponse.badRequest(
+               res,
+               "Validation failed",
+               validation.errors
+            );
+            return; // Early return after validation failure
+         }
 
-			// Call the service to handle the package delivery logic
-			const result = await OrderService.createPackageDelivery(
-				validatedData,
-				user,
-			);
+         const validatedData = validation.data as any;
 
-			// Send success response
-			SendResponse.success(res, "Created New Package Delivery.", {
-				orderId: result.orderId,
-			});
-		} catch (error: any) {
-			console.error(error);
-			SendResponse.serverError(res, error.message);
-		}
-	},
+         // Call the service to handle the package delivery logic
+         const result = await OrderService.createPackageDelivery(
+            validatedData,
+            user
+         );
+
+         // Send success response
+         SendResponse.success(res, "Created New Package Delivery.", {
+            orderId: result.orderId,
+         });
+      } catch (error: any) {
+         console.error(error);
+         SendResponse.serverError(res, error.message);
+      }
+   },
 };
 
 export default OrderController;

@@ -20,6 +20,7 @@ router.param("publicId", RestaurantMiddleware.restaurantPublicId);
 // middleware to validate packageId
 
 router.get("/",  OrderController.all);
+router.get("/:restaurantPublicId", OrderController.one);
 router.post("/:publicId/restaurant", OrderController.restaurant);
 router.post("/package-delivery", customBodyParser, OrderController.package_delivery);
 

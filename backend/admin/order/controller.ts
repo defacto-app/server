@@ -170,7 +170,7 @@ const AdminOrderController = {
 				order.deliveredAt = new Date();
 			}
 
-			// await order.save();
+			await order.save();
 			SendResponse.success(res, `Order status updated to ${newStatus}`, order);
 		} catch (error) {
 			SendResponse.serverError(res, error);

@@ -125,3 +125,9 @@
 2025-01-22T11:24:17.925Z [undefined] [31merror[39m: Error creating order
 2025-01-25T14:53:03.920Z [undefined] [31merror[39m: E11000 duplicate key error collection: defacto.auths index: email_1 dup key: { email: "chibuezenmeje@gmail.com" }
 2025-01-31T04:59:44.982Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2025-01-31T07:11:49.326Z [undefined] [31merror[39m: Cannot read properties of null (reading 'publicId')
+2025-02-03T06:46:46.020Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2025-02-03T06:47:40.901Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2025-02-03T06:48:49.209Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2025-02-03T06:49:29.250Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2025-02-03T06:49:57.410Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client

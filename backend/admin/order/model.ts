@@ -29,6 +29,7 @@ export interface OrderDataType extends Document {
 	package_image?: string;
 	restaurant_image?: string;
 	restaurant_name: string;
+	restaurant_slug: string;
 	dropOffDetails: {
 		name: string;
 		phone: string;
@@ -72,7 +73,11 @@ const orderSchemaDefinitions = {
 
 	restaurant_name: {
 		type: String,
-		required: false,
+		required: true,
+	},
+	restaurant_slug: {
+		type: String,
+		required: true,
 	},
 
 	restaurant_image: {

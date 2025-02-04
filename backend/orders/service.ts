@@ -91,6 +91,10 @@ class OrderService {
       );
    }
 
+   static async getOrder(publicId: string) {
+      return await OrderModel.findOne({ publicId });
+   }
+
    static async createRestaurantOrder(
       orderData: CreateRestaurantOrderParams,
       user: any,
@@ -113,6 +117,9 @@ class OrderService {
          cashPaymentLocation,
          deliveryCharge,
          isInstant: true,
+         restaurant_image: restaurantData.image,
+         restaurant_name: restaurantData.name,
+         restaurant_slug: restaurantData.slug,
          restaurantId: restaurantData.publicId,
          restaurantOrder: restaurantOrder.map((item) => ({
             name: item.name,
