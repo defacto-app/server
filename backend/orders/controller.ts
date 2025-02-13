@@ -8,7 +8,8 @@ import OrderService from "./service";
 const OrderController = {
    async all(req: Request, res: Response): Promise<void> {
       try {
-         console.log(req.query, "Query params");
+         const user = res.locals.user as UserDataType;
+
 
          const {
             orderId,
@@ -25,6 +26,7 @@ const OrderController = {
             page: Number.parseInt(page as string, 10),
             perPage: Number.parseInt(perPage as string, 10),
             type,
+            userId: user.userId,
          });
 
          SendResponse.success(res, "Orders retrieved", result);
@@ -36,8 +38,9 @@ const OrderController = {
    async one(req: Request, res: Response): Promise<Response<any>> {
       try {
          const publicId = req.params.restaurantPublicId as string;
+         const user = res.locals.user as UserDataType;
 
-         const result = await OrderService.getOrder(publicId);
+         const result = await OrderService.getOrder(publicId, user.userId);
 
          return SendResponse.success(res, "Order retrieved", result);
       } catch (e: any) {
@@ -51,7 +54,6 @@ const OrderController = {
       const restaurantItem = res.locals.restaurantItem;
 
       try {
-         console.log({ user, restaurantItem });
          // Extract data from the request body
 
          const validation = await OrderValidator.restaurant(req.body);

@@ -131,3 +131,4 @@
 2025-02-03T06:48:49.209Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
 2025-02-03T06:49:29.250Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
 2025-02-03T06:49:57.410Z [undefined] [31merror[39m: Cannot set headers after they are sent to the client
+2025-02-13T07:00:26.850Z [undefined] [31merror[39m: Error deleting user

@@ -18,6 +18,8 @@ router.patch("/verify-phone-number", AccountController.verify_phone_number);
 router.patch("/update-email", AccountController.update_name_email);
 router.patch("/verify-email-change", AccountController.verify_email_change);
 
+router.delete("/delete-account", AccountController.delete_account);
+
 
 // get one order
 

@@ -41,7 +41,6 @@ class AccountService {
             throw new Error("Email is already in use");
          }
 
-
          const expiresIn = 30 * 60 * 1000; // 30 minutes
 
          const otp = generateOTP();
@@ -167,7 +166,9 @@ class AccountService {
       }
 
       if (AuthUser.phoneNumber) {
-         AuthUser.phone_management.previousPhoneNumbers.push(AuthUser.phoneNumber);
+         AuthUser.phone_management.previousPhoneNumbers.push(
+            AuthUser.phoneNumber
+         );
       }
 
       AuthUser.phoneNumber = changeRequest.newPhoneNumber;
@@ -180,11 +181,11 @@ class AccountService {
          {
             $set: {
                phoneNumber: changeRequest.newPhoneNumber,
-            }
+            },
          },
          {
             new: true,
-            runValidators: true
+            runValidators: true,
          }
       );
 
@@ -193,6 +194,29 @@ class AccountService {
       }
 
       return updatedUser;
+   }
+
+   static async deleteUser(userId: string): Promise<void> {
+      try {
+         // Find the user by their userId
+         const user = await UserModel.findOne({ userId });
+
+         if (!user) {
+            throw new Error("User not found");
+         }
+
+         // Delete the user from the database
+         await UserModel.findOneAndDelete({ userId });
+
+         await AuthModel.findOneAndDelete({
+            publicId: user.userId,
+         });
+
+         console.log(`User with ID ${userId} has been deleted`);
+      } catch (error) {
+         console.error(`Error deleting user with ID ${userId}:`, error);
+         throw new Error("Error deleting user");
+      }
    }
 }
 

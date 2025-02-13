@@ -81,6 +81,8 @@ const AuthController = {
 				link: `${env.API_URL}/auth/verify/email/${email_token}?email=${encodeURIComponent(newUser.email)}`,
 			});
 
+
+
 			SendResponse.success(res, "User created", { token });
 		} catch (error: any) {
 			console.log(error);

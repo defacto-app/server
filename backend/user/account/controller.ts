@@ -241,6 +241,22 @@ const AccountController = {
       }
    },
 
+   async delete_account(req: Request, res: Response): Promise<void> {
+      try {
+         const user = res.locals.user as any;
+
+
+
+         // Delete the user
+         await AccountService.deleteUser(user.userId);
+
+         SendResponse.success(res, "Account deleted successfully");
+      } catch (error: any) {
+         console.error("Error deleting account:", error);
+         SendResponse.serverError(res, error.message);
+      }
+   },
+
    /*	async allAddress(req: Request, res: Response): Promise<void> {
 		const user = res.locals.user as any;
 

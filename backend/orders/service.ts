@@ -14,6 +14,7 @@ interface GetOrdersParams {
    page: number;
    perPage: number;
    type?: string;
+   userId: string;
 }
 
 interface RestaurantOrderItem {
@@ -62,7 +63,9 @@ interface PackageDeliveryData {
 
 class OrderService {
    static async getOrders(params: GetOrdersParams) {
-      const { orderId, sort, page, perPage, type } = params;
+
+
+      const { orderId, sort, page, perPage, type ,userId } = params;
 
       // Build the query object
       const query: Record<string, any> = {};
@@ -75,6 +78,8 @@ class OrderService {
       if (type) {
          query.type = type; // Ensure the `type` matches "food" or "package"
       }
+
+      query.userId = userId;
 
       // Determine the sorting order, defaulting to descending
       const sortOrder =
@@ -91,8 +96,8 @@ class OrderService {
       );
    }
 
-   static async getOrder(publicId: string) {
-      return await OrderModel.findOne({ publicId });
+   static async getOrder(publicId: string,userId: string) {
+      return await OrderModel.findOne({ publicId, userId });
    }
 
    static async createRestaurantOrder(
